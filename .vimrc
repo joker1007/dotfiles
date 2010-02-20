@@ -100,6 +100,10 @@ let mygrepprg = 'grep'
 
 let QFixHowm_RecentMode = 2
 
+" FuzzyFinder
+nnoremap <Leader>ff :FufFile<CR>
+nnoremap <Leader>fb :FufBuffer<CR>
+nnoremap <Leader>fd :FufDir<CR>
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
