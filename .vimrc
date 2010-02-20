@@ -65,7 +65,7 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBuffs = 1
 let g:miniBufExplModSelTarget = 1
-" スペースでバッファ切り替え
+" バッファ切り替え
 nmap <Space> :MBEbn<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
@@ -76,6 +76,9 @@ nnoremap <Leader>6   :e #6<CR>
 nnoremap <Leader>7   :e #7<CR>
 nnoremap <Leader>8   :e #8<CR>
 nnoremap <Leader>9   :e #9<CR>
+" バッファ一覧
+nmap ,b :buffers<CR>
+
 
 " JとDで半ページ移動
 nnoremap J <C-D>

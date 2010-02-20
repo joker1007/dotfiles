@@ -1,0 +1,646 @@
+
+  
+
+  
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title>colors/vimplight.vimp at master from tlync's vimperator-addons - GitHub</title>
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub" />
+    <link rel="fluid-icon" href="http://github.com/fluidicon.png" title="GitHub" />
+
+    
+      <link href="http://assets0.github.com/stylesheets/bundle.css?cf89fa8fab5b865629715bd761df6ef01a507b5d" media="screen" rel="stylesheet" type="text/css" />
+    
+
+    
+      
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script src="http://assets2.github.com/javascripts/bundle.js?cf89fa8fab5b865629715bd761df6ef01a507b5d" type="text/javascript"></script>
+      
+    
+    
+  
+    
+  
+
+  <link href="http://github.com/feeds/tlync/commits/vimperator-addons/master" rel="alternate" title="Recent Commits to vimperator-addons:master" type="application/atom+xml" />
+
+        <meta name="description" content="This repository has managed vimperator plugins and colorschemes." />
+    <script type="text/javascript">
+      GitHub.nameWithOwner = GitHub.nameWithOwner || "tlync/vimperator-addons";
+      GitHub.currentRef = "master";    
+    </script>
+  
+
+    
+
+    <script type="text/javascript">
+      github_user = 'joker1007'
+    </script>
+  </head>
+
+  
+
+  <body>
+    
+
+    <div id="main">
+      <div id="header" class="">
+        <div class="site">
+          <div class="logo">
+            <a href="https://github.com"><img src="/images/modules/header/logov3.png" alt="github" /></a>
+          </div>
+          
+            
+  <div class="userbox">
+    <div class="inner">
+      <div class="avatarname">
+        <a href="http://github.com/joker1007"><img alt="" height="20" src="http://www.gravatar.com/avatar/a5e5ee2fb9e4ce3c728ed9e3ef6e916f?s=20&amp;d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-20.png" width="20" /></a>
+        <a href="http://github.com/joker1007" class="name">joker1007</a>
+      </div>
+      <ul class="usernav">
+        <li><a href="https://github.com">Dashboard</a></li>
+        <li>
+          
+          <a href="https://github.com/inbox">Inbox</a>
+          <a href="https://github.com/inbox" class="unread_count ">0</a>
+        </li>
+        <li><a href="https://github.com/account">Account Settings</a></li>
+                <li><a href="/logout">Log Out</a></li>
+      </ul>
+    </div>
+  </div><!-- /.userbox -->
+            
+          
+          <div class="topsearch">
+  
+    <form action="/search" id="top_search_form" method="get">
+      <a href="/search" class="advanced-search" title="Advanced Search">Advanced Search</a>
+      <input type="search" class="search repo_autocompleter" name="q" results="5" placeholder="Search GitHub&hellip;" /> <input type="submit" value="Search", class="button" />
+      <input type="hidden" name="type" value="Everything" />
+      <input type="hidden" name="repo" value="" />
+      <input type="hidden" name="langOverride" value="" />
+      <input type="hidden" name="start_value" value="1" />
+    </form>
+  
+  
+    <ul class="nav">
+      <li><a href="/repositories">Explore GitHub</a></li>
+      <li><a href="http://gist.github.com">Gist</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="http://help.github.com">Help</a></li>
+    </ul>
+  
+</div>
+        </div>
+      </div>
+
+      
+        
+      <div id="repo_menu">
+        <div class="site">
+          <ul>
+            
+              <li class="active"><a href="http://github.com/tlync/vimperator-addons/tree/master">Source</a></li>
+
+              <li class=""><a href="http://github.com/tlync/vimperator-addons/commits/master">Commits</a></li>
+
+              
+              <li class=""><a href="/tlync/vimperator-addons/network">Network (0)</a></li>
+
+              
+
+              
+                
+                <li class=""><a href="/tlync/vimperator-addons/issues">Issues (0)</a></li>
+              
+
+              
+                
+                <li class=""><a href="/tlync/vimperator-addons/downloads">Downloads (0)</a></li>
+              
+
+              
+                
+                <li class=""><a href="http://wiki.github.com/tlync/vimperator-addons">Wiki (1)</a></li>
+              
+
+              <li class=""><a href="/tlync/vimperator-addons/graphs">Graphs</a></li>
+
+              
+
+            
+          </ul>
+        </div>
+      </div>
+
+    <div id="repo_sub_menu">
+      <div class="site">
+        <div class="joiner"></div>
+        
+
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <div class="site">
+      
+
+
+
+
+
+<div id="repos">
+  
+
+
+<script type="text/javascript">
+  GitHub.currentCommitRef = "master"
+  GitHub.currentRepoOwner = "tlync"
+  GitHub.currentRepo = "vimperator-addons"
+  
+    GitHub.hasWriteAccess = false
+    GitHub.watchingRepo = false
+    GitHub.ignoredRepo = false
+    GitHub.hasForkOfRepo = ""
+  
+</script>
+
+
+
+  <div class="repo public" id="repo_details">
+    <div class="title">
+      <div class="path">
+        <a href="/tlync">tlync</a> / <b><a href="http://github.com/tlync/vimperator-addons">vimperator-addons</a></b>
+
+        
+
+          <span id="edit_button" style="display:none;">
+            <a href="/tlync/vimperator-addons/edit"><img alt="edit" class="button" src="http://assets0.github.com/images/modules/repos/edit_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></a>
+          </span>
+
+          
+            <span id="pull_request_button" style="display:none;">
+              <a href="/tlync/vimperator-addons/pull_request/" class="pull_request_button"><img alt="pull request" class="button" src="http://assets3.github.com/images/modules/repos/pull_request_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></a>
+            </span>
+
+            <span id="fork_button">
+              <form method="POST" action="/tlync/vimperator-addons/fork" style="display:inline;">
+                <input alt="fork" class="button" src="http://assets3.github.com/images/modules/repos/fork_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" type="image" />
+              </form>
+            </span>
+          
+
+          <span id="watch_button">
+            <a href="/tlync/vimperator-addons/toggle_watch" class="toggle_watch"><img alt="watch" class="button" src="http://assets3.github.com/images/modules/repos/watch_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></a>
+          </span>
+
+          <span id="unwatch_button" style="display:none;">
+            <a href="/tlync/vimperator-addons/toggle_watch" class="toggle_watch"><img alt="watch" class="button" src="http://assets2.github.com/images/modules/repos/unwatch_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></a>
+          </span>
+
+          
+            <a href="/tlync/vimperator-addons/archives/master" id="download_button">
+              <img alt="download tarball" class="button" src="http://assets2.github.com/images/modules/repos/download_button.png?558f5c2a10480fade1bcff619f06c59239d95ba8" />
+            </a>
+          
+        
+      </div>
+
+      <div class="security private_security" style="display:none">
+        <a href="#private_repo" rel="facebox"><img src="/images/icons/private.png" alt="private" /></a>
+      </div>
+
+      <div id="private_repo" class="hidden">
+        This repository is private.
+        All pages are served over SSL and all pushing and pulling is done over SSH.
+        No one may fork, clone, or view it unless they are added as a <a href="/tlync/vimperator-addons/edit">member</a>.
+
+        <br/>
+        <br/>
+        Every repository with this icon (<img src="/images/icons/private.png" alt="private" />) is private.
+      </div>
+
+      <div class="security public_security" style="">
+        <a href="#public_repo" rel="facebox"><img src="/images/icons/public.png" alt="public" /></a>
+      </div>
+
+      <div id="public_repo" class="hidden">
+        This repository is public.
+        Anyone may fork, clone, or view it.
+
+        <br/>
+        <br/>
+        Every repository with this icon (<img src="/images/icons/public.png" alt="public" />) is public.
+      </div>
+
+      
+
+        <div class="flexipill">
+          <a href="/tlync/vimperator-addons/network">
+          <table cellpadding="0" cellspacing="0">
+            <tr><td><img alt="Forks" src="http://assets0.github.com/images/modules/repos/pills/forks.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></td><td class="middle"><span>0</span></td><td><img alt="Right" src="http://assets1.github.com/images/modules/repos/pills/right.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></td></tr>
+          </table>
+          </a>
+        </div>
+
+        <div class="flexipill">
+          <a href="/tlync/vimperator-addons/watchers">
+          <table cellpadding="0" cellspacing="0">
+            <tr><td><img alt="Watchers" src="http://assets0.github.com/images/modules/repos/pills/watchers.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></td><td class="middle"><span>2</span></td><td><img alt="Right" src="http://assets1.github.com/images/modules/repos/pills/right.png?558f5c2a10480fade1bcff619f06c59239d95ba8" /></td></tr>
+          </table>
+          </a>
+        </div>
+      </div>
+
+    <div class="meta">
+      <table>
+        
+        <tr>
+          <td class="label">Description:</td>
+          <td>
+            <span id="repository_description" rel="/tlync/vimperator-addons/edit/update">This repository has managed vimperator plugins and colorschemes.</span>
+            <a href="#description" class="edit_link action" style="display:none;">edit</a>
+          </td>
+        </tr>
+
+        
+            <tr>
+              <td class="label">Homepage:</td>
+              <td>
+                
+                <span id="repository_homepage" rel="/tlync/vimperator-addons/edit/update">
+                  <a href="http://"></a>
+                </span>
+                <a href="#homepage" class="edit_link action" style="display:none;">edit</a>
+              </td>
+            </tr>
+
+          
+            <tr>
+              <td class="label"><span id="public_clone_text" style="display:none;">Public&nbsp;</span>Clone&nbsp;URL:</td>
+              
+              <td>
+                <a href="git://github.com/tlync/vimperator-addons.git" class="git_url_facebox" rel="#git-clone">git://github.com/tlync/vimperator-addons.git</a>
+                      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+              width="110"
+              height="14"
+              class="clippy"
+              id="clippy" >
+      <param name="movie" value="/flash/clippy.swf"/>
+      <param name="allowScriptAccess" value="always" />
+      <param name="quality" value="high" />
+      <param name="scale" value="noscale" />
+      <param NAME="FlashVars" value="text=git://github.com/tlync/vimperator-addons.git">
+      <param name="bgcolor" value="#F0F0F0">
+      <param name="wmode" value="opaque">
+      <embed src="/flash/clippy.swf"
+             width="110"
+             height="14"
+             name="clippy"
+             quality="high"
+             allowScriptAccess="always"
+             type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer"
+             FlashVars="text=git://github.com/tlync/vimperator-addons.git"
+             bgcolor="#F0F0F0"
+             wmode="opaque"
+      />
+      </object>
+
+                <div id="git-clone" style="display:none;">
+                  Give this clone URL to anyone.
+                  <br/>
+                  <code>git clone git://github.com/tlync/vimperator-addons.git </code>
+                </div>
+              </td>
+            </tr>
+          
+
+          <tr id="private_clone_url" style="display:none;">
+            <td class="label">Your Clone URL:</td>
+            
+            <td>
+
+              <div id="private-clone-url">
+                <a href="git@github.com:tlync/vimperator-addons.git" class="git_url_facebox" rel="#your-git-clone">git@github.com:tlync/vimperator-addons.git</a>
+                <input type="text" value="git@github.com:tlync/vimperator-addons.git" style="display: none;" />
+                      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+              width="110"
+              height="14"
+              class="clippy"
+              id="clippy" >
+      <param name="movie" value="/flash/clippy.swf"/>
+      <param name="allowScriptAccess" value="always" />
+      <param name="quality" value="high" />
+      <param name="scale" value="noscale" />
+      <param NAME="FlashVars" value="text=git@github.com:tlync/vimperator-addons.git">
+      <param name="bgcolor" value="#F0F0F0">
+      <param name="wmode" value="opaque">
+      <embed src="/flash/clippy.swf"
+             width="110"
+             height="14"
+             name="clippy"
+             quality="high"
+             allowScriptAccess="always"
+             type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer"
+             FlashVars="text=git@github.com:tlync/vimperator-addons.git"
+             bgcolor="#F0F0F0"
+             wmode="opaque"
+      />
+      </object>
+
+              </div>
+
+              <div id="your-git-clone" style="display:none;">
+                Use this clone URL yourself.
+                <br/>
+                <code>git clone git@github.com:tlync/vimperator-addons.git </code>
+              </div>
+            </td>
+          </tr>
+
+          
+
+          
+
+          
+      </table>
+
+          </div>
+  </div>
+
+
+
+
+
+
+</div>
+
+
+  <div id="commit">
+    <div class="group">
+        
+  <div class="envelope commit">
+    <div class="human">
+      
+        <div class="message"><pre><a href="/tlync/vimperator-addons/commit/658fedf242710cfaf0270f03d4ea1d2a492a91a5">Changed Statusbar styles for firefox 3.5 and added Tab styles for Tree 
+Style Tab.</a> </pre></div>
+      
+
+      <div class="actor">
+        <div class="gravatar">
+          
+          <img alt="" height="30" src="http://www.gravatar.com/avatar/7d5acabf88dfe60a8d9ba482187f92ad?s=30&amp;d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-30.png" width="30" />
+        </div>
+        <div class="name">takuya <span>(author)</span></div>
+          <div class="date">
+            <abbr class="relatize" title="2009-06-05 23:35:00">Fri Jun 05 23:35:00 -0700 2009</abbr> 
+          </div>
+      </div>
+  
+      
+  
+    </div>
+    <div class="machine">
+      <span>c</span>ommit&nbsp;&nbsp;<a href="/tlync/vimperator-addons/commit/658fedf242710cfaf0270f03d4ea1d2a492a91a5" hotkey="c">658fedf242710cfaf0270f03d4ea1d2a492a91a5</a><br />
+      <span>t</span>ree&nbsp;&nbsp;&nbsp;&nbsp;<a href="/tlync/vimperator-addons/tree/658fedf242710cfaf0270f03d4ea1d2a492a91a5" hotkey="t">ba9e14c762d5d2cd1a83f9fe54cdcfb9adee8b92</a><br />
+  
+      
+        <span>p</span>arent&nbsp;
+        
+        <a href="/tlync/vimperator-addons/tree/6fc54ebe9f063fb65220fb01c12090bb57f190a7" hotkey="p">6fc54ebe9f063fb65220fb01c12090bb57f190a7</a>
+      
+  
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+
+
+  
+    <div id="path">
+      <b><a href="/tlync/vimperator-addons/tree/master">vimperator-addons</a></b> / <a href="/tlync/vimperator-addons/tree/master/colors">colors</a> / vimplight.vimp       <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+              width="110"
+              height="14"
+              class="clippy"
+              id="clippy" >
+      <param name="movie" value="/flash/clippy.swf"/>
+      <param name="allowScriptAccess" value="always" />
+      <param name="quality" value="high" />
+      <param name="scale" value="noscale" />
+      <param NAME="FlashVars" value="text=colors/vimplight.vimp">
+      <param name="bgcolor" value="#FFFFFF">
+      <param name="wmode" value="opaque">
+      <embed src="/flash/clippy.swf"
+             width="110"
+             height="14"
+             name="clippy"
+             quality="high"
+             allowScriptAccess="always"
+             type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer"
+             FlashVars="text=colors/vimplight.vimp"
+             bgcolor="#FFFFFF"
+             wmode="opaque"
+      />
+      </object>
+
+    </div>
+
+    <div id="files">
+      <div class="file">
+        <div class="meta">
+          <div class="info">
+            <span>100644</span>
+            <span>80 lines (70 sloc)</span>
+            <span>4.004 kb</span>
+          </div>
+          <div class="actions">
+            
+            <a href="/tlync/vimperator-addons/raw/master/colors/vimplight.vimp" id="raw-url">raw</a>
+            
+              <a href="/tlync/vimperator-addons/blame/master/colors/vimplight.vimp">blame</a>
+            
+            <a href="/tlync/vimperator-addons/commits/master/colors/vimplight.vimp">history</a>
+          </div>
+        </div>
+        
+  <div class="data syntax">
+    
+      <table cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            
+            <pre class="line_numbers">
+<span id="LID1" rel="#L1">1</span>
+<span id="LID2" rel="#L2">2</span>
+<span id="LID3" rel="#L3">3</span>
+<span id="LID4" rel="#L4">4</span>
+<span id="LID5" rel="#L5">5</span>
+<span id="LID6" rel="#L6">6</span>
+<span id="LID7" rel="#L7">7</span>
+<span id="LID8" rel="#L8">8</span>
+<span id="LID9" rel="#L9">9</span>
+<span id="LID10" rel="#L10">10</span>
+<span id="LID11" rel="#L11">11</span>
+<span id="LID12" rel="#L12">12</span>
+<span id="LID13" rel="#L13">13</span>
+<span id="LID14" rel="#L14">14</span>
+<span id="LID15" rel="#L15">15</span>
+<span id="LID16" rel="#L16">16</span>
+<span id="LID17" rel="#L17">17</span>
+<span id="LID18" rel="#L18">18</span>
+<span id="LID19" rel="#L19">19</span>
+<span id="LID20" rel="#L20">20</span>
+<span id="LID21" rel="#L21">21</span>
+<span id="LID22" rel="#L22">22</span>
+<span id="LID23" rel="#L23">23</span>
+<span id="LID24" rel="#L24">24</span>
+<span id="LID25" rel="#L25">25</span>
+<span id="LID26" rel="#L26">26</span>
+<span id="LID27" rel="#L27">27</span>
+<span id="LID28" rel="#L28">28</span>
+<span id="LID29" rel="#L29">29</span>
+<span id="LID30" rel="#L30">30</span>
+<span id="LID31" rel="#L31">31</span>
+<span id="LID32" rel="#L32">32</span>
+<span id="LID33" rel="#L33">33</span>
+<span id="LID34" rel="#L34">34</span>
+<span id="LID35" rel="#L35">35</span>
+<span id="LID36" rel="#L36">36</span>
+<span id="LID37" rel="#L37">37</span>
+<span id="LID38" rel="#L38">38</span>
+<span id="LID39" rel="#L39">39</span>
+<span id="LID40" rel="#L40">40</span>
+<span id="LID41" rel="#L41">41</span>
+<span id="LID42" rel="#L42">42</span>
+<span id="LID43" rel="#L43">43</span>
+<span id="LID44" rel="#L44">44</span>
+<span id="LID45" rel="#L45">45</span>
+<span id="LID46" rel="#L46">46</span>
+<span id="LID47" rel="#L47">47</span>
+<span id="LID48" rel="#L48">48</span>
+<span id="LID49" rel="#L49">49</span>
+<span id="LID50" rel="#L50">50</span>
+<span id="LID51" rel="#L51">51</span>
+<span id="LID52" rel="#L52">52</span>
+<span id="LID53" rel="#L53">53</span>
+<span id="LID54" rel="#L54">54</span>
+<span id="LID55" rel="#L55">55</span>
+<span id="LID56" rel="#L56">56</span>
+<span id="LID57" rel="#L57">57</span>
+<span id="LID58" rel="#L58">58</span>
+<span id="LID59" rel="#L59">59</span>
+<span id="LID60" rel="#L60">60</span>
+<span id="LID61" rel="#L61">61</span>
+<span id="LID62" rel="#L62">62</span>
+<span id="LID63" rel="#L63">63</span>
+<span id="LID64" rel="#L64">64</span>
+<span id="LID65" rel="#L65">65</span>
+<span id="LID66" rel="#L66">66</span>
+<span id="LID67" rel="#L67">67</span>
+<span id="LID68" rel="#L68">68</span>
+<span id="LID69" rel="#L69">69</span>
+<span id="LID70" rel="#L70">70</span>
+<span id="LID71" rel="#L71">71</span>
+<span id="LID72" rel="#L72">72</span>
+<span id="LID73" rel="#L73">73</span>
+<span id="LID74" rel="#L74">74</span>
+<span id="LID75" rel="#L75">75</span>
+<span id="LID76" rel="#L76">76</span>
+<span id="LID77" rel="#L77">77</span>
+<span id="LID78" rel="#L78">78</span>
+<span id="LID79" rel="#L79">79</span>
+<span id="LID80" rel="#L80">80</span>
+</pre>
+          </td>
+          <td width="100%">
+            
+              <div class="highlight"><pre><div class="line" id="LC1">&quot; ======= vimperator colorscheme ========</div><div class="line" id="LC2">&quot; name:   vimplight</div><div class="line" id="LC3">&quot; author: Takuya Fujimura</div><div class="line" id="LC4">&quot; blog:   http://d.hatena.co.jp/tlync</div><div class="line" id="LC5">&quot; mail:   takuya.fujimura@gmail.com</div><div class="line" id="LC6">&quot; tested: vimperator 2.1, firefox 3.5 beta4, mac osx</div><div class="line" id="LC7">&quot; =======================================</div><div class="line" id="LC8">&quot;--------------------------------------------------</div><div class="line" id="LC9">&quot; Hint</div><div class="line" id="LC10">&quot;--------------------------------------------------</div><div class="line" id="LC11">hi Hint font-family: monospace; font-size: 11px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: #f07e00; border: 1px #ff7d00 solid; -moz-border-radius: 4px; color: white; font-weight: bolder; opacity: 0.9;</div><div class="line" id="LC12">hi HintElem background-color: #fdffc3; color: #222;</div><div class="line" id="LC13">hi HintActive background-color: #ffdcdc; border: 1px #ef6f6f dotted; -moz-border-radius: 3px; padding: 0.1em; font-weight: bold;</div><div class="line" id="LC14">&nbsp;</div><div class="line" id="LC15">&quot;--------------------------------------------------</div><div class="line" id="LC16">&quot; Tab (for Tree Style Tab)</div><div class="line" id="LC17">&quot;--------------------------------------------------</div><div class="line" id="LC18">hi TabNumber    font-size: 9px; padding-left: 6px; </div><div class="line" id="LC19">hi TabText     text-align: left;</div><div class="line" id="LC20">&nbsp;</div><div class="line" id="LC21">&quot;--------------------------------------------------</div><div class="line" id="LC22">&quot; Status Line</div><div class="line" id="LC23">&quot;--------------------------------------------------</div><div class="line" id="LC24">hi StatusLine height: 23px; -moz-appearance: statusbar;</div><div class="line" id="LC25">hi StatusLineSecure height: 23px; -moz-appearance: statusbar;</div><div class="line" id="LC26">hi StatusLineBroken height: 23px; -moz-appearance: statusbar;</div><div class="line" id="LC27">hi StatusLineExtended height: 23px; -moz-appearance: statusbar;</div><div class="line" id="LC28">&nbsp;</div><div class="line" id="LC29">&quot; for Firefox 3.0.x</div><div class="line" id="LC30">&quot; hi StatusLine font-family: &quot;Lucida Grande&quot;, monospace; font-size: 11px; color: #262626; background: url(&quot;chrome://global/skin/statusbar-background.gif&quot;) #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;</div><div class="line" id="LC31">&quot; hi StatusLineSecure font-size: 11px; color: #262626; background: url(&quot;chrome://global/skin/statusbar-background.gif&quot;) #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;</div><div class="line" id="LC32">&quot; hi StatusLineBroken font-size: 11px; color: #d00f0f; background: url(&quot;chrome://global/skin/statusbar-background.gif&quot;) #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;</div><div class="line" id="LC33">&quot; hi StatusLineExtended font-size: 11px; color: #d00f0f; background: url(&quot;chrome://global/skin/statusbar-background.gif&quot;) #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;</div><div class="line" id="LC34">&nbsp;</div><div class="line" id="LC35">&quot;--------------------------------------------------</div><div class="line" id="LC36">&quot; Command Line</div><div class="line" id="LC37">&quot;--------------------------------------------------</div><div class="line" id="LC38">hi CmdLine font-family: monospace; font-size: 12px; background: #000; padding: 0.2em 0.5em; background: #111;</div><div class="line" id="LC39">hi CmdOutput</div><div class="line" id="LC40">&nbsp;</div><div class="line" id="LC41">hi Normal color: #f0f0f0; background: #111;</div><div class="line" id="LC42">hi NonText color: #444;</div><div class="line" id="LC43">hi Title font-size: 11px; color: #555; font-weight: bold; letter-spacing: -0.04em; text-indent: 0.5em; line-height: 1.5em;</div><div class="line" id="LC44">hi Question font-size: 11px; color: #4377c6;</div><div class="line" id="LC45">hi Preview font-size: 11px; color: #555;</div><div class="line" id="LC46">hi Tag color: #555;</div><div class="line" id="LC47">hi Filter color: #3f6ecd;</div><div class="line" id="LC48">&quot;hi LineNr</div><div class="line" id="LC49">&quot;hi URL</div><div class="line" id="LC50">&nbsp;</div><div class="line" id="LC51">hi Message color: #f0f0f0; background: #111; font-size: 12px; padding-left: 0.5em 1em; line-height: 1.3em;</div><div class="line" id="LC52">hi ModeMsg color: #555; padding-left: 0.5em; font-size: 12px;</div><div class="line" id="LC53">hi MoreMsg color: #555; padding-left: 0.5em; font-size: 12px;</div><div class="line" id="LC54">hi CompMsg color: #555; text-decoration: none; font-size: 12px; padding: 0.25em 0.8em;</div><div class="line" id="LC55">hi InfoMsg color: #f0f0f0; font-size: 12px; padding-left: 0.5em;</div><div class="line" id="LC56">hi WarningMsg color: #d00f0f; font-size: 12px; padding-left: 0.5em;</div><div class="line" id="LC57">hi ErrorMsg color: #d00f0f; font-size: 12px; padding-left: 0.5em;</div><div class="line" id="LC58">&nbsp;</div><div class="line" id="LC59">hi CompGroup padding-bottom: 0.5em;</div><div class="line" id="LC60">hi CompTitle font-size: 12px; color: #555; font-weight: bold; letter-spacing: -0.04em;</div><div class="line" id="LC61">hi CompResult padding-left: 0.7em;</div><div class="line" id="LC62">hi CompItem[selected] background: #292929;</div><div class="line" id="LC63">hi CompIcon margin-right: 8px;</div><div class="line" id="LC64">hi CompDesc color: #666;</div><div class="line" id="LC65">&nbsp;</div><div class="line" id="LC66">hi GradientLeft background-color: #333;</div><div class="line" id="LC67">hi GradientRight background-color: #111;</div><div class="line" id="LC68">&nbsp;</div><div class="line" id="LC69">hi Indicator color: #444;</div><div class="line" id="LC70">hi FrameIndicator background-color: #fdffc3; border: 2px solid yellow;</div><div class="line" id="LC71">&nbsp;</div><div class="line" id="LC72">&quot;--------------------------------------------------</div><div class="line" id="LC73">&quot; JavaScript Objects</div><div class="line" id="LC74">&quot;--------------------------------------------------</div><div class="line" id="LC75">hi Function color: #2a449a;</div><div class="line" id="LC76">&quot;hi Boolean</div><div class="line" id="LC77">&quot;hi String</div><div class="line" id="LC78">&quot;hi Number</div><div class="line" id="LC79">&quot;hi Object</div><div class="line" id="LC80">&quot;hi Null</div></pre></div>
+            
+          </td>
+        </tr>
+      </table>
+    
+  </div>
+
+
+      </div>
+    </div>
+    
+  
+
+
+    </div>
+  
+      
+
+      <div class="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="site">
+        <div class="info">
+          <div class="links">
+            <a href="http://github.com/blog"><b>Blog</b></a> |
+            <a href="http://support.github.com/">Support</a> |
+            <a href="http://github.com/training">Training</a> |
+            <a href="http://github.com/contact">Contact</a> |
+            <a href="http://develop.github.com">API</a> |
+            <a href="http://twitter.com/github">Status</a> |
+            <a href="http://twitter.com/github">GitHub on Twitter</a> |
+            <a href="http://github.com/guides/home">Help</a>
+
+         </div>
+          <div class="company">
+            <span id="_rrt" title="0.05067s from fe4.rs.github.com">GitHub</span>&trade;
+            is <a href="http://logicalawesome.com/">Logical Awesome</a> &copy;2009 | <a href="/site/terms">Terms of Service</a> | <a href="/site/privacy">Privacy Policy</a>
+          </div>
+        </div>
+        <div class="sponsor">
+          <div>
+            Powered by the <a href="http://www.rackspace.com ">Dedicated
+            Servers</a> and<br/> <a href="http://www.rackspacecloud.com">Cloud
+            Computing</a> of Rackspace Hosting<span>&reg;</span>
+          </div>
+          <a href="http://www.rackspace.com">
+            <img alt="Dedicated Server" src="http://assets2.github.com/images/modules/footer/rackspace_logo.png?cf89fa8fab5b865629715bd761df6ef01a507b5d" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="coming_soon" style="display:none;">
+      This feature is coming soon.  Sit tight!
+    </div>
+
+    
+        <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    var pageTracker = _gat._getTracker("UA-3769691-2");
+    pageTracker._initData();
+    pageTracker._trackPageview();
+    </script>
+
+    
+  </body>
+</html>
+
