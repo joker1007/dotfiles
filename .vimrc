@@ -84,6 +84,14 @@ nmap ,b :buffers<CR>
 nnoremap J <C-D>
 nnoremap K <C-U>
 
+" UTF8、SJIS(CP932)、EUCJPで開き直す
+command! -bang -nargs=? Utf8
+	\ edit<bang> ++enc=utf-8 <args>
+command! -bang -nargs=? Sjis
+	\ edit<bang> ++enc=cp932 <args>
+command! -bang -nargs=? Euc
+	\ edit<bang> ++enc=eucjp <args>
+
 " QFixHowm用設定
 set runtimepath+=~/qfixapp
 
@@ -99,6 +107,15 @@ let howm_fileformat      = 'dos'
 let mygrepprg = 'grep'
 
 let QFixHowm_RecentMode = 2
+
+"ブラウザの指定
+if has('win32')
+  let QFixHowm_OpenURIcmd = '!start "C:\firefox-3.5.3-2009100400.en-US.win32-tete009-sse2-pgo\firefox.exe" %s'
+elseif has('unix')
+  let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
+endif
+
+
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
