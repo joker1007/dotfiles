@@ -49,6 +49,22 @@ filetype plugin indent on
 
 source $VIMRUNTIME/macros/matchit.vim
 
+" JとDで半ページ移動
+nnoremap J <C-D>
+nnoremap K <C-U>
+
+" UTF8、SJIS(CP932)、EUCJPで開き直す
+command! -bang -nargs=? Utf8
+	\ edit<bang> ++enc=utf-8 <args>
+command! -bang -nargs=? Sjis
+	\ edit<bang> ++enc=cp932 <args>
+command! -bang -nargs=? Euc
+	\ edit<bang> ++enc=eucjp <args>
+
+" mark, register確認
+nnoremap ,m  :<C-u>marks<CR>
+nnoremap ,r  :<C-u>registers<CR>
+
 " YAMLファイル用タブストップ設定
 au FileType yaml set expandtab ts=2 sw=2 fenc=utf-8
 " actionscript mxml用のファイルタイプ設定
@@ -79,18 +95,6 @@ nnoremap <Leader>9   :e #9<CR>
 " バッファ一覧
 nmap ,b :buffers<CR>
 
-
-" JとDで半ページ移動
-nnoremap J <C-D>
-nnoremap K <C-U>
-
-" UTF8、SJIS(CP932)、EUCJPで開き直す
-command! -bang -nargs=? Utf8
-	\ edit<bang> ++enc=utf-8 <args>
-command! -bang -nargs=? Sjis
-	\ edit<bang> ++enc=cp932 <args>
-command! -bang -nargs=? Euc
-	\ edit<bang> ++enc=eucjp <args>
 
 " QFixHowm用設定
 set runtimepath+=~/qfixapp
