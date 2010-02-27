@@ -1,6 +1,8 @@
 #!/bin/sh
 
-ln -s .vim ~/
-ln -s .vimrc ~/
-ln -s .vimperatorrc ~/
-ln -s .vimperator ~/
+PWD=`pwd`
+
+ln -s ${PWD}/.vim ~/
+ln -s ${PWD}/.vimrc ~/
+ln -s ${PWD}/.vimperatorrc ~/
+ln -s ${PWD}/.vimperator ~/
