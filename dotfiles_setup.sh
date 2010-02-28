@@ -10,3 +10,5 @@ echo "Gen Simbolic Link .vimperatorrc => ~/.vimperatorrc"
 ln -s ${PWD}/.vimperatorrc ~/
 echo "Gen Simbolic Link .vimperator => ~/.vimperator"
 ln -s ${PWD}/.vimperator ~/
+echo "Gen Simbolic Link .screenrc => ~/.screenrc"
+ln -s ${PWD}/.screenrc ~/
