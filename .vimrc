@@ -45,6 +45,18 @@ set formatoptions+=mM
 
 colorscheme evening
 
+" skk
+let skk_jisyo            = '~/.skk-jisyo'
+let skk_large_jisyo      = '~/.vim/dict/skk/SKK-JISYO.L'
+let skk_auto_save_jisyo  = 1
+let skk_keep_state       = 0
+let skk_egg_like_newline = 1
+let skk_show_annotation  = 1
+let skk_use_face         = 1
+let skk_imdisable_state  = 0
+let skk_sticky_key       = ';'
+
+
 syntax on
 filetype plugin indent on
 
@@ -78,10 +90,10 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR> 
 
 " miniBufExplorer設定
-let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavVim    = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBuffs = 1
-let g:miniBufExplModSelTarget = 1
+let g:miniBufExplModSelTarget       = 1
 " バッファ切り替え
 nmap <Space> :MBEbn<CR>
 nnoremap <Leader>1   :e #1<CR>
@@ -104,10 +116,10 @@ set runtimepath+=~/qfixapp
 let QFixHowm_Key = 'g'
 
 "howm_dirはファイルを保存したいディレクトリを設定。
-let howm_dir = '~/Dropbox/howm'
-let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
-let howm_fileencoding    = 'cp932'
-let howm_fileformat      = 'dos'
+let howm_dir          = '~/Dropbox/howm'
+let howm_filename     = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
+let howm_fileencoding = 'cp932'
+let howm_fileformat   = 'dos'
 
 if has('win32')
   let mygrepprg = 'yagrep'
@@ -125,7 +137,11 @@ elseif has('unix')
   let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
 endif
 
-
+" AutoComplPop
+inoremap <silent> <expr> <F12>
+      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? "\<C-o>:AutoComplPopDisable\<CR>" : "\<C-o>:AutoComplPopEnable\<CR>"
+noremap <silent> <expr> ,a
+      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? ":AutoComplPopDisable<CR>" : ":AutoComplPopEnable<CR>"
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
