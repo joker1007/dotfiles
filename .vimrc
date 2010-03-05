@@ -14,9 +14,10 @@ set ruler		" show the cursor position all the time
 " 行番号を表示
 set nu
 " タブストップ設定
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set softtabstop=0
+set expandtab
 " 検索設定
 set incsearch
 set ignorecase
@@ -50,8 +51,8 @@ filetype plugin indent on
 source $VIMRUNTIME/macros/matchit.vim
 
 " JとDで半ページ移動
-nnoremap J <C-D>
-nnoremap K <C-U>
+noremap J <C-D>
+noremap K <C-U>
 
 " UTF8、SJIS(CP932)、EUCJPで開き直す
 command! -bang -nargs=? Utf8
@@ -108,7 +109,12 @@ let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
 let howm_fileencoding    = 'cp932'
 let howm_fileformat      = 'dos'
 
-let mygrepprg = 'grep'
+if has('win32')
+  let mygrepprg = 'yagrep'
+elseif has('unix')
+  let mygrepprg = 'grep'
+endif
+
 
 let QFixHowm_RecentMode = 2
 

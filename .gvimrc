@@ -11,6 +11,27 @@ set cmdheight=2
 colorscheme evening " (GUI使用時)
 
 "---------------------------------------------------------------------------
+" フォント設定:
+"
+if has('win32')
+  " Windows用
+  set guifont=M+2VM+IPAG_circle:h11,KonatuTohaba:h12,MS_Gothic:h12:cSHIFTJIS
+  "set guifont=MS_Mincho:h12:cSHIFTJIS
+  " 行間隔の設定
+  set linespace=1
+  " 一部のUCS文字の幅を自動計測して決める
+  if has('kaoriya')
+    set ambiwidth=auto
+  endif
+elseif has('mac')
+  set guifont=Osaka－等幅:h14
+elseif has('xfontset')
+  " UNIX用 (xfontsetを使用)
+  set guifontset=a14,r14,k14
+endif
+
+
+"---------------------------------------------------------------------------
 " 日本語入力に関する設定:
 "
 if has('multi_byte_ime') || has('xim')
@@ -43,5 +64,5 @@ set nomousefocus
 " 入力時にマウスポインタを隠す (nomousehide:隠さない)
 set mousehide
 " ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
-"set guioptions+=a
+set guioptions+=a
 
