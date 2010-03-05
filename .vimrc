@@ -139,9 +139,9 @@ endif
 
 " AutoComplPop
 inoremap <silent> <expr> <F12>
-      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? "\<C-o>:AutoComplPopDisable\<CR>" : "\<C-o>:AutoComplPopEnable\<CR>"
+      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? "\<C-o>:AutoComplPopDisable\<CR>\<C-o>:echo 'AutoComplPop Disabled'\<CR>" : "\<C-o>:AutoComplPopEnable\<CR>\<C-o>:echo 'AutoComplPop Enabled'\<CR>"
 noremap <silent> <expr> ,a
-      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? ":AutoComplPopDisable<CR>" : ":AutoComplPopEnable<CR>"
+      \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? ":AutoComplPopDisable<CR>:echo 'AutoComplPop Disabled'<CR>" : ":AutoComplPopEnable<CR>:echo 'AutoComplPop Enabled'<CR>"
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
@@ -172,17 +172,4 @@ if has("cscope") && filereadable("/usr/bin/cscope")
       cs add $CSCOPE_DB
    endif
    set csverb
-endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
-
-if &term=="xterm"
-     set t_Co=8
-     set t_Sb=[4%dm
-     set t_Sf=[3%dm
 endif
