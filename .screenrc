@@ -1,3 +1,10 @@
 # Keys
 escape ^Tt
-hardstatus string "[screen %n%?: %t%?] %h"
+
+vbell on
+startup_message off
+defscrollback 5000
+autodetach on
+hardstatus alwayslastline "%-w%{=b bw}%n %t%{-}%+w"
+
+bind w windowlist -b
