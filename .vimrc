@@ -151,8 +151,8 @@ elseif has('unix')
   let mygrepprg = 'grep'
 endif
 
-
 let QFixHowm_RecentMode = 2
+
 
 "ブラウザの指定
 if has('win32')
@@ -176,17 +176,6 @@ hi PmenuSbar guibg=#333333
 nnoremap <Leader>ff :FufFile<CR>
 nnoremap <Leader>fb :FufBuffer<CR>
 nnoremap <Leader>fd :FufDir<CR>
-
-" Only do this part when compiled with support for autocommands
-if has("autocmd")
-  " In text files, always limit the width of text to 78 characters
-  autocmd BufRead *.txt set tw=78
-  " When editing a file, always jump to the last cursor position
-  autocmd BufReadPost *
-  \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-  \   exe "normal! g'\"" |
-  \ endif
-endif
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
