@@ -13,6 +13,7 @@ set viminfo='20,\"50	" read/write a .viminfo file, don't store more
 			" than 50 lines of registers
 set history=100		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
+set ambiwidth=double
 
 " 行番号を表示
 set nu

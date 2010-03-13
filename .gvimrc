@@ -7,6 +7,12 @@ set columns=150
 set lines=50
 " コマンドラインの高さ(GUI使用時)
 set cmdheight=2
+" GUIパーツの表示設定
+set guioptions=egimrLta
+" ウインドウの透明度
+if has('kaoriya')
+  set transparency=220
+endif
 
 "---------------------------------------------------------------------------
 " フォント設定:
@@ -23,9 +29,8 @@ if has('win32')
   endif
 elseif has('mac')
   set guifont=Osaka－等幅:h14
-elseif has('xfontset')
-  " UNIX用 (xfontsetを使用)
-  set guifontset=a14,r14,k14
+else
+  set guifont=M+1VM+IPAG\ circle\ 10
 endif
 
 
