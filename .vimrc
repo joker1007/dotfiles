@@ -143,7 +143,7 @@ let QFixHowm_Key = 'g'
 "howm_dirはファイルを保存したいディレクトリを設定。
 let howm_dir          = '~/Dropbox/howm'
 let howm_filename     = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
-let howm_fileencoding = 'cp932'
+let howm_fileencoding = 'utf-8'
 let howm_fileformat   = 'dos'
 
 if has('win32')
@@ -151,6 +151,8 @@ if has('win32')
 elseif has('unix')
   let mygrepprg = 'grep'
 endif
+
+let QFixHowm_MruFileMax = 30
 
 let QFixHowm_RecentMode = 2
 
