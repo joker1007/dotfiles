@@ -327,9 +327,6 @@ EOM
 " ======================================================================
 qmark g https://mail.google.com/
 qmark c https://www.google.com/calendar/
-qmark p pp
-qmark l al
-qmark f af
 
 " colorscheeme
 " ======================================================================
