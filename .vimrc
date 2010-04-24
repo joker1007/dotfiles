@@ -1,5 +1,5 @@
 " encoding
-set fileencodings=utf-8,ucs-2le,ucs-2,cp932,eucjp
+set fileencodings=utf-8,cp932,eucjp
 
 syntax on
 filetype plugin indent on
