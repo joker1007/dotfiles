@@ -14,3 +14,9 @@ echo "Gen Simbolic Link .vimperator => ~/.vimperator"
 ln -sf ${PWD}/vimperator ~/.vimperator
 echo "Gen Simbolic Link .screenrc => ~/.screenrc"
 ln -sf ${PWD}/screenrc ~/.screenrc
+echo "Gen Simbolic Link .zshrc => ~/.zshrc"
+ln -sf ${PWD}/zshrc ~/.zshrc
+echo "Gen Simbolic Link .zshenv => ~/.zshenv"
+ln -sf ${PWD}/zshenv ~/.zshenv
+echo "Gen Simbolic Link .zlogin => ~/.zlogin"
+ln -sf ${PWD}/zlogin ~/.zlogin
