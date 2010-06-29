@@ -2,3 +2,7 @@
 .vimperator/info
 .vim/.VimballRecord
 .vim/backup/*
+vim/backup/*
+vim/.VimballRecord
+vimperator/info
+vim/.netrwhist

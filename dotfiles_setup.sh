@@ -3,14 +3,14 @@
 PWD=`pwd`
 
 echo "Gen Simbolic Link .vim => ~/.vim"
-ln -s ${PWD}/.vim ~/
+ln -sf ${PWD}/vim ~/.vim
 echo "Gen Simbolic Link .vimrc => ~/.vimrc"
-ln -s ${PWD}/.vimrc ~/
+ln -sf ${PWD}/vimrc ~/.vimrc
 echo "Gen Simbolic Link .gvimrc => ~/.vimrc"
-ln -s ${PWD}/.gvimrc ~/
+ln -sf ${PWD}/gvimrc ~/.gvimrc
 echo "Gen Simbolic Link .vimperatorrc => ~/.vimperatorrc"
-ln -s ${PWD}/.vimperatorrc ~/
+ln -sf ${PWD}/vimperatorrc ~/.vimperatorrc
 echo "Gen Simbolic Link .vimperator => ~/.vimperator"
-ln -s ${PWD}/.vimperator ~/
+ln -sf ${PWD}/vimperator ~/.vimperator
 echo "Gen Simbolic Link .screenrc => ~/.screenrc"
-ln -s ${PWD}/.screenrc ~/
+ln -sf ${PWD}/screenrc ~/.screenrc
