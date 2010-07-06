@@ -57,7 +57,10 @@ set showmatch
 set formatoptions+=mM
 
 " colorscheme
-colorscheme evening
+colorscheme desert256
+
+" 256色モード
+set t_Co=256
 
 " skk
 let skk_jisyo            = '~/.skk-jisyo'

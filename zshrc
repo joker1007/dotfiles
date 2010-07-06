@@ -17,6 +17,10 @@ bindkey -e
 bindkey '^p'	history-beginning-search-backward
 bindkey '^n'	history-beginning-search-forward
 
+# LS_COLORS (from CentOS)
+unset LS_COLORS
+export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.flac=01;35:*.mp3=01;35:*.mpc=01;35:*.ogg=01;35:*.wav=01;35:'
+
 setopt prompt_subst
 nprom () {
     local rbase=$'%{\e[33m%}[%~]%{\e[m%}' lf=$'\n'
@@ -84,6 +88,14 @@ alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
 alias screen='screen -s zsh'
 
+# enable color support of ls and also add handy aliases
+alias ls='ls -F --color=auto'
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 # Global aliases
 alias -g L="| lv"
@@ -104,20 +116,8 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 autoload -U compinit && compinit
 
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls -F --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 # 最後に打ったコマンドステータス行に
-if [ "$TERM" = "screen" ]; then
+if [ "$TERM" = "xterm-256color" ]; then
     chpwd () { echo -n "_`dirs`\\" }
     preexec() {
         # see [zsh-workers:13180]
