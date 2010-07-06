@@ -82,6 +82,8 @@ mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
+alias screen='screen -s zsh'
+
 
 # Global aliases
 alias -g L="| lv"
