@@ -12,6 +12,7 @@ HISTSIZE=5000 HISTFILE=~/.zhistory SAVEHIST=5000
 #PROMPT='%m{%n}%% '
 #RPROMPT='[%~]'
 
+
 # binding keys
 bindkey -e
 bindkey '^p'	history-beginning-search-backward
@@ -35,6 +36,9 @@ nprom
 
 
 # Set shell options
+# 日本語の文字化けを防ぐ
+setopt print_eight_bit
+
 # 指定したコマンド名がなく、ディレクトリ名と一致した場合 cd する
 setopt auto_cd
 
