@@ -59,6 +59,9 @@ setopt extended_glob
 # ls -Fと同様に補完候補にタイプ表示
 setopt list_types
 
+# 補完候補を詰める
+setopt list_packed
+
 # beep音無効
 setopt no_beep
 

@@ -1,6 +1,10 @@
 # Keys
 escape ^Tt
 
+bind w windowlist -b
+bind s  # reset s key
+
+# 256colo
 defbce "on"
 term xterm-256color
 termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
@@ -11,5 +15,3 @@ defscrollback 5000
 autodetach on
 hardstatus alwayslastline "%-w%{=b bw}%n %t%{-}%+w"
 
-
-bind w windowlist -b
