@@ -7,7 +7,11 @@
 
 ###
 # Set Shell variable
-# WORDCHARS=$WORDCHARS:s,/,,
+
+# CTRL-wでパスの削除ができるように
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' 
+
+# history
 HISTSIZE=5000 HISTFILE=~/.zhistory SAVEHIST=5000
 #PROMPT='%m{%n}%% '
 #RPROMPT='[%~]'
@@ -17,6 +21,16 @@ HISTSIZE=5000 HISTFILE=~/.zhistory SAVEHIST=5000
 bindkey -e
 bindkey '^p'	history-beginning-search-backward
 bindkey '^n'	history-beginning-search-forward
+
+# CTRL+zでbgのvimに復帰する
+bindkey -s '^z' '^[q %vim^m'
+
+# ESC+Gでtar xvzf と入力
+bindkey -s '^[G' 'tar xvzf '
+
+# ESC+:で"**/*(.)"を入力
+bindkey -s '^[:' '**/*(.)'
+
 
 # LS_COLORS (from CentOS)
 unset LS_COLORS
@@ -108,6 +122,7 @@ alias egrep='egrep --color=auto'
 alias -g L="| lv"
 alias -g LE="| less"
 alias -g G="| grep"
+
 
 # Suffix aliases(起動コマンドは環境によって変更する)
 #alias -s pdf=acroread dvi=xdvi 
