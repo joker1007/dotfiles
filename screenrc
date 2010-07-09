@@ -2,7 +2,7 @@
 escape ^Tt
 
 bind w windowlist -b
-bind s  # reset s key
+bind s split # reset s key
 
 # 256colo
 defbce "on"
@@ -12,6 +12,22 @@ termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 vbell on
 startup_message off
 defscrollback 5000
+altscreen on
 autodetach on
-hardstatus alwayslastline "%-w%{=b bw}%n %t%{-}%+w"
+zombie ^[
 
+caption always "%{= Gk} %?%F%{b kg}%? %t (screen #%n) %?%F%{-}%?"
+sorendition "= Gk"
+hardstatus alwayslastline "%{= wk}%-w%{=b bw}%n %t%{-}%+w%-048=%{+b wm}Load Avg. %l %{.b} %Y/%m/%d %c:%s"
+
+# resion focus(like vi)
+bind j focus down
+bind k focus up
+
+# continuous resion resize.
+# orverride default `r'(wrap) mapping.
+bind r eval 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize j eval 'resize +1' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize k eval 'resize -1' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize J eval 'resize +10' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize K eval 'resize -10' 'echo "Resize region:"' 'command -c cresize'
