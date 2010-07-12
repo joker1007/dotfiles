@@ -86,7 +86,9 @@ setopt no_beep
 # 内部コマンド jobs の出力をデフォルトで jobs -l にする
 setopt long_list_jobs 
 
+# 補完候補表示後、元のプロンプトに戻る
 setopt always_last_prompt
+
 setopt cdable_vars sh_word_split auto_param_keys pushd_ignore_dups
 
 # C-s, C-qを無効にする
@@ -135,10 +137,11 @@ zstyle ':completion:*' format '%BCompleting %d%b'
 zstyle ':completion:*' group-name ''
 # ファイルリスト補完でもlsと同様に色をつける｡
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# 補完有効化
 autoload -U compinit && compinit
 
 
-# 最後に打ったコマンドステータス行に
+# 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$TERM" = "xterm-256color" ]; then
     chpwd () { echo -n "_`dirs`\\" }
     preexec() {
@@ -177,6 +180,19 @@ if [ "$TERM" = "xterm-256color" ]; then
     chpwd
 fi
 
+# Puttyタイトルバー用設定
+case "${TERM}" in
+  kterm*|xterm)
+    precmd() {
+      echo -ne "\033]0;${USER}@${HOST%%.*}:${SHELL}\007"
+    }
+    ;;
+  xterm-256color|screen)
+    precmd() {
+      echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${SHELL}\007\033\\"
+    }
+    ;;
+esac
 
 
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
