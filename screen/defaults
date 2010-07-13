@@ -1,0 +1,61 @@
+# .screenrc by Urabe Shyouhei.
+
+# default options for each levels of screens
+
+# Keys
+# \233 is "Meta-Ctrl-[", or "Meta-Esc".
+escape \233\233
+
+# no zombie ... upper screen termination should propagate to this one.
+zombie
+
+# To use mouse
+termcapinfo xterm*|kterm* XT
+
+# To use hardware status line
+termcapinfo xterm*|kterm* hs:ts=\E]0;:fs=\007:ds=\E]0;\007
+
+# to use 256 colors
+termcapinfo xterm* Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm
+defbce on
+term xterm-256color
+
+
+# Protection from attacks
+multiuser off
+idle off
+
+# No visible bell because a stem screen should not intercept a bell.
+vbell off
+
+# No autodetach because a detached stem screen is useless.
+autodetach off
+
+# No startup message because a stem screen should not be invoked manually
+startup_message off
+
+# No login, otherwise /var/run/utemp will be squashed.
+deflogin off
+
+# obuflimit and  autonuke can be controlled via  termcap, but we do  not have a
+# way to get those values...
+
+# A stem  screen's output is  another scren,  so it is  way much faster  than a
+# normal terminal such as xterm. 2 pyhisical pages should suffice.
+obuflimit 8196
+
+# No autonuke... leave it over
+autonuke off
+
+# Dsiable scroll buffer, should be implemented in upper screens.
+defscrollback 0
+
+# Local Variables:
+# mode: Conf[space]
+# coding: utf-8-unix
+# indent-tabs-mode: nil
+# tab-width: 8
+# fill-column: 79
+# default-justification: full
+# End:
+# vi: ft=screen
