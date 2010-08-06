@@ -140,6 +140,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 補完有効化
 autoload -U compinit && compinit
 
+autoload zmv
+autoload zargs
+
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$TERM" = "xterm-256color" ]; then
