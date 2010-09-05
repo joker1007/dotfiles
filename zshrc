@@ -140,9 +140,33 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 補完有効化
 autoload -U compinit && compinit
 
+# 補完キャッシュ
+zstyle ':completion:*' use-cache true
+
+# 補完メニューをカーソル等で選択できるようにする
+zstyle ':completion:*' menu select=2
+
+# 補完の大文字・小文字を区別しない。が、大文字を入力したときは区別する。
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# sudo時も$PATH内のコマンドを補完する
+zstyle ':completion:*:sudo:*' command-path ${(s.:.)PATH}
+
+# process補完
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+
+# % zmv '(*).jpeg' '$1.jpg'
+# % zmv '(**/)foo(*).jpeg' '$1bar$2.jpg'
+# % zmv -n '(**/)foo(*).jpeg' '$1bar$2.jpg' # 実行せずパターン表示のみ
+# % zmv '(*)' '${(L)1}; # 大文字→小文字
+# % zmv -W '*.c.org' 'org/*.c' #「(*)」「$1」を「*」で済ませられる
 autoload zmv
 autoload zargs
 
+# コマンドラインを$EDITORで編集
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\ee' edit-command-line
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$TERM" = "xterm-256color" ]; then
