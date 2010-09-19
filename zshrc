@@ -8,6 +8,9 @@
 ###
 # Set Shell variable
 
+autoload colors
+colors
+
 # CTRL-wでパスの削除ができるように
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' 
 
@@ -209,16 +212,60 @@ if [ "$TERM" = "xterm-256color" ]; then
     chpwd
 fi
 
+# rvmで利用しているrubyを表示する
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git svn hg bzr
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+
+autoload -Uz is-at-least
+if is-at-least 4.3.10; then
+  zstyle ':vcs_info:git:*' check-for-changes true
+  zstyle ':vcs_info:git:*' stagedstr "+"
+  zstyle ':vcs_info:git:*' unstagedstr "-" 
+  zstyle ':vcs_info:git:*' formats '(%s)-[%b]%c%u'
+  zstyle ':vcs_info:git:*' actionformats '(%s)-[%b|%a]%c%u'
+fi
+
+function _update_vcs_info_msg() {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+
+
+    # for rvm
+    [[ -n "$rvm_ruby_string" ]] && psvar[2]="$rvm_ruby_string"
+
+    # for gemset
+    if [[ -n $GEM_HOME ]]; then
+      ind=$(expr index $GEM_HOME @)
+      if [ $ind -ne 0 ]; then
+          length="$(expr length $GEM_HOME)"
+          sub_length=`expr $length - $ind + 1`
+          gem_spec=`expr substr $GEM_HOME $ind $sub_length`
+          [[ -n "$psvar[2]" ]] && psvar[2]="$psvar[2]$gem_spec"
+      fi
+    fi
+}
+add-zsh-hook precmd _update_vcs_info_msg
+
+VCS_PROMPT="%1(v|%F{green} %1v%f|)"
+RUBY_PROMPT="%2(v| %U%B%F{magenta}(%2v)%f%b%u|)"
+
+RPROMPT="$RUBY_PROMPT$VCS_PROMPT $RPROMPT"
+
 # Puttyタイトルバー用設定
 case "${TERM}" in
   kterm*|xterm)
     precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${SHELL}\007"
+      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
     }
     ;;
   xterm-256color|screen)
     precmd() {
-      echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${SHELL}\007\033\\"
+      echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${PWD}\007\033\\"
     }
     ;;
 esac
