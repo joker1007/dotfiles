@@ -112,7 +112,6 @@ mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
-alias screen='screen -s zsh'
 
 # enable color support of ls and also add handy aliases
 alias ls='ls -F --color=auto'
@@ -124,6 +123,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias r='rails'
+alias s='screen -xR'
 
 # Global aliases
 alias -g L="| lv"

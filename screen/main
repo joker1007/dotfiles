@@ -1,6 +1,9 @@
 # Keys
 escape ^Tt
 
+# shell
+shell /bin/zsh
+
 bind w windowlist -b
 bind s split # reset s key
 

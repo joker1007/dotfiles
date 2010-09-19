@@ -1,11 +1,11 @@
-source dotfiles/screen/defaults
+source ~/dotfiles/screen/defaults
 
-backtick 0 0 0 ruby /home/joker/dotfiles/screen/netmonitor.rb
+backtick 0 0 0 ruby $HOME/dotfiles/screen/netmonitor.rb
 
 hardstatus ignore
 caption always "%{=b wk}Net: %0`%{= wb}"
 
 
-screen screen -qUmc dotfiles/screen/main
+screen screen -qUmc $HOME/dotfiles/screen/main
 
 # vi: ft=screen
