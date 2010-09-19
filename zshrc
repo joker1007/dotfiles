@@ -120,6 +120,8 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+alias r='rails'
+
 # Global aliases
 alias -g L="| lv"
 alias -g LE="| less"
