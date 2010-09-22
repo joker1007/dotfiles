@@ -174,8 +174,8 @@ inoremap <silent> <expr> <F12>
 noremap <silent> <expr> ,a
       \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? ":AutoComplPopDisable<CR>:echo 'AutoComplPop Disabled'<CR>" : ":AutoComplPopEnable<CR>:echo 'AutoComplPop Enabled'<CR>"
 " ポップアップメニューのカラーを設定
-hi Pmenu guibg=#666666
-hi PmenuSel guibg=#8cd0d3 guifg=#666666
+hi Pmenu ctermbg=18 guibg=#666666
+hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 
 " FuzzyFinder
