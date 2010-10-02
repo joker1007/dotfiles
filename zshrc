@@ -45,7 +45,7 @@ nprom () {
     local pct=$'%0(?||%18(?||%{\e[31m%}))%#%{\e[m%}'
     local tm=$'[%T]'
     RPROMPT="%9(~||$rbase)"
-    local pbase=$'%{\e[36m%}%U%B%n@%m%b%u'" $tm $pct "
+    local pbase=$'%{\e[36m%}%U%B%n@%m%b%u'" $pct "
     PROMPT="%9(~|$rbase$lf|)$pbase"
     [[ "$TERM" = "screen" ]] && RPROMPT="[%U%~%u]"
 }
@@ -212,7 +212,7 @@ if [ "$TERM" = "xterm-256color" ]; then
     chpwd
 fi
 
-# rvmで利用しているrubyを表示する
+# vcs_infoとrvmで利用しているrubyを表示する
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg bzr
@@ -271,6 +271,7 @@ case "${TERM}" in
 esac
 
 
+# rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
 source ~/.zshrc.local

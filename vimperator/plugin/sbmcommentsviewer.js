@@ -3,9 +3,9 @@ var PLUGIN_INFO =
     <name>SBM Comments Viewer</name>
     <description>List show Social Bookmark Comments</description>
     <description lang="ja">ソーシャル・ブックマーク・コメントを表示します</description>
-    <version>0.1c</version>
+    <version>0.1.1</version>
     <minVersion>2.0pre</minVersion>
-    <maxVersion>2.0pre</maxVersion>
+    <maxVersion>2.3</maxVersion>
     <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/sbmcommentsviewer.js</updateURL>
     <detail><![CDATA[
 == Usage ==
@@ -261,7 +261,7 @@ var SBM = { //{{{
                             case 'creator': id = node.textContent; break;
                             case 'link': link = node.textContent; break;
                             case 'date':
-                                date = window.eval('new Date(' + node.textContent.split(/[-T:Z]/,6).join(',') + ')');
+                                date = stringToDate(node.textContent);
                                 break;
                             case 'description': comment = node.textContent; break;
                             case 'subject': tags = node.textContent.split(/\s+/); break;
@@ -322,8 +322,8 @@ var SBM = { //{{{
                     pageURL:    'http://buzzurl.jp/entry/' + json[0].url
                 });
                 json[0].posts.forEach(function(entry){
-                    c.add( entry.user_name, window.eval('new Date(' + entry.date.split(/[-\s:]/,6).join(',') + ')'),
-                           entry.comment ? entry.comment : '', entry.keywords.split(','),
+                    c.add( entry.user_name, stringToDate(entry.date),
+                           entry.comment ? entry.comment : '', (entry.keywords || '').split(','),
                            {
                             userIcon: url + entry.user_name + '/photo',
                             link: url + '/' + entry.user_name
@@ -371,6 +371,16 @@ function getMD5Hash(str){
     }
     var s = [i < hash.length ? toHexString(hash.charCodeAt(i)) : '' for (i in hash)].join('');
     return s;
+} //}}}
+/**
+ * stringToDate {{{
+ * @param {String} Date String
+ * @return {Date}
+ */
+function stringToDate(str){
+    let args = str.split(/[-T:Z]/,6).map(function (v) parseInt(v, 10));
+    args[1]--;
+    return new Date(args[0], args[1], args[2], args[3], args[4], args[5]);
 } //}}}
 /**
  * evaluateXPath {{{
@@ -458,25 +468,16 @@ commands.addUserCommand(['viewSBMComments'], 'SBM Comments Viewer', //{{{
         var format = (liberator.globalVariables.def_sbm_format || 'id,timestamp,tags,comment').split(',');
         var countOnly = false, openToBrowser = false;
         var url = buffer.URL;
-        for (let opt in arg){
-            switch(opt){
-                case '-count':
-                    countOnly = true;
-                    break;
-                case '-browser':
-                    openToBrowser = true;
-                    break;
-                case '-type':
-                    if (arg[opt]) types = arg[opt];
-                    break;
-                case '-format':
-                    if (arg[opt]) format = arg[opt];
-                    break;
-                case "arguments":
-                    if (arg[opt].length > 0) url = arg[opt][0];
-                    break;
-            }
-        }
+        [
+            let (v = arg['-' + name]) (v && f(v))
+            for ([name, f] in Iterator({
+                count: function () countOnly = true,
+                browser: function () openToBrowser = true,
+                type: function (v) (types = v),
+                format: function (v) (format = v),
+                arguments: function (v) (v.length > 0 && (url = v[0]))
+            }))
+        ]
 
         for (let i=0; i<types.length; i++){
             let type = types.charAt(i);
@@ -502,7 +503,8 @@ commands.addUserCommand(['viewSBMComments'], 'SBM Comments Viewer', //{{{
         argCount:"*",
         options: options,
         completer: function(context) completion.url(context, 'l')
-    }
+    },
+    true
 ); //}}}
 
 /**
