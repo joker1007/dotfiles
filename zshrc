@@ -8,6 +8,9 @@
 ###
 # Set Shell variable
 
+autoload colors
+colors
+
 # CTRL-wでパスの削除ができるように
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' 
 
@@ -42,7 +45,7 @@ nprom () {
     local pct=$'%0(?||%18(?||%{\e[31m%}))%#%{\e[m%}'
     local tm=$'[%T]'
     RPROMPT="%9(~||$rbase)"
-    local pbase=$'%{\e[36m%}%U%B%n@%m%b%u'" $tm $pct "
+    local pbase=$'%{\e[36m%}%U%B%n@%m%b%u'" $pct "
     PROMPT="%9(~|$rbase$lf|)$pbase"
     [[ "$TERM" = "screen" ]] && RPROMPT="[%U%~%u]"
 }
@@ -109,7 +112,6 @@ mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
-alias screen='screen -s zsh'
 
 # enable color support of ls and also add handy aliases
 alias ls='ls -F --color=auto'
@@ -119,6 +121,9 @@ alias ls='ls -F --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+alias r='rails'
+alias s='screen -xR'
 
 # Global aliases
 alias -g L="| lv"
@@ -140,6 +145,33 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 補完有効化
 autoload -U compinit && compinit
 
+# 補完キャッシュ
+zstyle ':completion:*' use-cache true
+
+# 補完メニューをカーソル等で選択できるようにする
+zstyle ':completion:*' menu select=2
+
+# 補完の大文字・小文字を区別しない。が、大文字を入力したときは区別する。
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# sudo時も$PATH内のコマンドを補完する
+zstyle ':completion:*:sudo:*' command-path ${(s.:.)PATH}
+
+# process補完
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+
+# % zmv '(*).jpeg' '$1.jpg'
+# % zmv '(**/)foo(*).jpeg' '$1bar$2.jpg'
+# % zmv -n '(**/)foo(*).jpeg' '$1bar$2.jpg' # 実行せずパターン表示のみ
+# % zmv '(*)' '${(L)1}; # 大文字→小文字
+# % zmv -W '*.c.org' 'org/*.c' #「(*)」「$1」を「*」で済ませられる
+autoload zmv
+autoload zargs
+
+# コマンドラインを$EDITORで編集
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\ee' edit-command-line
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$TERM" = "xterm-256color" ]; then
@@ -180,19 +212,64 @@ if [ "$TERM" = "xterm-256color" ]; then
     chpwd
 fi
 
+# vcs_infoとrvmで利用しているrubyを表示する
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git svn hg bzr
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+
+autoload -Uz is-at-least
+if is-at-least 4.3.10; then
+  zstyle ':vcs_info:git:*' check-for-changes true
+  zstyle ':vcs_info:git:*' stagedstr "+"
+  zstyle ':vcs_info:git:*' unstagedstr "-" 
+  zstyle ':vcs_info:git:*' formats '(%s)-[%b]%c%u'
+  zstyle ':vcs_info:git:*' actionformats '(%s)-[%b|%a]%c%u'
+fi
+
+function _update_vcs_info_msg() {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+
+
+    # for rvm
+    [[ -n "$rvm_ruby_string" ]] && psvar[2]="$rvm_ruby_string"
+
+    # for gemset
+    if [[ -n $GEM_HOME ]]; then
+      ind=$(expr index $GEM_HOME @)
+      if [ $ind -ne 0 ]; then
+          length="$(expr length $GEM_HOME)"
+          sub_length=`expr $length - $ind + 1`
+          gem_spec=`expr substr $GEM_HOME $ind $sub_length`
+          [[ -n "$psvar[2]" ]] && psvar[2]="$psvar[2]$gem_spec"
+      fi
+    fi
+}
+add-zsh-hook precmd _update_vcs_info_msg
+
+VCS_PROMPT="%1(v|%F{green} %1v%f|)"
+RUBY_PROMPT="%2(v| %U%B%F{magenta}(%2v)%f%b%u|)"
+
+RPROMPT="$RUBY_PROMPT$VCS_PROMPT $RPROMPT"
+
 # Puttyタイトルバー用設定
 case "${TERM}" in
   kterm*|xterm)
     precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${SHELL}\007"
+      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
     }
     ;;
   xterm-256color|screen)
     precmd() {
-      echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${SHELL}\007\033\\"
+      echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${PWD}\007\033\\"
     }
     ;;
 esac
 
 
+# rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm

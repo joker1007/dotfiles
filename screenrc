@@ -1,1 +1,40 @@
-source dotfiles/screen/backtick1
+# Keys
+escape ^Tt
+
+# shell
+shell /bin/zsh
+
+bind w windowlist -b
+bind s split # reset s key
+
+# 256colo
+defbce "on"
+term xterm-256color
+termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+
+vbell on
+startup_message off
+defscrollback 5000
+altscreen on
+autodetach on
+zombie ^[
+
+backtick 0 0 0 ruby $HOME/dotfiles/screen/netmonitor.rb
+
+caption always "%{= Gk} %?%F%{b kg}%? %t (screen #%n) %?%F%{-}%?"
+sorendition "= Gk"
+hardstatus alwayslastline "%{= wk}%-w%{=b bw}%n %t%{-}%+w%-083=%{=b wk}Net: %0`%{= wb} | %{+b wm}Load Avg. %l %{.b} %Y/%m/%d %c:%s"
+
+# resion focus(like vi)
+bind j focus down
+bind k focus up
+
+# continuous resion resize.
+# orverride default `r'(wrap) mapping.
+bind r eval 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize j eval 'resize +1' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize k eval 'resize -1' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize J eval 'resize +10' 'echo "Resize region:"' 'command -c cresize'
+bind -c cresize K eval 'resize -10' 'echo "Resize region:"' 'command -c cresize'
+
+# vi: ft=screen
