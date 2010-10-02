@@ -4,9 +4,9 @@ let PLUGIN_INFO =
 <description>Tombloo integrate plugin</description>
 <description lang="ja">Tombloo 統合プラグイン</description>
 <author>Trapezoid</author>
-<version>0.1e</version>
+<version>0.1.1</version>
 <minVersion>2.0pre</minVersion>
-<maxVersion>2.0pre</maxVersion>
+<maxVersion>2.3</maxVersion>
 <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/tombloo.js</updateURL>
 <detail><![CDATA[
 
@@ -52,13 +52,14 @@ with (tomblooService) {
 commands.addUserCommand(
     ['tomblooAction'],
     'Execute Tombloo actions',
-    function (arg) {
-        let f = Tombloo.Service.actions[arg.string];
+    function (args) {
+        let f = Tombloo.Service.actions[args.literalArg];
         (f instanceof Function)
             ? f.execute()
-            : liberator.echoerr(arg.string + ' is not Tombloo Action.');
+            : liberator.echoerr(args.literalArg + ' is not Tombloo Action.');
     },
     {
+        literal: 0,
         completer: function (context) {
             context.title = ['Tombloo Actions'];
 
@@ -75,18 +76,15 @@ commands.addUserCommand(
 commands.addUserCommand(
     ['tombloo'],
     'Post by Tombloo',
-    function (args, special) {
-        //let f = Tombloo.Service.extractors[args.string];
-        let arg = args.string.replace(/\\(?=\u0020)/g, '');
-        liberator.log(args.string, 0);
-        liberator.log(arg, 0);
-
-        let f = Tombloo.Service.extractors[arg];
+    function (args) {
+        liberator.log(args.literalArg, 0);
+        let f = Tombloo.Service.extractors[args.literalArg];
         (typeof f === 'object')
-            ? Tombloo.Service.share(getContext(), f, special)
+            ? Tombloo.Service.share(getContext(), f, args.bang)
             : liberator.echoerr(args.string + ' is not Tombloo command');
     },
     {
+        literal: 0,
         bang: true,
         completer: function (context) {
             context.title = ['Tombloo'];
@@ -116,6 +114,16 @@ function getTombloo() {
 function getContext() {
     const doc = window.content.document;
     const win = window.content.wrappedJSObject;
+
+    function getTarget() {
+        if (/^http:\/\/reader\.livedoor\.com/.test(buffer.URL)) {
+            let item = win.get_active_item && win.get_active_item(true);
+            return item ? item.element : doc;
+        } else {
+            return doc;
+        }
+    }
+
     return implant(
         implant(
             {
@@ -123,7 +131,7 @@ function getContext() {
                 window:     win,
                 title:      doc.title.toString() || '',
                 selection:  win.getSelection().toString(),
-                target:     doc,
+                target:     getTarget(),
                 //event     : event,
                 //mouse     : mouse,
                 //menu      : gContextMenu,

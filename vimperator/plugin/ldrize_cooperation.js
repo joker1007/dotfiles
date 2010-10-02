@@ -1,6 +1,6 @@
 // Vimperator plugin: 'Cooperation LDRize Mappings'
 // Version: 0.25
-// Last Change: 12-Jun-2009. Jan 2008
+// Last Change: 22-Jan-2010. Jan 2008
 // License: Creative Commons
 // Maintainer: Trapezoid <trapezoid.g@gmail.com> - http://unsigned.g.hatena.ne.jp/Trapezoid
 //
@@ -45,7 +45,7 @@
 // Hints:
 //  ';l':
 //      narrow down the candidates to LDRize paragraphes
-//  ',L':
+//  ';L':
 //      narrow down the candidates to LDRize paragraphes (in a new tab)
 // Options:
 //  'ldrc'
@@ -178,14 +178,14 @@ if (liberator.plugins.LDRizeCooperation == undefined) (function(){
                         sandbox.window.addEventListener("focus",function(){
                             self.LDRize = liberator.eval("self",sandbox.LDRize.getSiteinfo);
                             self.Minibuffer = liberator.eval("command",sandbox.Minibuffer.addCommand);
-							if (typeof self.LDRize.getSiteinfo != 'function') self.LDRize = sandbox.LDRize;
-							if (typeof self.Minibuffer.addCommand != 'function') self.Minibuffer = sandbox.Minibuffer.command;
+                            if (typeof self.LDRize.getSiteinfo != 'function') self.LDRize = sandbox.LDRize;
+                            if (typeof self.Minibuffer.addCommand != 'function') self.Minibuffer = sandbox.Minibuffer.command;
                         },false);
                         if(window.content.wrappedJSObject == sandbox.unsafeWindow){
                             self.LDRize = liberator.eval("self",sandbox.LDRize.getSiteinfo);
                             self.Minibuffer = liberator.eval("command",sandbox.Minibuffer.addCommand);
-							if (typeof self.LDRize.getSiteinfo != 'function') self.LDRize = sandbox.LDRize;
-							if (typeof self.Minibuffer.addCommand != 'function') self.Minibuffer = sandbox.Minibuffer.command;
+                            if (typeof self.LDRize.getSiteinfo != 'function') self.LDRize = sandbox.LDRize;
+                            if (typeof self.Minibuffer.addCommand != 'function') self.Minibuffer = sandbox.Minibuffer.command;
                         }
                     }
                 });
@@ -403,9 +403,11 @@ if (liberator.plugins.LDRizeCooperation == undefined) (function(){
             };
         },
         sendRawKeyEvent: function(keyCode,charCode){
+            modes.passAllKeys = true;
             var evt = window.content.wrappedJSObject.document.createEvent("KeyEvents");
-            evt.initKeyEvent("keypress",true,true,window.content.wrappedJSObject,false,false,false,false,keyCode,charCode);
+            evt.initKeyEvent("keypress",false,false,window.content.wrappedJSObject,false,false,false,false,keyCode,charCode);
             window.content.wrappedJSObject.document.dispatchEvent(evt);
+            modes.passAllKeys = false;
         },
     };
 

@@ -4,9 +4,9 @@ var PLUGIN_INFO =
 <description>Manage Vimperator Plugins</description>
 <description lang="ja">Vimpeatorプラグインの管理</description>
 <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
-<version>0.6.3</version>
-<minVersion>2.0pre</minVersion>
-<maxVersion>2.0pre</maxVersion>
+<version>0.6.6</version>
+<minVersion>2.3</minVersion>
+<maxVersion>2.4</maxVersion>
 <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/pluginManager.js</updateURL>
 <detail lang="ja"><![CDATA[
 これはVimperatorプラグインの詳細情報orヘルプを表示するためのプラグインです。
@@ -339,16 +339,16 @@ Plugin.prototype = { // {{{
         var localpath = plugin[0][1];
         */
         var source = serverResource.source;
-        var file = io.getFile(this.path);
+        var file = io.File(this.path);
 
         if (!source)
             return '<span highlight="WarningMsg">source is null.</span>';
 
         try {
-            io.writeFile(file, source);
+            file.write(source);
         } catch (e){
-            liberaotr.log('Could not write to ' + file.path + ': ' + e.message);
-            return 'E190: Cannot open ' + filename.quote() + ' for writing';
+            liberator.log('Could not write to ' + file.path + ': ' + e.message);
+            return 'E190: Cannot open ' + file.path.quote() + ' for writing';
         }
 
         try {
@@ -994,7 +994,7 @@ var public = {
             const npi = /\/(all|index)\.html/;
             const js = /\.js$/i;
             function xe(xpath){
-                let ss = buffer.evaluateXPath(xpath);
+                let ss = util.evaluateXPath(xpath);
                 return (ss.snapshotLength > 0) && ss.snapshotItem(0).href;
             }
             if (cr.test(url)) {

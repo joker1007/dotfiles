@@ -16,7 +16,7 @@ set! ui.key.generalAccessKey=0
 
 " Awesomebarの補完対象にBookmarkletを含める&件数を変更
 set! browser.urlbar.filter.javascript=false
-set! browser.urlbar.maxRichResults=10
+set! browser.urlbar.maxRichResults=20
 
 " ポップアップ許可数を拡張 cf.http://la.ma.la/blog/diary_200611171115.htm
 set! dom.popup_maximum=9999
@@ -96,8 +96,8 @@ map <BS> <A-Left>
 map ,s :stop<cr>
 
 " j/k でのスクロール幅を1行から3行に変更
-"noremap j 5j
-"noremap k 5k
+noremap j 5j
+noremap k 5k
 
 noremap <C-e> <C-v>j
 noremap <C-y> <C-v>k
@@ -170,23 +170,14 @@ EOM
 " plugins
 " ======================================================================
 " delicious_search.js
-"autocmd VimperatorEnter .* :set complete+=D
+autocmd VimperatorEnter .* :set complete+=D
 
 " ime_controller.js
 let g:ex_ime_mode = "inactive"
 let g:textarea_ime_mode = "inactive"
 
-" encodingSwitcher.js
-"map es :set fileencoding=Shift_JIS<CR>
-"map ec :set fileencoding=EUC-JP<CR>
-
 " migemo_hint.js
 set hintmatching=custom
-
-" nextlink.js
-let g:nextlink_followlink = "true"
-let g:nextlink_prevmap = "{{"
-let g:nextlink_prevmap = "}}"
 
 " sbmcommentsviewer.js
 let g:def_sbm_format = "timestamp,id,tagsAndComment"
@@ -210,12 +201,16 @@ let g:ldrc_intelligence_bind = "true"
 let g:ldrc_skip = "0.4"
 map Q :toggleldrc<CR>
 
+" twittperator.js
+map ,t :twittperator<Space>
+map ,T :twittperator!<Space>
+map ,@ :twittperator!@joker1007<CR>
+map ,b :twittperator<Space>Browsing: %TITLE% - %URL%
+let g:twittperator_use_chirp = 1
+let g:twittperator_plugin_reply_popup_alert = 1
+let g:twittperator_screen_name = "joker1007"
+
 " multi_requester.js
-map ,t :twitter<Space>
-map ,T :twitter!<Space>
-map ,@ :twitter!@<CR>
-map ,m :mixiecho<Space>
-map ,w :twissr<Space>
 map ,rt :mr<Space>twitter-search-pcod-no-jp<Space>
 map ,rT :mr<Space>twitter-search-pcod-no-jp<Space>["joker1007"]<CR>
 map ,rf :mr<Space>favotter-new<Space>
@@ -235,6 +230,16 @@ liberator.globalVariables.copy_templates = [
   { label: 'markdown',       value: '[%TITLE%](%URL% "%TITLE%")' },
   { label: 'markdownsel',    value: '[%SEL%](%URL% "%TITLE%")' },
   { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
+];
+EOM
+
+" account_switcher.js
+js <<EOM
+liberator.globalVariables.accountSwitcherLoginServices = [
+  'joker1007@hatena',
+  'joker1007@hatelabo',
+  'joker1007@twitter',
+  'kakyoin.hierophant@google',
 ];
 EOM
 
@@ -274,23 +279,23 @@ liberator.globalVariables.localKeyMappings=[
 ];
 EOM
 
-" feedSomeKeys_2.js
-autocmd LocationChange .* :fmapc
+
+" feedSomeKeys_3.js
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Tumblr (要dashboard+tombloo.user.js, ReblogCommand.user.js)
-autocmd LocationChange http://.*\.tumblr\.com/ :fmap r,tj
-autocmd LocationChange http://.*\.tumblr\.com/ :fmap j k p
+lazy fmaps -u='http://.*\.tumblr\.com/' r,tj
+lazy fmaps -u='http://.*\.tumblr\.com/dashboard' r,tj
 " favotter (要Twit Fav command Minibuffer)
-autocmd LocationChange http://favotter\.matope\.com/ :fmap f,F
-" Gmail
-autocmd LocationChange mail\.google\.com/(mail|a)/ :fmap -d 4 c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
-" GoogleReader
-autocmd LocationChange www\.google\.com/reader/ :fmap! -vkey j k n p m s v o A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
-autocmd LocationChange www\.google\.co\.jp/reader/ :fmap! -vkey j k n p m s v o A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
-" LDR/Fastladder/OpenFL
-autocmd LocationChange http://(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/ :fmap j k s a p v c z Z b i r < > o,vj J,<Space> K,<S-Space> q w g u 
-" Fastladder Reblog用 (要tombloo.xpi/ldr+tombloo.user.js)
-autocmd LocationChange http://fastladder\.com/reader/ :fmap i,Tj
-autocmd LocationChange http://fastladder\.com/reader/ :fmap e,Tj
+lazy fmaps -u='http://favotter\.matope\.com/' :fmap f,F
+lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
+lazy fmaps -u='www\.google\.com/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
+lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
+lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m <Del> <C-S-Left> <C-S-Right>
+lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
+lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
+
 
 " javascripts
 " ======================================================================
@@ -322,6 +327,29 @@ EOM
 "  }
 ");
 "EOM
+
+" AutopagerizeのON/OFF
+javascript <<EOM
+mappings.addUserMap(
+    [modes.NORMAL],
+    ["<C-M>"],
+    "AutoPagerize On/Off",
+    function(){
+        var doc = window.getBrowser().contentDocument;
+        var elements = doc.evaluate('id("autopagerize_help")/div/a[contains(@class,"autopagerize_link")]',doc,null,7,null);
+        if(elements.snapshotLength){
+            var event = doc.createEvent('MouseEvents');
+            event.initEvent('click',true,true);
+            elements.snapshotItem(0).dispatchEvent(event);
+        }
+    }
+);
+EOM
+
+" [tab]open等で長いタイトルがURIに被るらないように
+hi CompResult width: 45%; overflow: hidden; max-width: 60%;
+
+
 
 " qmarks
 " ======================================================================

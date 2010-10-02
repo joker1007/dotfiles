@@ -1,5 +1,5 @@
 /* NEW BSD LICENSE {{{
-Copyright (c) 2009, anekos.
+Copyright (c) 2009-2010, anekos.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -38,13 +38,13 @@ let PLUGIN_INFO =
   <name>Caret Hint</name>
   <description>Move caret position by hint</description>
   <description lang="ja">Hint を使ってキャレット位置を移動</description>
-  <version>1.2.0</version>
+  <version>1.3.1</version>
   <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
   <license>new BSD License (Please read the source code comments of this plugin)</license>
   <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
   <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/caret-hint.js</updateURL>
   <minVersion>2.0pre</minVersion>
-  <maxVersion>2.0pre</maxVersion>
+  <maxVersion>2.3</maxVersion>
   <detail><![CDATA[
     Move caret position by hint.
     == Global Variables ==
@@ -54,7 +54,7 @@ let PLUGIN_INFO =
       let g:caret_hint_tail_key = 'C':
         Hint mode key.
         Move caret position to the tail of selected element.
-      let g:caret_hint_select_key = 's':
+      let g:caret_hint_select_key = '' (default: disabled):
         Hint mode key.
         Move caret position to the head of selected element, and select.
       let g:caret_hint_select_tail_key = 'S':
@@ -77,7 +77,7 @@ let PLUGIN_INFO =
       let g:caret_hint_tail_key = 'C':
         Hint モードのキー
         選択した要素の後尾にキャレットを移動する
-      let g:caret_hint_select_key = 's':
+      let g:caret_hint_select_key = '' (デフォルト: 無効):
         Hint モードのキー
         選択した要素の先頭にキャレットを移動し、要素を選択する
       let g:caret_hint_select_tail_key = 'S':
@@ -105,12 +105,36 @@ let PLUGIN_INFO =
 (function () {
 
   // XXX 空白も有効
-  let headMode = gval('caret_hint_key', '');
-  let tailMode = gval('caret_hint_tail_key', '');
-  let selectHeadMode = gval('caret_hint_select_key', 's');
+  let headMode = gval('caret_hint_key', 'c');
+  let tailMode = gval('caret_hint_tail_key', 'C');
+  let selectHeadMode = gval('caret_hint_select_key', '');
   let selectTailMode = gval('caret_hint_select_tail_key', 'S');
   let swapKey = gval('caret_hint_swap_key', 's');
+  let extendLeader = gval('extend_leader', 'c');
   let hintXPath = liberator.globalVariables.caret_hint_xpath || '//*';
+
+  let extendMode = false;
+
+  [headMode, tailMode, selectHeadMode, selectTailMode].forEach(
+    function(mode) {
+      let map = extendLeader + ';' + mode;
+      if (!mode)
+        return;
+      mappings.remove(modes.NORMAL, map); // for debug
+      mappings.remove(modes.VISUAL, map); // for debug
+      mappings.addUserMap(
+        [modes.NORMAL, modes.VISUAL],
+        [map],
+        'desc',
+        function () {
+          extendMode = true;
+          hints.show(mode);
+        },
+        {
+        }
+      );
+    }
+  );
 
   [
     [[true,  false], headMode],
@@ -123,7 +147,10 @@ let PLUGIN_INFO =
     hints.addMode(
       m,
       'Move caret position to ' + (h ? 'head' : 'tail') + (s ? ' and Select' : ''),
-      function (elem, loc, count) moveCaret(elem, h, s),
+      function (elem, loc, count) {
+        moveCaret(elem, h, s);
+        extendMode = false;
+      },
       function () hintXPath
     );
   });
@@ -167,11 +194,9 @@ let PLUGIN_INFO =
     r.selectNodeContents(elem);
 
     if (select) {
-      liberator.log('select')
       mappings.getDefault(modes.NORMAL, 'i').action();
       mappings.getDefault(modes.CARET, 'v').action();
     } else {
-      liberator.log('not select')
       if (head) {
         r.setEnd(r.startContainer, r.startOffset);
       } else {
@@ -180,10 +205,20 @@ let PLUGIN_INFO =
       mappings.getDefault(modes.NORMAL, 'i').action();
     }
 
+    if (extendMode) {
+      let a = sel.getRangeAt(0);
+      if (r.compareBoundaryPoints(Range.END_TO_START, a) < 0) {
+        r.setEnd(a.endContainer, a.endOffset);
+      } else {
+        r.setStart(a.startContainer, a.startOffset);
+      }
+    }
+
     sel.addRange(r);
 
     if (select && head)
       swapCaret();
+
   }
 })();
 
