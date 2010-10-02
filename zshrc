@@ -19,6 +19,8 @@ HISTSIZE=5000 HISTFILE=~/.zhistory SAVEHIST=5000
 #PROMPT='%m{%n}%% '
 #RPROMPT='[%~]'
 
+# 補完定義のパスを追加
+fpath=(~/.zsh/completion $fpath)
 
 # binding keys
 bindkey -e
@@ -274,4 +276,4 @@ esac
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
-source ~/.zshrc.local
+[ -s ~/.zshrc.local ] && source ~/.zshrc.local
