@@ -1,4 +1,4 @@
-*skk.jax* *skk*
+*skk.jax* *skk* skk.vim 日本語ドキュメント
 
 Author:
   Noriaki Yagi <no_yag@yahoo.co.jp>
@@ -7,6 +7,7 @@ Author:
   Shougo Matsu <Shougo.Matsu@gmail.com>
   mattn <mattn.jp@gmail.com>
   krogue <krogue753@gmail.com>
+  super blooper <anuenue.au@gmail.com>
 License: パブリックドメイン
 
 ==============================================================================
@@ -21,34 +22,60 @@ TODO						|skk-TODO|
 
 
 ==============================================================================
-使い方						*skk-usage*
+使い方						*skk-usage* {{{
 
 skk_jisyo および skk_large_jisyo を適宜変更する。
 :so skk.vim
 Insert Mode で <C-j> (デフォルトでは) を押すと skk が起動する。
 
-
+}}}
 ==============================================================================
-TIPS						*skk-tips*
+TIPS						*skk-tips* {{{
 
+初回起動時のもたつき {{{ ~
 最初のもたつきは :call SkkAddRulesSection()
 を実行するとコンパイル済のデータをこのファイルに書き込むのでだいぶストレスが減る。
 ただしローマ字のルールを変更してもその変更は反映されないので、
 一回 :call SkkDeleteRulesSection() を実行して次回起動時以降に
 SkkAddRulesSection() を実行する必要がある。
+}}}
 
+statusline用の関数 {{{ ~
+statuslineに含めるにはSkkGetModeStr()という関数が便利。
+>
+    let &statusline .= '%{SkkGetModeStr()}'
+<
+という風にして設定する。
+また表示する文字列は|g:skk_abbrev_mode_string|、|g:skk_hira_mode_string|、
+|g:skk_kata_mode_string|、|g:skk_zenei_mode_string|、|g:skk_ascii_mode_string|
+によって変えられる。
 
+この関数はskk.vim起動時に'rulerformat'に加えられるが、
+現在では'rulerformat'や'ruler'自体があまり使われることがないため、
+Vim7時代のskk.vimユーザにとってはこの表示は見たことがない人が多いかもしれない。
+}}}
+
+}}}
 ==============================================================================
-インターフェース				*skk-interface*
+インターフェース				*skk-interface* {{{
 
 ------------------------------------------------------------------------------
-キーマッピング					*skk-keymappings*
+キーマッピング					*skk-keymappings* {{{
 
 |skk-global-variables|を参照。
 
+<Plug>(skk-toggle-im)				*<Plug>(skk-toggle-im)*
+	これはデフォルトで|g:skk_control_j_key|に割り当てられています。
+	割り当てたくない場合は|g:skk_control_j_key|を空文字にしてください。
 
+<Plug>(skk-enable-im)				*<Plug>(skk-enable-im)*
+<Plug>(skk-disable-im)				*<Plug>(skk-disable-im)*
+<
+
+}}}
+}}}
 ==============================================================================
-グローバル変数					*skk-global-variables*
+グローバル変数					*skk-global-variables* {{{
 
 
 g:skk_jisyo								*g:skk_jisyo*
@@ -85,6 +112,7 @@ g:skk_control_j_key						*g:skk_control_j_key*
 										(初期値: "<C-j>")
 		<C-j> の働きをするキー。
 		map に渡すので `\' はつけない。
+		割り当てたくない場合は空文字にする。
 
 g:skk_abbrev_to_zenei_key				*g:skk_abbrev_to_zenei_key*
 										(初期値: "<C-q>")
@@ -277,15 +305,81 @@ g:skk_remap_lang_mode						*g:skk_remap_lang_mode*
 										(初期値: 0)
 		もし真なら`lmap`で、もし偽なら`lnoremap`で
 		キーをマッピングする。
+		これはimapやcmapのマッピングを生かしたい場合に便利。
 
+
+g:skk_enable_hook							*g:skk_enable_hook*
+										(初期値: "")
+		次のようにしてマッピングが行われる直後に呼ばれるフック関数を登録する。
+>
+		" Do not map `<Plug>(skk-toggle-im)`.
+		let skk_control_j_key = ''
+
+		" `<C-j><C-e>` to enable, `<C-j><C-d>` to disable.
+		map! <C-j><C-e> <Plug>(skk-enable-im)
+		map! <C-j><C-d> <Nop>
+		function! MySkkMap()
+			lunmap <buffer> <C-j>
+			lmap <buffer> <C-j><C-d> <Plug>(skk-disable-im)
+		endfunction
+		let skk_enable_hook = 'MySkkMap'
+<
+		この例では<C-j><C-e>でskk.vimを有効に、
+		<C-j><C-d>でskk.vimを無効にしている。
+		このようにデフォルトマッピングを上書きしたい時に便利。
+
+
+g:skk_jisyo_encoding						*g:skk_jisyo_encoding*
+										(初期値: "guess")
+		辞書の文字コードを指定する。
+		ユーザ辞書用。
+
+		指定できる値としては
+		1. "guess"
+		2. |iconv()|や|'encoding'|オプションに指定できる形の
+		文字コードを表す文字列
+		3. 2の文字列を各要素に含んだ|List|
+		がある。
+		それ以外の不正な値だと警告を表示し
+		初期値として再判定を行う。
+
+		初期値だと
+		1. euc-jp
+		2. cp932
+		3. iso-2022-jp
+		4. utf-8
+		5. 現在の'encoding'の値
+		の順に文字コードの判定を行う。
+		いわば >
+		["euc-jp", "cp932", "iso-2022-jp", "utf-8", &enc]
+<		と同じような意味だが、
+		vim6との互換性のために文字列の初期値が使われている。
+
+g:skk_large_jisyo_encoding						*g:skk_large_jisyo_encoding*
+										(初期値: "guess")
+		|g:skk_jisyo_encoding|のシステム辞書版。
+		詳しくは|g:skk_jisyo_encoding|を参照。
+
+g:skk_enable_jlod_layout						*g:skk_enable_jlod_layout*
+										(初期値: 0)
+	この値を真にするといくつかの変数のデフォルト値が変わる。
+	変わる変数とその値は以下の通り。
+
+	変数							値 ~
+	g:skk_henkan_point_keys			"ABCDEFGHIJKMNOPQRSTUVWXZ":<>"
+	g:skk_select_cand_keys			"AOEUHTNS"
+	g:skk_rom_kana_rules			(とても長いのでplugin/skk.vimを参照)
+	g:skk_rom_func_rules			(とても長いのでplugin/skk.vimを参照)
+
+}}}
 ==============================================================================
-TODO						*skk-TODO*
+TODO						*skk-TODO* {{{
 
 - Insertモードで <Esc> をマップするとコンソールで矢印キーが使えない。
 - 辞書の候補に Lisp の式が書かれている場合の処理
 - undo がぐちゃぐちゃになる。
 - vim7 で ff=mac の辞書は読み込み・書き込みが遅い。
 
-
+}}}
 ==============================================================================
-vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
+vim:tw=78:fo=tcq2mM:ts=4:ft=help:noet:norl:fen:fdm=marker:fmr={{{,}}}

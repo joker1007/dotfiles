@@ -4,7 +4,7 @@
 "
 " Author: Noriaki Yagi <no_yag@yahoo.co.jp>
 " Version: $Id: skk.vim,v 0.22 2006/10/11 09:26:53 noriaki Exp noriaki $
-" Last Change: 2010-02-19.
+" Last Change: 2010-09-03.
 "
 " 使い方:
 " skk_jisyo および skk_large_jisyo を適宜変更する。
@@ -28,10 +28,13 @@ if exists('plugin_skk_disable')
   finish
 endif
 
-"if exists("skk_loaded")
-"  finish
-"endif
-"let skk_loaded = 1
+if exists("skk_loaded")
+  finish
+endif
+let skk_loaded = 1
+
+let g:skk_version = '0.26'
+let g:skk_minor_version = '2'
 
 let s:cpo_save = &cpo
 set cpo&vim
@@ -40,433 +43,1213 @@ set cpo&vim
 
 " Global variables {{{
 
-" ユーザー辞書
 if !exists("skk_jisyo")
   let skk_jisyo = "~/.skk-jisyo"
 endif
 
-" ユーザー辞書のバックアップファイル
 if !exists("skk_backup_jisyo")
   let skk_backup_jisyo = skk_jisyo . ".BAK"
 endif
 
-" 終了時に辞書を保存するか？ :so skk.vim した後は
-" :call SkkSetAutoSaveJisyo(nr) で設定する。
-" 負: 保存しない。0: 聞いてから保存する。正: 聞かずに保存する。
 if !exists("skk_auto_save_jisyo")
   let skk_auto_save_jisyo = 0
 endif
 
-" ノーマルモードで辞書の手動セーブをするキー (空白なら mapping しない)
 if !exists("skk_manual_save_jisyo_keys")
   let skk_manual_save_jisyo_keys = "gS"
 endif
 
-" ユーザー辞書の後に検索する辞書 (ソート済みの必要あり)
 if !exists("skk_large_jisyo")
   let skk_large_jisyo = "/usr/local/share/skk/SKK-JISYO.L"
 endif
 
-" ユーザ辞書の後に検索する外部プログラム (空白でなければskk_large_jisyoは無視)
 if !exists("skk_external_prog")
   let skk_external_prog = ""
 endif
 
-" <C-j> の働きをするキー。map に渡すので `\' はつけない。
 if !exists("skk_control_j_key")
   let skk_control_j_key = "<C-j>"
 endif
 
-" abbrevモードで全角英数に変換するキー。`\' はつけない。
-" コンソールで <C-q> がこない場合は vim 起動前に stty -ixon するか
-" 他のキーにする。
 if !exists("skk_abbrev_to_zenei_key")
   let skk_abbrev_to_zenei_key = "<C-q>"
 endif
 
-" Insert モードを抜けて再び Insert モードにしたときに前の状態を維持しておくか？
 if !exists("skk_keep_state")
   let skk_keep_state = 0
 endif
 
-" skk をオンにしたときの初期モード
 if !exists("skk_initial_mode")
   let skk_initial_mode = 'hira'
 endif
 
-" ▽モードのマーク
 if !exists("skk_marker_white")
   let skk_marker_white = '▽'
 endif
 
-" ▼モードのマーク
 if !exists("skk_marker_black")
   let skk_marker_black = '▼'
 endif
 
-" 送りがな開始位置のマーク
 if !exists("skk_marker_okuri")
   let skk_marker_okuri = '*'
 endif
 
-" 変換/次候補キー
 if !exists("skk_start_henkan_key")
   let skk_start_henkan_key = " "
 endif
 
-" 前候補キー
 if !exists("skk_prev_cand_key")
   let skk_prev_cand_key = "x"
 endif
 
-" 現在の候補を辞書から削除するキー
 if !exists("skk_purge_cand_key")
   let skk_purge_cand_key = "X"
 endif
 
-" 入力されたら▽モードにするキー
+if !exists('skk_enable_jlod_layout')
+  let skk_enable_jlod_layout = 0
+endif
+
 if !exists("skk_henkan_point_keys")
-  let skk_henkan_point_keys = 'ABCDEFGHIJKMNOPRSTUVWYZ'
+  if g:skk_enable_jlod_layout
+    let skk_henkan_point_keys = 'ABCDEFGHIJKMNOPQRSTUVWXZ":<>'
+  else
+    let skk_henkan_point_keys = 'ABCDEFGHIJKMNOPRSTUVWYZ'
+  endif
 endif
 
-" 選択方式のときに選択に利用するキー
 if !exists("skk_select_cand_keys")
-  let skk_select_cand_keys = "ASDFJKL"
+  if g:skk_enable_jlod_layout
+    let skk_select_cand_keys = "AOEUHTNS"
+  else
+    let skk_select_cand_keys = "ASDFJKL"
+  endif
 endif
 
-" 何回目の変換で選択方式にするか?
 if !exists("skk_show_candidates_count")
   let skk_show_candidates_count = 4
 endif
 
-" 見出し語の補完動作を行うキー
 if !exists("skk_completion_key")
   let skk_completion_key = "\<Tab>"
 endif
 
-" 見出し語の補完で次の候補を出力するキー
 if !exists("skk_next_comp_key")
   let skk_next_comp_key = "."
 endif
 
-" 見出し語の補完で前の候補を出力するキー
 if !exists("skk_prev_comp_key")
   let skk_prev_comp_key = ","
 endif
 
-" 接頭辞・接尾辞の入力をするキー
 if !exists("skk_special_midasi_keys")
   let skk_special_midasi_keys = "<>?"
 endif
 
-" 句読点のタイプ
-" "jp" なら skk_kutouten_jp を見る。"en" なら skk_kutouten_en を見る。
 if !exists("skk_kutouten_type")
   let skk_kutouten_type = "jp"
 endif
 
-" 句読点のタイプ "jp" の場合 (最初の一文字が句点、最後の一文字が読点)
 if !exists("skk_kutouten_jp")
   let skk_kutouten_jp = "。、"
 endif
 
-" 句読点のタイプ "en" の場合 (最初の一文字が句点、最後の一文字が読点)
 if !exists("skk_kutouten_en")
   let skk_kutouten_en = "．，"
 endif
 
-" 数値変換を行うか？
 if !exists("skk_use_numeric_conversion")
   let skk_use_numeric_conversion = 1
 endif
 
-" non-zeroなら<CR>で確定した時に改行文字を出力しない
 if !exists("skk_egg_like_newline")
   let skk_egg_like_newline = 0
 endif
 
-" non-zeroなら候補選択時に註釈を表示する (インラインでは未対応)
 if !exists("skk_show_annotation")
   let skk_show_annotation = 0
 endif
 
-" non-zeroなら変換時に色を付ける。
-" ただし変換時に skk_henkan というハイライトグループがないと 0 にされる。
 if !exists("skk_use_face")
   let skk_use_face = 0
 endif
 
-" Auto Fillのトグルをするキー (空白なら mapping しない) `\' はつけない。
-" format.vim が読み込まれていないと mapping しない。
 if !exists("skk_autofill_toggle_key")
   let skk_autofill_toggle_key = "<C-k>"
 endif
 
-" ローマ字の変換ルール
-" 行頭からタブ文字までがローマ字、次のタブまでがひらがな、
-" その次のタブまでがカタカナ、その次が残す文字、最後は \<NL>。
-" もしあれば skk_user_rom_kana_rules が追加されるので、
-" ちょっとした追加や変更なら skk_user_rom_kana_rules に記述したほうがいい。
 if !exists("skk_rom_kana_rules")
-  let skk_rom_kana_rules = ""
-        \. "a	あ	ア\<NL>"
-        \. "bb	っ	ッ	b\<NL>"
-        \. "ba	ば	バ\<NL>"
-        \. "be	べ	ベ\<NL>"
-        \. "bi	び	ビ\<NL>"
-        \. "bo	ぼ	ボ\<NL>"
-        \. "bu	ぶ	ブ\<NL>"
-        \. "bya	びゃ	ビャ\<NL>"
-        \. "bye	びぇ	ビェ\<NL>"
-        \. "byi	びぃ	ビィ\<NL>"
-        \. "byo	びょ	ビョ\<NL>"
-        \. "byu	びゅ	ビュ\<NL>"
-        \. "cc	っ	ッ	c\<NL>"
-        \. "cha	ちゃ	チャ\<NL>"
-        \. "che	ちぇ	チェ\<NL>"
-        \. "chi	ち	チ\<NL>"
-        \. "cho	ちょ	チョ\<NL>"
-        \. "chu	ちゅ	チュ\<NL>"
-        \. "cya	ちゃ	チャ\<NL>"
-        \. "cye	ちぇ	チェ\<NL>"
-        \. "cyi	ちぃ	チィ\<NL>"
-        \. "cyo	ちょ	チョ\<NL>"
-        \. "cyu	ちゅ	チュ\<NL>"
-        \. "dd	っ	ッ	d\<NL>"
-        \. "da	だ	ダ\<NL>"
-        \. "de	で	デ\<NL>"
-        \. "dha	でゃ	デャ\<NL>"
-        \. "dhe	でぇ	デェ\<NL>"
-        \. "dhi	でぃ	ディ\<NL>"
-        \. "dho	でょ	デョ\<NL>"
-        \. "dhu	でゅ	デュ\<NL>"
-        \. "di	ぢ	ヂ\<NL>"
-        \. "do	ど	ド\<NL>"
-        \. "du	づ	ヅ\<NL>"
-        \. "dya	ぢゃ	ヂャ\<NL>"
-        \. "dye	ぢぇ	ヂェ\<NL>"
-        \. "dyi	ぢぃ	ヂィ\<NL>"
-        \. "dyo	ぢょ	ヂョ\<NL>"
-        \. "dyu	ぢゅ	ヂュ\<NL>"
-        \. "e	え	エ\<NL>"
-        \. "ff	っ	ッ	f\<NL>"
-        \. "fa	ふぁ	ファ\<NL>"
-        \. "fe	ふぇ	フェ\<NL>"
-        \. "fi	ふぃ	フィ\<NL>"
-        \. "fo	ふぉ	フォ\<NL>"
-        \. "fu	ふ	フ\<NL>"
-        \. "fya	ふゃ	フャ\<NL>"
-        \. "fye	ふぇ	フェ\<NL>"
-        \. "fyi	ふぃ	フィ\<NL>"
-        \. "fyo	ふょ	フョ\<NL>"
-        \. "fyu	ふゅ	フュ\<NL>"
-        \. "gg	っ	ッ	g\<NL>"
-        \. "ga	が	ガ\<NL>"
-        \. "ge	げ	ゲ\<NL>"
-        \. "gi	ぎ	ギ\<NL>"
-        \. "go	ご	ゴ\<NL>"
-        \. "gu	ぐ	グ\<NL>"
-        \. "gya	ぎゃ	ギャ\<NL>"
-        \. "gye	ぎぇ	ギェ\<NL>"
-        \. "gyi	ぎぃ	ギィ\<NL>"
-        \. "gyo	ぎょ	ギョ\<NL>"
-        \. "gyu	ぎゅ	ギュ\<NL>"
-        \. "ha	は	ハ\<NL>"
-        \. "he	へ	ヘ\<NL>"
-        \. "hi	ひ	ヒ\<NL>"
-        \. "ho	ほ	ホ\<NL>"
-        \. "hu	ふ	フ\<NL>"
-        \. "hya	ひゃ	ヒャ\<NL>"
-        \. "hye	ひぇ	ヒェ\<NL>"
-        \. "hyi	ひぃ	ヒィ\<NL>"
-        \. "hyo	ひょ	ヒョ\<NL>"
-        \. "hyu	ひゅ	ヒュ\<NL>"
-        \. "i	い	イ\<NL>"
-        \. "jj	っ	ッ	j\<NL>"
-        \. "ja	じゃ	ジャ\<NL>"
-        \. "je	じぇ	ジェ\<NL>"
-        \. "ji	じ	ジ\<NL>"
-        \. "jo	じょ	ジョ\<NL>"
-        \. "ju	じゅ	ジュ\<NL>"
-        \. "jya	じゃ	ジャ\<NL>"
-        \. "jye	じぇ	ジェ\<NL>"
-        \. "jyi	じぃ	ジィ\<NL>"
-        \. "jyo	じょ	ジョ\<NL>"
-        \. "jyu	じゅ	ジュ\<NL>"
-        \. "kk	っ	ッ	k\<NL>"
-        \. "ka	か	カ\<NL>"
-        \. "ke	け	ケ\<NL>"
-        \. "ki	き	キ\<NL>"
-        \. "ko	こ	コ\<NL>"
-        \. "ku	く	ク\<NL>"
-        \. "kya	きゃ	キャ\<NL>"
-        \. "kye	きぇ	キェ\<NL>"
-        \. "kyi	きぃ	キィ\<NL>"
-        \. "kyo	きょ	キョ\<NL>"
-        \. "kyu	きゅ	キュ\<NL>"
-        \. "ma	ま	マ\<NL>"
-        \. "me	め	メ\<NL>"
-        \. "mi	み	ミ\<NL>"
-        \. "mo	も	モ\<NL>"
-        \. "mu	む	ム\<NL>"
-        \. "mya	みゃ	ミャ\<NL>"
-        \. "mye	みぇ	ミェ\<NL>"
-        \. "myi	みぃ	ミィ\<NL>"
-        \. "myo	みょ	ミョ\<NL>"
-        \. "myu	みゅ	ミュ\<NL>"
-        \. "n	ん	ン\<NL>"
-        \. "n'	ん	ン\<NL>"
-        \. "na	な	ナ\<NL>"
-        \. "ne	ね	ネ\<NL>"
-        \. "ni	に	ニ\<NL>"
-        \. "nn	ん	ン\<NL>"
-        \. "no	の	ノ\<NL>"
-        \. "nu	ぬ	ヌ\<NL>"
-        \. "nya	にゃ	ニャ\<NL>"
-        \. "nye	にぇ	ニェ\<NL>"
-        \. "nyi	にぃ	ニィ\<NL>"
-        \. "nyo	にょ	ニョ\<NL>"
-        \. "nyu	にゅ	ニュ\<NL>"
-        \. "o	お	オ\<NL>"
-        \. "pp	っ	ッ	p\<NL>"
-        \. "pa	ぱ	パ\<NL>"
-        \. "pe	ぺ	ペ\<NL>"
-        \. "pi	ぴ	ピ\<NL>"
-        \. "po	ぽ	ポ\<NL>"
-        \. "pu	ぷ	プ\<NL>"
-        \. "pya	ぴゃ	ピャ\<NL>"
-        \. "pye	ぴぇ	ピェ\<NL>"
-        \. "pyi	ぴぃ	ピィ\<NL>"
-        \. "pyo	ぴょ	ピョ\<NL>"
-        \. "pyu	ぴゅ	ピュ\<NL>"
-        \. "rr	っ	ッ	r\<NL>"
-        \. "ra	ら	ラ\<NL>"
-        \. "re	れ	レ\<NL>"
-        \. "ri	り	リ\<NL>"
-        \. "ro	ろ	ロ\<NL>"
-        \. "ru	る	ル\<NL>"
-        \. "rya	りゃ	リャ\<NL>"
-        \. "rye	りぇ	リェ\<NL>"
-        \. "ryi	りぃ	リィ\<NL>"
-        \. "ryo	りょ	リョ\<NL>"
-        \. "ryu	りゅ	リュ\<NL>"
-        \. "ss	っ	ッ	s\<NL>"
-        \. "sa	さ	サ\<NL>"
-        \. "se	せ	セ\<NL>"
-        \. "sha	しゃ	シャ\<NL>"
-        \. "she	しぇ	シェ\<NL>"
-        \. "shi	し	シ\<NL>"
-        \. "sho	しょ	ショ\<NL>"
-        \. "shu	しゅ	シュ\<NL>"
-        \. "si	し	シ\<NL>"
-        \. "so	そ	ソ\<NL>"
-        \. "su	す	ス\<NL>"
-        \. "sya	しゃ	シャ\<NL>"
-        \. "sye	しぇ	シェ\<NL>"
-        \. "syi	しぃ	シィ\<NL>"
-        \. "syo	しょ	ショ\<NL>"
-        \. "syu	しゅ	シュ\<NL>"
-        \. "tt	っ	ッ	t\<NL>"
-        \. "ta	た	タ\<NL>"
-        \. "te	て	テ\<NL>"
-        \. "tha	てぁ	テァ\<NL>"
-        \. "the	てぇ	テェ\<NL>"
-        \. "thi	てぃ	ティ\<NL>"
-        \. "tho	てょ	テョ\<NL>"
-        \. "thu	てゅ	テュ\<NL>"
-        \. "ti	ち	チ\<NL>"
-        \. "to	と	ト\<NL>"
-        \. "tsu	つ	ツ\<NL>"
-        \. "tu	つ	ツ\<NL>"
-        \. "tya	ちゃ	チャ\<NL>"
-        \. "tye	ちぇ	チェ\<NL>"
-        \. "tyi	ちぃ	チィ\<NL>"
-        \. "tyo	ちょ	チョ\<NL>"
-        \. "tyu	ちゅ	チュ\<NL>"
-        \. "u	う	ウ\<NL>"
-        \. "vv	っ	ッ	v\<NL>"
-        \. "va	う゛ぁ	ヴァ\<NL>"
-        \. "ve	う゛ぇ	ヴェ\<NL>"
-        \. "vi	う゛ぃ	ヴィ\<NL>"
-        \. "vo	う゛ぉ	ヴォ\<NL>"
-        \. "vu	う゛	ヴ\<NL>"
-        \. "ww	っ	ッ	w\<NL>"
-        \. "wa	わ	ワ\<NL>"
-        \. "we	うぇ	ウェ\<NL>"
-        \. "wi	うぃ	ウィ\<NL>"
-        \. "wo	を	ヲ\<NL>"
-        \. "wu	う	ウ\<NL>"
-        \. "xx	っ	ッ	x\<NL>"
-        \. "xa	ぁ	ァ\<NL>"
-        \. "xe	ぇ	ェ\<NL>"
-        \. "xi	ぃ	ィ\<NL>"
-        \. "xka	か	ヵ\<NL>"
-        \. "xke	け	ヶ\<NL>"
-        \. "xo	ぉ	ォ\<NL>"
-        \. "xtsu	っ	ッ\<NL>"
-        \. "xtu	っ	ッ\<NL>"
-        \. "xu	ぅ	ゥ\<NL>"
-        \. "xwa	ゎ	ヮ\<NL>"
-        \. "xwe	ゑ	ヱ\<NL>"
-        \. "xwi	ゐ	ヰ\<NL>"
-        \. "xya	ゃ	ャ\<NL>"
-        \. "xyo	ょ	ョ\<NL>"
-        \. "xyu	ゅ	ュ\<NL>"
-        \. "yy	っ	ッ	y\<NL>"
-        \. "ya	や	ヤ\<NL>"
-        \. "ye	いぇ	イェ\<NL>"
-        \. "yo	よ	ヨ\<NL>"
-        \. "yu	ゆ	ユ\<NL>"
-        \. "zz	っ	ッ	z\<NL>"
-        \. "z,	‥\<NL>"
-        \. "z-	～\<NL>"
-        \. "z.	…\<NL>"
-        \. "z/	・\<NL>"
-        \. "z[	『\<NL>"
-        \. "z]	』\<NL>"
-        \. "za	ざ	ザ\<NL>"
-        \. "ze	ぜ	ゼ\<NL>"
-        \. "zh	←\<NL>"
-        \. "zi	じ	ジ\<NL>"
-        \. "zj	↓\<NL>"
-        \. "zk	↑\<NL>"
-        \. "zl	→\<NL>"
-        \. "zo	ぞ	ゾ\<NL>"
-        \. "zu	ず	ズ\<NL>"
-        \. "zya	じゃ	ジャ\<NL>"
-        \. "zye	じぇ	ジェ\<NL>"
-        \. "zyi	じぃ	ジィ\<NL>"
-        \. "zyo	じょ	ジョ\<NL>"
-        \. "zyu	じゅ	ジュ\<NL>"
-        \. "-	ー\<NL>"
-        \. ":	：\<NL>"
-        \. ";	；\<NL>"
-        \. "!	！\<NL>"
-        \. "?	？\<NL>"
-        \. "[	「\<NL>"
-        \. "]	」\<NL>"
+  if g:skk_enable_jlod_layout
+    let skk_rom_kana_rules = ""
+          \. "!	!\<NL>"
+          \. "'	っ	ッ\<NL>"
+          \. "-	ー\<NL>"
+          \. ";	あん	アン\<NL>"
+          \. "?	?\<NL>"
+          \. "[	「\<NL>"
+          \. "]	」\<NL>"
+          \. "a	あ	ア\<NL>"
+          \. "b'	ばい	バイ\<NL>"
+          \. "b,	ぼう	ボウ\<NL>"
+          \. "b.	べい	ベイ\<NL>"
+          \. "b;	ばん	バン\<NL>"
+          \. "ba	ば	バ\<NL>"
+          \. "bb'	ばく	バク\<NL>"
+          \. "bb,	ぼく	ボク\<NL>"
+          \. "bb.	べき	ベキ\<NL>"
+          \. "bb;	ばっ	バッ\<NL>"
+          \. "bba	ばつ	バツ\<NL>"
+          \. "bbe	べつ	ベツ\<NL>"
+          \. "bbi	びつ	ビツ\<NL>"
+          \. "bbj	べっ	ベッ\<NL>"
+          \. "bbk	ぶっ	ブッ\<NL>"
+          \. "bbo	ぼつ	ボツ\<NL>"
+          \. "bbp	ぶく	ブク\<NL>"
+          \. "bbq	ぼっ	ボッ\<NL>"
+          \. "bbu	ぶつ	ブツ\<NL>"
+          \. "bbx	びっ	ビッ\<NL>"
+          \. "bby	びく	ビク\<NL>"
+          \. "be	べ	ベ\<NL>"
+          \. "bi	び	ビ\<NL>"
+          \. "bj	べん	ベン\<NL>"
+          \. "bk	ぶん	ブン\<NL>"
+          \. "bo	ぼ	ボ\<NL>"
+          \. "bp	ぶう	ブウ\<NL>"
+          \. "bq	ぼん	ボン\<NL>"
+          \. "bs	びょう	ビョウ\<NL>"
+          \. "bu	ぶ	ブ\<NL>"
+          \. "bv'	びゃい	ビャイ\<NL>"
+          \. "bv,	びょう	ビョウ\<NL>"
+          \. "bv.	びぇい	ビェイ\<NL>"
+          \. "bv;	びゃん	ビャン\<NL>"
+          \. "bva	びゃ	ビャ\<NL>"
+          \. "bve	びぇ	ビェ\<NL>"
+          \. "bvi	びぃ	ビィ\<NL>"
+          \. "bvj	びぇん	ビェン\<NL>"
+          \. "bvk	びゅん	ビュン\<NL>"
+          \. "bvm	びゅく	ビュク\<NL>"
+          \. "bvo	びょ	ビョ\<NL>"
+          \. "bvp	びゅう	ビュウ\<NL>"
+          \. "bvq	びょん	ビョン\<NL>"
+          \. "bvu	びゅ	ビュ\<NL>"
+          \. "bvv	びょく	ビョク\<NL>"
+          \. "bvw	びゅつ	ビュツ\<NL>"
+          \. "bvx	びぃん	ビィン\<NL>"
+          \. "bvy	びゅい	ビュイ\<NL>"
+          \. "bvz	びゃく	ビャク\<NL>"
+          \. "bw	びゅう	ビュウ\<NL>"
+          \. "bx	びん	ビン\<NL>"
+          \. "by	ぶい	ブイ\<NL>"
+          \. "by	ぶい	ブイ\<NL>"
+          \. "bz	びょう	ビョウ\<NL>"
+          \. "c'	かい	カイ\<NL>"
+          \. "c,	こう	コウ\<NL>"
+          \. "c.	けい	ケイ\<NL>"
+          \. "c;	かん	カン\<NL>"
+          \. "ca	か	カ\<NL>"
+          \. "cc	きゅう	キュウ\<NL>"
+          \. "ce	け	ケ\<NL>"
+          \. "cf'	かく	カク\<NL>"
+          \. "cf,	こく	コク\<NL>"
+          \. "cf.	けき	ケキ\<NL>"
+          \. "cf;	かっ	カッ\<NL>"
+          \. "cfa	かつ	カツ\<NL>"
+          \. "cfe	けつ	ケツ\<NL>"
+          \. "cfi	きつ	キツ\<NL>"
+          \. "cfj	けっ	ケッ\<NL>"
+          \. "cfk	くっ	クッ\<NL>"
+          \. "cfo	こつ	コツ\<NL>"
+          \. "cfp	くく	クク\<NL>"
+          \. "cfq	こっ	コッ\<NL>"
+          \. "cfu	くつ	クツ\<NL>"
+          \. "cfx	きっ	キッ\<NL>"
+          \. "cfy	きく	キク\<NL>"
+          \. "cg'	きゃい	キャイ\<NL>"
+          \. "cg,	きょう	キョウ\<NL>"
+          \. "cg.	きぇい	キェイ\<NL>"
+          \. "cg;	きゃん	キャン\<NL>"
+          \. "cga	きゃ	キャ\<NL>"
+          \. "cgc	きゅつ	キュツ\<NL>"
+          \. "cge	きぇ	キェ\<NL>"
+          \. "cgg	きゅく	キュク\<NL>"
+          \. "cgi	きぃ	キィ\<NL>"
+          \. "cgj	きぇん	キェン\<NL>"
+          \. "cgk	きゅん	キュン\<NL>"
+          \. "cgl	きゃく	キャク\<NL>"
+          \. "cgo	きょ	キョ\<NL>"
+          \. "cgp	きゅう	キュウ\<NL>"
+          \. "cgq	きょん	キョン\<NL>"
+          \. "cgr	きょく	キョク\<NL>"
+          \. "cgu	きゅ	キュ\<NL>"
+          \. "cgx	きぃん	キィン\<NL>"
+          \. "cgy	きゅい	キュイ\<NL>"
+          \. "ci	き	キ\<NL>"
+          \. "cj	けん	ケン\<NL>"
+          \. "ck	くん	クン\<NL>"
+          \. "cl	きょう	キョウ\<NL>"
+          \. "co	こ	コ\<NL>"
+          \. "cp	くう	クウ\<NL>"
+          \. "cq	こん	コン\<NL>"
+          \. "cu	く	ク\<NL>"
+          \. "cx	きん	キン\<NL>"
+          \. "cy	くい	クイ\<NL>"
+          \. "cy	くい	クイ\<NL>"
+          \. "d'	だい	ダイ\<NL>"
+          \. "d,	どう	ドウ\<NL>"
+          \. "d.	でい	デイ\<NL>"
+          \. "d;	だん	ダン\<NL>"
+          \. "da	だ	ダ\<NL>"
+          \. "dd'	だく	ダク\<NL>"
+          \. "dd,	どく	ドク\<NL>"
+          \. "dd.	でき	デキ\<NL>"
+          \. "dd;	だっ	ダッ\<NL>"
+          \. "dda	だつ	ダツ\<NL>"
+          \. "dde	でつ	デツ\<NL>"
+          \. "ddi	ぢつ	ヂツ\<NL>"
+          \. "ddj	でっ	デッ\<NL>"
+          \. "ddk	づっ	ヅッ\<NL>"
+          \. "ddo	どつ	ドツ\<NL>"
+          \. "ddp	づく	ヅク\<NL>"
+          \. "ddq	どっ	ドッ\<NL>"
+          \. "ddu	づつ	ヅツ\<NL>"
+          \. "ddx	ぢっ	ヂッ\<NL>"
+          \. "ddy	ぢく	ヂク\<NL>"
+          \. "de	で	デ\<NL>"
+          \. "dh'	でゃう	デャウ\<NL>"
+          \. "dh,	でょう	デョウ\<NL>"
+          \. "dh.	でぇい	デェイ\<NL>"
+          \. "dh;	でゃん	デャン\<NL>"
+          \. "dha	でゃ	デャ\<NL>"
+          \. "dhe	でぇ	デェ\<NL>"
+          \. "dhi	でぃ	ディ\<NL>"
+          \. "dhj	でぇん	デェン\<NL>"
+          \. "dhk	でゅん	デュン\<NL>"
+          \. "dho	でょ	デョ\<NL>"
+          \. "dhp	でゅう	デュウ\<NL>"
+          \. "dhq	でょん	デョン\<NL>"
+          \. "dhu	でゅ	デュ\<NL>"
+          \. "dhx	でぃん	ディン\<NL>"
+          \. "dhy	でゅい	デュイ\<NL>"
+          \. "di	ぢ	ヂ\<NL>"
+          \. "dj	でん	デン\<NL>"
+          \. "dk	づん	ヅン\<NL>"
+          \. "dn'	ぢゃい	ヂャイ\<NL>"
+          \. "dn,	ぢょう	ヂョウ\<NL>"
+          \. "dn.	ぢぇい	ヂェイ\<NL>"
+          \. "dn;	ぢゃん	ヂャン\<NL>"
+          \. "dna	ぢゃ	ヂャ\<NL>"
+          \. "dne	ぢぇ	ヂェ\<NL>"
+          \. "dnh	ぢゅく	ヂュク\<NL>"
+          \. "dni	ぢぃ	ヂィ\<NL>"
+          \. "dnj	ぢぇん	ヂェン\<NL>"
+          \. "dnk	ぢゅん	ヂュン\<NL>"
+          \. "dnn	ぢょく	ヂョク\<NL>"
+          \. "dno	ぢょ	ヂョ\<NL>"
+          \. "dnp	ぢゅう	ヂュウ\<NL>"
+          \. "dnq	ぢょん	ヂョン\<NL>"
+          \. "dns	ぢゃく	ヂャク\<NL>"
+          \. "dnt	ぢゅつ	ヂュツ\<NL>"
+          \. "dnu	ぢゅ	ヂュ\<NL>"
+          \. "dnx	ぢぃん	ヂィン\<NL>"
+          \. "dny	ぢゅい	ヂュイ\<NL>"
+          \. "do	ど	ド\<NL>"
+          \. "dp	づう	ヅウ\<NL>"
+          \. "dq	どん	ドン\<NL>"
+          \. "ds	ぢょう	ヂョウ\<NL>"
+          \. "dt	ぢゅう	ヂュウ\<NL>"
+          \. "du	づ	ヅ\<NL>"
+          \. "dx	ぢん	ヂン\<NL>"
+          \. "dy	づい	ヅイ\<NL>"
+          \. "dy	づい	ヅイ\<NL>"
+          \. "e	え	エ\<NL>"
+          \. "f'	ぱい	パイ\<NL>"
+          \. "f,	ぽう	ポウ\<NL>"
+          \. "f.	ぺい	ペイ\<NL>"
+          \. "f;	ぱん	パン\<NL>"
+          \. "fa	ぱ	パ\<NL>"
+          \. "fc	ぴゅう	ピュウ\<NL>"
+          \. "fc	ふゅー	フュー\<NL>"
+          \. "fe	ぺ	ペ\<NL>"
+          \. "ff'	ぱく	パク\<NL>"
+          \. "ff,	ぽく	ポク\<NL>"
+          \. "ff.	ぺき	ペキ\<NL>"
+          \. "ff;	ぱっ	パッ\<NL>"
+          \. "ffa	ぱつ	パツ\<NL>"
+          \. "ffe	ぺつ	ペツ\<NL>"
+          \. "ffi	ぴつ	ピツ\<NL>"
+          \. "ffj	ぺっ	ペッ\<NL>"
+          \. "ffk	ぷっ	プッ\<NL>"
+          \. "ffo	ぽつ	ポツ\<NL>"
+          \. "ffp	ぷく	プク\<NL>"
+          \. "ffq	ぽっ	ポッ\<NL>"
+          \. "ffu	ぷつ	プツ\<NL>"
+          \. "ffx	ぴっ	ピッ\<NL>"
+          \. "ffy	ぴく	ピク\<NL>"
+          \. "fi	ぴ	ピ\<NL>"
+          \. "fj	ぺん	ペン\<NL>"
+          \. "fk	ぷん	プン\<NL>"
+          \. "fl	ぴょう	ピョウ\<NL>"
+          \. "fo	ぽ	ポ\<NL>"
+          \. "fp	ぷう	プウ\<NL>"
+          \. "fq	ぽん	ポン\<NL>"
+          \. "fr'	ぴゃい	ピャイ\<NL>"
+          \. "fr,	ぴょう	ピョウ\<NL>"
+          \. "fr.	ぴぇい	ピェイ\<NL>"
+          \. "fr;	ぴゃん	ピャン\<NL>"
+          \. "fra	ぴゃ	ピャ\<NL>"
+          \. "frc	ぴゅつ	ピュツ\<NL>"
+          \. "fre	ぴぇ	ピェ\<NL>"
+          \. "frg	ぴゅく	ピュク\<NL>"
+          \. "fri	ぴぃ	ピィ\<NL>"
+          \. "frj	ぴぇん	ピェン\<NL>"
+          \. "frk	ぴゅん	ピュン\<NL>"
+          \. "frl	ぴゃく	ピャク\<NL>"
+          \. "fro	ぴょ	ピョ\<NL>"
+          \. "frp	ぴゅう	ピュウ\<NL>"
+          \. "frq	ぴょん	ピョン\<NL>"
+          \. "frr	ぴょく	ピョク\<NL>"
+          \. "fru	ぴゅ	ピュ\<NL>"
+          \. "frx	ぴぃん	ピィン\<NL>"
+          \. "fry	ぴゅい	ピュイ\<NL>"
+          \. "fu	ぷ	プ\<NL>"
+          \. "fx	ぴん	ピン\<NL>"
+          \. "fy	ふい	フイ\<NL>"
+          \. "fy	ぷい	プイ\<NL>"
+          \. "fy	ぷい	プイ\<NL>"
+          \. "g'	がい	ガイ\<NL>"
+          \. "g,	ごう	ゴウ\<NL>"
+          \. "g.	げい	ゲイ\<NL>"
+          \. "g;	がん	ガン\<NL>"
+          \. "ga	が	ガ\<NL>"
+          \. "gc	ぎゅう	ギュウ\<NL>"
+          \. "ge	げ	ゲ\<NL>"
+          \. "gf'	がく	ガク\<NL>"
+          \. "gf,	ごく	ゴク\<NL>"
+          \. "gf.	げき	ゲキ\<NL>"
+          \. "gf;	がっ	ガッ\<NL>"
+          \. "gfa	がつ	ガツ\<NL>"
+          \. "gfe	げつ	ゲツ\<NL>"
+          \. "gfi	ぎつ	ギツ\<NL>"
+          \. "gfj	げっ	ゲッ\<NL>"
+          \. "gfk	ぐっ	グッ\<NL>"
+          \. "gfo	ごつ	ゴツ\<NL>"
+          \. "gfp	ぐく	グク\<NL>"
+          \. "gfq	ごっ	ゴッ\<NL>"
+          \. "gfu	ぐつ	グツ\<NL>"
+          \. "gfx	ぎっ	ギッ\<NL>"
+          \. "gfy	ぎく	ギク\<NL>"
+          \. "gi	ぎ	ギ\<NL>"
+          \. "gj	げん	ゲン\<NL>"
+          \. "gk	ぐん	グン\<NL>"
+          \. "gl	ぎょう	ギョウ\<NL>"
+          \. "go	ご	ゴ\<NL>"
+          \. "gp	ぐう	グウ\<NL>"
+          \. "gq	ごん	ゴン\<NL>"
+          \. "gr'	ぎゃい	ギャイ\<NL>"
+          \. "gr,	ぎょう	ギョウ\<NL>"
+          \. "gr.	ぎぇい	ギェイ\<NL>"
+          \. "gr;	ぎゃん	ギャン\<NL>"
+          \. "gra	ぎゃ	ギャ\<NL>"
+          \. "grc	ぎゅつ	ギュツ\<NL>"
+          \. "gre	ぎぇ	ギェ\<NL>"
+          \. "grg	ぎゅく	ギュク\<NL>"
+          \. "gri	ぎぃ	ギィ\<NL>"
+          \. "grj	ぎぇん	ギェン\<NL>"
+          \. "grk	ぎゅん	ギュン\<NL>"
+          \. "grl	ぎゃく	ギャク\<NL>"
+          \. "gro	ぎょ	ギョ\<NL>"
+          \. "grp	ぎゅう	ギュウ\<NL>"
+          \. "grq	ぎょん	ギョン\<NL>"
+          \. "grr	ぎょく	ギョク\<NL>"
+          \. "gru	ぎゅ	ギュ\<NL>"
+          \. "grx	ぎぃん	ギィン\<NL>"
+          \. "gry	ぎゅい	ギュイ\<NL>"
+          \. "gu	ぐ	グ\<NL>"
+          \. "gx	ぎん	ギン\<NL>"
+          \. "gy	ぐい	グイ\<NL>"
+          \. "gy	ぐい	グイ\<NL>"
+          \. "h'	はい	ハイ\<NL>"
+          \. "h,	ほう	ホウ\<NL>"
+          \. "h.	へい	ヘイ\<NL>"
+          \. "h;	はん	ハン\<NL>"
+          \. "ha	は	ハ\<NL>"
+          \. "hd'	はく	ハク\<NL>"
+          \. "hd,	ほく	ホク\<NL>"
+          \. "hd.	へき	ヘキ\<NL>"
+          \. "hd;	はっ	ハッ\<NL>"
+          \. "hda	はつ	ハツ\<NL>"
+          \. "hde	へつ	ヘツ\<NL>"
+          \. "hdi	ひつ	ヒツ\<NL>"
+          \. "hdj	へっ	ヘッ\<NL>"
+          \. "hdk	ふっ	フッ\<NL>"
+          \. "hdo	ほつ	ホツ\<NL>"
+          \. "hdp	ふく	フク\<NL>"
+          \. "hdq	ほっ	ホッ\<NL>"
+          \. "hdu	ふつ	フツ\<NL>"
+          \. "hdx	ひっ	ヒッ\<NL>"
+          \. "hdy	ひく	ヒク\<NL>"
+          \. "he	へ	ヘ\<NL>"
+          \. "hh'	ふぁい	ファイ\<NL>"
+          \. "hh,	ふぉー	フォー\<NL>"
+          \. "hh.	ふぇい	フェイ\<NL>"
+          \. "hh;	ふぁん	ファン\<NL>"
+          \. "hha	ふぁ	ファ\<NL>"
+          \. "hhe	ふぇ	フェ\<NL>"
+          \. "hhi	ふぃ	フィ\<NL>"
+          \. "hhj	ふぇん	フェン\<NL>"
+          \. "hhk	ふん	フン\<NL>"
+          \. "hho	ふぉ	フォ\<NL>"
+          \. "hhp	ふう	フウ\<NL>"
+          \. "hhq	ふぉん	フォン\<NL>"
+          \. "hhu	ふ	フ\<NL>"
+          \. "hhx	ふぃん	フィン\<NL>"
+          \. "hi	ひ	ヒ\<NL>"
+          \. "hj	へん	ヘン\<NL>"
+          \. "hk	ふん	フン\<NL>"
+          \. "hn'	ひゃい	ヒャイ\<NL>"
+          \. "hn,	ひょう	ヒョウ\<NL>"
+          \. "hn.	ひぇい	ヒェイ\<NL>"
+          \. "hn;	ひゃん	ヒャン\<NL>"
+          \. "hna	ひゃ	ヒャ\<NL>"
+          \. "hne	ひぇ	ヒェ\<NL>"
+          \. "hnh	ひゅく	ヒュク\<NL>"
+          \. "hni	ひぃ	ヒィ\<NL>"
+          \. "hnj	ひぇん	ヒェン\<NL>"
+          \. "hnk	ひゅん	ヒュン\<NL>"
+          \. "hnn	ひょく	ヒョク\<NL>"
+          \. "hno	ひょ	ヒョ\<NL>"
+          \. "hnp	ひゅう	ヒュウ\<NL>"
+          \. "hnq	ひょん	ヒョン\<NL>"
+          \. "hns	ひゃく	ヒャク\<NL>"
+          \. "hnt	ひゅつ	ヒュツ\<NL>"
+          \. "hnu	ひゅ	ヒュ\<NL>"
+          \. "hnx	ひぃん	ヒィン\<NL>"
+          \. "hny	ひゅい	ヒュイ\<NL>"
+          \. "ho	ほ	ホ\<NL>"
+          \. "hp	ふう	フウ\<NL>"
+          \. "hq	ほん	ホン\<NL>"
+          \. "hs	ひょう	ヒョウ\<NL>"
+          \. "ht	ひゅう	ヒュウ\<NL>"
+          \. "hu	ふ	フ\<NL>"
+          \. "hx	ひん	ヒン\<NL>"
+          \. "hy	ふい	フイ\<NL>"
+          \. "hy	ふい	フイ\<NL>"
+          \. "i	い	イ\<NL>"
+          \. "j	えん	エン\<NL>"
+          \. "k	うん	ウン\<NL>"
+          \. "la	ぁ	ァ\<NL>"
+          \. "lca	か	ヵ\<NL>"
+          \. "lce	け	ヶ\<NL>"
+          \. "le	ぇ	ェ\<NL>"
+          \. "li	ぃ	ィ\<NL>"
+          \. "lo	ぉ	ォ\<NL>"
+          \. "ltu	っ	ッ\<NL>"
+          \. "lu	ぅ	ゥ\<NL>"
+          \. "lva	ゃ	ャ\<NL>"
+          \. "lvo	ょ	ョ\<NL>"
+          \. "lvu	ゅ	ュ\<NL>"
+          \. "lwa	ゎ	ヮ\<NL>"
+          \. "lwe	ゑ	ヱ\<NL>"
+          \. "lwi	ゐ	ヰ\<NL>"
+          \. "m'	まい	マイ\<NL>"
+          \. "m,	もう	モウ\<NL>"
+          \. "m.	めい	メイ\<NL>"
+          \. "m;	まん	マン\<NL>"
+          \. "ma	ま	マ\<NL>"
+          \. "mb'	まく	マク\<NL>"
+          \. "mb,	もく	モク\<NL>"
+          \. "mb.	めき	メキ\<NL>"
+          \. "mb;	まっ	マッ\<NL>"
+          \. "mba	まつ	マツ\<NL>"
+          \. "mbe	めつ	メツ\<NL>"
+          \. "mbi	みつ	ミツ\<NL>"
+          \. "mbj	めっ	メッ\<NL>"
+          \. "mbk	むっ	ムッ\<NL>"
+          \. "mbo	もつ	モツ\<NL>"
+          \. "mbp	むく	ムク\<NL>"
+          \. "mbq	もっ	モッ\<NL>"
+          \. "mbu	むつ	ムツ\<NL>"
+          \. "mbx	みっ	ミッ\<NL>"
+          \. "mby	みく	ミク\<NL>"
+          \. "me	め	メ\<NL>"
+          \. "mi	み	ミ\<NL>"
+          \. "mj	めん	メン\<NL>"
+          \. "mk	むん	ムン\<NL>"
+          \. "mo	も	モ\<NL>"
+          \. "mp	むう	ムウ\<NL>"
+          \. "mq	もん	モン\<NL>"
+          \. "mu	む	ム\<NL>"
+          \. "mv'	みゃい	ミャイ\<NL>"
+          \. "mv,	みょう	ミョウ\<NL>"
+          \. "mv.	みぇい	ミェイ\<NL>"
+          \. "mv;	みゃん	ミャン\<NL>"
+          \. "mva	みゃ	ミャ\<NL>"
+          \. "mve	みぇ	ミェ\<NL>"
+          \. "mvi	みぃ	ミィ\<NL>"
+          \. "mvj	みぇん	ミェン\<NL>"
+          \. "mvk	みゅん	ミュン\<NL>"
+          \. "mvm	みゅく	ミュク\<NL>"
+          \. "mvo	みょ	ミョ\<NL>"
+          \. "mvp	みゅう	ミュウ\<NL>"
+          \. "mvq	みょん	ミョン\<NL>"
+          \. "mvu	みゅ	ミュ\<NL>"
+          \. "mvv	みょく	ミョク\<NL>"
+          \. "mvw	みゅつ	ミュツ\<NL>"
+          \. "mvx	みぃん	ミィン\<NL>"
+          \. "mvz	みゃく	ミャク\<NL>"
+          \. "mw	みゅう	ミュウ\<NL>"
+          \. "mx	みん	ミン\<NL>"
+          \. "my	むい	ムイ\<NL>"
+          \. "my	むい	ムイ\<NL>"
+          \. "mz	みょう	ミョウ\<NL>"
+          \. "n'	ない	ナイ\<NL>"
+          \. "n,	のう	ノウ\<NL>"
+          \. "n.	ねい	ネイ\<NL>"
+          \. "n;	なん	ナン\<NL>"
+          \. "na	な	ナ\<NL>"
+          \. "nd'	なく	ナク\<NL>"
+          \. "nd,	のく	ノク\<NL>"
+          \. "nd.	ねき	ネキ\<NL>"
+          \. "nd;	なっ	ナッ\<NL>"
+          \. "nda	なつ	ナツ\<NL>"
+          \. "nde	ねつ	ネツ\<NL>"
+          \. "ndi	につ	ニツ\<NL>"
+          \. "ndj	ねっ	ネッ\<NL>"
+          \. "ndk	ぬっ	ヌッ\<NL>"
+          \. "ndo	のつ	ノツ\<NL>"
+          \. "ndp	ぬく	ヌク\<NL>"
+          \. "ndq	のっ	ノッ\<NL>"
+          \. "ndu	ぬつ	ヌツ\<NL>"
+          \. "ndx	にっ	ニッ\<NL>"
+          \. "ndy	にく	ニク\<NL>"
+          \. "ne	ね	ネ\<NL>"
+          \. "nh'	にゃい	ニャイ\<NL>"
+          \. "nh,	にょう	ニョウ\<NL>"
+          \. "nh.	にぇい	ニェイ\<NL>"
+          \. "nh;	にゃん	ニャン\<NL>"
+          \. "nha	にゃ	ニャ\<NL>"
+          \. "nhe	にぇ	ニェ\<NL>"
+          \. "nhh	にゅく	ニュク\<NL>"
+          \. "nhi	にぃ	ニィ\<NL>"
+          \. "nhj	にぇん	ニェン\<NL>"
+          \. "nhk	にゅん	ニュン\<NL>"
+          \. "nhn	にょく	ニョク\<NL>"
+          \. "nho	にょ	ニョ\<NL>"
+          \. "nhp	にゅう	ニュウ\<NL>"
+          \. "nhq	にょん	ニョン\<NL>"
+          \. "nhs	にゃく	ニャク\<NL>"
+          \. "nht	にゅつ	ニュツ\<NL>"
+          \. "nhu	にゅ	ニュ\<NL>"
+          \. "nhx	にぃん	ニィン\<NL>"
+          \. "nhy	にゅい	ニュイ\<NL>"
+          \. "ni	に	ニ\<NL>"
+          \. "nj	ねん	ネン\<NL>"
+          \. "nk	ぬん	ヌン\<NL>"
+          \. "nn	ん	ン\<NL>"
+          \. "no	の	ノ\<NL>"
+          \. "np	ぬう	ヌウ\<NL>"
+          \. "nq	のん	ノン\<NL>"
+          \. "ns	にょう	ニョウ\<NL>"
+          \. "nt	にゅう	ニュウ\<NL>"
+          \. "nu	ぬ	ヌ\<NL>"
+          \. "nx	にん	ニン\<NL>"
+          \. "ny	ぬい	ヌイ\<NL>"
+          \. "ny	ぬい	ヌイ\<NL>"
+          \. "o	お	オ\<NL>"
+          \. "q	おん	オン\<NL>"
+          \. "r'	らい	ライ\<NL>"
+          \. "r,	ろう	ロウ\<NL>"
+          \. "r.	れい	レイ\<NL>"
+          \. "r;	らん	ラン\<NL>"
+          \. "ra	ら	ラ\<NL>"
+          \. "rc	りゅう	リュウ\<NL>"
+          \. "re	れ	レ\<NL>"
+          \. "rf'	らく	ラク\<NL>"
+          \. "rf,	ろく	ロク\<NL>"
+          \. "rf.	れき	レキ\<NL>"
+          \. "rf;	らっ	ラッ\<NL>"
+          \. "rfa	らつ	ラツ\<NL>"
+          \. "rfe	れつ	レツ\<NL>"
+          \. "rfi	りつ	リツ\<NL>"
+          \. "rfj	れっ	レッ\<NL>"
+          \. "rfk	るっ	ルッ\<NL>"
+          \. "rfo	ろつ	ロツ\<NL>"
+          \. "rfp	るく	ルク\<NL>"
+          \. "rfq	ろっ	ロッ\<NL>"
+          \. "rfu	るつ	ルツ\<NL>"
+          \. "rfx	りっ	リッ\<NL>"
+          \. "rfy	りく	リク\<NL>"
+          \. "rg'	りゃい	リャイ\<NL>"
+          \. "rg,	りょう	リョウ\<NL>"
+          \. "rg.	りぇい	リェイ\<NL>"
+          \. "rg;	りゃん	リャン\<NL>"
+          \. "rga	りゃ	リャ\<NL>"
+          \. "rge	りぇ	リェ\<NL>"
+          \. "rge	りゅつ	リュツ\<NL>"
+          \. "rgg	りゅく	リュク\<NL>"
+          \. "rgi	りぃ	リィ\<NL>"
+          \. "rgj	りぇん	リェン\<NL>"
+          \. "rgk	りゅん	リュン\<NL>"
+          \. "rgl	りゃく	リャク\<NL>"
+          \. "rgo	りょ	リョ\<NL>"
+          \. "rgp	りゅう	リュウ\<NL>"
+          \. "rgq	りょん	リョン\<NL>"
+          \. "rgr	りょく	リョク\<NL>"
+          \. "rgu	りゅ	リュ\<NL>"
+          \. "rgx	りぃん	リィン\<NL>"
+          \. "rgy	りゅい	リュイ\<NL>"
+          \. "ri	り	リ\<NL>"
+          \. "rj	れん	レン\<NL>"
+          \. "rk	るん	ルン\<NL>"
+          \. "rl	りょう	リョウ\<NL>"
+          \. "ro	ろ	ロ\<NL>"
+          \. "rp	るう	ルウ\<NL>"
+          \. "rq	ろん	ロン\<NL>"
+          \. "ru	る	ル\<NL>"
+          \. "rx	りん	リン\<NL>"
+          \. "ry	るい	ルイ\<NL>"
+          \. "ry	るい	ルイ\<NL>"
+          \. "s'	さい	サイ\<NL>"
+          \. "s,	そう	ソウ\<NL>"
+          \. "s.	せい	セイ\<NL>"
+          \. "s;	さん	サン\<NL>"
+          \. "sa	さ	サ\<NL>"
+          \. "sd'	さく	サク\<NL>"
+          \. "sd,	そく	ソク\<NL>"
+          \. "sd.	せき	セキ\<NL>"
+          \. "sd;	さっ	サッ\<NL>"
+          \. "sda	さつ	サツ\<NL>"
+          \. "sde	せつ	セツ\<NL>"
+          \. "sdi	しつ	シツ\<NL>"
+          \. "sdj	せっ	セッ\<NL>"
+          \. "sdk	すっ	スッ\<NL>"
+          \. "sdo	そつ	ソツ\<NL>"
+          \. "sdp	すく	スク\<NL>"
+          \. "sdq	そっ	ソッ\<NL>"
+          \. "sdu	すつ	スツ\<NL>"
+          \. "sdx	しっ	シッ\<NL>"
+          \. "sdy	しく	シク\<NL>"
+          \. "se	せ	セ\<NL>"
+          \. "sh'	しゃい	シャイ\<NL>"
+          \. "sh,	しょう	ショウ\<NL>"
+          \. "sh.	しぇい	シェイ\<NL>"
+          \. "sh;	しゃん	シャン\<NL>"
+          \. "sha	しゃ	シャ\<NL>"
+          \. "she	しぇ	シェ\<NL>"
+          \. "shh	しゅく	シュク\<NL>"
+          \. "shi	しぃ	シィ\<NL>"
+          \. "shj	しぇん	シェン\<NL>"
+          \. "shk	しゅん	シュン\<NL>"
+          \. "shn	しょく	ショク\<NL>"
+          \. "sho	しょ	ショ\<NL>"
+          \. "shp	しゅう	シュウ\<NL>"
+          \. "shq	しょん	ション\<NL>"
+          \. "shs	しゃく	シャク\<NL>"
+          \. "sht	しゅつ	シュツ\<NL>"
+          \. "shu	しゅ	シュ\<NL>"
+          \. "shx	しぃん	シィン\<NL>"
+          \. "shy	しゅい	シュイ\<NL>"
+          \. "si	し	シ\<NL>"
+          \. "sj	せん	セン\<NL>"
+          \. "sk	すん	スン\<NL>"
+          \. "so	そ	ソ\<NL>"
+          \. "sp	すう	スウ\<NL>"
+          \. "sq	そん	ソン\<NL>"
+          \. "ss	しょう	ショウ\<NL>"
+          \. "st	しゅう	シュウ\<NL>"
+          \. "su	す	ス\<NL>"
+          \. "sx	しん	シン\<NL>"
+          \. "sy	すい	スイ\<NL>"
+          \. "sy	すい	スイ\<NL>"
+          \. "t'	たい	タイ\<NL>"
+          \. "t,	とう	トウ\<NL>"
+          \. "t.	てい	テイ\<NL>"
+          \. "t;	たん	タン\<NL>"
+          \. "ta	た	タ\<NL>"
+          \. "td'	たく	タク\<NL>"
+          \. "td,	とく	トク\<NL>"
+          \. "td.	てき	テキ\<NL>"
+          \. "td;	たっ	タッ\<NL>"
+          \. "tda	たつ	タツ\<NL>"
+          \. "tde	てつ	テツ\<NL>"
+          \. "tdi	ちつ	チツ\<NL>"
+          \. "tdj	てっ	テッ\<NL>"
+          \. "tdk	つっ	ツッ\<NL>"
+          \. "tdo	とつ	トツ\<NL>"
+          \. "tdp	つく	ツク\<NL>"
+          \. "tdq	とっ	トッ\<NL>"
+          \. "tdu	つつ	ツツ\<NL>"
+          \. "tdx	ちっ	チッ\<NL>"
+          \. "tdy	ちく	チク\<NL>"
+          \. "te	て	テ\<NL>"
+          \. "th'	ちゃい	チャイ\<NL>"
+          \. "th,	ちょう	チョウ\<NL>"
+          \. "th.	ちぇい	チェイ\<NL>"
+          \. "th;	ちゃん	チャン\<NL>"
+          \. "tha	ちゃ	チャ\<NL>"
+          \. "the	ちぇ	チェ\<NL>"
+          \. "thh	ちゅく	チュク\<NL>"
+          \. "thi	ちぃ	チィ\<NL>"
+          \. "thj	ちぇん	チェン\<NL>"
+          \. "thk	ちゅん	チュン\<NL>"
+          \. "thn	ちょく	チョク\<NL>"
+          \. "tho	ちょ	チョ\<NL>"
+          \. "thp	ちゅう	チュウ\<NL>"
+          \. "thq	ちょん	チョン\<NL>"
+          \. "ths	ちゃく	チャク\<NL>"
+          \. "tht	ちゅつ	チュツ\<NL>"
+          \. "thu	ちゅ	チュ\<NL>"
+          \. "thx	ちぃん	チィン\<NL>"
+          \. "thy	ちゅい	チュイ\<NL>"
+          \. "ti	ち	チ\<NL>"
+          \. "tj	てん	テン\<NL>"
+          \. "tk	つん	ツン\<NL>"
+          \. "tn'	てゃう	テャウ\<NL>"
+          \. "tn,	てょう	テョウ\<NL>"
+          \. "tn.	てぇい	テェイ\<NL>"
+          \. "tn;	てゃん	テャン\<NL>"
+          \. "tna	てゃ	テャ\<NL>"
+          \. "tne	てぇ	テェ\<NL>"
+          \. "tni	てぃ	ティ\<NL>"
+          \. "tnj	てぇん	テェン\<NL>"
+          \. "tnk	てゅん	テュン\<NL>"
+          \. "tno	てょ	テョ\<NL>"
+          \. "tnp	てゅう	テュウ\<NL>"
+          \. "tnq	てょん	テョン\<NL>"
+          \. "tnu	てゅ	テュ\<NL>"
+          \. "tnx	てぃん	ティン\<NL>"
+          \. "tny	てゅい	テュイ\<NL>"
+          \. "to	と	ト\<NL>"
+          \. "tp	つう	ツウ\<NL>"
+          \. "tq	とん	トン\<NL>"
+          \. "ts	ちょう	チョウ\<NL>"
+          \. "tt	ちゅう	チュウ\<NL>"
+          \. "tu	つ	ツ\<NL>"
+          \. "tx	ちん	チン\<NL>"
+          \. "ty	つい	ツイ\<NL>"
+          \. "ty	つい	ツイ\<NL>"
+          \. "u	う	ウ\<NL>"
+          \. "v'	う゛ぁい	ヴァイ\<NL>"
+          \. "v'	やい	ヤイ\<NL>"
+          \. "v,	よう	ヨウ\<NL>"
+          \. "v.	う゛ぇい	ヴェイ\<NL>"
+          \. "v;	う゛ぁん	ヴァン\<NL>"
+          \. "v;	やん	ヤン\<NL>"
+          \. "va	や	ヤ\<NL>"
+          \. "vb'	やく	ヤク\<NL>"
+          \. "vb,	よく	ヨク\<NL>"
+          \. "vb.	いぇき	イェキ\<NL>"
+          \. "vb;	やっ	ヤッ\<NL>"
+          \. "vba	やつ	ヤツ\<NL>"
+          \. "vbe	いぇつ	イェツ\<NL>"
+          \. "vbi	いつ	イツ\<NL>"
+          \. "vbj	いぇっ	イェッ\<NL>"
+          \. "vbk	ゆっ	ユッ\<NL>"
+          \. "vbo	よつ	ヨツ\<NL>"
+          \. "vbp	ゆく	ユク\<NL>"
+          \. "vbq	よっ	ヨッ\<NL>"
+          \. "vbu	ゆつ	ユツ\<NL>"
+          \. "vbx	いっ	イッ\<NL>"
+          \. "vby	いく	イク\<NL>"
+          \. "ve	いぇ	イェ\<NL>"
+          \. "vi	い	イ\<NL>"
+          \. "vj	う゛ぇん	ヴェン\<NL>"
+          \. "vk	う゛ん	ヴン\<NL>"
+          \. "vk	ゆん	ユン\<NL>"
+          \. "vo	よ	ヨ\<NL>"
+          \. "vp	う゛ー	ヴー\<NL>"
+          \. "vp	ゆう	ユウ\<NL>"
+          \. "vq	う゛ぉん	ヴォン\<NL>"
+          \. "vq	よん	ヨン\<NL>"
+          \. "vu	ゆ	ユ\<NL>"
+          \. "vv'	う゛ぁい	ヴァイ\<NL>"
+          \. "vv,	う゛ぉー	ヴォー\<NL>"
+          \. "vv.	う゛ぇい	ヴェイ\<NL>"
+          \. "vv;	う゛ぁん	ヴァン\<NL>"
+          \. "vva	う゛ぁ	ヴァ\<NL>"
+          \. "vve	う゛ぇ	ヴェ\<NL>"
+          \. "vvi	う゛ぃ	ヴィ\<NL>"
+          \. "vvj	う゛ぇん	ヴェン\<NL>"
+          \. "vvk	う゛ん	ヴン\<NL>"
+          \. "vvo	う゛ぉ	ヴォ\<NL>"
+          \. "vvp	う゛ー	ヴー\<NL>"
+          \. "vvq	う゛ぉん	ヴォン\<NL>"
+          \. "vvu	う゛	ヴ\<NL>"
+          \. "vvw	う゛ゅー	ヴュー\<NL>"
+          \. "vvx	う゛ぃん	ヴィン\<NL>"
+          \. "vvz	う゛ぉー	ヴォー\<NL>"
+          \. "vw	う゛ゅー	ヴュー\<NL>"
+          \. "vx	う゛ぃん	ヴィン\<NL>"
+          \. "vy	う゛い	ヴイ\<NL>"
+          \. "vy	う゛い	ヴイ\<NL>"
+          \. "vy	ゆい	ユイ\<NL>"
+          \. "vz	う゛ぉー	ヴォー\<NL>"
+          \. "w'	わい	ワイ\<NL>"
+          \. "w,	うぉう	ウォウ\<NL>"
+          \. "w.	うぇい	ウェイ\<NL>"
+          \. "w;	わん	ワン\<NL>"
+          \. "wa	わ	ワ\<NL>"
+          \. "wb'	わく	ワク\<NL>"
+          \. "wb,	をく	ヲク\<NL>"
+          \. "wb.	うぇき	ウェキ\<NL>"
+          \. "wb;	わっ	ワッ\<NL>"
+          \. "wba	わつ	ワツ\<NL>"
+          \. "wbe	うぇつ	ウェツ\<NL>"
+          \. "wbi	うぃつ	ウィツ\<NL>"
+          \. "wbj	うぇっ	ウェッ\<NL>"
+          \. "wbk	うっ	ウッ\<NL>"
+          \. "wbo	をつ	ヲツ\<NL>"
+          \. "wbp	うく	ウク\<NL>"
+          \. "wbq	をっ	ヲッ\<NL>"
+          \. "wbu	うつ	ウツ\<NL>"
+          \. "wbx	うぃっ	ウィッ\<NL>"
+          \. "wby	うぃく	ウィク\<NL>"
+          \. "we	うぇ	ウェ\<NL>"
+          \. "wi	うぃ	ウィ\<NL>"
+          \. "wj	うぇん	ウェン\<NL>"
+          \. "wk	うん	ウン\<NL>"
+          \. "wo	を	ヲ\<NL>"
+          \. "wp	うう	ウウ\<NL>"
+          \. "wq	うぉん	ウォン\<NL>"
+          \. "wv'	うぁう	ウァウ\<NL>"
+          \. "wv,	うぉう	ウォウ\<NL>"
+          \. "wv.	うぇい	ウェイ\<NL>"
+          \. "wv;	うぁん	ウァン\<NL>"
+          \. "wva	うぁ	ウァ\<NL>"
+          \. "wve	うぇ	ウェ\<NL>"
+          \. "wvi	うぃ	ウィ\<NL>"
+          \. "wvj	うぇん	ウェン\<NL>"
+          \. "wvk	うぅん	ウゥン\<NL>"
+          \. "wvo	うぉ	ウォ\<NL>"
+          \. "wvp	うぅう	ウゥウ\<NL>"
+          \. "wvq	うぉん	ウォン\<NL>"
+          \. "wvu	うぅ	ウゥ\<NL>"
+          \. "wvx	うぃん	ウィン\<NL>"
+          \. "wvy	うぅい	ウゥイ\<NL>"
+          \. "wx	うぃん	ウィン\<NL>"
+          \. "wy	うい	ウイ\<NL>"
+          \. "wy	うい	ウイ\<NL>"
+          \. "wz	うぉー	ウォー\<NL>"
+          \. "x	いん	イン\<NL>"
+          \. "z'	ざい	ザイ\<NL>"
+          \. "z,	ぞう	ゾウ\<NL>"
+          \. "z-	～\<NL>"
+          \. "z.	ぜい	ゼイ\<NL>"
+          \. "z/	・\<NL>"
+          \. "z;	ざん	ザン\<NL>"
+          \. "z[	『\<NL>"
+          \. "z]	』\<NL>"
+          \. "za	ざ	ザ\<NL>"
+          \. "zb'	ざく	ザク\<NL>"
+          \. "zb,	ぞく	ゾク\<NL>"
+          \. "zb.	ぜき	ゼキ\<NL>"
+          \. "zb;	ざっ	ザッ\<NL>"
+          \. "zba	ざつ	ザツ\<NL>"
+          \. "zbe	ぜつ	ゼツ\<NL>"
+          \. "zbi	じつ	ジツ\<NL>"
+          \. "zbj	ぜっ	ゼッ\<NL>"
+          \. "zbk	ずっ	ズッ\<NL>"
+          \. "zbo	ぞつ	ゾツ\<NL>"
+          \. "zbp	ずく	ズク\<NL>"
+          \. "zbq	ぞっ	ゾッ\<NL>"
+          \. "zbu	ずつ	ズツ\<NL>"
+          \. "zbx	じっ	ジッ\<NL>"
+          \. "zby	じく	ジク\<NL>"
+          \. "ze	ぜ	ゼ\<NL>"
+          \. "zi	じ	ジ\<NL>"
+          \. "zj	ぜん	ゼン\<NL>"
+          \. "zk	ずん	ズン\<NL>"
+          \. "zm'	じゃい	ジャイ\<NL>"
+          \. "zm,	じょう	ジョウ\<NL>"
+          \. "zm.	じぇい	ジェイ\<NL>"
+          \. "zm;	じゃん	ジャン\<NL>"
+          \. "zma	じゃ	ジャ\<NL>"
+          \. "zme	じぇ	ジェ\<NL>"
+          \. "zmi	じぃ	ジィ\<NL>"
+          \. "zmj	じぇん	ジェン\<NL>"
+          \. "zmk	じゅん	ジュン\<NL>"
+          \. "zmm	じゅく	ジュク\<NL>"
+          \. "zmo	じょ	ジョ\<NL>"
+          \. "zmp	じゅう	ジュウ\<NL>"
+          \. "zmq	じょん	ジョン\<NL>"
+          \. "zmu	じゅ	ジュ\<NL>"
+          \. "zmv	じょく	ジョク\<NL>"
+          \. "zmw	じゅつ	ジュツ\<NL>"
+          \. "zmx	じぃん	ジィン\<NL>"
+          \. "zmy	じゅい	ジュイ\<NL>"
+          \. "zmz	じゃく	ジャク\<NL>"
+          \. "zo	ぞ	ゾ\<NL>"
+          \. "zp	ずう	ズウ\<NL>"
+          \. "zq	ぞん	ゾン\<NL>"
+          \. "zu	ず	ズ\<NL>"
+          \. "zw	じゅう	ジュウ\<NL>"
+          \. "zx	じん	ジン\<NL>"
+          \. "zy	ずい	ズイ\<NL>"
+          \. "zz	じょう	ジョウ\<NL>"
+  else
+    let skk_rom_kana_rules = ""
+          \. "a	あ	ア\<NL>"
+          \. "bb	っ	ッ	b\<NL>"
+          \. "ba	ば	バ\<NL>"
+          \. "be	べ	ベ\<NL>"
+          \. "bi	び	ビ\<NL>"
+          \. "bo	ぼ	ボ\<NL>"
+          \. "bu	ぶ	ブ\<NL>"
+          \. "bya	びゃ	ビャ\<NL>"
+          \. "bye	びぇ	ビェ\<NL>"
+          \. "byi	びぃ	ビィ\<NL>"
+          \. "byo	びょ	ビョ\<NL>"
+          \. "byu	びゅ	ビュ\<NL>"
+          \. "cc	っ	ッ	c\<NL>"
+          \. "cha	ちゃ	チャ\<NL>"
+          \. "che	ちぇ	チェ\<NL>"
+          \. "chi	ち	チ\<NL>"
+          \. "cho	ちょ	チョ\<NL>"
+          \. "chu	ちゅ	チュ\<NL>"
+          \. "cya	ちゃ	チャ\<NL>"
+          \. "cye	ちぇ	チェ\<NL>"
+          \. "cyi	ちぃ	チィ\<NL>"
+          \. "cyo	ちょ	チョ\<NL>"
+          \. "cyu	ちゅ	チュ\<NL>"
+          \. "dd	っ	ッ	d\<NL>"
+          \. "da	だ	ダ\<NL>"
+          \. "de	で	デ\<NL>"
+          \. "dha	でゃ	デャ\<NL>"
+          \. "dhe	でぇ	デェ\<NL>"
+          \. "dhi	でぃ	ディ\<NL>"
+          \. "dho	でょ	デョ\<NL>"
+          \. "dhu	でゅ	デュ\<NL>"
+          \. "di	ぢ	ヂ\<NL>"
+          \. "do	ど	ド\<NL>"
+          \. "du	づ	ヅ\<NL>"
+          \. "dya	ぢゃ	ヂャ\<NL>"
+          \. "dye	ぢぇ	ヂェ\<NL>"
+          \. "dyi	ぢぃ	ヂィ\<NL>"
+          \. "dyo	ぢょ	ヂョ\<NL>"
+          \. "dyu	ぢゅ	ヂュ\<NL>"
+          \. "e	え	エ\<NL>"
+          \. "ff	っ	ッ	f\<NL>"
+          \. "fa	ふぁ	ファ\<NL>"
+          \. "fe	ふぇ	フェ\<NL>"
+          \. "fi	ふぃ	フィ\<NL>"
+          \. "fo	ふぉ	フォ\<NL>"
+          \. "fu	ふ	フ\<NL>"
+          \. "fya	ふゃ	フャ\<NL>"
+          \. "fye	ふぇ	フェ\<NL>"
+          \. "fyi	ふぃ	フィ\<NL>"
+          \. "fyo	ふょ	フョ\<NL>"
+          \. "fyu	ふゅ	フュ\<NL>"
+          \. "gg	っ	ッ	g\<NL>"
+          \. "ga	が	ガ\<NL>"
+          \. "ge	げ	ゲ\<NL>"
+          \. "gi	ぎ	ギ\<NL>"
+          \. "go	ご	ゴ\<NL>"
+          \. "gu	ぐ	グ\<NL>"
+          \. "gya	ぎゃ	ギャ\<NL>"
+          \. "gye	ぎぇ	ギェ\<NL>"
+          \. "gyi	ぎぃ	ギィ\<NL>"
+          \. "gyo	ぎょ	ギョ\<NL>"
+          \. "gyu	ぎゅ	ギュ\<NL>"
+          \. "ha	は	ハ\<NL>"
+          \. "he	へ	ヘ\<NL>"
+          \. "hi	ひ	ヒ\<NL>"
+          \. "ho	ほ	ホ\<NL>"
+          \. "hu	ふ	フ\<NL>"
+          \. "hya	ひゃ	ヒャ\<NL>"
+          \. "hye	ひぇ	ヒェ\<NL>"
+          \. "hyi	ひぃ	ヒィ\<NL>"
+          \. "hyo	ひょ	ヒョ\<NL>"
+          \. "hyu	ひゅ	ヒュ\<NL>"
+          \. "i	い	イ\<NL>"
+          \. "jj	っ	ッ	j\<NL>"
+          \. "ja	じゃ	ジャ\<NL>"
+          \. "je	じぇ	ジェ\<NL>"
+          \. "ji	じ	ジ\<NL>"
+          \. "jo	じょ	ジョ\<NL>"
+          \. "ju	じゅ	ジュ\<NL>"
+          \. "jya	じゃ	ジャ\<NL>"
+          \. "jye	じぇ	ジェ\<NL>"
+          \. "jyi	じぃ	ジィ\<NL>"
+          \. "jyo	じょ	ジョ\<NL>"
+          \. "jyu	じゅ	ジュ\<NL>"
+          \. "kk	っ	ッ	k\<NL>"
+          \. "ka	か	カ\<NL>"
+          \. "ke	け	ケ\<NL>"
+          \. "ki	き	キ\<NL>"
+          \. "ko	こ	コ\<NL>"
+          \. "ku	く	ク\<NL>"
+          \. "kya	きゃ	キャ\<NL>"
+          \. "kye	きぇ	キェ\<NL>"
+          \. "kyi	きぃ	キィ\<NL>"
+          \. "kyo	きょ	キョ\<NL>"
+          \. "kyu	きゅ	キュ\<NL>"
+          \. "ma	ま	マ\<NL>"
+          \. "me	め	メ\<NL>"
+          \. "mi	み	ミ\<NL>"
+          \. "mo	も	モ\<NL>"
+          \. "mu	む	ム\<NL>"
+          \. "mya	みゃ	ミャ\<NL>"
+          \. "mye	みぇ	ミェ\<NL>"
+          \. "myi	みぃ	ミィ\<NL>"
+          \. "myo	みょ	ミョ\<NL>"
+          \. "myu	みゅ	ミュ\<NL>"
+          \. "n	ん	ン\<NL>"
+          \. "n'	ん	ン\<NL>"
+          \. "na	な	ナ\<NL>"
+          \. "ne	ね	ネ\<NL>"
+          \. "ni	に	ニ\<NL>"
+          \. "nn	ん	ン\<NL>"
+          \. "no	の	ノ\<NL>"
+          \. "nu	ぬ	ヌ\<NL>"
+          \. "nya	にゃ	ニャ\<NL>"
+          \. "nye	にぇ	ニェ\<NL>"
+          \. "nyi	にぃ	ニィ\<NL>"
+          \. "nyo	にょ	ニョ\<NL>"
+          \. "nyu	にゅ	ニュ\<NL>"
+          \. "o	お	オ\<NL>"
+          \. "pp	っ	ッ	p\<NL>"
+          \. "pa	ぱ	パ\<NL>"
+          \. "pe	ぺ	ペ\<NL>"
+          \. "pi	ぴ	ピ\<NL>"
+          \. "po	ぽ	ポ\<NL>"
+          \. "pu	ぷ	プ\<NL>"
+          \. "pya	ぴゃ	ピャ\<NL>"
+          \. "pye	ぴぇ	ピェ\<NL>"
+          \. "pyi	ぴぃ	ピィ\<NL>"
+          \. "pyo	ぴょ	ピョ\<NL>"
+          \. "pyu	ぴゅ	ピュ\<NL>"
+          \. "rr	っ	ッ	r\<NL>"
+          \. "ra	ら	ラ\<NL>"
+          \. "re	れ	レ\<NL>"
+          \. "ri	り	リ\<NL>"
+          \. "ro	ろ	ロ\<NL>"
+          \. "ru	る	ル\<NL>"
+          \. "rya	りゃ	リャ\<NL>"
+          \. "rye	りぇ	リェ\<NL>"
+          \. "ryi	りぃ	リィ\<NL>"
+          \. "ryo	りょ	リョ\<NL>"
+          \. "ryu	りゅ	リュ\<NL>"
+          \. "ss	っ	ッ	s\<NL>"
+          \. "sa	さ	サ\<NL>"
+          \. "se	せ	セ\<NL>"
+          \. "sha	しゃ	シャ\<NL>"
+          \. "she	しぇ	シェ\<NL>"
+          \. "shi	し	シ\<NL>"
+          \. "sho	しょ	ショ\<NL>"
+          \. "shu	しゅ	シュ\<NL>"
+          \. "si	し	シ\<NL>"
+          \. "so	そ	ソ\<NL>"
+          \. "su	す	ス\<NL>"
+          \. "sya	しゃ	シャ\<NL>"
+          \. "sye	しぇ	シェ\<NL>"
+          \. "syi	しぃ	シィ\<NL>"
+          \. "syo	しょ	ショ\<NL>"
+          \. "syu	しゅ	シュ\<NL>"
+          \. "tt	っ	ッ	t\<NL>"
+          \. "ta	た	タ\<NL>"
+          \. "te	て	テ\<NL>"
+          \. "tha	てぁ	テァ\<NL>"
+          \. "the	てぇ	テェ\<NL>"
+          \. "thi	てぃ	ティ\<NL>"
+          \. "tho	てょ	テョ\<NL>"
+          \. "thu	てゅ	テュ\<NL>"
+          \. "ti	ち	チ\<NL>"
+          \. "to	と	ト\<NL>"
+          \. "tsu	つ	ツ\<NL>"
+          \. "tu	つ	ツ\<NL>"
+          \. "tya	ちゃ	チャ\<NL>"
+          \. "tye	ちぇ	チェ\<NL>"
+          \. "tyi	ちぃ	チィ\<NL>"
+          \. "tyo	ちょ	チョ\<NL>"
+          \. "tyu	ちゅ	チュ\<NL>"
+          \. "u	う	ウ\<NL>"
+          \. "vv	っ	ッ	v\<NL>"
+          \. "va	う゛ぁ	ヴァ\<NL>"
+          \. "ve	う゛ぇ	ヴェ\<NL>"
+          \. "vi	う゛ぃ	ヴィ\<NL>"
+          \. "vo	う゛ぉ	ヴォ\<NL>"
+          \. "vu	う゛	ヴ\<NL>"
+          \. "ww	っ	ッ	w\<NL>"
+          \. "wa	わ	ワ\<NL>"
+          \. "we	うぇ	ウェ\<NL>"
+          \. "wi	うぃ	ウィ\<NL>"
+          \. "wo	を	ヲ\<NL>"
+          \. "wu	う	ウ\<NL>"
+          \. "xx	っ	ッ	x\<NL>"
+          \. "xa	ぁ	ァ\<NL>"
+          \. "xe	ぇ	ェ\<NL>"
+          \. "xi	ぃ	ィ\<NL>"
+          \. "xka	か	ヵ\<NL>"
+          \. "xke	け	ヶ\<NL>"
+          \. "xo	ぉ	ォ\<NL>"
+          \. "xtsu	っ	ッ\<NL>"
+          \. "xtu	っ	ッ\<NL>"
+          \. "xu	ぅ	ゥ\<NL>"
+          \. "xwa	ゎ	ヮ\<NL>"
+          \. "xwe	ゑ	ヱ\<NL>"
+          \. "xwi	ゐ	ヰ\<NL>"
+          \. "xya	ゃ	ャ\<NL>"
+          \. "xyo	ょ	ョ\<NL>"
+          \. "xyu	ゅ	ュ\<NL>"
+          \. "yy	っ	ッ	y\<NL>"
+          \. "ya	や	ヤ\<NL>"
+          \. "ye	いぇ	イェ\<NL>"
+          \. "yo	よ	ヨ\<NL>"
+          \. "yu	ゆ	ユ\<NL>"
+          \. "zz	っ	ッ	z\<NL>"
+          \. "z,	‥\<NL>"
+          \. "z-	～\<NL>"
+          \. "z.	…\<NL>"
+          \. "z/	・\<NL>"
+          \. "z[	『\<NL>"
+          \. "z]	』\<NL>"
+          \. "za	ざ	ザ\<NL>"
+          \. "ze	ぜ	ゼ\<NL>"
+          \. "zh	←\<NL>"
+          \. "zi	じ	ジ\<NL>"
+          \. "zj	↓\<NL>"
+          \. "zk	↑\<NL>"
+          \. "zl	→\<NL>"
+          \. "zo	ぞ	ゾ\<NL>"
+          \. "zu	ず	ズ\<NL>"
+          \. "zya	じゃ	ジャ\<NL>"
+          \. "zye	じぇ	ジェ\<NL>"
+          \. "zyi	じぃ	ジィ\<NL>"
+          \. "zyo	じょ	ジョ\<NL>"
+          \. "zyu	じゅ	ジュ\<NL>"
+          \. "-	ー\<NL>"
+          \. ":	：\<NL>"
+          \. ";	；\<NL>"
+          \. "!	！\<NL>"
+          \. "?	？\<NL>"
+          \. "[	「\<NL>"
+          \. "]	」\<NL>"
+  endif
 endif
 
-" ひらがな・カタカナモードのとき関数を呼び出すタイプのルール
-" 行頭からタブ文字までがローマ字、次から \<NL> までが関数呼出し。
-" このローマ字が入力されたときはこの関数の戻り値が返る。
-" かなでも関数でも子がある場合はこの関数は実行されない。
-" もしあれば skk_user_rom_func_rules が追加される。
 if !exists("skk_rom_func_rules")
-  let skk_rom_func_rules = ""
-        \. ".	SkkCurrentKuten(kana)\<NL>"
-        \. ",	SkkCurrentTouten(kana)\<NL>"
-        \. "l	SkkAsciiMode(kana)\<NL>"
-        \. "L	SkkZeneiMode(kana)\<NL>"
-        \. "q	SkkToggleKana(kana)\<NL>"
-        \. "Q	SkkSetHenkanPoint1(kana)\<NL>"
-        \. "/	SkkAbbrevMode(kana)\<NL>"
+  if g:skk_enable_jlod_layout
+    let skk_rom_func_rules = ""
+          \. ".	SkkCurrentKuten(kana)\<NL>"
+          \. ",	SkkCurrentTouten(kana)\<NL>"
+          \. "p	SkkAsciiMode(kana)\<NL>"
+          \. "P	SkkZeneiMode(kana)\<NL>"
+          \. "y	SkkToggleKana(kana)\<NL>"
+          \. "Y	SkkSetHenkanPoint1(kana)\<NL>"
+          \. "/	SkkAbbrevMode(kana)\<NL>"
+  else
+    let skk_rom_func_rules = ""
+          \. ".	SkkCurrentKuten(kana)\<NL>"
+          \. ",	SkkCurrentTouten(kana)\<NL>"
+          \. "l	SkkAsciiMode(kana)\<NL>"
+          \. "L	SkkZeneiMode(kana)\<NL>"
+          \. "q	SkkToggleKana(kana)\<NL>"
+          \. "Q	SkkSetHenkanPoint1(kana)\<NL>"
+          \. "/	SkkAbbrevMode(kana)\<NL>"
+  endif
 endif
 
-" 全角英数変換ルール
-" 各行の1バイト目の入力を2バイト以降 <NL> の前までに変換する
-" もしあれば skk_user_zenei_rules が追加される。
-" SkkAscii2Zenei でも使う。
 if !exists("skk_zenei_rules")
   let skk_zenei_rules = ""
         \. " 　\<NL>"
@@ -566,9 +1349,6 @@ if !exists("skk_zenei_rules")
         \. "~～\<NL>"
 endif
 
-" 0: IMをオンにする (set noimdisable)
-" 1: IMをオフにする (set imdisable)
-" それ以外: &imdisableを弄らない
 if !exists('skk_imdisable_state')
   let skk_imdisable_state = 1
 endif
@@ -641,6 +1421,18 @@ endif
 
 if !exists('skk_remap_lang_mode')
   let skk_remap_lang_mode = 0
+endif
+
+if !exists('skk_enable_hook')
+  let skk_enable_hook = ''
+endif
+
+if !exists('skk_jisyo_encoding')
+  let skk_jisyo_encoding = 'guess'
+endif
+
+if !exists('skk_large_jisyo_encoding')
+  let skk_large_jisyo_encoding = 'guess'
 endif
 " }}}
 
@@ -715,10 +1507,27 @@ function! s:GetRest(rom)
 endfunction
 
 " SkkDowncase
-" 現時点ではただ小文字を返す。
-function! s:SkkDowncase(ch)
-  return tolower(a:ch)
-endfunction
+" JLOD: Shift を押してないつもりにする
+" Not JLOD: 現時点ではただ小文字を返す
+if g:skk_enable_jlod_layout
+  function! s:SkkDowncase(ch)
+    if a:ch == '"'
+      return "'"
+    elseif  a:ch == '<'
+      return ","
+    elseif  a:ch == '>'
+      return "."
+    elseif  a:ch == ':'
+      return ";"
+    else
+      return tolower(a:ch)
+    endif
+  endfunction
+else
+  function! s:SkkDowncase(ch)
+    return tolower(a:ch)
+  endfunction
+endif
 
 " SkkGetKana
 " モードによりひらがなかカタカナを返す。
@@ -866,9 +1675,8 @@ function! s:SkkPurge(s1, s2)
 endfunction
 
 " b:skk_mode, b:skk_abbrev_mode_on に合わせて、カーソルの色を変更する
-" NOTE: 暫定的にWin32 && gVim限定でカーソル色を変更する
 function! s:SkkSetCursorColor()
-  if has('win32') && has('gui') && g:skk_use_color_cursor
+  if has('gui_running') && g:skk_use_color_cursor
     if b:skk_abbrev_mode_on
       " royalblue:#4169e1
       let color = (&background == 'light' ? '#4169e1' : '#4169e1')
@@ -920,7 +1728,7 @@ function! s:SkkBufInit()
   " 0=■モード 1=▽モード 2=▽モード (送りがな入力中) 3=▼モード
   " 4=選択方式で確定したとき
   let b:skk_abbrev_mode_on = 0	" abbrev モードか？
-  if g:skk_imdisable_state == 1 || g:skk_imdisable_state == 2
+  if g:skk_imdisable_state == 0 || g:skk_imdisable_state == 1
     let &imdisable = g:skk_imdisable_state
   endif
   if !exists("b:skk_fo_save")
@@ -1028,11 +1836,18 @@ function! SkkRuleCompile()
 endfunction
 
 " global mapping
-inoremap <silent> <Plug>(skk-enable-im)  <C-r>=SkkMode(1)<CR>
-cnoremap <Plug>(skk-enable-im)  <C-r>=SkkMode(1)<CR>
+inoremap <silent> <Plug>(skk-toggle-im) <C-r>=SkkToggle()<CR>
+cnoremap          <Plug>(skk-toggle-im) <C-r>=SkkToggle()<CR>
+
+inoremap <silent> <Plug>(skk-enable-im) <C-r>=SkkEnable()<CR>
+cnoremap          <Plug>(skk-enable-im) <C-r>=SkkEnable()<CR>
+
+inoremap <silent> <Plug>(skk-disable-im) <C-r>=SkkDisable()<CR>
+cnoremap          <Plug>(skk-disable-im) <C-r>=SkkDisable()<CR>
+
 if g:skk_control_j_key != ""
-  exe "imap" g:skk_control_j_key "<Plug>(skk-enable-im)"
-  exe "cmap" g:skk_control_j_key "<Plug>(skk-enable-im)"
+  exe "imap" g:skk_control_j_key "<Plug>(skk-toggle-im)"
+  exe "cmap" g:skk_control_j_key "<Plug>(skk-toggle-im)"
 endif
 
 nnoremap <silent> <Plug>(skk-save-jisyo)    :call <SID>SkkSaveJisyo(1, 0)<CR>
@@ -1080,43 +1895,87 @@ function! s:SkkOn()
   let &ruler = 1
 endfunction
 
-" SkkMode
-" skk を on/off する。
-function! SkkMode(on)
+function! SkkEnable()
   if !exists("b:skk_on")
     call s:SkkBufInit()
   endif
-  let s:skk_in_cmdline = mode() == "c"
-  if a:on
-    if s:skk_rule_compiled == 0
-      call SkkRuleCompile()
-    endif
-    call s:SkkOn()
-    set cpo-=v
-    set cpo-=<
-    call SkkMap(s:skk_in_cmdline == 0)
-    call s:SkkMapCR()
-    let &l:formatoptions = ""
-    if s:skk_in_cmdline && v:version >= 603
-      redrawstatus
-    endif
-    return "\<C-^>"
-  else
-    let kana = s:SkkKakutei()
-    if !g:skk_keep_state
-      call s:SkkBufInit()
-    endif
-    if s:skk_in_cmdline == 0
-      call s:SkkUnmapNormal()
-    endif
-    call SkkMap(0)
-    let b:skk_on = 0
-    let &rulerformat = s:skk_saved_ruf
-    let &ruler = s:skk_saved_ru
-    let &backspace = s:bs_save
-    let &l:formatoptions = b:skk_fo_save
-    return kana . "\<C-^>"
+  if b:skk_on
+    return ''
   endif
+
+  let s:skk_in_cmdline = mode() == "c"
+  if s:skk_rule_compiled == 0
+    call SkkRuleCompile()
+  endif
+  call s:SkkOn()
+  set cpo-=v
+  set cpo-=<
+  call SkkMap(s:skk_in_cmdline == 0)
+  call s:SkkMapCR()
+
+  " Call each function separated by ','.
+  let hook = g:skk_enable_hook
+  while hook != ''
+    let comma_pos = stridx(hook, ',')
+    if comma_pos !=# -1
+      let fn = strpart(hook, 0, comma_pos)
+      let hook = strpart(hook, strlen(fn) + 1)
+    else
+      let fn = hook
+      let hook = ''
+    endif
+
+    if exists('*' . fn)    " XXX `exists('*' . fn)` is supported by old Vim?
+      call {fn}()
+    endif
+  endwhile
+
+  let &l:formatoptions = ""
+  if s:skk_in_cmdline && v:version >= 603
+    redrawstatus
+  endif
+  return "\<C-^>"
+endfunction
+
+function! SkkDisable()
+  if !exists("b:skk_on")
+    call s:SkkBufInit()
+  endif
+  if !b:skk_on
+    return ''
+  endif
+
+  let s:skk_in_cmdline = mode() == "c"
+  let kana = s:SkkKakutei()
+  if !g:skk_keep_state
+    call s:SkkBufInit()
+  endif
+  if s:skk_in_cmdline == 0
+    call s:SkkUnmapNormal()
+  endif
+  call SkkMap(0)
+  let b:skk_on = 0
+  let &rulerformat = s:skk_saved_ruf
+  let &ruler = s:skk_saved_ru
+  let &backspace = s:bs_save
+  let &l:formatoptions = b:skk_fo_save
+  return kana . "\<C-^>"
+endfunction
+
+function! SkkToggle()
+  if !exists("b:skk_on")
+    call s:SkkBufInit()
+  endif
+
+  if b:skk_on
+    return SkkDisable()
+  else
+    return SkkEnable()
+  endif
+endfunction
+
+function! SkkIsEnabled()
+  return exists('b:skk_on') && b:skk_on
 endfunction
 
 " SkkToggleKana
@@ -1370,7 +2229,7 @@ function! s:SkkControlJ()
     if b:skk_henkan_mode != 0
       return s:SkkKakutei()
     else
-      return SkkMode(0)
+      return SkkDisable()
     endif
   else		" zenei|ascii
     return SkkHiraMode("")
@@ -1431,9 +2290,9 @@ function! SkkMap(silent)
   let b:skk_map_silent = a:silent
   let mapstr = (g:skk_remap_lang_mode ? 'lmap' : 'lnoremap') . ' <buffer>'
   if b:skk_map_silent
-    let mapstr .= '<silent>'
+    let mapstr = mapstr . '<silent>'
   endif
-  let mapstr .= ' '
+  let mapstr = mapstr . ' '
   lmapclear <buffer>
   let i = char2nr(" ")
   let tilde = char2nr("~")
@@ -1458,8 +2317,10 @@ function! SkkMap(silent)
   exe mapstr . '<C-f>	<C-r>=<SID>SkkKey("<C-v><C-a>")<CR><Right>'
   exe mapstr . '<C-w>	<C-r>=<SID>SkkKey("<C-v><C-u>")<CR><C-w>'
   exe mapstr . '<C-u>	<C-r>=<SID>SkkKey("<C-v><C-u>")<CR><C-u>'
-  exe mapstr . '<Esc>	<C-r>=<SID>SkkKey("<C-v><Esc>")<CR><Esc>'
-  exe mapstr . '<C-c>	<C-r>=<SID>SkkKey("<C-v><Esc>")<CR><C-c>'
+  if mode() !=# 'c'
+    exe mapstr . '<Esc>	<C-r>=<SID>SkkKey("<C-v><Esc>")<CR><Esc>'
+    exe mapstr . '<C-c>	<C-r>=<SID>SkkKey("<C-v><Esc>")<CR><C-c>'
+  endif
   exe mapstr . g:skk_abbrev_to_zenei_key . " <C-r>=<SID>SkkKey(\"<C-v><C-q>\")<CR>"
   if exists("g:format_command") && g:skk_autofill_toggle_key != ""
     exe mapstr . g:skk_autofill_toggle_key . " <C-r>=<SID>SkkKey(\"<C-v><C-k>\")<CR>"
@@ -1480,10 +2341,20 @@ function! s:SkkMapNormal()
   let keys = "iIaAoOcCsSR"
   let i = 0
   while keys[i] != ""
-    exe "nnoremap <silent> <buffer> " . keys[i] . " :call SkkMap(1)<CR>:let &iminsert = 1<CR>" . keys[i]
+    if v:version < 700
+      exe "nnoremap <silent> <buffer> " . keys[i] . " :<C-u>call SkkMap(1)<CR>:let &iminsert = 1<CR>" . keys[i]
+    else
+      exe "nnoremap <silent> <buffer> <expr> " . keys[i] . ' <SID>SkkDoNormal(' . string(keys[i]) . ')'
+    endif
     let i = i + 1
   endwhile
   call SkkMap(0)	" コマンドライン側にセットしておく。
+endfunction
+
+function! s:SkkDoNormal(key)
+  call SkkMap(1)
+  let &iminsert = 1
+  return a:key
 endfunction
 
 function! s:SkkUnmapNormal()
@@ -1523,7 +2394,7 @@ function! s:SkkKey(key)
         let &iminsert = 0
       endif
     else
-      let str = SkkMode(0)
+      let str = SkkDisable()
     endif
     let &backspace = s:bs_save
     let &l:formatoptions = b:skk_fo_save
@@ -3429,14 +4300,8 @@ function! s:SkkGetJisyoBuf(var)
     endif
     let ari = index(s:{a:var}_list, ";; okuri-ari entries.") + 1
     let nasi = index(s:{a:var}_list, ";; okuri-nasi entries.") + 1
-    " あやしい文字コード判定
     let s = string(s:{a:var}_list[ari : ari + 30])
-    let exp = "'[" . s:skk_hiragana . ']\+[a-z]\? '
-    for enc in ["euc-jp", "cp932", "iso-2022-jp", "utf-8", &enc]
-      if iconv(s, enc, &enc) =~ exp
-        break
-      endif
-    endfor
+    let enc = s:SkkDetectJisyoEnc(a:var, s:{a:var}_list, s)
     if !exists("l:ff")
       let ff = stridx(s, "\<CR>") < 0 ? "unix" : "dos"
       if ff == "dos"
@@ -3447,6 +4312,41 @@ function! s:SkkGetJisyoBuf(var)
     call insert(s:{a:var}_list, [ari, nasi, enc, ff], 0)
   endif
   return s:{a:var}_list
+endfunction
+
+function! s:SkkDetectJisyoEnc(var, list, conv_str)
+  let jisyo_enc_var = a:var ==# 'skk_jisyo' ? 'g:skk_jisyo_encoding' : 'g:skk_large_jisyo_encoding'
+  let jisyo_enc = {jisyo_enc_var}
+
+  if (type(jisyo_enc) == type("") && jisyo_enc ==# 'guess')
+  \   || type(jisyo_enc) == type([])
+    " あやしい文字コード判定
+    let exp = "'[" . s:skk_hiragana . ']\+[a-z]\? '
+    for enc in (type(jisyo_enc) == type([]) ?
+    \             jisyo_enc : ["euc-jp", "cp932", "iso-2022-jp", "utf-8", &enc])
+      if iconv(a:conv_str, enc, &enc) =~ exp
+        return enc
+      endif
+    endfor
+
+    let msg = printf("Failed to detect %s encoding.", jisyo_enc_var)
+    call s:SkkEcho(msg, 'ErrorMsg', 1)
+  elseif type(jisyo_enc) == type("")
+    return jisyo_enc
+  else
+    let msg = printf("Invalid %s value. Try default value...", jisyo_enc_var)
+    call s:SkkEcho(msg, 'WarningMsg', 1)
+
+    let save_val = jisyo_enc
+    unlet {jisyo_enc_var}
+    let {jisyo_enc_var} = 'guess'
+    try
+      return s:SkkDetectJisyoEnc(a:var, a:list, a:conv_str)
+    finally
+      unlet {jisyo_enc_var}
+      let {jisyo_enc_var} = save_val
+    endtry
+  endif
 endfunction
 
 function! s:SkkShowBuf(buf)
@@ -3585,5 +4485,14 @@ function! s:SkkCompSearch(first, key, flag)
     return kata ? s:SkkHira2Kata(line) : line
   endif
 endfunction
+
+
+
+" 高速化のため。単純にrepeat()使った方が速いはず。
+if exists('*repeat')
+  function! s:SkkMakeBS(n)
+    return repeat("\<C-h>", a:n)
+  endfunction
+endif
 
 " }}}
