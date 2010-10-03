@@ -4,6 +4,20 @@ set fileencodings=utf-8,cp932,eucjp
 syntax on
 filetype plugin indent on
 
+if filereadable(expand('~/.vimrc.local'))
+  execute 'source' expand('~/.vimrc.local')
+endif
+
+" augroup init (from tyru's vimrc)
+augroup vimrc
+  autocmd!
+augroup END
+
+command!
+\ -bang -nargs=*
+\ MyAutocmd
+\ autocmd<bang> vimrc <args>
+
 set nocompatible	" Use Vim defaults (much better!)
 set bs=indent,eol,start		" allow backspacing over everything in insert mode
 set ai			" always set autoindenting on
@@ -17,6 +31,8 @@ set ambiwidth=double
 
 " 行番号を表示
 set nu
+MyAutocmd InsertLeave * setlocal nocursorline
+MyAutocmd InsertEnter * setlocal cursorline
 
 " タブストップ設定
 set tabstop=2
@@ -109,8 +125,8 @@ nnoremap ,r  :<C-u>registers<CR>
 au FileType yaml set expandtab ts=2 sw=2 fenc=utf-8
 
 " actionscript mxml用のファイルタイプ設定
-autocmd BufNewFile,BufRead *.as set filetype=actionscript
-autocmd BufNewFile,BufRead *.mxml set filetype=mxml
+MyAutocmd BufNewFile,BufRead *.as set filetype=actionscript
+MyAutocmd BufNewFile,BufRead *.mxml set filetype=mxml
 
 " yanktmp用キー設定
 map <silent> sy :call YanktmpYank()<CR> 
@@ -182,6 +198,14 @@ hi PmenuSbar guibg=#333333
 nnoremap <Leader>ff :FufFile<CR>
 nnoremap <Leader>fb :FufBuffer<CR>
 nnoremap <Leader>fd :FufDir<CR>
+
+" Gist.vim
+nnoremap <silent> ,gs :Gist<CR>
+nnoremap <silent> ,gp :Gist -p<CR>
+nnoremap <silent> ,ge :Gist -e<CR>
+nnoremap <silent> ,gd :Gist -d<CR>
+nnoremap <silent> ,gl :Gist -l<CR>
+
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
