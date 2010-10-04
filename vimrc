@@ -55,6 +55,9 @@ set cmdheight=2
 set wildmode=list:full
 set showcmd
 
+" completion
+set complete=.,w,b,u,t,i,d,k
+
 " クリップボード設定
 set clipboard=unnamed
 
@@ -184,7 +187,7 @@ elseif has('unix')
 endif
 
 " AutoComplPop
-let g:acp_completeOption = '.,w,b,u,t,k'
+let g:acp_completeOption = '.,w,b,u,t,i,d,k'
 inoremap <silent> <expr> <F12>
       \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? "\<C-o>:AutoComplPopDisable\<CR>\<C-o>:echo 'AutoComplPop Disabled'\<CR>" : "\<C-o>:AutoComplPopEnable\<CR>\<C-o>:echo 'AutoComplPop Enabled'\<CR>"
 noremap <silent> <expr> ,a
@@ -193,6 +196,9 @@ noremap <silent> <expr> ,a
 hi Pmenu ctermbg=18 guibg=#666666
 hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
+"<C-Space>でomni補完
+imap <C-Space> <C-x><C-o>
+
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
