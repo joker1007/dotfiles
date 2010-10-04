@@ -199,6 +199,12 @@ hi PmenuSbar guibg=#333333
 "<C-Space>でomni補完
 imap <C-Space> <C-x><C-o>
 
+" rubycomplete.vim
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
