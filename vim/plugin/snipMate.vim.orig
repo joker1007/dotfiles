@@ -198,18 +198,6 @@ fun s:GetSnippet(word, scope)
 	return [word, snippet]
 endf
 
-fun GetSnippetsList(ft)
-	let s = {}
-	for i in ['s:snippets["_"]', 's:multi_snips["_"]',
-		\ 's:snippets[a:ft]', 's:multi_snips[a:ft]']
-		if exists(i)
-			let s = extend(s, deepcopy(eval(i)))
-		endif
-	endfor
-	return s
-endf
-
-
 fun s:ChooseSnippet(scope, trigger)
 	let snippet = []
 	let i = 1
