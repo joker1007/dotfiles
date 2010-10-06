@@ -1,0 +1,138 @@
+snippet k
+	:${1} => ${2}
+
+snippet ffl
+	= f.label :${1:attribute}
+
+snippet sslt
+	= stylesheet_link_tag "${1}"
+
+snippet ea
+	each do |${1:item}|
+
+snippet if
+	- if ${1}
+	  ${2}
+
+snippet jsit
+	= javascript_include_tag "${1}"
+
+snippet rpo
+	= render :partial => "${1:file}", :object => ${2}
+
+snippet ffpf
+	= f.password_field :${1:attribute}
+
+snippet unless
+	- unless ${1}
+	  ${2}
+	
+
+snippet slt
+	= stylesheet_link_tag <+:all+><+, :cache => <+true+>+>
+
+snippet lts
+	= link_to "${1}", ${2}_path(${3})
+
+snippet jit
+	= javascript_include_tag "${1}"
+
+snippet for
+	- if ${1:}.any?
+	  - $1.each do |${2:item}|
+	    ${3}
+	- else
+	  ${4}
+	
+
+snippet fftf
+	= f.text_field :${1:attribute}
+
+snippet fields
+	- fields_for :${1:model}, @$1 do |${2:f}|
+	  ${3}
+
+snippet ffcb
+	=f.check_box :${1:attribute}
+
+snippet ffe
+	= error_messages_for :${0:model}
+	
+	- form_for @${2:model} do |f|
+	  ${3}
+
+snippet st
+	=submit_tag "<+Save changes+>"<+, :id => "<+submit+>"+><+, :name => "<+submit+>"+><+, :class => "<+form_name+>"+><+, :disabled => <+false+>+><+, :disable_with => "<+Please wait+>"+>
+
+snippet ffrb
+	= f.radio_button :${1:attribute}, :${2:tag_value}
+
+snippet ltms
+	= link_to "${1}", ${2}s_path(${3})
+
+snippet it
+	= image_tag "${1}"
+
+snippet ffta
+	= f.text_area :${1:attribute}
+
+snippet ife
+	- if ${1}
+	  ${2}
+	- else
+	  ${3}
+
+snippet conf
+	- content_for :${1:yield_label_in_layout} do
+	  ${2}
+	  
+
+snippet ft
+	- form_tag(<+:action => "<+update+>"+><+, {:<+class+> => "<+form+>"}+>) do
+	  <++>
+
+snippet rp
+	= render :partial => "${1:file}"${2}
+
+snippet cs
+	= collection_select :${1:object}, :${2:method}, :${3:collection}, :${4:value_method}, :${5:text_method} ${6:, [options]} ${7:, [html_options]}
+
+snippet ofcfs
+	= options_from_collection_for_select <+collection+>, <+value_method+>, <+text_method+><+, <+[selected_value]+>+>
+
+snippet ffff
+	= f.file_field :${1:attribute}
+
+snippet unlesse
+	-if ${1}
+	  ${2}
+	-else
+	  
+
+snippet fflt
+	= f.label :${1:attribute}, "${2}"
+	= f.text_field :$1
+	
+
+snippet ltm
+	= link_to ${1:}.${2}, ${3}$1_path(${3}$1)
+
+snippet rt
+	= render :template => "${1:file}"${2}
+
+snippet ffs
+	= f.submit "${1:submit}"
+
+snippet ff
+	- form_for @${1:model} do |f|
+	  ${2}
+
+snippet ffhf
+	= f.hidden_field :${1:attribute}
+
+snippet rf
+	= render :file => "${1:file}"${2}
+
+snippet lt
+	= link_to ${1}, ${2}_path(${3})
+

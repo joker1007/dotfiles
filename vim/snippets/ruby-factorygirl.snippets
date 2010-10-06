@@ -1,0 +1,23 @@
+snippet facb
+	Factory.build(:${1})
+
+snippet fac
+	Factory(:${1}, ${2})
+
+snippet facc
+	Factory.create(:${1})
+
+snippet facs
+	f.sequence(:${1}) {|n| "${2}#{n}"}
+
+snippet facn
+	Factory.next(:${1:sequence-name})
+
+snippet faca
+	f.${1:model} {|a| a.association(:${2:$1})}
+
+snippet facd
+	Factory.define(:${1:model}) do |f|
+		${2}
+	end
+
