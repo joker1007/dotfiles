@@ -126,6 +126,11 @@ alias egrep='egrep --color=auto'
 
 alias r='rails'
 alias s='screen -xR'
+alias g='git'
+alias gst='git status'
+alias gco='git commit'
+alias gpu='git push'
+
 
 # Global aliases
 alias -g L="| lv"
