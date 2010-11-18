@@ -4,7 +4,7 @@
 " prefs
 " ======================================================================
 " タブの閉じるボタン非表示
-set! browser.tabs.closeButtons=2
+" set! browser.tabs.closeButtons=2
 
 " セッションマネージャーの起動時設定
 set! extensions.sessionmanager.old_startup_page=0
@@ -260,23 +260,6 @@ liberator.globalVariables.autochanger_proxy_settings = [{
 	type           : 2,
   },
 }];
-EOM
-
-" localkeymode.js
-let g:localkeymode_enable = "true"
-js <<EOM
-liberator.globalVariables.localKeyMappings=[
-    [/www\.nicovideo\.jp\/watch/, [
-        ['p', ':nicopause'],
-        ['m', ':nicomute'],
-        ['v', ':nicommentvisible'],
-        ['s', ':nicoseek! +10'],
-        ['S', ':nicoseek! -10'],
-        ['z', ':nicosize'],
-        ['c', ':nicomment ', true],
-        ['C', ':nicommand ', true],
-    ]],
-];
 EOM
 
 

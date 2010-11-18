@@ -116,7 +116,14 @@ alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
 
 # enable color support of ls and also add handy aliases
-alias ls='ls -F --color=auto'
+case "${OSTYPE}" in
+freebsd*|darwin*)
+  alias ls='ls -FGw'
+  ;;
+linux*)
+  alias ls='ls -F --color=auto'
+  ;;
+esac
 #alias dir='dir --color=auto'
 #alias vdir='vdir --color=auto'
 
@@ -181,7 +188,7 @@ zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
-if [ "$TERM" = "xterm-256color" ]; then
+if [ "$TERM" = "xterm-256color" ] && [ "$OSTYPE" = "linux*" ]; then
     chpwd () { echo -n "_`dirs`\\" }
     preexec() {
         # see [zsh-workers:13180]
