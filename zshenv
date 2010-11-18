@@ -9,9 +9,9 @@
 limit coredumpsize 0
 # Setup command search path
 typeset -U path
-# (N-/) ¤òÉÕ¤±¤ë¤³¤È¤ÇÂ¸ºß¤·¤Ê¤±¤ì¤ĞÌµ»ë¤·¤Æ¤¯¤ì¤ë
-path=($HOME/bin $path /sbin /usr/sbin /usr/*/bin(N-/) /usr/local/*/bin(N-/) /var/*/bin(N-/))
+# (N-/) ã‚’ä»˜ã‘ã‚‹ã“ã¨ã§å­˜åœ¨ã—ãªã‘ã‚Œã°ç„¡è¦–ã—ã¦ãã‚Œã‚‹
+path=($HOME/bin /opt/local/bin(N-/) /opt/local/sbin(N-/) $path /sbin /usr/sbin /usr/*/bin(N-/) /usr/local/*/bin(N-/) /var/*/bin(N-/))
 
-# ¥ê¥â¡¼¥È¤«¤éµ¯Æ°¤¹¤ë¥³¥Ş¥ó¥ÉÍÑ¤Î´Ä¶­ÊÑ¿ô¤òÀßÄê(É¬Í×¤Ê¤é)
+# ãƒªãƒ¢ãƒ¼ãƒˆã‹ã‚‰èµ·å‹•ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ç”¨ã®ç’°å¢ƒå¤‰æ•°ã‚’è¨­å®š(å¿…è¦ãªã‚‰)
 export RSYNC_RSH=ssh
 export CVS_RSH=ssh
