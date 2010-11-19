@@ -28,7 +28,7 @@ if has('win32')
     set ambiwidth=auto
   endif
 elseif has('mac')
-  set guifont=Osaka－等幅:h14
+  set guifont=Inconsolata:h14
 else
   set guifont=M+1VM+IPAG\ circle\ 10
 endif
@@ -69,3 +69,4 @@ set mousehide
 " ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
 set guioptions+=a
 
+colorscheme desert

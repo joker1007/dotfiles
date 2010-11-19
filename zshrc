@@ -118,7 +118,9 @@ alias vi='vim'
 # enable color support of ls and also add handy aliases
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  alias ls='ls -FGw'
+  alias ls='gls -F --color=auto'
+  alias mv='gmv'
+  alias vim='/Applications/MacPorts/MacVim.app/Contents/MacOS/Vim'
   ;;
 linux*)
   alias ls='ls -F --color=auto'
