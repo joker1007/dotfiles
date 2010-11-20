@@ -252,18 +252,8 @@ function _update_vcs_info_msg() {
 
 
     # for rvm
-    [[ -n "$rvm_ruby_string" ]] && psvar[2]="$rvm_ruby_string"
-
-    # for gemset
-    if [[ -n $GEM_HOME ]]; then
-      ind=$(expr index $GEM_HOME @)
-      if [ $ind -ne 0 ]; then
-          length="$(expr length $GEM_HOME)"
-          sub_length=`expr $length - $ind + 1`
-          gem_spec=`expr substr $GEM_HOME $ind $sub_length`
-          [[ -n "$psvar[2]" ]] && psvar[2]="$psvar[2]$gem_spec"
-      fi
-    fi
+    [ -s $HOME/.rvm/scripts/rvm ] && psvar[2]=`rvm-prompt i v p g s`
+    
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
