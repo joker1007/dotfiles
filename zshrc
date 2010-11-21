@@ -85,6 +85,9 @@ setopt list_types
 # 補完候補を詰める
 setopt list_packed
 
+# --prefix=/usrなどの=以降を保管
+setopt magic_equal_subst
+
 # beep音無効
 setopt no_beep
 
@@ -117,10 +120,13 @@ alias vi='vim'
 
 # enable color support of ls and also add handy aliases
 case "${OSTYPE}" in
-freebsd*|darwin*)
+darwin*)
   alias ls='gls -F --color=auto'
   alias mv='gmv'
+  alias eche='gecho'
   alias vim='/Applications/MacPorts/MacVim.app/Contents/MacOS/Vim'
+  alias gvim='open -a /Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
+  alias firefox-open='open -a /Applications/Firefox.app/Contents/MacOS/firefox-bin'
   ;;
 linux*)
   alias ls='ls -F --color=auto'
@@ -133,7 +139,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias r='rails'
+alias ra='rails'
 alias s='screen -xR'
 alias g='git'
 alias gst='git status'
@@ -263,19 +269,18 @@ RUBY_PROMPT="%2(v| %U%B%F{magenta}(%2v)%f%b%u|)"
 RPROMPT="$RUBY_PROMPT$VCS_PROMPT $RPROMPT"
 
 # Puttyタイトルバー用設定
-case "${TERM}" in
-  kterm*|xterm)
-    precmd() {
+function _update_titlebar() {
+  case "${TERM}" in
+    kterm*|xterm*)
       echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
     ;;
-  xterm-256color|screen)
-    precmd() {
+    xterm-256color|screen*)
       echo -ne "\033P\033]0;${USER}@${HOST%%.*}:${PWD}\007\033\\"
-    }
     ;;
-esac
+  esac
+}
 
+add-zsh-hook precmd _update_titlebar
 
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm

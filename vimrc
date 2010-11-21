@@ -76,10 +76,19 @@ set showmatch
 set formatoptions+=mM
 
 " colorscheme
-colorscheme desert256
+if stridx($TERM, "xterm-256color") >= 0
+  colorscheme desert256
+else
+  colorscheme desert
+endif
+
 
 " 256色モード
-set t_Co=256
+if stridx($TERM, "xterm-256color") >= 0
+  set t_Co=256
+else
+  set t_Co=16
+endif
 
 " skk
 let skk_jisyo            = '~/.skk-jisyo'
@@ -182,6 +191,8 @@ let QFixHowm_RecentMode = 2
 "ブラウザの指定
 if has('win32')
   let QFixHowm_OpenURIcmd = '!start "C:\firefox-3.5.3-2009100400.en-US.win32-tete009-sse2-pgo\firefox.exe" %s'
+elseif has('mac')
+  let QFixHowm_OpenURIcmd = "call system('/usr/bin/open -a /Applications/Firefox.app/Contents/MacOS/firefox-bin %s')"
 elseif has('unix')
   let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
 endif
