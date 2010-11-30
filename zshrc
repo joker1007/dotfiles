@@ -123,6 +123,8 @@ case "${OSTYPE}" in
 darwin*)
   alias ls='gls -F --color=auto'
   alias mv='gmv'
+  alias rm='grm'
+  alias cp='gcp'
   alias eche='gecho'
   alias vim='/Applications/MacPorts/MacVim.app/Contents/MacOS/Vim'
   alias gvim='open -a /Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
