@@ -4,6 +4,9 @@ escape ^Tt
 # shell
 shell /bin/zsh
 
+# setenv
+setenv SCREEN true
+
 bind w windowlist -b
 bind s split # reset s key
 

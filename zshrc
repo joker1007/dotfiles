@@ -198,7 +198,7 @@ zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
-if [ "$TERM" = "xterm-256color" ] && [ "$OSTYPE[0,5]" = "linux" ]; then
+if [ "$SCREEN" = "true" ]; then
     chpwd () { echo -n "_`dirs`\\" }
     preexec() {
         # see [zsh-workers:13180]
