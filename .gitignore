@@ -6,3 +6,4 @@ vim/backup/*
 vim/.VimballRecord
 vimperator/info
 vim/.netrwhist
+vim/doc/tags

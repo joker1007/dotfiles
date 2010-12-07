@@ -4,3 +4,6 @@
 [submodule "vim/bundle/quickrun"]
 	path = vim/bundle/quickrun
 	url = git://github.com/vim-scripts/quickrun.git
+[submodule "vim/bundle/snipMate"]
+	path = vim/bundle/snipMate
+	url = git://github.com/msanders/snipmate.vim.git
