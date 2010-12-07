@@ -1,6 +1,13 @@
 " encoding
 set fileencodings=utf-8,cp932,eucjp
 
+" pathogen
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+set helpfile=$VIMRUNTIME/doc/help.txt
+filetype on
+
 syntax on
 filetype plugin indent on
 
