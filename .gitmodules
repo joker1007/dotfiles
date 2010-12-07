@@ -13,3 +13,6 @@
 [submodule "vim/bundle/neocomplcache"]
 	path = vim/bundle/neocomplcache
 	url = git://github.com/Shougo/neocomplcache.git
+[submodule "vim/bundle/skk"]
+	path = vim/bundle/skk
+	url = git://github.com/tyru/skk.vim.git
