@@ -10,3 +10,6 @@
 [submodule "vim/bundle/vimfiler"]
 	path = vim/bundle/vimfiler
 	url = git://github.com/Shougo/vimfiler.git
+[submodule "vim/bundle/neocomplcache"]
+	path = vim/bundle/neocomplcache
+	url = git://github.com/Shougo/neocomplcache.git
