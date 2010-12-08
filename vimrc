@@ -171,6 +171,9 @@ nnoremap <Leader>9   :e #9<CR>
 " バッファ一覧
 nmap ,b :buffers<CR>
 
+" NERDTree
+nmap <silent> <Leader>t :NERDTreeToggle<CR>
+
 
 " QFixHowm用設定
 set runtimepath+=~/qfixapp
