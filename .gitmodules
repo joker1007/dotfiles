@@ -40,3 +40,9 @@
 [submodule "vim/bundle/vim-ruby"]
 	path = vim/bundle/vim-ruby
 	url = git://github.com/vim-ruby/vim-ruby.git
+[submodule "vim/bundle/vim-ref"]
+	path = vim/bundle/vim-ref
+	url = git://github.com/thinca/vim-ref.git
+[submodule "vim/bundle/L9"]
+	path = vim/bundle/L9
+	url = git://github.com/vim-scripts/L9.git
