@@ -178,6 +178,18 @@ nmap <silent> <Leader>t :NERDTreeToggle<CR>
 nnoremap <PageUp> <C-B>
 nnoremap <PageDown> <C-F>
 
+" smartchr
+inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
+inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
+inoremap <buffer><expr> / smartchr#one_of(' / ', '// ', '/')
+inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+inoremap <buffer><expr> % smartchr#one_of(' % ', '%')
+inoremap <buffer><expr> , smartchr#one_of(', ', ',')
+inoremap <buffer><expr> <Bar> smartchr#one_of(' <Bar> ',  ' <Bar><Bar> ',  '<Bar>')
+inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+        \ : smartchr#one_of(' = ', ' == ', '=')
+
 
 " QFixHowm用設定=========================================================
 set runtimepath+=~/qfixapp

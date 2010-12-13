@@ -49,3 +49,6 @@
 [submodule "vim/bundle/unite"]
 	path = vim/bundle/unite
 	url = git://github.com/Shougo/unite.vim.git
+[submodule "vim/bundle/vim-smartchr"]
+	path = vim/bundle/vim-smartchr
+	url = git://github.com/kana/vim-smartchr.git
