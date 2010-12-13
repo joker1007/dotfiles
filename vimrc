@@ -179,16 +179,20 @@ nnoremap <PageUp> <C-B>
 nnoremap <PageDown> <C-F>
 
 " smartchr
-inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
-inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
-inoremap <buffer><expr> / smartchr#one_of(' / ', '// ', '/')
-inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
-inoremap <buffer><expr> % smartchr#one_of(' % ', '%')
-inoremap <buffer><expr> , smartchr#one_of(', ', ',')
-inoremap <buffer><expr> <Bar> smartchr#one_of(' <Bar> ',  ' <Bar><Bar> ',  '<Bar>')
-inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-        \ : smartchr#one_of(' = ', ' == ', '=')
+function! EnableSmartchrBasic()
+  inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
+  inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
+  inoremap <buffer><expr> / smartchr#one_of(' / ', '// ', '/')
+  inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+  inoremap <buffer><expr> % smartchr#one_of(' % ', '%')
+  inoremap <buffer><expr> , smartchr#one_of(', ', ',')
+  inoremap <buffer><expr> <Bar> smartchr#one_of(' <Bar> ',  ' <Bar><Bar> ',  '<Bar>')
+  inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+          \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+          \ : smartchr#one_of(' = ', ' == ', '=')
+endfunction
+
+MyAutocmd FileType c,php,python,javascript,ruby,eruby,vim call EnableSmartchrBasic()
 
 
 " QFixHowm用設定=========================================================
