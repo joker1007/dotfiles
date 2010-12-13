@@ -225,6 +225,7 @@ imap <C-Space> <C-x><C-o>
 
 " rubycomplete.vim
 MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
@@ -233,6 +234,12 @@ MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 nnoremap <Leader>ff :FufFile<CR>
 nnoremap <Leader>fb :FufBuffer<CR>
 nnoremap <Leader>fd :FufDir<CR>
+
+" Unite
+nnoremap <silent> <Leader>uf  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> <Leader>ub  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+nnoremap <silent> <Leader>ur  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap  <Leader>uu  :<C-u>Unite source<CR>
 
 
 " Gist.vim
@@ -321,7 +328,6 @@ if !exists('g:neocomplcache_omni_patterns')
 let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 
 
