@@ -82,6 +82,26 @@ set showmatch
 " 自動折り返しを日本語に対応させるスクリプト用の設定
 set formatoptions+=mM
 
+" matchitスクリプトの読み込み
+source $VIMRUNTIME/macros/matchit.vim
+
+" 括弧の入力補助
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap { {}<ESC>i
+
+nmap ,( csw(
+nmap ,{ csw{
+nmap ,[ csw[
+
+nmap ,' csw'
+nmap ," csw"
+
+
+" JとDで半ページ移動
+nnoremap J <C-D>
+nnoremap K <C-U>
+
 " colorscheme
 if stridx($TERM, "xterm-256color") >= 0
   colorscheme desert256
@@ -107,26 +127,6 @@ let skk_show_annotation  = 1
 let skk_use_face         = 1
 let skk_imdisable_state  = 0
 let skk_sticky_key       = ';'
-
-" matchitスクリプトの読み込み
-source $VIMRUNTIME/macros/matchit.vim
-
-" 括弧の入力補助
-inoremap ( ()<ESC>i
-inoremap [ []<ESC>i
-inoremap { {}<ESC>i
-
-nmap ,( csw(
-nmap ,{ csw{
-nmap ,[ csw[
-
-nmap ,' csw'
-nmap ," csw"
-
-
-" JとDで半ページ移動
-noremap J <C-D>
-noremap K <C-U>
 
 " UTF8、SJIS(CP932)、EUCJPで開き直す
 command! -bang -nargs=? Utf8
@@ -174,8 +174,12 @@ nmap ,b :buffers<CR>
 " NERDTree
 nmap <silent> <Leader>t :NERDTreeToggle<CR>
 
+" smooth_scroll
+nnoremap <PageUp> <C-B>
+nnoremap <PageDown> <C-F>
 
-" QFixHowm用設定
+
+" QFixHowm用設定=========================================================
 set runtimepath+=~/qfixapp
 
 "キーマップリーダー
@@ -206,10 +210,11 @@ elseif has('mac')
 elseif has('unix')
   let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
 endif
+" QFixHowm用設定 end=====================================================
 
 
 
-" AutoComplPop
+" AutoComplPop===========================================================
 let g:acp_completeOption = '.,w,b,u,t,i,d,k'
 inoremap <silent> <expr> <F12>
       \ (exists('#AcpGlobalAutoCommand#InsertEnter#*')) ? "\<C-o>:AutoComplPopDisable\<CR>\<C-o>:echo 'AutoComplPop Disabled'\<CR>" : "\<C-o>:AutoComplPopEnable\<CR>\<C-o>:echo 'AutoComplPop Enabled'\<CR>"
@@ -221,6 +226,7 @@ hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 "<C-Space>でomni補完
 imap <C-Space> <C-x><C-o>
+" AutoComplPop end=======================================================
 
 
 " rubycomplete.vim
@@ -250,7 +256,7 @@ nnoremap <silent> ,gd :Gist -d<CR>
 nnoremap <silent> ,gl :Gist -l<CR>
 
 
-" neocomplcache
+" neocomplcache===================================================
  " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
@@ -328,7 +334,7 @@ if !exists('g:neocomplcache_omni_patterns')
 let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-
+" neocomplcache end===================================================
 
 
 if has("cscope") && filereadable("/usr/bin/cscope")
