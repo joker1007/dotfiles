@@ -55,3 +55,15 @@
 [submodule "vim/bundle/vim-grep"]
 	path = vim/bundle/vim-grep
 	url = git://github.com/vim-scripts/grep.vim.git
+[submodule "vim/bundle/unite-help"]
+	path = vim/bundle/unite-help
+	url = git://github.com/tsukkee/unite-help.git
+[submodule "vim/bundle/unite-gem"]
+	path = vim/bundle/unite-gem
+	url = git://github.com/ujihisa/unite-gem.git
+[submodule "vim/bundle/unite-grep"]
+	path = vim/bundle/unite-grep
+	url = git://github.com/Sixeight/unite-grep.git
+[submodule "vim/bundle/vim-unite-history"]
+	path = vim/bundle/vim-unite-history
+	url = git://github.com/thinca/vim-unite-history.git
