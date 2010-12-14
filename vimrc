@@ -258,10 +258,12 @@ nnoremap <Leader>fb :FufBuffer<CR>
 nnoremap <Leader>fd :FufDir<CR>
 
 " Unite
-nnoremap <silent> <Leader>uf  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> <Leader>ub  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
-nnoremap <silent> <Leader>ur  :<C-u>Unite -buffer-name=register register<CR>
-nnoremap  <Leader>uu  :<C-u>Unite source<CR>
+nnoremap [unite] <Nop>
+nmap     ,u [unite]
+nnoremap <silent> [unite]f  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
 
 
 " Gist.vim
