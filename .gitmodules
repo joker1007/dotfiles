@@ -52,3 +52,6 @@
 [submodule "vim/bundle/vim-smartchr"]
 	path = vim/bundle/vim-smartchr
 	url = git://github.com/kana/vim-smartchr.git
+[submodule "vim/bundle/vim-grep"]
+	path = vim/bundle/vim-grep
+	url = git://github.com/vim-scripts/grep.vim.git

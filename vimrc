@@ -251,6 +251,9 @@ MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
+" grep.vim
+let Grep_Default_Options = '-i'
+nnoremap <C-G> :<C-u>GrepBuffer<Space>
 
 " FuzzyFinder
 nnoremap <Leader>ff :FufFile<CR>
