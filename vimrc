@@ -25,19 +25,23 @@ command!
 \ MyAutocmd
 \ autocmd<bang> vimrc <args>
 
-set nocompatible	" Use Vim defaults (much better!)
-set bs=indent,eol,start		" allow backspacing over everything in insert mode
-set ai			" always set autoindenting on
+"Basic Setting-----------------------------------------------
+set nocompatible            " Use Vim defaults (much better!)
+set bs=indent,eol,start     " allow backspacing over everything in insert mode
+set ai                      " always set autoindenting on
 set backupdir=~/.vim/backup
-set backup		" keep a backup file
-set viminfo='20,\"50	" read/write a .viminfo file, don't store more
-			" than 50 lines of registers
-set history=100		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
+set noswapfile              " No Swap
+set backup                  " keep a backup file
+set viminfo='20,\"50        " read/write a .viminfo file, don't store more
+                            " than 50 lines of registers
+set history=100             " keep 50 lines of command line history
+set ruler                   " show the cursor position all the time
 set ambiwidth=double
 
 " 行番号を表示
 set nu
+
+" 編集中の行に下線を引く
 MyAutocmd InsertLeave * setlocal nocursorline
 MyAutocmd InsertEnter * setlocal cursorline
 
@@ -70,6 +74,8 @@ set clipboard=unnamed
 
 " バッファ切り替え
 set hidden
+
+" Tab表示
 set list
 set listchars=tab:>-
 
@@ -84,6 +90,7 @@ set formatoptions+=mM
 
 " matchitスクリプトの読み込み
 source $VIMRUNTIME/macros/matchit.vim
+"------------------------------------------------------------
 
 " 括弧の入力補助
 inoremap ( ()<ESC>i
@@ -182,9 +189,7 @@ nnoremap <PageDown> <C-F>
 function! EnableSmartchrBasic()
   inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
   inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
-  inoremap <buffer><expr> / smartchr#one_of(' / ', '// ', '/')
   inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
-  inoremap <buffer><expr> % smartchr#one_of(' % ', '%')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
   inoremap <buffer><expr> <Bar> smartchr#one_of(' <Bar> ',  ' <Bar><Bar> ',  '<Bar>')
   inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
