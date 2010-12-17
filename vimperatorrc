@@ -222,6 +222,7 @@ map cc <esc>:copy<cr>
 map cu <esc>:copy %URL%<cr>
 map ct <esc>:copy %TITLE%<cr>
 map cb <esc>:copy %TITLE% - %URL%<cr>
+map ch <esc>:copy hatena<cr>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE% %URL%' },
@@ -229,7 +230,8 @@ liberator.globalVariables.copy_templates = [
   { label: 'url',            value: '%URL%' },
   { label: 'markdown',       value: '[%TITLE%](%URL% "%TITLE%")' },
   { label: 'markdownsel',    value: '[%SEL%](%URL% "%TITLE%")' },
-  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
+  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
+  { label: 'hatena',         value: '[%URL%:title]' },
 ];
 EOM
 

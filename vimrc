@@ -255,7 +255,7 @@ imap <C-Space> <C-x><C-o>
 
 " rubycomplete.vim
 MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
 MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
