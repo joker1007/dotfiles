@@ -67,3 +67,6 @@
 [submodule "vim/bundle/vim-unite-history"]
 	path = vim/bundle/vim-unite-history
 	url = git://github.com/thinca/vim-unite-history.git
+[submodule "vim/bundle/hatena"]
+	path = vim/bundle/hatena
+	url = git://github.com/motemen/hatena-vim.git

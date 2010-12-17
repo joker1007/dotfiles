@@ -199,6 +199,9 @@ endfunction
 
 MyAutocmd FileType c,php,python,javascript,ruby,eruby,vim call EnableSmartchrBasic()
 
+" hatena.vim
+let g:hatena_user = 'joker1007'
+
 
 " QFixHowm用設定=========================================================
 set runtimepath+=~/qfixapp
