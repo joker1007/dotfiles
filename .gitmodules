@@ -67,3 +67,9 @@
 [submodule "vim/bundle/vim-unite-history"]
 	path = vim/bundle/vim-unite-history
 	url = git://github.com/thinca/vim-unite-history.git
+[submodule "vim/bundle/vim-textobj-user"]
+	path = vim/bundle/vim-textobj-user
+	url = git://github.com/kana/vim-textobj-user.git
+[submodule "vim/bundle/vim-textobj-rubyblock"]
+	path = vim/bundle/vim-textobj-rubyblock
+	url = git://github.com/nelstrom/vim-textobj-rubyblock.git
