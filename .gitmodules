@@ -73,3 +73,6 @@
 [submodule "vim/bundle/vim-textobj-rubyblock"]
 	path = vim/bundle/vim-textobj-rubyblock
 	url = git://github.com/nelstrom/vim-textobj-rubyblock.git
+[submodule "vim/bundle/hatena"]
+	path = vim/bundle/hatena
+	url = git://github.com/motemen/hatena-vim.git
