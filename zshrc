@@ -147,6 +147,7 @@ alias g='git'
 alias gst='git status'
 alias gco='git commit'
 alias gpu='git push'
+alias be='bundle exec'
 
 
 # Global aliases
