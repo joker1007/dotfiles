@@ -1,5 +1,6 @@
 " encoding
-set fileencodings=utf-8,cp932,eucjp
+set fileencoding=japan
+set fileencodings=iso-2022-jp,utf-8,euc-jp,ucs-2le,ucs-2,cp932 
 
 " pathogen
 filetype off
