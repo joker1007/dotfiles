@@ -22,3 +22,5 @@ echo "Gen Simbolic Link .zshenv => ~/.zshenv"
 ln -sf ${PWD}/zshenv ~/.zshenv
 echo "Gen Simbolic Link .zlogin => ~/.zlogin"
 ln -sf ${PWD}/zlogin ~/.zlogin
+echo "Gen Simbolic Link .irbrc => ~/.irbrc"
+ln -sf ${PWD}/irbrc ~/.irbrc
