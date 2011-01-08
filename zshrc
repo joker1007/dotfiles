@@ -285,6 +285,16 @@ function _update_titlebar() {
 
 add-zsh-hook precmd _update_titlebar
 
+# auto-fu.zsh
+unsetopt sh_word_split
+if is-at-least 4.3.10; then
+  source ~/.zsh/auto-fu.zsh
+  zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+
+  zstyle ':completion:*' completer _oldlist _complete _match
+fi
+
+
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
