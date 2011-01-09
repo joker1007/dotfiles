@@ -287,12 +287,10 @@ add-zsh-hook precmd _update_titlebar
 
 # auto-fu.zsh
 unsetopt sh_word_split
-if is-at-least 4.3.10; then
-  source ~/.zsh/auto-fu.zsh
-  zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+source ~/.zsh/auto-fu.zsh
+zle-line-init () {auto-fu-init;}; zle -N zle-line-init
 
-  zstyle ':completion:*' completer _oldlist _complete _match
-fi
+zstyle ':completion:*' completer _oldlist _complete _match
 
 
 # rvmの読み込み

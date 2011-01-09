@@ -1,3 +1,7 @@
 [user]
 	name = joker1007
 	email = kakyoin.hierophant@gmail.com
+[core]
+	excludesfile = /Users/joker/.gitignore
+[color]
+	ui = auto
