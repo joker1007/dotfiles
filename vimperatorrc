@@ -170,7 +170,7 @@ EOM
 " plugins
 " ======================================================================
 " delicious_search.js
-autocmd VimperatorEnter .* :set complete+=D
+" autocmd VimperatorEnter .* :set complete+=D
 
 " ime_controller.js
 let g:ex_ime_mode = "inactive"

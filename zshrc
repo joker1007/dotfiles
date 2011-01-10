@@ -198,9 +198,15 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
+# cdしたら自動的にlsを行う
+autoload -Uz add-zsh-hook
+_ls () { ls }
+add-zsh-hook chpwd _ls
+
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$SCREEN" = "true" ]; then
-    chpwd () { echo -n "_`dirs`\\" }
+    _screen_chpwd () { echo -n "_`dirs`\\" }
+    add-zsh-hook chpwd _screen_chpwd
     preexec() {
         # see [zsh-workers:13180]
         # http://www.zsh.org/mla/workers/2000/msg03993.html
@@ -234,11 +240,10 @@ if [ "$SCREEN" = "true" ]; then
             cmd=(${(z)${(e):-\$jt$num}})
             echo -n "k$cmd[1]:t\\") 2>/dev/null
     }
-    chpwd
+    _screen_chpwd
 fi
 
 # vcs_infoとrvmで利用しているrubyを表示する
-autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg bzr
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
