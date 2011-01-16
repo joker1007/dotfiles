@@ -200,8 +200,8 @@ bindkey '\ee' edit-command-line
 
 # cdしたら自動的にlsを行う
 autoload -Uz add-zsh-hook
-_ls () { ls }
-add-zsh-hook chpwd _ls
+_autols () { ls }
+add-zsh-hook chpwd _autols
 
 # 最後に打ったコマンドをscreenのウィンドウタイトルに
 if [ "$SCREEN" = "true" ]; then
