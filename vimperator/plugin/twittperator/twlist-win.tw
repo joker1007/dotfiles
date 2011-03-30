@@ -103,7 +103,8 @@ let winXML = <>
       this.lastIndex++;
       let panel = tabBox.tabpanels.appendChild(xmlToDom(
         <tabpanel flex="1" xmlns={XUL}>
-          <richlistbox id={"twlist-track-"+this.lastIndex} flex="1" onselect="twlist.onSelect(event)"/>
+          <richlistbox id={"twlist-track-"+this.lastIndex} flex="1" disableKeyNavigation="true"
+                       onselect="twlist.onSelect(event)"/>
         </tabpanel>, XUL)
       );
       let trackTab = new TrackTab(word, this.lastIndex);
@@ -152,6 +153,9 @@ let winXML = <>
     keepMaxRows(box);
     if (doSetSymbol)
       setNewSymbol(box);
+
+    if (box.selectedIndex >= 0)
+      box.ensureIndexIsVisible(box.selectedIndex);
   }
   function xmlToDom(xml, xmlns) {
     XML.prettyPrinting = false;
@@ -260,6 +264,7 @@ let winXML = <>
         let listbox = getCurrentListBox();
         let index = getItemIndex(listbox, arg);
         listbox.ensureIndexIsVisible( listbox.selectedIndex = index );
+        listbox.timedSelect(listbox.getItemAtIndex(index), 0.1);
       },
       reply: function(){
         let listbox = getCurrentListBox();
@@ -400,15 +405,15 @@ let winXML = <>
     </tabs>
     <tabpanels id="twlist-panels" flex="1" style="background: transparent;" contextmenu="twlist-context">
       <tabpanel flex="1">
-        <richlistbox id="twlist-timeline"
+        <richlistbox id="twlist-timeline" disableKeyNavigation="true"
                      flex="1" onselect="twlist.onSelect(event)"/>
       </tabpanel>
       <tabpanel flex="1">
-        <richlistbox id="twlist-mentions" flex="1"
+        <richlistbox id="twlist-mentions" flex="1" disableKeyNavigation="true"
                      onselect="twlist.onSelect(event)"/>
       </tabpanel>
       <tabpanel flex="1">
-        <richlistbox id="twlist-dm" flex="1"
+        <richlistbox id="twlist-dm" flex="1" disableKeyNavigation="true"
                      onselect="twlist.onSelect(event)"/>
       </tabpanel>
     </tabpanels>

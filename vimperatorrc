@@ -1,5 +1,4 @@
-" retlet .vimperatorrc
-" for Vimperator 2.0pre (created: 2009/02/02 07:30:03)
+" for Vimperator 3.0
 
 " prefs
 " ======================================================================
@@ -28,25 +27,26 @@ autocmd LocationChange https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor
 " options
 " ======================================================================
 " ex mode でインクリメント補完
-set wildoptions=auto
+set autocomplete=true
 
 " :[tab]open の補完対象と順番
 set complete=sl
 
+" hintにアルファベットを使用する
+set hintchars=abcdefghijklmnopqrstuvwxyz
+
 " ブラウザタイトルの変更
-set titlestring=Firefox
+set titlestring=Vimperator
 
 " スクロールバーとタブ番号を表示
-set go=rbn
-
-" タブバーを常に表示
-"set showtabline=2
+set toolbars=noaddons,nobookmarks,nomenu,nonavigation,tabs
+set tabnumbers
 
 " リンクのURIをコマンドラインに表示
 set showstatuslinks=2
 
 " 新規ウィンドウの処理
-set popups=2
+set popups=tab
 
 " ページロード時にテキストボックスにフォーカスするのを防ぐ
 set focuscontent
@@ -55,9 +55,24 @@ set focuscontent
 set visualbell
 hi Bell opacity: .5;
 
-noremap <C-1> :set guioptions=rbn<cr>
-noremap <C-2> :set guioptions=rbnB<cr>
-noremap <C-3> :set guioptions=rbnBmT<cr>
+noremap <C-1> :set toolbars=noaddons,nobookmarks,nomenu,nonavigation,tabs<cr>
+noremap <C-2> :set toolbars=noaddons,bookmarks,nomenu,nonavigation,tabs<cr>
+noremap <C-3> :set toolbars=noaddons,bookmarks,menu,navigation,tabs<cr>
+
+
+" Panorama
+style -name panorama chrome://browser/content/tabview.html <<EOM
+.groupItem {
+ background-color: rgba(224,234,245,.5) !important;
+}
+.title-container>.name {
+ color: black !important;
+ font-weight: bold;
+ text-shadow: 1px 1px 2px pink;
+}
+#exit-button,#searchbutton { background-color: rgba(240,240,240,.5) !important; }
+EOM
+
 
 " mappings
 " ======================================================================
@@ -169,18 +184,18 @@ EOM
 
 " plugins
 " ======================================================================
+
 " delicious_search.js
 " autocmd VimperatorEnter .* :set complete+=D
 
-" ime_controller.js
-let g:ex_ime_mode = "inactive"
-let g:textarea_ime_mode = "inactive"
+" hatena_bookmark_search.js
+autocmd VimperatorEnter .* :set complete+=H
 
 " migemo_hint.js
-set hintmatching=custom
+" set hintmatching=custom
 
 " sbmcommentsviewer.js
-let g:def_sbm_format = "timestamp,id,tagsAndComment"
+let g:def_sbm_format = "timestamp,id,tags,comment"
 let g:def_sbms = "hd"
 map ,c :viewSBMComments<CR>
 
@@ -189,10 +204,10 @@ let g:direct_sbm_use_services_by_tag = "d"
 let g:direct_sbm_use_services_by_post = "d"
 let g:direct_sbm_is_normalize = "false"
 let g:direct_sbm_is_use_migemo = "true"
-map B :bentry<CR>
+"map B :bentry<CR>
 "map A :sbm<CR>
-map a :sbm<Space>
-map ,a :btags<CR>
+"map a :sbm<Space>
+"map ,a :btags<CR>
 
 " ldrize_cooperation.js
 let g:ldrc_captureMappings = "['j','k','p','o','?']"
@@ -222,7 +237,6 @@ map cc <esc>:copy<cr>
 map cu <esc>:copy %URL%<cr>
 map ct <esc>:copy %TITLE%<cr>
 map cb <esc>:copy %TITLE% - %URL%<cr>
-map ch <esc>:copy hatena<cr>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE% %URL%' },
@@ -230,8 +244,8 @@ liberator.globalVariables.copy_templates = [
   { label: 'url',            value: '%URL%' },
   { label: 'markdown',       value: '[%TITLE%](%URL% "%TITLE%")' },
   { label: 'markdownsel',    value: '[%SEL%](%URL% "%TITLE%")' },
-  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
-  { label: 'hatena',         value: '[%URL%:title]' },
+  { label: 'hatena',         value: '[%URL%:%TITLE%]' },
+  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
 ];
 EOM
 
@@ -243,25 +257,6 @@ liberator.globalVariables.accountSwitcherLoginServices = [
   'joker1007@twitter',
   'kakyoin.hierophant@google',
 ];
-EOM
-
-" autoproxychanger.js
-js <<EOM
-liberator.globalVariables.autochanger_proxy_enabled = true;
-liberator.globalVariables.autochanger_proxy_settings = [{
-  name  : 'disable',
-  usage : 'direct connection',
-  proxy :{
-	type      :0,
-  },
-},{
-  name  : 'polipo-auto',
-  usage : 'polipo pac file',
-  proxy :{
-	autoconfig_url : 'file:///C:/polipo/otsune-proxy.pac',
-	type           : 2,
-  },
-}];
 EOM
 
 
@@ -281,37 +276,8 @@ lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g
 lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
 lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
 
-
 " javascripts
 " ======================================================================
-" ステータスバーにfeedボタンを表示
-js <<EOM
-(function(){
- var feedPanel = document.createElement('statusbarpanel');
- var feedButton = document.getElementById('feed-button');
- feedPanel.setAttribute('id','feed-panel-clone');
- feedPanel.appendChild(feedButton.cloneNode(true));
- feedButton.parentNode.removeChild(feedButton);
- document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
-})();
-EOM
-
-" feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
-" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
-"js <<EOM
-"autocommands.add(
-"  'VimperatorEnter',
-"  /.*/,
-"  function () {
-"    let (orig = plugins.LocalKeyMode.loadKeyMap) {
-"      plugins.LocalKeyMode.loadKeyMap = function () {
-"        if (!liberator.plugins.feedKey || liberator.plugins.feedKey.origMap.length <= 0)
-"          orig.call(plugins.LocalKeyMode);
-"      };
-"    }
-"  }
-");
-"EOM
 
 " AutopagerizeのON/OFF
 javascript <<EOM
@@ -343,6 +309,8 @@ qmark c https://www.google.com/calendar/
 
 " colorscheeme
 " ======================================================================
-colorscheme sweets
+" colorscheme sweets
+
+source! ~/.vimperatorrc.local
 
 " vim: set ft=vimperator:

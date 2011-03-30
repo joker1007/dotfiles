@@ -8,7 +8,7 @@ var PLUGIN_INFO =
     <license>GPL</license>
     <minVersion>2.0pre</minVersion>
     <maxVersion>2.2</maxVersion>
-    <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/direct_bookmark.js</updateURL>
+    <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/direct_bookmark.js</updateURL>
     <detail><![CDATA[
 Social Bookmark direct add script for Vimperator 2.2
 for Migemo search: require XUL/Migemo Extension
@@ -297,14 +297,8 @@ for Migemo search: require XUL/Migemo Extension
     //
 
     function getNormalizedPermalink(url){
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET","http://api.pathtraq.com/normalize_url?url=" + url,false);
-        xhr.send(null);
-        if(xhr.status != 200){
-            liberator.echoerr("Pathtraq: FAILED to normalize URL!!");
-            return undefined;
-        }
-        return xhr.responseText;
+        var canonical = plugins.libly.$U.getFirstNodeFromXPath('//link[@rel="canonical"]');
+        return canonical ? canonical.href : url;
     }
 
     function getUserAccount(form,post,arg){
@@ -382,12 +376,11 @@ for Migemo search: require XUL/Migemo Extension
                 var xhr = new XMLHttpRequest();
                 var hatena_tags = [];
 
-                //xhr.open("GET","http://b.hatena.ne.jp/my",false);
-                xhr.open("GET","http://b.hatena.ne.jp/"+user,false);
+                // http://b.hatena.ne.jp/retlet/20110322#bookmark-34906937
+                xhr.open("GET","http://b.hatena.ne.jp/"+user+"/sidebar?with_tags=1",false);
                 xhr.send(null);
 
                 var mypage_html = parseHTML(xhr.responseText);
-                //var tags = getElementsByXPath("//ul[@id=\"taglist\"]/li/a",mypage_html);
                 var tags = getElementsByXPath('id("tags")/li/a', mypage_html);
 
                 tags.forEach(function(tag){
@@ -478,7 +471,7 @@ for Migemo search: require XUL/Migemo Extension
                 xhr.send(null);
 
                 var mypage_html = parseHTML(xhr.responseText);
-                var tags = getElementsByXPath("id(\"tag_list\")/span",mypage_html);
+                var tags = getElementsByXPath("id(\"tag_list\")/div/span",mypage_html);
 
                 tags.forEach(function(tag){
                     ldc_tags.push(tag.textContent);
