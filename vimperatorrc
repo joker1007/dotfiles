@@ -60,20 +60,6 @@ noremap <C-2> :set toolbars=noaddons,bookmarks,nomenu,nonavigation,tabs<cr>
 noremap <C-3> :set toolbars=noaddons,bookmarks,menu,navigation,tabs<cr>
 
 
-" Panorama
-style -name panorama chrome://browser/content/tabview.html <<EOM
-.groupItem {
- background-color: rgba(224,234,245,.5) !important;
-}
-.title-container>.name {
- color: black !important;
- font-weight: bold;
- text-shadow: 1px 1px 2px pink;
-}
-#exit-button,#searchbutton { background-color: rgba(240,240,240,.5) !important; }
-EOM
-
-
 " mappings
 " ======================================================================
 " OSのキーバインドを再現 
