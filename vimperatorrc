@@ -59,6 +59,8 @@ noremap <C-1> :set toolbars=noaddons,nobookmarks,nomenu,nonavigation,tabs<cr>
 noremap <C-2> :set toolbars=noaddons,bookmarks,nomenu,nonavigation,tabs<cr>
 noremap <C-3> :set toolbars=noaddons,bookmarks,menu,navigation,tabs<cr>
 
+" Hintのスタイル
+highlight! Hint font-size: 14pt; padding: 2px; background: rgba(80, 80, 80, .7); color: white; font-family: "KonatuTohaba",monospace;
 
 " mappings
 " ======================================================================
