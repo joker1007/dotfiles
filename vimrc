@@ -198,7 +198,12 @@ function! EnableSmartchrBasic()
           \ : smartchr#one_of(' = ', ' == ', '=')
 endfunction
 
-MyAutocmd FileType c,php,python,javascript,ruby,eruby,vim call EnableSmartchrBasic()
+function! EnableSmartchrRubyHash()
+  inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
+endfunction
+
+MyAutocmd FileType c,php,python,javascript,ruby,vim call EnableSmartchrBasic()
+MyAutocmd FileType ruby call EnableSmartchrRubyHash()
 
 " hatena.vim
 let g:hatena_user = 'joker1007'
@@ -272,7 +277,8 @@ nnoremap <Leader>fd :FufDir<CR>
 " Unite
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]f  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]F  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
