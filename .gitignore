@@ -11,3 +11,4 @@ vim/doc/tags-ja
 vim/bundle/*/doc/tags
 vim/bundle/*/doc/tags-ja
 *.zwc
+.svn
