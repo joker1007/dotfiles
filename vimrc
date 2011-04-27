@@ -99,9 +99,11 @@ inoremap [ []<ESC>i
 inoremap { {}<ESC>i
 
 nmap ,( csw(
+nmap ,) csw)
 nmap ,{ csw{
+nmap ,} csw}
 nmap ,[ csw[
-
+nmap ,] csw]
 nmap ,' csw'
 nmap ," csw"
 
@@ -188,11 +190,11 @@ nnoremap <PageDown> <C-F>
 
 " smartchr
 function! EnableSmartchrBasic()
-  inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
-  inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
-  inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+  inoremap <buffer><expr> + smartchr#one_of('+', ' + ', '++')
+  inoremap <buffer><expr> - smartchr#one_of('-', ' - ', '--')
+  inoremap <buffer><expr> & smartchr#one_of('&', ' & ', ' && ')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
-  inoremap <buffer><expr> <Bar> smartchr#one_of(' <Bar> ',  ' <Bar><Bar> ',  '<Bar>')
+  inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar> ', ' <Bar><Bar> ')
   inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
           \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
           \ : smartchr#one_of(' = ', ' == ', '=')
@@ -267,9 +269,12 @@ nnoremap <Leader>fd :FufDir<CR>
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]F  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]F  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register -prompt="> register<CR>
+nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR>
+nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
 
 
