@@ -270,7 +270,7 @@ nnoremap [unite] <Nop>
 nmap     ,u [unite]
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]F  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register -prompt="> register<CR>
 nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
@@ -335,7 +335,7 @@ inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 " <TAB>: completion.
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
