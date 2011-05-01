@@ -1,4 +1,10 @@
 "---------------------------------------------------------------------------
+" ローカル設定:
+if filereadable(expand('~/.gvimrc.local'))
+  execute 'source' expand('~/.gvimrc.local')
+endif
+
+"---------------------------------------------------------------------------
 " ウインドウに関する設定:
 "
 " ウインドウの幅
@@ -9,10 +15,6 @@ set lines=50
 set cmdheight=2
 " GUIパーツの表示設定
 set guioptions=egimrLta
-" ウインドウの透明度
-if has('kaoriya')
-  set transparency=220
-endif
 
 "---------------------------------------------------------------------------
 " フォント設定:
@@ -70,3 +72,8 @@ set mousehide
 set guioptions+=a
 
 colorscheme desert
+
+" ポップアップメニューのカラーを設定
+hi Pmenu ctermbg=18 guibg=#666666
+hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
+hi PmenuSbar guibg=#333333
