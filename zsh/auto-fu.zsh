@@ -17,6 +17,9 @@
 # 3) use the _oldlist completer something like below.
 # % zstyle ':completion:*' completer _oldlist _complete
 # (If you have a lot of completer, please insert _oldlist before _complete.)
+# 4) establish `zle-keymap-select' containing `auto-fu-zle-keymap-select'.
+# % zle -N zle-keymap-select auto-fu-zle-keymap-select
+# (This enables the afu-vicmd keymap switching coordinates a bit.)
 #
 # *Optionally* you can use the zcompiled file for a little faster loading on
 # every shell startup, if you zcompile the necessary functions.
@@ -60,13 +63,69 @@
 #       zstyle ':auto-fu:var' disable magic-space
 #     yields; complete-word will not be triggered after pressing the
 #     space-bar, otherwise automatic thing will be taken into account.
-
+#   track-keymap-skip
+#     A list of keymap names to *NOT* be treated as a keymap change.
+#     In other words, these keymaps cannot be used with the standalone main
+#     keymap. For example "opp". If you use my opp.zsh, please add an 'opp'
+#     to this zstyle.
+#   autoable-function/skipwords
+#   autoable-function/skiplbuffers
+#   autoable-function/skiplines
+#     A list of patterns to *NOT* be treated as auto-stuff appropriate.
+#     These patterns will be tested against the part of the command line
+#     buffer as shown on the below figure:
+#     (*) is used to denote the cursor position.
+#
+#       # nocorrect aptitude --assume-*yes -d install zsh && echo ready
+#                            <-------->skipwords
+#                   <----------------->skiplbuffers
+#                   <----------------------------------->skplines
+#
+#     Examples:
+#     - To disable auto-stuff inside single and also double quotes.
+#       And less than 3 chars before the cursor.
+#       zstyle ':auto-fu:var' autoable-function/skipwords \
+#         "('|$'|\")*" "^((???)##)"
+#
+#     - To disable the rm's first option, and also after the '(cvs|svn) co'.
+#       zstyle ':auto-fu:var' autoable-function/skiplbuffers \
+#         'rm -[![:blank:]]#' '(cvs|svn) co *'
+#
+#     - To disable after the 'aptitude word '.
+#       zstyle ':auto-fu:var' autoable-function/skiplines \
+#         '([[:print:]]##[[:space:]]##|(#s)[[:space:]]#)aptitude [[:print:]]# *'
+#   autoable-function/preds
+#     A list of functions to be called whether auto-stuff appropriate or not.
+#     These functions will be called with the arguments (above figure)
+#       - $1 '--assume-'
+#       - $2 'aptitude'
+#       - $3 'aptitude --assume-'
+#       - $4 'aptitude --assume-yes -d install zsh'
+#     For example,
+#     to disable some 'perl -M' thing, we can do by the following zsh codes.
+#>
+#       afu-autoable-pm-p () { [[ ! ("$2" == 'perl' && "$1" == -(#i)m*) ]] }
+#
+#       # retrieve default value into 'preds' to push the above function into.
+#       local -a preds; afu-autoable-default-functions preds
+#       preds+=afu-autoable-pm-p
+#
+#       zstyle ':auto-fu:var' autoable-function/preds $preds
+#<
+#     The afu-autoable-dots-p is actually an example of this ability to skip
+#     uninteresting dots.
+#   autoablep-function
+#     A predicate function to determine whether auto-stuff could be
+#     appropriate. (Default `auto-fu-default-autoable-pred' implements the
+#     above autoablep-function/* functionality.)
+#
 # Configuration example
 
 # zstyle ':auto-fu:highlight' input bold
 # zstyle ':auto-fu:highlight' completion fg=black,bold
 # zstyle ':auto-fu:highlight' completion/one fg=white,bold,underline
 # zstyle ':auto-fu:var' postdisplay $'\n-azfu-'
+# zstyle ':auto-fu:var' track-keymap-skip opp
 # #zstyle ':auto-fu:var' disable magic-space
 
 # XXX: use with the error correction or _match completer.
@@ -80,12 +139,11 @@
 # XXX: ignoreeof semantics changes for overriding ^D.
 # You cannot change the ignoreeof option interactively. I'm verry sorry.
 
-# TODO: refine afu-able-space-p or better.
+# TODO: play nice with zsh-syntax-highlighting.
 # TODO: http://d.hatena.ne.jp/tarao/20100531/1275322620
 # TODO: pause auto stuff until something happens. ("next magic-space" etc)
 # TODO: handle RBUFFER.
 # TODO: signal handling during the recursive edit.
-# TODO: add afu-viins/afu-vicmd keymaps.
 # TODO: handle empty or space characters.
 # TODO: cp x /usr/loc
 # TODO: region_highlight vs afu-able-p → nil
@@ -97,9 +155,14 @@
 # TODO: when `_match`ing,
 # sometimes extra <TAB> key is needed to enter the menu select,
 # sometimes is *not* needed. (already be entered menu select state.)
-# TODO: play nice with bang_hist.
 
 # History
+
+# v0.0.1.11
+# play nice with banghist.
+# Thank you very much for the report, yoshikaw!
+# add autoablep-function machinery.
+# Thank you very much for the suggestion, tyru and kei_q!
 
 # v0.0.1.10
 # Fix not work auto-thing without extended_glob.
@@ -189,7 +252,6 @@ afu-install () {
   bindkey -M afu "^X^[" afu+vi-cmd-mode
 
   bindkey -N afu-vicmd vicmd
-  bindkey -M afu-vicmd  "i" afu+vi-ins-mode
 }
 
 afu-install-isearchmap () {
@@ -234,6 +296,39 @@ afu-register-zle-eof      afu+orf-exit-deletechar-list exit
 
 afu+vi-ins-mode () { zle -K afu      ; }; zle -N afu+vi-ins-mode
 afu+vi-cmd-mode () { zle -K afu-vicmd; }; zle -N afu+vi-cmd-mode
+
+auto-fu-zle-keymap-select () { afu-track-keymap "$@" afu-adjust-main-keymap }
+
+afu-adjust-main-keymap () { [[ "$KEYMAP" == 'main' ]] && { zle -K "$1" } }
+
+afu-track-keymap () {
+  typeset -gA afu_keymap_state # XXX: global state variable.
+  local new="${KEYMAP}"
+  local old="${2}"
+  local fun="${3}"
+  { afu-track-keymap-skip-p "$old" "$new" } && return
+  local cur="${afu_keymap_state[cur]-}"
+  afu_keymap_state+=(old "${afu_keymap_state[cur]-}")
+  afu_keymap_state+=(cur "$old $new")
+  [[ "$new" == 'main' ]] && [[ -n "$cur" ]] && {
+    local -a tmp; tmp=("${(Q)=cur}")
+    afu_keymap_state+=(cur "$old $tmp[1]")
+    "$fun" "$tmp[1]"
+  }
+}
+
+afu-track-keymap-skip-p () {
+  local old="$1"
+  local new="$2"
+  { [[ -z "$old" ]] || [[ -z "$new" ]] } && return 0
+  local -a ms; ms=(); zstyle -a ':auto-fu:var' track-keymap-skip ms
+  (( ${#ms} )) || return -1
+  local m; for m in $ms; do
+    [[ "$old" == "$m" ]] && return 0
+    [[ "$new" == "$m" ]] && return 0
+  done
+  return -1
+}
 
 afu-install afu-keymap+widget
 function () {
@@ -354,7 +449,7 @@ with-afu () {
   ((afu_in_p == 1)) && { afu_in_p=0; BUFFER="$buffer_cur" }
   zle $zlefun && {
     emulate -L zsh
-    setopt extended_glob
+    setopt extended_glob nobanghist
     local es ds
     zstyle -a ':auto-fu:var' enable es; (( ${#es} == 0 )) && es=(all)
     if [[ -n ${(M)es:#(#i)all} ]]; then
@@ -380,15 +475,80 @@ afu-initialize-zle-afu () {
 afu-initialize-zle-afu
 
 afu-able-p () {
-  (( afu_paused_p == 1 )) && return 1;
+  # XXX: This could be done sanely in the _main_complete or $_comps[x].
+  local pred=; zstyle -s ':auto-fu:var' autoablep-function pred
+  "${pred:-auto-fu-default-autoable-pred}"; return $?
+}
 
+auto-fu-default-autoable-pred () {
+  local -a ps; zstyle -a ':auto-fu:var' autoable-function/preds ps
+  (( $#ps )) || { afu-autoable-default-functions ps }
+
+  local -a reply; local -i REPLY REPLY2; local -a areply
+  afu-split-shell-arguments
+
+  local word="${reply[REPLY]}"
+  local commandish="${areply[1]}"
+  local p; for p in $ps; do
+    local ret=0; "$p" \
+      "$word" "$commandish" \
+        "${(j..)areply[1,((REPLY-1))]}" \
+        "${(j..)areply[1,-1]}"
+    ret=$?
+    ((ret == 1)) && return 1
+    ((ret ==-1)) && return 0 # XXX: Badness.
+  done
+  return 0
+}
+
+afu-error-symif () {
+  local fname="$1"; shift
+  local place="$1"; shift
+  [[ "$place" == (${~${(j.|.)@}}) ]] && {
+    echo \
+      "*** error in $fname; ${(qq)@} cannot be used in this context. sorry."
+    return -1
+  }
+  return 0
+}
+
+afu-autoable-default-functions () {
+  local place="$1"
+  afu-error-symif "$0" "$place" defaults || return $?
+  local -a defaults; defaults=(\
+    afu-autoable-paused-p \
+    afu-autoable-space-p \
+    afu-autoable-skipword-p \
+    afu-autoable-dots-p \
+    afu-autoable-skiplbuffer-p \
+    afu-autoable-skipline-p)
+  : ${(PA)place::=$defaults}
+}
+
+afu-autoable-paused-p () { (( afu_paused_p == 0 )) }
+
+afu-split-shell-arguments () {
+  autoload -U split-shell-arguments; split-shell-arguments
+  ((REPLY & 1)) && ((REPLY--))
+  ((REPLY2 = ${#reply[REPLY]} + 1))
+
+  # set up the 'areply'. (Cursor positoin (*))
+  # % echo bar && command ls -a* -l | grep foo
+  #                       <-------> areply holds
+  local -i p; local -a tmp
+  : ${(A)tmp::=$reply[1,REPLY]}
+  p=${tmp[(I)(\||\|\||;|&|&&)]}; ((p)) && ((p+=2)) || ((p=1))
+  while [[ $tmp[p] == (noglob|nocorrect|builtin|command) ]] do ((p+=2)) done;
+  ((p!=1)) && ((p++))
+  : ${(A)tmp::=$reply[p,-1]}
+  p=${tmp[(I)(\||\|\||;|&|&&)]}; ((p)) && ((p-=2)) || ((p=-1))
+  : ${(A)areply::=${tmp[1,p]}}
+}
+
+afu-autoable-space-p () {
   local c=$LBUFFER[-1]
   [[ $c == ''  ]] && return 1;
-  [[ $c == ' ' ]] && { afu-able-space-p || return 1 && return 0 }
-  [[ $c == '.' ]] && return 1;
-  [[ $c == '^' ]] && return 1;
-  [[ $c == '~' ]] && return 1;
-  [[ $c == ')' ]] && return 1;
+  [[ $c == ' ' ]] && { afu-able-space-p || return 1 && return -1 }
   return 0
 }
 
@@ -404,6 +564,48 @@ afu-able-space-p () {
   [[ $x[1] != man ]]
 }
 
+afu-autoable-dots-p () { [[ "${1##*/}" != ("."|"..")  ]] }
+
+afu-autoable-skip-pred () {
+  local place="$1"
+  local style="$2"
+  local deffn="$3"
+  local value="${(P)place}"
+  local -a skips; skips=(); zstyle -a ':auto-fu:var' "$style" skips
+  (($#skips==0)) && [[ -n "$deffn" ]] && { "$deffn" skips }
+  local skip; for skip in $skips; do
+    [[ "${value}" == ${~skip} ]] && {
+      [[ -n "${AUTO_FU_DEBUG-}" ]] && {
+        echo "***BREAK*** ${skip}" >> ${AUTO_FU_DEBUG-}
+      }
+      return 1
+    }
+  done
+  return 0
+}
+
+afu-autoable-skipword-p () {
+  local word="$1"
+  afu-autoable-skip-pred word autoable-function/skipwords \
+    afu-autoable-skipword-p-default
+}
+
+afu-autoable-skipword-p-default () {
+  afu-error-symif "$0" "$1" a tmp || return $?
+  local -a a; a=("'" "$'" "$histchars[1]");local -a tmp; tmp=("(${(j.|.)a})*")
+  : ${(PA)1::=$tmp}
+}
+
+afu-autoable-skiplbuffer-p () {
+  local lbuffer="$3"
+  afu-autoable-skip-pred lbuffer autoable-function/skiplbuffers
+}
+
+afu-autoable-skipline-p () {
+  local line="$4"
+  afu-autoable-skip-pred line autoable-function/skiplines
+}
+
 auto-fu-maybe () {
   (($PENDING== 0)) && { afu-able-p } && [[ $LBUFFER != *$'\012'*  ]] &&
   { auto-fu }
@@ -415,14 +617,17 @@ with-afu-compfuncs () {
   "$@"
 }
 
-auto-fu () {
+with-afu-completer-vars () {
   emulate -L zsh
   unsetopt rec_exact
   local LISTMAX=999999
+  with-afu-compfuncs "$@"
+}
 
+auto-fu () {
   cursor_cur="$CURSOR"
   buffer_cur="$BUFFER"
-  with-afu-compfuncs zle complete-word
+  with-afu-completer-vars zle complete-word
   cursor_new="$CURSOR"
   buffer_new="$BUFFER"
 
@@ -444,7 +649,7 @@ auto-fu () {
     then afu_in_p=1; {
       local BUFFER="$buffer_cur"
       local CURSOR="$cursor_cur"
-      with-afu-compfuncs zle list-choices
+      with-afu-completer-vars zle list-choices
     }
     fi
   else
@@ -471,7 +676,7 @@ afu+complete-word () {
   afu-clearing-maybe
   { afu-able-p } || { zle complete-word; return; }
 
-  with-afu-compfuncs;
+  with-afu-completer-vars;
   if ((afu_in_p == 1)); then
     afu_in_p=0; CURSOR="$cursor_new"
     case $LBUFFER[-1] in
@@ -580,7 +785,9 @@ zstyle ':auto-fu:highlight' input bold
 zstyle ':auto-fu:highlight' completion fg=black,bold
 zstyle ':auto-fu:highlight' completion/one fg=white,bold,underline
 zstyle ':auto-fu:var' postdisplay $'\n-azfu-'
+zstyle ':auto-fu:var' track-keymap-skip opp
 zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+zle -N zle-keymap-select auto-fu-zle-keymap-select
 -- 8< --
 EOT
   }
