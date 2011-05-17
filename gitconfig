@@ -5,3 +5,31 @@
 	excludesfile = /Users/joker/.gitignore
 [color]
 	ui = auto
+[alias]
+	ad = add
+	br = branch
+	ci = commit
+	cia = commit --amend
+	cih = commit --amend -C HEAD
+	cih1 = commit --amend -c HEAD@{1}
+	co = checkout
+	d = diff
+	dc = diff --cached
+	dn = diff --name-only
+	dw = diff --color-words
+	ft = fetch
+	l = log --oneline -n 20
+	lgraph = log --oneline --graph --decorate --all -n 20
+	lp = log --oneline -n 20 -p
+	ls = log --stat -n 1
+	pl = pull
+	ps = push
+	rb = rebase
+	rbh = rebase HEAD
+	rbo = rebase --onto
+	rs = reset
+	rsh = reset --hard
+	sh = show
+	so = remote show origin
+	st = status
+	sm = submodule
