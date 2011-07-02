@@ -1,10 +1,4 @@
 "---------------------------------------------------------------------------
-" ローカル設定:
-if filereadable(expand('~/.gvimrc.local'))
-  execute 'source' expand('~/.gvimrc.local')
-endif
-
-"---------------------------------------------------------------------------
 " ウインドウに関する設定:
 "
 " ウインドウの幅
@@ -77,3 +71,10 @@ colorscheme desert
 hi Pmenu ctermbg=18 guibg=#666666
 hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
+
+"---------------------------------------------------------------------------
+" ローカル設定:
+if filereadable(expand('~/.gvimrc.local'))
+  execute 'source' expand('~/.gvimrc.local')
+endif
+
