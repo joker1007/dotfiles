@@ -294,6 +294,10 @@ nnoremap <Leader>gc :<C-u>Gcommit<Enter>
 nnoremap <Leader>gC :<C-u>Git commit --amend<Enter>
 nnoremap <Leader>gb :<C-u>Gblame<Enter>
 
+" project.vim
+let g:proj_window_width = 48
+
+
 
 " neocomplcache===================================================
  " Disable AutoComplPop.
