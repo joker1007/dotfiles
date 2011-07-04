@@ -204,7 +204,7 @@ function! EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
 endfunction
 
-MyAutocmd FileType c,php,python,javascript,ruby,vim call EnableSmartchrBasic()
+MyAutocmd FileType c,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
 
 " hatena.vim
