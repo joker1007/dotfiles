@@ -22,6 +22,7 @@
 	lgraph = log --oneline --graph --decorate --all -n 20
 	lp = log --oneline -n 20 -p
 	ls = log --stat -n 1
+	log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d'
 	pl = pull
 	ps = push
 	rb = rebase
