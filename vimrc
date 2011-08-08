@@ -26,7 +26,7 @@ command!
 \ MyAutocmd
 \ autocmd<bang> vimrc <args>
 
-"Basic Setting-----------------------------------------------
+" Basic Setting
 set nocompatible            " Use Vim defaults (much better!)
 set bs=indent,eol,start     " allow backspacing over everything in insert mode
 set ai                      " always set autoindenting on
@@ -37,10 +37,14 @@ set viminfo='20,\"50        " read/write a .viminfo file, don't store more
                             " than 50 lines of registers
 set history=100             " keep 50 lines of command line history
 set ruler                   " show the cursor position all the time
+set nu                      " show line number
 set ambiwidth=double
 
-" 行番号を表示
-set nu
+" Edit vimrc
+nmap <Space>v :edit ~/.vimrc<CR>
+nmap <Space>lv :edit ~/.vimrc.local<CR>
+nmap <Space>g :edit ~/.gvimrc<CR>
+nmap <Space>lg :edit ~/.gvimrc.local<CR>
 
 " 編集中の行に下線を引く
 MyAutocmd InsertLeave * setlocal nocursorline
@@ -92,11 +96,6 @@ set formatoptions+=mM
 " matchitスクリプトの読み込み
 source $VIMRUNTIME/macros/matchit.vim
 "------------------------------------------------------------
-
-" 括弧の入力補助
-inoremap ( ()<ESC>i
-inoremap [ []<ESC>i
-inoremap { {}<ESC>i
 
 nmap ,( csw(
 nmap ,) csw)
@@ -168,7 +167,8 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBuffs = 1
 let g:miniBufExplModSelTarget       = 1
 " バッファ切り替え
-nmap <Space> :MBEbn<CR>
+nmap <Space>n :MBEbn<CR>
+nmap <Space>p :MBEbp<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
 nnoremap <Leader>3   :e #3<CR>
@@ -184,28 +184,33 @@ nmap ,b :buffers<CR>
 " NERDTree
 nmap <silent> <Leader>t :NERDTreeToggle<CR>
 
-" smooth_scroll
-nnoremap <PageUp> <C-B>
-nnoremap <PageDown> <C-F>
-
 " smartchr
+cnoremap <expr> (  smartchr#loop('\(', '(', {'ctype': '/?'})
+
 function! EnableSmartchrBasic()
-  inoremap <buffer><expr> + smartchr#one_of('+', ' + ', '++')
-  inoremap <buffer><expr> - smartchr#one_of('-', ' - ', '--')
-  inoremap <buffer><expr> & smartchr#one_of('&', ' & ', ' && ')
+  inoremap <buffer> ( ()<Esc>i
+  inoremap <buffer> [ []<Esc>i
+  inoremap <buffer> { {}<Esc>i
+  inoremap <buffer><expr> + smartchr#one_of(' + ', '+', '++')
+  inoremap <buffer><expr> - smartchr#one_of(' - ', '-', '--')
+  inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+  inoremap <buffer><expr> * smartchr#one_of('*', ' * ', ' ** ')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
-  inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar> ', ' <Bar><Bar> ')
-  inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-          \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-          \ : smartchr#one_of(' = ', ' == ', '=')
+  inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar><Bar> ', '<Bar>')
+  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
 endfunction
 
 function! EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
 endfunction
 
-MyAutocmd FileType c,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
+function! EnableSmartchrCoffeeFunction()
+  inoremap <buffer><expr> > smartchr#one_of('>', ' ->')
+endfunction
+
+MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
+MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 
 " hatena.vim
 let g:hatena_user = 'joker1007'
@@ -276,6 +281,7 @@ nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR
 nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
+nnoremap <silent> [unite]l  :<C-u>Unite -buffer-name=lines line<CR>
 
 
 " Gist.vim
