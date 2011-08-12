@@ -1,5 +1,3 @@
-" encoding
-set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,ucs-2le,ucs-2,cp932 
 
 " pathogen
@@ -112,6 +110,9 @@ nmap ," csw"
 nnoremap J <C-D>
 nnoremap K <C-U>
 
+" 編集中のファイルのディレクトリに移動
+nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
+
 " colorscheme
 if stridx($TERM, "xterm-256color") >= 0
   colorscheme desert256
@@ -168,8 +169,8 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBuffs = 1
 let g:miniBufExplModSelTarget       = 1
 " バッファ切り替え
-nmap <Space>n :MBEbn<CR>
-nmap <Space>p :MBEbp<CR>
+nmap <Space>n :<C-U>bnext<CR>
+nmap <Space>p :<C-U>bprevious<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
 nnoremap <Leader>3   :e #3<CR>
@@ -216,6 +217,16 @@ MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 " hatena.vim
 let g:hatena_user = 'joker1007'
 
+" shファイルの保存時にはファイルのパーミッションを755にする
+function! ChangeShellScriptPermission()
+  if !has("win32")
+    if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
+      call system("chmod 755 " . shellescape(expand('%:p')))
+      echo "Set permission 755"
+    endif
+  endif
+endfunction
+MyAutocmd BufWritePost * call ChangeShellScriptPermission()
 
 " QFixHowm用設定=========================================================
 set runtimepath+=~/qfixapp
@@ -275,8 +286,12 @@ nnoremap <Leader>fd :FufDir<CR>
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]vf  :<C-u>Unite -vertical -auto-preview -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files buffer file<CR>
 nnoremap <silent> [unite]F  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -auto-preview -winwidth=45 -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -auto-resize -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register -prompt="> register<CR>
 nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
@@ -287,20 +302,24 @@ nnoremap <silent> [unite]m  :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> 
 
 
 " Gist.vim
-nnoremap <silent> ,gs :Gist<CR>
-nnoremap <silent> ,gp :Gist -p<CR>
-nnoremap <silent> ,ge :Gist -e<CR>
-nnoremap <silent> ,gd :Gist -d<CR>
-nnoremap <silent> ,gl :Gist -l<CR>
+nnoremap [gist] <Nop>
+nmap ,s [gist]
+nnoremap [gist]g :Gist<CR>
+nnoremap [gist]p :Gist -p<CR>
+nnoremap [gist]e :Gist -e<CR>
+nnoremap [gist]d :Gist -d<CR>
+nnoremap [gist]l :Gist -l<CR>
 
 " Fugitive
-nnoremap <Leader>gd :<C-u>Gdiff<Enter>
-nnoremap <Leader>gs :<C-u>Gstatus<Enter>
-nnoremap <Leader>gl :<C-u>Glog<Enter>
-nnoremap <Leader>ga :<C-u>Gwrite<Enter>
-nnoremap <Leader>gc :<C-u>Gcommit<Enter>
-nnoremap <Leader>gC :<C-u>Git commit --amend<Enter>
-nnoremap <Leader>gb :<C-u>Gblame<Enter>
+nnoremap [git] <Nop>
+nmap ,g [git]
+nnoremap [git]d :<C-u>Gdiff HEAD<Enter>
+nnoremap [git]s :<C-u>Gstatus<Enter>
+nnoremap [git]l :<C-u>Glog<Enter>
+nnoremap [git]a :<C-u>Gwrite<Enter>
+nnoremap [git]c :<C-u>Gcommit<Enter>
+nnoremap [git]C :<C-u>Git commit --amend<Enter>
+nnoremap [git]b :<C-u>Gblame<Enter>
 
 " project.vim
 let g:proj_window_width = 48
