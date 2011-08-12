@@ -62,6 +62,7 @@ set hlsearch
 set ignorecase
 set smartcase
 set wrapscan
+nnoremap <silent> <Space>/ :noh<CR>
 
 " ステータスライン表示
 set laststatus=2
@@ -282,6 +283,7 @@ nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
 nnoremap <silent> [unite]l  :<C-u>Unite -buffer-name=lines line<CR>
+nnoremap <silent> [unite]m  :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 
 
 " Gist.vim
