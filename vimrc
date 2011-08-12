@@ -43,6 +43,7 @@ nmap <Space>v :edit ~/.vimrc<CR>
 nmap <Space>lv :edit ~/.vimrc.local<CR>
 nmap <Space>g :edit ~/.gvimrc<CR>
 nmap <Space>lg :edit ~/.gvimrc.local<CR>
+nnoremap <C-I> :<C-U>help<Space>
 
 " 編集中の行に下線を引く
 MyAutocmd InsertLeave * setlocal nocursorline
@@ -152,7 +153,7 @@ nnoremap ,m  :<C-u>marks<CR>
 nnoremap ,r  :<C-u>registers<CR>
 
 " YAMLファイル用タブストップ設定
-au FileType yaml set expandtab ts=2 sw=2 fenc=utf-8
+au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8
 
 " actionscript mxml用のファイルタイプ設定
 MyAutocmd BufNewFile,BufRead *.as set filetype=actionscript
@@ -163,11 +164,6 @@ map <silent> sy :call YanktmpYank()<CR>
 map <silent> sp :call YanktmpPaste_p()<CR> 
 map <silent> sP :call YanktmpPaste_P()<CR> 
 
-" miniBufExplorer設定
-let g:miniBufExplMapWindowNavVim    = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBuffs = 1
-let g:miniBufExplModSelTarget       = 1
 " バッファ切り替え
 nmap <Space>n :<C-U>bnext<CR>
 nmap <Space>p :<C-U>bprevious<CR>
@@ -182,6 +178,12 @@ nnoremap <Leader>8   :e #8<CR>
 nnoremap <Leader>9   :e #9<CR>
 " バッファ一覧
 nmap ,b :buffers<CR>
+
+" 分割ウインドウの移動
+nnoremap <C-J> <Esc><C-W>j
+nnoremap <C-K> <Esc><C-W>k
+nnoremap <C-H> <Esc><C-W>h
+nnoremap <C-L> <Esc><C-W>l
 
 " NERDTree
 nmap <silent> <Leader>t :NERDTreeToggle<CR>
@@ -285,20 +287,20 @@ nnoremap <Leader>fd :FufDir<CR>
 " Unite
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]vf  :<C-u>Unite -vertical -auto-preview -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]f   :<C-u>Unite -buffer-name=files buffer file_mru file<CR>
+nnoremap <silent> [unite]vf  :<C-u>Unite -vertical -buffer-name=files buffer file_mru file<CR>
 nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files buffer file<CR>
-nnoremap <silent> [unite]F  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -auto-preview -winwidth=45 -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -auto-resize -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru file<CR>
+nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files buffer file_mru file<CR>
+nnoremap <silent> [unite]b   :<C-u>Unite -auto-preview -auto-resize -buffer-name=buffers -prompt=#> buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register -prompt="> register<CR>
-nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR>
-nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
-nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=snippets snippet<CR>
-nnoremap <silent> [unite]u  :<C-u>Unite source<CR>
-nnoremap <silent> [unite]l  :<C-u>Unite -buffer-name=lines line<CR>
-nnoremap <silent> [unite]m  :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
+nnoremap <silent> [unite]r   :<C-u>Unite -buffer-name=register -prompt="> register<CR>
+nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<CR>
+nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
+nnoremap <silent> [unite]u   :<C-u>Unite source<CR>        
+nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
+nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 
 
 " Gist.vim
@@ -324,7 +326,38 @@ nnoremap [git]b :<C-u>Gblame<Enter>
 " project.vim
 let g:proj_window_width = 48
 
+" vimfiler
+nnoremap <silent> ,vf :<C-U>VimFiler<CR>
+let g:vimfiler_max_directory_histories = 20
+function ChangeVimfilerKeymap()
+  nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
+  nmap <buffer> j j
+  nmap <buffer> k k
+  nmap <buffer> s <Plug>(vimfiler_select_sort_type)
+  nmap <End> <Plug>(vimfiler_clear_mark_all_lines)
+  nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
+endfunction
+MyAutocmd FileType vimfiler call ChangeVimfilerKeymap()
 
+" vimshell
+nnoremap <silent> ,vs :<C-U>VimShell<CR>
+if has('win32') || has('win64')
+  " Display user name on Windows.
+  let g:vimshell_prompt = $USERNAME."% "
+else
+  let g:vimshell_prompt = $USER . "@" . hostname() . "% "
+endif
+let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
+let g:vimshell_max_command_history = 3000
+MyAutocmd FileType vimshell
+  \ call vimshell#altercmd#define('g', 'git')
+  \| call vimshell#altercmd#define('l', 'll')
+  \| call vimshell#altercmd#define('ll', 'ls -l')
+  \| call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
+
+function! g:my_chpwd(args, context)
+  call vimshell#execute('ls')
+endfunction
 
 " neocomplcache===================================================
  " Disable AutoComplPop.
