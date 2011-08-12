@@ -1,5 +1,3 @@
-" encoding
-set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,ucs-2le,ucs-2,cp932 
 
 " pathogen
@@ -111,6 +109,9 @@ nmap ," csw"
 nnoremap J <C-D>
 nnoremap K <C-U>
 
+" 編集中のファイルのディレクトリに移動
+nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
+
 " colorscheme
 if stridx($TERM, "xterm-256color") >= 0
   colorscheme desert256
@@ -215,6 +216,16 @@ MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 " hatena.vim
 let g:hatena_user = 'joker1007'
 
+" shファイルの保存時にはファイルのパーミッションを755にする
+function! ChangeShellScriptPermission()
+  if !has("win32")
+    if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
+      call system("chmod 755 " . shellescape(expand('%:p')))
+      echo "Set permission 755"
+    endif
+  endif
+endfunction
+MyAutocmd BufWritePost * call ChangeShellScriptPermission()
 
 " QFixHowm用設定=========================================================
 set runtimepath+=~/qfixapp
