@@ -168,8 +168,8 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBuffs = 1
 let g:miniBufExplModSelTarget       = 1
 " バッファ切り替え
-nmap <Space>n :MBEbn<CR>
-nmap <Space>p :MBEbp<CR>
+nmap <Space>n :<C-U>bnext<CR>
+nmap <Space>p :<C-U>bprevious<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
 nnoremap <Leader>3   :e #3<CR>
