@@ -296,20 +296,24 @@ nnoremap <silent> [unite]l  :<C-u>Unite -buffer-name=lines line<CR>
 
 
 " Gist.vim
-nnoremap <silent> ,gs :Gist<CR>
-nnoremap <silent> ,gp :Gist -p<CR>
-nnoremap <silent> ,ge :Gist -e<CR>
-nnoremap <silent> ,gd :Gist -d<CR>
-nnoremap <silent> ,gl :Gist -l<CR>
+nnoremap [gist] <Nop>
+nmap ,s [gist]
+nnoremap [gist]g :Gist<CR>
+nnoremap [gist]p :Gist -p<CR>
+nnoremap [gist]e :Gist -e<CR>
+nnoremap [gist]d :Gist -d<CR>
+nnoremap [gist]l :Gist -l<CR>
 
 " Fugitive
-nnoremap <Leader>gd :<C-u>Gdiff<Enter>
-nnoremap <Leader>gs :<C-u>Gstatus<Enter>
-nnoremap <Leader>gl :<C-u>Glog<Enter>
-nnoremap <Leader>ga :<C-u>Gwrite<Enter>
-nnoremap <Leader>gc :<C-u>Gcommit<Enter>
-nnoremap <Leader>gC :<C-u>Git commit --amend<Enter>
-nnoremap <Leader>gb :<C-u>Gblame<Enter>
+nnoremap [git] <Nop>
+nmap ,g [git]
+nnoremap [git]d :<C-u>Gdiff HEAD<Enter>
+nnoremap [git]s :<C-u>Gstatus<Enter>
+nnoremap [git]l :<C-u>Glog<Enter>
+nnoremap [git]a :<C-u>Gwrite<Enter>
+nnoremap [git]c :<C-u>Gcommit<Enter>
+nnoremap [git]C :<C-u>Git commit --amend<Enter>
+nnoremap [git]b :<C-u>Gblame<Enter>
 
 " project.vim
 let g:proj_window_width = 48
