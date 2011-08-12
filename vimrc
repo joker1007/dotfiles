@@ -285,8 +285,12 @@ nnoremap <Leader>fd :FufDir<CR>
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]vf  :<C-u>Unite -vertical -auto-preview -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files buffer file<CR>
 nnoremap <silent> [unite]F  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -auto-preview -winwidth=45 -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview -auto-resize -buffer-name=buffers -prompt=#> buffer<CR>
+nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register -prompt="> register<CR>
 nnoremap <silent> [unite]c  :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C  :<C-u>Unite -buffer-name=commands command<CR>
