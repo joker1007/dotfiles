@@ -204,6 +204,10 @@ function! EnableSmartchrBasic()
   inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
 endfunction
 
+function! EnableSmartchrRegExp()
+  inoremap <buffer><expr> ~ search('\(!\<bar>=\) \%#', 'bcn')? '<bs>~ ' : '~'
+endfunction
+
 function! EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
 endfunction
@@ -213,6 +217,7 @@ function! EnableSmartchrCoffeeFunction()
 endfunction
 
 MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
+MyAutocmd FileType python,ruby,coffee,vim call EnableSmartchrRegExp()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
 MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 
@@ -280,9 +285,9 @@ let Grep_Default_Options = '-i'
 nnoremap <C-G> :<C-u>GrepBuffer<Space>
 
 " FuzzyFinder
-nnoremap <Leader>ff :FufFile<CR>
-nnoremap <Leader>fb :FufBuffer<CR>
-nnoremap <Leader>fd :FufDir<CR>
+"nnoremap <Leader>ff :FufFile<CR>
+"nnoremap <Leader>fb :FufBuffer<CR>
+"nnoremap <Leader>fd :FufDir<CR>
 
 " Unite
 nnoremap [unite] <Nop>
