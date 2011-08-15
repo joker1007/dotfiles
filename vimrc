@@ -1,11 +1,12 @@
 set fileencodings=utf-8,euc-jp,ucs-2le,ucs-2,cp932 
 
-" pathogen
+" pathogen {{{
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 set helpfile=$VIMRUNTIME/doc/help.txt
 filetype on
+" }}}
 
 syntax on
 filetype plugin indent on
@@ -24,7 +25,7 @@ command!
 \ MyAutocmd
 \ autocmd<bang> vimrc <args>
 
-" Basic Setting
+" Basic Setting {{{
 set nocompatible            " Use Vim defaults (much better!)
 set bs=indent,eol,start     " allow backspacing over everything in insert mode
 set ai                      " always set autoindenting on
@@ -54,6 +55,11 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=0
 set expandtab
+
+" 折り畳み設定
+set foldmethod=marker
+nmap <silent> ,fc :<C-U>%foldclose<CR>
+nmap <silent> ,fo :<C-U>%foldopen<CR>
 
 " 検索設定
 set incsearch
@@ -95,17 +101,6 @@ set formatoptions+=mM
 
 " matchitスクリプトの読み込み
 source $VIMRUNTIME/macros/matchit.vim
-"------------------------------------------------------------
-
-nmap ,( csw(
-nmap ,) csw)
-nmap ,{ csw{
-nmap ,} csw}
-nmap ,[ csw[
-nmap ,] csw]
-nmap ,' csw'
-nmap ," csw"
-
 
 " JとDで半ページ移動
 nnoremap J <C-D>
@@ -121,7 +116,6 @@ else
   colorscheme desert
 endif
 
-
 " 256色モード
 if stridx($TERM, "xterm-256color") >= 0
   set t_Co=256
@@ -129,7 +123,24 @@ else
   set t_Co=16
 endif
 
-" skk
+" mark, register確認
+nnoremap ,m  :<C-u>marks<CR>
+nnoremap ,r  :<C-u>registers<CR>
+"---------------------------------------------------------}}}
+
+" surround.vim {{{
+nmap ,( csw(
+nmap ,) csw)
+nmap ,{ csw{
+nmap ,} csw}
+nmap ,[ csw[
+nmap ,] csw]
+nmap ,' csw'
+nmap ," csw"
+"}}}
+
+
+" skk {{{
 let skk_jisyo            = '~/.skk-jisyo'
 let skk_large_jisyo      = '~/.vim/dict/skk/SKK-JISYO.L'
 let skk_auto_save_jisyo  = 1
@@ -139,18 +150,16 @@ let skk_show_annotation  = 1
 let skk_use_face         = 1
 let skk_imdisable_state  = 0
 let skk_sticky_key       = ';'
+" }}}
 
-" UTF8、SJIS(CP932)、EUCJPで開き直す
+" UTF8、SJIS(CP932)、EUCJPで開き直す {{{
 command! -bang -nargs=? Utf8
 	\ edit<bang> ++enc=utf-8 <args>
 command! -bang -nargs=? Sjis
 	\ edit<bang> ++enc=cp932 <args>
 command! -bang -nargs=? Euc
 	\ edit<bang> ++enc=eucjp <args>
-
-" mark, register確認
-nnoremap ,m  :<C-u>marks<CR>
-nnoremap ,r  :<C-u>registers<CR>
+" }}}
 
 " YAMLファイル用タブストップ設定
 au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8
@@ -164,7 +173,7 @@ map <silent> sy :call YanktmpYank()<CR>
 map <silent> sp :call YanktmpPaste_p()<CR> 
 map <silent> sP :call YanktmpPaste_P()<CR> 
 
-" バッファ切り替え
+" バッファ切り替え {{{
 nmap <Space>n :<C-U>bnext<CR>
 nmap <Space>p :<C-U>bprevious<CR>
 nnoremap <Leader>1   :e #1<CR>
@@ -178,17 +187,19 @@ nnoremap <Leader>8   :e #8<CR>
 nnoremap <Leader>9   :e #9<CR>
 " バッファ一覧
 nmap ,b :buffers<CR>
+" }}}
 
-" 分割ウインドウの移動
+" 分割ウインドウの移動 {{{
 nnoremap <C-J> <Esc><C-W>j
 nnoremap <C-K> <Esc><C-W>k
 nnoremap <C-H> <Esc><C-W>h
 nnoremap <C-L> <Esc><C-W>l
+" }}}
 
 " NERDTree
 nmap <silent> <Leader>t :NERDTreeToggle<CR>
 
-" smartchr
+" smartchr {{{
 cnoremap <expr> (  smartchr#loop('\(', '(', {'ctype': '/?'})
 
 function! EnableSmartchrBasic()
@@ -220,11 +231,12 @@ MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartc
 MyAutocmd FileType python,ruby,coffee,vim call EnableSmartchrRegExp()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
 MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
+" }}}
 
 " hatena.vim
 let g:hatena_user = 'joker1007'
 
-" shファイルの保存時にはファイルのパーミッションを755にする
+" shファイルの保存時にはファイルのパーミッションを755にする {{{
 function! ChangeShellScriptPermission()
   if !has("win32")
     if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
@@ -234,8 +246,9 @@ function! ChangeShellScriptPermission()
   endif
 endfunction
 MyAutocmd BufWritePost * call ChangeShellScriptPermission()
+" }}}
 
-" QFixHowm用設定=========================================================
+" QFixHowm用設定======================================================{{{
 set runtimepath+=~/qfixapp
 
 "キーマップリーダー
@@ -266,7 +279,7 @@ elseif has('mac')
 elseif has('unix')
   let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
 endif
-" QFixHowm用設定 end=====================================================
+" }}}
 
 
 " ポップアップメニューのカラーを設定
@@ -289,7 +302,7 @@ nnoremap <C-G> :<C-u>GrepBuffer<Space>
 "nnoremap <Leader>fb :FufBuffer<CR>
 "nnoremap <Leader>fd :FufDir<CR>
 
-" Unite
+" Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
 nnoremap <silent> [unite]f   :<C-u>Unite -buffer-name=files buffer file_mru file<CR>
@@ -306,9 +319,10 @@ nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u   :<C-u>Unite source<CR>        
 nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
+" }}}
 
 
-" Gist.vim
+" Gist.vim {{{
 nnoremap [gist] <Nop>
 nmap ,s [gist]
 nnoremap [gist]g :Gist<CR>
@@ -316,8 +330,9 @@ nnoremap [gist]p :Gist -p<CR>
 nnoremap [gist]e :Gist -e<CR>
 nnoremap [gist]d :Gist -d<CR>
 nnoremap [gist]l :Gist -l<CR>
+" }}}
 
-" Fugitive
+" Fugitive {{{
 nnoremap [git] <Nop>
 nmap ,g [git]
 nnoremap [git]d :<C-u>Gdiff HEAD<Enter>
@@ -327,11 +342,12 @@ nnoremap [git]a :<C-u>Gwrite<Enter>
 nnoremap [git]c :<C-u>Gcommit<Enter>
 nnoremap [git]C :<C-u>Git commit --amend<Enter>
 nnoremap [git]b :<C-u>Gblame<Enter>
+" }}}
 
 " project.vim
 let g:proj_window_width = 48
 
-" vimfiler
+" vimfiler {{{
 nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 let g:vimfiler_max_directory_histories = 20
 function ChangeVimfilerKeymap()
@@ -343,8 +359,9 @@ function ChangeVimfilerKeymap()
   nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
 endfunction
 MyAutocmd FileType vimfiler call ChangeVimfilerKeymap()
+" }}}
 
-" vimshell
+" vimshell {{{
 nnoremap <silent> ,vs :<C-U>VimShell<CR>
 if has('win32') || has('win64')
   " Display user name on Windows.
@@ -363,8 +380,9 @@ MyAutocmd FileType vimshell
 function! g:my_chpwd(args, context)
   call vimshell#execute('ls')
 endfunction
+" }}}
 
-" neocomplcache===================================================
+" neocomplcache================================================{{{
  " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
@@ -442,7 +460,10 @@ if !exists('g:neocomplcache_omni_patterns')
 let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-" neocomplcache end===================================================
+" }}}
+
+" ref-rurema
+
 
 
 if has("cscope") && filereadable("/usr/bin/cscope")
