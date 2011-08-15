@@ -312,13 +312,14 @@ nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files buffer 
 nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files buffer file_mru file<CR>
 nnoremap <silent> [unite]b   :<C-u>Unite -auto-preview -auto-resize -buffer-name=buffers -prompt=#> buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -auto-preview -buffer-name=buffers -prompt=#> buffer<CR>
-nnoremap <silent> [unite]r   :<C-u>Unite -buffer-name=register -prompt="> register<CR>
+nnoremap <silent> [unite]"   :<C-u>Unite -buffer-name=register -prompt="> register<CR>
 nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u   :<C-u>Unite source<CR>        
 nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
+nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 " }}}
 
 
