@@ -463,6 +463,9 @@ endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " }}}
 
+" ref.vim
+let g:ref_open = 'vsplit'
+
 " ref-rurema {{{
 " options.
 if !exists('g:ref_rurema_cmd')
@@ -594,6 +597,22 @@ endfunction
 
 call ref#register(s:rurema_source)
 call ref#register_detection('ruby', 'rurema', 'overwrite')
+
+function! RefRuremaFromCurrentWord()
+  let word = expand("<cword>")
+  call ref#open("rurema", word)
+endfunction
+
+function! RefRuremaFromSelectWord()
+  let tmp = @@
+  silent normal gvy
+  let selected = @@
+  let @@ = tmp
+  call ref#open("rurema", selected)
+endfunction
+
+MyAutocmd FileType ruby,ref-rurema nnoremap <buffer><silent> <C-R> :<C-U>call RefRuremaFromCurrentWord()<CR>
+MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call RefRuremaFromSelectWord()<CR>
 
 " }}}
 
