@@ -433,9 +433,14 @@ if has('win32') || has('win64')
   let g:vimshell_prompt = $USERNAME."% "
 else
   let g:vimshell_prompt = $USER . "@" . hostname() . "% "
+  if has('mac')
+    call vimshell#set_execute_file('html', 'gexe open -a /Applications/Firefox.app/Contents/MacOS/firefox')
+    call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
+  endif
 endif
 let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
 let g:vimshell_max_command_history = 3000
+
 MyAutocmd FileType vimshell
   \ call vimshell#altercmd#define('g', 'git')
   \| call vimshell#altercmd#define('l', 'll')

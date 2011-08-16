@@ -296,6 +296,7 @@ source ~/.zsh/auto-fu.zsh
 zle-line-init () {auto-fu-init;}; zle -N zle-line-init
 
 zstyle ':completion:*' completer _oldlist _complete _match _ignored _history
+zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((???)##)"
 
 
 # rvmの読み込み
