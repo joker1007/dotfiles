@@ -34,3 +34,4 @@
 	so = remote show origin
 	st = status
 	sm = submodule
+	mff = merge -no-ff
