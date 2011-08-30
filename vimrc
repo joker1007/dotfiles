@@ -473,9 +473,6 @@ let g:neocomplcache_plugin_completion_length = {
 \ }
 " let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
-" quick_match (-を押せば英数字で補完を選択できる)
-let g:neocomplcache_enable_quick_match = 1
-
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
 \ 'default' : '',
@@ -496,7 +493,7 @@ let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " SuperTab like snippets behavior.
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
