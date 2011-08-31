@@ -3,6 +3,7 @@
 	email = kakyoin.hierophant@gmail.com
 [core]
 	excludesfile = /Users/joker/.gitignore
+	mergeoptions = --no-ff --no-commit
 [color]
 	ui = auto
 [alias]
