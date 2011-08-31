@@ -1,6 +1,6 @@
 " 文字コード, 改行コード {{{
 set encoding=utf-8
-set fileencodings=utf8,ucs-2le,ucs-2
+set fileencodings=ucs_bom,utf8,ucs-2le,ucs-2
 set fileformats=unix,dos,mac
 
 " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
@@ -25,7 +25,7 @@ if has('iconv')
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
     let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-    let &fileencodings = &fileencodings .','. s:fileencodings_default
+    let &fileencodings = s:fileencodings_default .','. &fileencodings
     unlet s:fileencodings_default
   else
     let &fileencodings = &fileencodings .','. s:enc_jis
@@ -678,7 +678,9 @@ function! RefRuremaFromSelectWord()
   call ref#open("rurema", selected)
 endfunction
 
-MyAutocmd FileType ruby,ref-rurema nnoremap <buffer><silent> <C-R> :<C-U>call RefRuremaFromCurrentWord()<CR>
+nnoremap [ref] <Nop>
+nmap     ,r [ref]
+MyAutocmd FileType ruby,ref-rurema nnoremap <buffer><silent> [ref]<C-R> :<C-U>call RefRuremaFromCurrentWord()<CR>
 MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call RefRuremaFromSelectWord()<CR>
 
 " }}}
