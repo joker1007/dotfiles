@@ -15,7 +15,7 @@ colors
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' 
 
 # history
-HISTSIZE=5000 HISTFILE=~/.zhistory SAVEHIST=5000
+HISTSIZE=10000 HISTFILE=~/.zhistory SAVEHIST=10000
 #PROMPT='%m{%n}%% '
 #RPROMPT='[%~]'
 
