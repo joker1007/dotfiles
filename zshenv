@@ -42,4 +42,4 @@ else
   export PAGER="less"
 fi
 
-source ~/.zshenv.local
+[ -s ~/.zshenv.local ] && source ~/.zshenv.local
