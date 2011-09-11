@@ -28,7 +28,7 @@ bindkey '^p'	history-beginning-search-backward
 bindkey '^n'	history-beginning-search-forward
 
 # CTRL+zでbgのvimに復帰する
-bindkey -s '^z' '^[q %vim^m'
+#bindkey -s '^z' '^[q %vim^m'
 
 # ESC+Gでtar xvzf と入力
 bindkey -s '^[G' 'tar xvzf '
@@ -292,11 +292,12 @@ add-zsh-hook precmd _update_titlebar
 
 # auto-fu.zsh
 unsetopt sh_word_split
-source ~/.zsh/auto-fu.zsh
+source ~/.zsh/auto-fu.zsh/auto-fu.zsh
 zle-line-init () {auto-fu-init;}; zle -N zle-line-init
 
 zstyle ':completion:*' completer _oldlist _complete _match _ignored _history
-zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((???)##)"
+zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((??)##)"
+zstyle ':auto-fu:highlight' completion bold,underline
 
 
 # rvmの読み込み

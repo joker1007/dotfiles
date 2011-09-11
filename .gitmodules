@@ -91,3 +91,6 @@
 [submodule "vim/bundle/vim-jade"]
 	path = vim/bundle/vim-jade
 	url = git://github.com/digitaltoad/vim-jade.git
+[submodule "zsh/auto-fu.zsh"]
+	path = zsh/auto-fu.zsh
+	url = git://github.com/hchbaw/auto-fu.zsh.git
