@@ -351,10 +351,16 @@ hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 
 " rubycomplete.vim
-MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+" MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+" MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+" MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+" MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+
+" RSense
+let g:rsenseUseOmniFunc = 1
+if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
+  let g:rsenseHome = expand('~/dotfiles/rsense')
+endif
 
 " grep.vim
 let Grep_Default_Options = '-i'

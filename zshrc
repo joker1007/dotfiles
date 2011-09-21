@@ -299,6 +299,8 @@ zstyle ':completion:*' completer _oldlist _complete _match _ignored _history
 zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((??)##)"
 zstyle ':auto-fu:highlight' completion bold,underline
 
+# RSense
+export RSENSE_HOME=$HOME/dotfiles/rsense
 
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
