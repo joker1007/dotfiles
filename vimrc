@@ -90,10 +90,12 @@ set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
 
 " Edit vimrc
-nmap <Space>v :edit $MYVIMRC<CR>
-nmap <Space>lv :edit ~/.vimrc.local<CR>
-nmap <Space>g :edit $MYGVIMRC<CR>
-nmap <Space>lg :edit ~/.gvimrc.local<CR>
+nnoremap [space] <Nop>
+nmap     <Space> [space]
+nmap [space]v :edit $MYVIMRC<CR>
+nmap [space]lv :edit ~/.vimrc.local<CR>
+nmap [space]g :edit $MYGVIMRC<CR>
+nmap [space]lg :edit ~/.gvimrc.local<CR>
 nnoremap <C-I> :<C-U>help<Space>
 
 " 編集中の行に下線を引く
@@ -117,7 +119,7 @@ set hlsearch
 set ignorecase
 set smartcase
 set wrapscan
-nnoremap <silent> <Space>/ :noh<CR>
+nnoremap <silent> [space]/ :noh<CR>
 
 " ステータスライン表示
 set laststatus=2
@@ -151,6 +153,14 @@ set formatoptions+=mM
 
 " matchitスクリプトの読み込み
 source $VIMRUNTIME/macros/matchit.vim
+
+" jkを直感的に
+nnoremap <silent> j gj
+nnoremap <silent> gj j
+nnoremap <silent> k gk
+nnoremap <silent> gk k
+nnoremap <silent> $ g$
+nnoremap <silent> g$ $
 
 " JとDで半ページ移動
 nnoremap J <C-D>
@@ -234,8 +244,8 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR> 
 
 " バッファ切り替え {{{
-nmap <Space>n :<C-U>bnext<CR>
-nmap <Space>p :<C-U>bprevious<CR>
+nmap [space]n :<C-U>bnext<CR>
+nmap [space]p :<C-U>bprevious<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
 nnoremap <Leader>3   :e #3<CR>
@@ -365,6 +375,8 @@ nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 "nnoremap <Leader>ff :FufFile<CR>
 "nnoremap <Leader>fb :FufBuffer<CR>
 "nnoremap <Leader>fd :FufDir<CR>
+"
+
 
 " Unite.vim {{{
 nnoremap [unite] <Nop>
@@ -685,6 +697,12 @@ MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call Re
 
 " }}}
 
+" indent-guides
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=12
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
