@@ -97,3 +97,6 @@
 [submodule "rsense"]
 	path = rsense
 	url = git://github.com/m2ym/rsense.git
+[submodule "vim/bundle/vim-indent-guides"]
+	path = vim/bundle/vim-indent-guides
+	url = git://github.com/nathanaelkane/vim-indent-guides.git
