@@ -410,13 +410,6 @@ let Grep_Default_Options = '-i'
 nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
 nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
-" FuzzyFinder
-"nnoremap <Leader>ff :FufFile<CR>
-"nnoremap <Leader>fb :FufBuffer<CR>
-"nnoremap <Leader>fd :FufDir<CR>
-"
-
-
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
