@@ -360,16 +360,17 @@ hi Pmenu ctermbg=18 guibg=#666666
 hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 
-" rubycomplete.vim
-" MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
+" rubycomplete.vim
 " RSense
-let g:rsenseUseOmniFunc = 1
 if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
+  let g:rsenseUseOmniFunc = 1
   let g:rsenseHome = expand('~/dotfiles/rsense')
+else
+  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 endif
 
 " grep.vim
@@ -707,8 +708,8 @@ MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call Re
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=darkgrey
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=12
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
