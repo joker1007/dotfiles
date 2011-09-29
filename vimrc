@@ -88,6 +88,7 @@ set ambiwidth=double
 set display=uhex            " 表示できない文字を16進数で表示
 set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
+set autoread                " 他でファイルが編集された時に自動で読み込む
 
 " Edit vimrc
 nnoremap [space] <Nop>
@@ -119,6 +120,7 @@ set hlsearch
 set ignorecase
 set smartcase
 set wrapscan
+nohlsearch "reset highlight
 nnoremap <silent> [space]/ :noh<CR>
 
 " ステータスライン表示
@@ -128,6 +130,13 @@ set wildmenu
 set cmdheight=2
 set wildmode=list:full
 set showcmd
+
+" tabline
+set showtabline=2
+nnoremap <S-Right> :<C-U>tabnext<CR>
+nnoremap <S-Left> :<C-U>tabprevious<CR>
+nnoremap L :<C-U>tabnext<CR>
+nnoremap H :<C-U>tabprevious<CR>
 
 " completion
 set complete=.,w,b,u,t,i,d,k
@@ -161,6 +170,12 @@ nnoremap <silent> k gk
 nnoremap <silent> gk k
 nnoremap <silent> $ g$
 nnoremap <silent> g$ $
+vnoremap <silent> j gj
+vnoremap <silent> gj j
+vnoremap <silent> k gk
+vnoremap <silent> gk k
+vnoremap <silent> $ g$
+vnoremap <silent> g$ $
 
 " JとDで半ページ移動
 nnoremap J <C-D>
@@ -170,6 +185,10 @@ nnoremap K <C-U>
 nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
 
 " colorscheme
+" 全角スペースをハイライト
+MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
+MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
+
 if stridx($TERM, "xterm-256color") >= 0
   colorscheme desert256
 else
@@ -206,6 +225,16 @@ imap <C-A> <HOME>
 
 " }}}
 
+" from http://vim-users.jp/2011/04/hack214/ {{{
+vnoremap ( t(
+vnoremap ) t)
+vnoremap ] t]
+vnoremap [ t[
+onoremap ( t(
+onoremap ) t)
+onoremap ] t]
+onoremap [ t[
+" }}}
 
 " set paste
 nnoremap ,p :<C-U>set paste!<CR>
@@ -280,9 +309,7 @@ function! EnableSmartchrBasic()
   inoremap <buffer> [ []<Esc>i
   inoremap <buffer> { {}<Esc>i
   inoremap <buffer><expr> + smartchr#one_of(' + ', '+', '++')
-  inoremap <buffer><expr> - smartchr#one_of(' - ', '-', '--')
   inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
-  inoremap <buffer><expr> * smartchr#one_of('*', ' * ', ' ** ')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
   inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar><Bar> ', '<Bar>')
   inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
@@ -360,6 +387,11 @@ hi Pmenu ctermbg=18 guibg=#666666
 hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 
+" TOhtml
+let g:html_number_lines = 0
+let g:html_use_css = 1
+let g:use_xhtml = 1
+let g:html_use_encoding = 'utf-8'
 
 " rubycomplete.vim
 " RSense
@@ -704,12 +736,34 @@ MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call Re
 
 " }}}
 
-" indent-guides
+" indent-guides {{{
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
+" }}}
+
+" submode.vim
+let g:submode_timeout = 0
+call submode#enter_with('window/manip', 'n', '', '<Leader>w')
+call submode#enter_with('window/manip', 'n', '', '<C-W>-', '<C-W>-')
+call submode#enter_with('window/manip', 'n', '', '<C-W>+', '<C-W>+')
+call submode#enter_with('window/manip', 'n', '', '<C-W>>', '<C-W>>')
+call submode#enter_with('window/manip', 'n', '', '<C-W><', '<C-W><')
+call submode#leave_with('window/manip', 'n', '', '<Esc>')
+call submode#map('window/manip', 'n', '', '-', '<C-W>-')
+call submode#map('window/manip', 'n', '', '+', '<C-W>+')
+call submode#map('window/manip', 'n', '', '<', '<C-W><')
+call submode#map('window/manip', 'n', '', '>', '<C-W>>')
+call submode#map('window/manip', 'n', '', '=', '<C-W>=')
+call submode#map('window/manip', 'n', '', 'r', '<C-W>r')
+call submode#map('window/manip', 'n', '', 'R', '<C-W>R')
+call submode#map('window/manip', 'n', '', 'x', '<C-W>x')
+call submode#map('window/manip', 'n', '', 'j', '<C-W>j')
+call submode#map('window/manip', 'n', '', 'k', '<C-W>k')
+call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
+call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
