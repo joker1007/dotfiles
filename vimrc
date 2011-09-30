@@ -410,6 +410,11 @@ let Grep_Default_Options = '-i'
 nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
 nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
+" quickrun
+let g:quickrun_config = {}
+let g:quickrun_config["*"] = {'runner' : 'vimproc'}
+vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
+
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
@@ -510,8 +515,8 @@ let g:neocomplcache_enable_underbar_completion = 1
 " filename width
 let g:neocomplcache_max_filename_width = 30
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_min_syntax_length = 2
+let g:neocomplcache_min_keyword_length = 2
 let g:neocomplcache_plugin_completion_length = {
 \ 'snippets_complete' : 1,
 \ }
