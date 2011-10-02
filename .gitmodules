@@ -103,3 +103,12 @@
 [submodule "vim/bundle/vim-submode"]
 	path = vim/bundle/vim-submode
 	url = git://github.com/kana/vim-submode.git
+[submodule "vim/bundle/vim-poslist"]
+	path = vim/bundle/vim-poslist
+	url = git://github.com/thinca/vim-poslist.git
+[submodule "vim/bundle/vim-visualstar"]
+	path = vim/bundle/vim-visualstar
+	url = git://github.com/thinca/vim-visualstar.git
+[submodule "vim/bundle/vim-easymotion"]
+	path = vim/bundle/vim-easymotion
+	url = git://github.com/Lokaltog/vim-easymotion.git

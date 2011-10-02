@@ -81,7 +81,7 @@ set noswapfile              " No Swap
 set backup                  " keep a backup file
 set viminfo='20,\"50        " read/write a .viminfo file, don't store more
                             " than 50 lines of registers
-set history=100             " keep 50 lines of command line history
+set history=100             " keep 100 lines of command line history
 set ruler                   " show the cursor position all the time
 set nu                      " show line number
 set ambiwidth=double
@@ -97,11 +97,14 @@ nmap [space]v :edit $MYVIMRC<CR>
 nmap [space]lv :edit ~/.vimrc.local<CR>
 nmap [space]g :edit $MYGVIMRC<CR>
 nmap [space]lg :edit ~/.gvimrc.local<CR>
-nnoremap <C-I> :<C-U>help<Space>
+nnoremap <C-H> :<C-U>help<Space>
 
 " 編集中の行に下線を引く
 MyAutocmd InsertLeave * setlocal nocursorline
 MyAutocmd InsertEnter * setlocal cursorline
+MyAutocmd InsertLeave * highlight StatusLine ctermfg=145 guifg=#c2bfa5 guibg=#000000
+MyAutocmd InsertEnter * highlight StatusLine ctermfg=12 guifg=#1E90FF
+
 
 " タブストップ設定
 set tabstop=2
@@ -122,6 +125,8 @@ set smartcase
 set wrapscan
 nohlsearch "reset highlight
 nnoremap <silent> [space]/ :noh<CR>
+map * <Plug>(visualstar-*)N
+map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
@@ -149,7 +154,7 @@ set hidden
 
 " Tab表示
 set list
-set listchars=tab:>-
+set listchars=tab:>-,trail:<
 
 " タイトルを表示
 set title
@@ -183,6 +188,9 @@ nnoremap K <C-U>
 
 " 編集中のファイルのディレクトリに移動
 nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
+
+" 最後に編集した場所にカーソルを移動する
+MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " colorscheme
 " 全角スペースをハイライト
@@ -288,15 +296,8 @@ nnoremap <Leader>9   :e #9<CR>
 nmap ,b :buffers<CR>
 " }}}
 
-" 分割ウインドウの移動 {{{
-nnoremap <C-J> <Esc><C-W>j
-nnoremap <C-K> <Esc><C-W>k
-nnoremap <C-H> <Esc><C-W>h
-nnoremap <C-L> <Esc><C-W>l
-" }}}
-
 " NERDTree
-nmap <silent> <Leader>t :NERDTreeToggle<CR>
+nmap <silent> ,t :NERDTreeToggle<CR>
 
 " NERDCommenter
 let NERDSpaceDelims = 1
@@ -393,8 +394,7 @@ let g:html_use_css = 1
 let g:use_xhtml = 1
 let g:html_use_encoding = 'utf-8'
 
-" rubycomplete.vim
-" RSense
+" rubycomplete.vim & RSense {{{
 if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
   let g:rsenseUseOmniFunc = 1
   let g:rsenseHome = expand('~/dotfiles/rsense')
@@ -404,6 +404,7 @@ else
   MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
   MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 endif
+" }}}
 
 " grep.vim
 let Grep_Default_Options = '-i'
@@ -412,8 +413,13 @@ nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
 " quickrun
 let g:quickrun_config = {}
-let g:quickrun_config["*"] = {'runner' : 'vimproc'}
+let g:quickrun_config._ = {'runner' : 'vimproc'}
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
+
+" poslist
+nmap <C-O> <Plug>(poslist-prev-pos)
+nmap <C-I> <Plug>(poslist-next-pos)
+let g:poslist_histsize = 1000
 
 " Unite.vim {{{
 nnoremap [unite] <Nop>
