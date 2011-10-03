@@ -748,7 +748,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=dar
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 " }}}
 
-" submode.vim
+" submode.vim {{{
 let g:submode_timeout = 0
 call submode#enter_with('window/manip', 'n', '', '<Leader>w')
 call submode#enter_with('window/manip', 'n', '', '<C-W>-', '<C-W>-')
@@ -768,6 +768,7 @@ call submode#map('window/manip', 'n', '', 'j', '<C-W>j')
 call submode#map('window/manip', 'n', '', 'k', '<C-W>k')
 call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
 call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
+" }}}
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
