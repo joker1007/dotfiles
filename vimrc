@@ -245,7 +245,7 @@ onoremap [ t[
 " }}}
 
 " set paste
-nnoremap ,p :<C-U>set paste!<CR>
+nnoremap <silent> ,p :<C-U>set paste!<CR>:<C-U>echo("Toggle PasteMode => " . (&paste == 0 ? "Off" : "On"))<CR>
 
 " skk {{{
 let skk_jisyo            = '~/.skk-jisyo'
@@ -770,17 +770,3 @@ call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
 call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
 " }}}
 
-if has("cscope") && filereadable("/usr/bin/cscope")
-   set csprg=/usr/bin/cscope
-   set csto=0
-   set cst
-   set nocsverb
-   " add any database in current directory
-   if filereadable("cscope.out")
-      cs add cscope.out
-   " else add database pointed to by environment
-   elseif $CSCOPE_DB != ""
-      cs add $CSCOPE_DB
-   endif
-   set csverb
-endif
