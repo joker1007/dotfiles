@@ -527,7 +527,7 @@ let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
 " filename width
-let g:neocomplcache_max_filename_width = 30
+let g:neocomplcache_max_menu_width = 30
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 2
 let g:neocomplcache_min_keyword_length = 2
