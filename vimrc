@@ -450,6 +450,14 @@ nnoremap [gist]p :Gist -p<CR>
 nnoremap [gist]e :Gist -e<CR>
 nnoremap [gist]d :Gist -d<CR>
 nnoremap [gist]l :Gist -l<CR>
+
+if has("mac")
+  let g:gist_clip_command = 'pbcopy'
+elseif has("unix")
+  let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+
+let g:gist_detect_filetype = 1
 " }}}
 
 " Fugitive {{{
