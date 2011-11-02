@@ -778,3 +778,15 @@ call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
 call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
 " }}}
 
+" vim-altr {{{
+nmap <F3> <Plug>(altr-forward)
+nmap <F2> <Plug>(altr-back)
+
+" For ruby tdd
+call altr#define('%.rb', 'spec/%_spec.rb')
+" For rails tdd
+call altr#define('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
+call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
+call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
+
+" }}}

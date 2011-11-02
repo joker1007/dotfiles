@@ -112,3 +112,6 @@
 [submodule "vim/bundle/vim-easymotion"]
 	path = vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "vim/bundle/vim-altr"]
+	path = vim/bundle/vim-altr
+	url = git://github.com/kana/vim-altr.git
