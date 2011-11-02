@@ -77,7 +77,7 @@ setopt extended_history hist_ignore_dups hist_ignore_space share_history inc_app
 setopt equals 
 
 # ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
-setopt extended_glob
+# setopt extended_glob
 
 # ls -Fと同様に補完候補にタイプ表示
 setopt list_types
