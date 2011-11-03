@@ -115,3 +115,6 @@
 [submodule "vim/bundle/vim-altr"]
 	path = vim/bundle/vim-altr
 	url = git://github.com/kana/vim-altr.git
+[submodule "vim/bundle/vim-toggle"]
+	path = vim/bundle/vim-toggle
+	url = git://github.com/taku-o/vim-toggle.git

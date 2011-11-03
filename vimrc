@@ -790,3 +790,11 @@ call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
 call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
 
 " }}}
+
+" toggle.vim {{{
+imap <C-C> <Plug>ToggleI
+nmap <C-C> <Plug>ToggleN
+vmap <C-C> <Plug>ToggleV
+
+let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", "context":"describe" }
+" }}}
