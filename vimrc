@@ -801,10 +801,7 @@ let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 
 
 " RSpec syntac
 function! RSpecSyntax()
-  hi def link rubyRailsTestControllerMethod   rubyRailsTestMethod
-  hi def link rubyRailsTestMethod             rubyRailsMethod
-  hi def link rubyRailsMethod                 railsMethod
-  hi def link railsMethod                     Function
+  hi def link rubyRailsTestMethod             Function
   syn keyword rubyRailsTestMethod describe context it its specify shared_examples_for it_should_behave_like before after around subject fixtures controller_name helper_name
   syn match rubyRailsTestMethod '\<let\>!\='
   syn keyword rubyRailsTestMethod violated pending expect double mock mock_model stub_model
