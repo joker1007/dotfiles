@@ -796,5 +796,18 @@ imap <C-C> <Plug>ToggleI
 nmap <C-C> <Plug>ToggleN
 vmap <C-C> <Plug>ToggleV
 
-let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", "context":"describe" }
+let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", "context":"describe" }
 " }}}
+
+" RSpec syntac
+function! RSpecSyntax()
+  hi def link rubyRailsTestControllerMethod   rubyRailsTestMethod
+  hi def link rubyRailsTestMethod             rubyRailsMethod
+  hi def link rubyRailsMethod                 railsMethod
+  hi def link railsMethod                     Function
+  syn keyword rubyRailsTestMethod describe context it its specify shared_examples_for it_should_behave_like before after around subject fixtures controller_name helper_name
+  syn match rubyRailsTestMethod '\<let\>!\='
+  syn keyword rubyRailsTestMethod violated pending expect double mock mock_model stub_model
+  syn match rubyRailsTestMethod '\.\@<!\<stub\>!\@!'
+endfunction
+MyAutocmd BufReadPost *_spec.rb call RSpecSyntax()
