@@ -118,3 +118,6 @@
 [submodule "vim/bundle/vim-toggle"]
 	path = vim/bundle/vim-toggle
 	url = git://github.com/taku-o/vim-toggle.git
+[submodule "vim/bundle/unite-outline"]
+	path = vim/bundle/unite-outline
+	url = git://github.com/h1mesuke/unite-outline.git
