@@ -412,9 +412,23 @@ nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
 nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
 " quickrun
+vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
 let g:quickrun_config._ = {'runner' : 'vimproc'}
-vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
+let g:quickrun_config['rspec/bundle'] = {
+  \ 'type': 'rspec/bundle',
+  \ 'command': 'rspec',
+  \ 'exec': 'bundle exec %c %s'
+  \}
+let g:quickrun_config['rspec/normal'] = {
+  \ 'type': 'rspec/normal',
+  \ 'command': 'rspec',
+  \ 'exec': '%c %s'
+  \}
+function! RSpecQuickrun()
+  let b:quickrun_config = {'type' : 'rspec/bundle'}
+endfunction
+MyAutocmd BufReadPost *_spec.rb call RSpecQuickrun()
 
 " poslist
 nmap <C-O> <Plug>(poslist-prev-pos)
