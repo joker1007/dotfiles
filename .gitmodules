@@ -121,3 +121,6 @@
 [submodule "vim/bundle/unite-outline"]
 	path = vim/bundle/unite-outline
 	url = git://github.com/h1mesuke/unite-outline.git
+[submodule "vim/bundle/sudo.vim"]
+	path = vim/bundle/sudo.vim
+	url = git://github.com/vim-scripts/sudo.vim.git
