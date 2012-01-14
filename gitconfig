@@ -26,6 +26,7 @@
 	log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d'
 	pl = pull
 	ps = push
+	psh = push origin HEAD
 	rb = rebase
 	rbh = rebase HEAD
 	rbo = rebase --onto
