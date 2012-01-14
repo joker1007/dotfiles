@@ -875,3 +875,9 @@ endfunction
 
 au FileType monitrc call MonitSyntax()
 " }}}
+
+" Quickfix
+augroup quickfixopen
+  autocmd!
+  autocmd QuickfixCmdPost make cw
+augroup END
