@@ -1,5 +1,5 @@
 " rubyの構文チェック cf. http://d.hatena.ne.jp/idesaku/20120104/1325636604
-function! ExecuteMake()
+function! s:ExecuteMake()
   if &filetype == 'ruby'
     silent make! -c "%" | redraw!
   endif
