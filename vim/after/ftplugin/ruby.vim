@@ -7,5 +7,5 @@ endfunction
 
 compiler ruby
 augroup rbsytaxcheck
-  autocmd! BufWritePost <buffer> call ExecuteMake()
+  autocmd! BufWritePost <buffer> call s:ExecuteMake()
 augroup END
