@@ -881,3 +881,6 @@ augroup quickfixopen
   autocmd!
   autocmd QuickfixCmdPost make cw
 augroup END
+
+" errormarker.vim
+let errormarker_disablemappings = 1
