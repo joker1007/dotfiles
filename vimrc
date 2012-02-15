@@ -412,18 +412,32 @@ nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
 nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
 " quickrun
+let ansi_buffer = quickrun#outputter#buffer#new()
+function! ansi_buffer.init(session)
+  call call(quickrun#outputter#buffer#new().init, [a:session], self)
+endfunction
+
+function! ansi_buffer.finish(session)
+  AnsiEsc
+  call call(quickrun#outputter#buffer#new().finish, [a:session], self)
+endfunction
+
+call quickrun#register_outputter("ansi_buffer", ansi_buffer)
+
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
 let g:quickrun_config._ = {'runner' : 'vimproc'}
 let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
-  \ 'exec': 'bundle exec %c %s'
+  \ 'outputter': 'ansi_buffer',
+  \ 'exec': 'bundle exec %c --color --tty %s'
   \}
 let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
-  \ 'exec': '%c %s'
+  \ 'outputter': 'ansi_buffer',
+  \ 'exec': '%c --color --tty %s'
   \}
 function! RSpecQuickrun()
   let b:quickrun_config = {'type' : 'rspec/bundle'}

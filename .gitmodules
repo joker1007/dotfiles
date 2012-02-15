@@ -130,3 +130,6 @@
 [submodule "vim/bundle/errormarker.vim"]
 	path = vim/bundle/errormarker.vim
 	url = git://github.com/vim-scripts/errormarker.vim.git
+[submodule "vim/bundle/AnsiEsc.vim"]
+	path = vim/bundle/AnsiEsc.vim
+	url = git://github.com/vim-scripts/AnsiEsc.vim.git
