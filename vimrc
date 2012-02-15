@@ -313,7 +313,7 @@ function! EnableSmartchrBasic()
   inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
   inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar><Bar> ', '<Bar>')
-  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
+  inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
 endfunction
 
 function! EnableSmartchrRegExp()
@@ -324,6 +324,12 @@ function! EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
 endfunction
 
+function! EnableSmartchrHaml()
+  call EnableSmartchrRubyHash()
+  inoremap <buffer> [ []<Esc>i
+  inoremap <buffer> { {}<Esc>i
+endfunction
+
 function! EnableSmartchrCoffeeFunction()
   inoremap <buffer><expr> > smartchr#one_of('>', ' ->')
 endfunction
@@ -331,6 +337,7 @@ endfunction
 MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
 MyAutocmd FileType python,ruby,coffee,vim call EnableSmartchrRegExp()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
+MyAutocmd FileType haml call EnableSmartchrHaml()
 MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 " }}}
 
