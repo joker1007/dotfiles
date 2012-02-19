@@ -90,6 +90,9 @@ set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
 set autoread                " 他でファイルが編集された時に自動で読み込む
 
+" for MacVim with rvm
+set shell=/bin/bash
+
 " Edit vimrc
 nnoremap [space] <Nop>
 nmap     <Space> [space]
