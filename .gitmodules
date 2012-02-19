@@ -133,3 +133,6 @@
 [submodule "vim/bundle/AnsiEsc.vim"]
 	path = vim/bundle/AnsiEsc.vim
 	url = git://github.com/vim-scripts/AnsiEsc.vim.git
+[submodule "vim/bundle/neocomplcache-snippets-complete"]
+	path = vim/bundle/neocomplcache-snippets-complete
+	url = git://github.com/Shougo/neocomplcache-snippets-complete.git
