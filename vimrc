@@ -912,3 +912,10 @@ augroup END
 
 " errormarker.vim
 let errormarker_disablemappings = 1
+
+" Merge Setting
+if &diff
+  nmap <buffer> <leader>1 :diffget LOCAL<CR>
+  nmap <buffer> <leader>2 :diffget BASE<CR>
+  nmap <buffer> <leader>3 :diffget REMOTE<CR>
+endif
