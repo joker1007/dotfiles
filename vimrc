@@ -133,7 +133,7 @@ map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\ 
 set wildmenu
 set cmdheight=2
 set wildmode=list:full
@@ -300,7 +300,7 @@ nmap ,b :buffers<CR>
 " }}}
 
 " NERDTree
-nmap <silent> ,t :NERDTreeToggle<CR>
+nmap <silent> <Leader>t :NERDTreeToggle<CR>
 
 " NERDCommenter
 let NERDSpaceDelims = 1
@@ -919,3 +919,10 @@ if &diff
   nmap <buffer> <leader>2 :diffget BASE<CR>
   nmap <buffer> <leader>3 :diffget REMOTE<CR>
 endif
+
+" TagBar
+nmap <silent> ,t :TagbarToggle<CR>
+let g:tagbar_left = 1
+let g:tagbar_width = 40
+let g:tagbar_updateonsave_maxlines = 10000
+let g:tagbar_sort = 0
