@@ -169,6 +169,8 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 補完有効化
 autoload -U compinit && compinit
+autoload -U bashcompinit && bashcompinit
+source ~/.zsh/completion/git-completion.bash
 
 # 補完キャッシュ
 zstyle ':completion:*' use-cache true
