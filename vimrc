@@ -541,7 +541,8 @@ else
     call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
   endif
 endif
-let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
+"let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
+let g:vimshell_right_prompt = '"[" . getcwd() . "]"'
 let g:vimshell_max_command_history = 3000
 
 MyAutocmd FileType vimshell
