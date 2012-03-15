@@ -549,6 +549,8 @@ MyAutocmd FileType vimshell
   \ call vimshell#altercmd#define('g', 'git')
   \| call vimshell#altercmd#define('l', 'll')
   \| call vimshell#altercmd#define('ll', 'ls -l')
+  \| call vimshell#altercmd#define('be', 'bundle exec')
+  \| call vimshell#altercmd#define('ra', 'rails')
   \| call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
 
 function! g:my_chpwd(args, context)
