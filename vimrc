@@ -479,6 +479,8 @@ nnoremap <silent> [unite]u   :<C-u>Unite source<CR>
 nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
+nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
+let g:unite_source_grep_max_candidates = 500
 " }}}
 
 
