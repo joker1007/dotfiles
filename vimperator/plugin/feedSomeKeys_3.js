@@ -1,5 +1,5 @@
 /* NEW BSD LICENSE {{{
-Copyright (c) 2010, anekos.
+Copyright (c) 2010-2011, anekos.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -32,55 +32,10 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 }}} */
 
-// PLUGIN_INFO {{{
-let PLUGIN_INFO =
-<VimperatorPlugin>
-  <name>feedSomeKeys 3</name>
-  <name lang="ja">feedSomeKeys 3</name>
-  <description>feed some defined key events into the Web content</description>
-  <description lang="ja">キーイベントをWebコンテンツ側に送る</description>
-  <version>1.8.3</version>
-  <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
-  <license>new BSD License (Please read the source code comments of this plugin)</license>
-  <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
-  <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/feedSomeKeys_3.js</updateURL>
-  <minVersion>2.3</minVersion>
-  <maxVersion>2.3</maxVersion>
-  <require type="plugin">_libly.js</require>
-  <detail><![CDATA[
-    see ":help feedSomeKeys-plugin"
-    rc file setting sample:
->||
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
-lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m <Del> <C-S-Left> <C-S-Right>
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
-||<
-  ]]></detail>
-  <detail lang="ja"><![CDATA[
-    詳しくはヘルプを見てね。 ":help feedSomeKeys-plugin"
-    rc ファイルの設定サンプル:
->||
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
-lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m <Del> <C-S-Left> <C-S-Right>
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
-||<
-  ]]></detail>
-</VimperatorPlugin>;
-// }}}
 // INFO {{{
 let INFO = <>
-  <plugin name="feedSomeKeys" version="1.8.3"
-          href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
+  <plugin name="feedSomeKeys" version="1.9.3"
+          href="http://github.com/vimpr/vimperator-plugins/blob/master/feedSomeKeys_3.js"
           summary="Feed some defined key events into the Web content"
           lang="en-US"
           xmlns="http://vimperator.org/namespaces/liberator">
@@ -92,7 +47,7 @@ let INFO = <>
     </p>
     <item>
       <tags>:fmap</tags>
-      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
+      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-modes=<a>modes</a></oa> <a>lhs</a> <a>rhs</a></spec>
       <description>
         <p>
           Define one mapping.
@@ -105,7 +60,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmaps</tags>
-      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <a>mappingpair</a> ....</spec>
+      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <oa>-modes=<a>modes</a></oa> <a>mappingpair</a> ....</spec>
       <description>
         <p>
           Two or more mappings are defined at once.
@@ -120,7 +75,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmapc</tags>
-      <spec>:fmapc<oa>!</oa> <oa>urlpattern</oa></spec>
+      <spec>:fmapc<oa>!</oa> <oa>-modes=<a>modes</a></oa> <oa>urlpattern</oa></spec>
       <description>
         <p>
           Remove the mappings matched with <oa>urlpattern</oa>.
@@ -130,7 +85,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:funmap</tags>
-      <spec>:funmap <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a></spec>
+      <spec>:funmap <oa>-urls=<a>urlpattern</a></oa> <oa>-modes=<a>modes</a></oa> <a>lhs</a></spec>
       <description>
         <p>
           Remove the mappings.
@@ -168,6 +123,10 @@ let INFO = <>
     <p>"v..." values use virtual key code.</p>
     <p>The event is generated in the order of writing of each key.</p>
     <p>The default value of this option is "keypress".</p>
+    <h3 tag="fmap-modes">modes</h3>
+    <p>
+      List of mapping modes. (Default is NORMAL mode)
+    </p>
     <h3 tag="fmaps-examples">fmaps examples for .vimperatorrc</h3>
     <p>If you input directly these commands in vimperator commandline, remove the ":lazy".</p>
     <code><ex>
@@ -181,8 +140,8 @@ let INFO = <>
 :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
     </ex></code>
   </plugin>
-  <plugin name="feedSomeKeys" version="1.8.3"
-          href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
+  <plugin name="feedSomeKeys" version="1.9.3"
+          href="http://github.com/vimpr/vimperator-plugins/blob/master/feedSomeKeys_3.js"
           summary="Web コンテンツに直接キーイベントを送ります。"
           lang="ja"
           xmlns="http://vimperator.org/namespaces/liberator">
@@ -194,7 +153,7 @@ let INFO = <>
     </p>
     <item>
       <tags>:fmap</tags>
-      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
+      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-modes=<a>modes</a></oa> <a>lhs</a> <a>rhs</a></spec>
       <description>
         <p>
           マッピングを一つ定義します。
@@ -207,7 +166,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmaps</tags>
-      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <a>mappingpair</a> ....</spec>
+      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <oa>-modes=<a>modes</a></oa> <a>mappingpair</a> ....</spec>
       <description>
         <p>
           一度に複数のマッピングを定義できます。
@@ -222,7 +181,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmapc</tags>
-      <spec>:fmapc<oa>!</oa> <oa>urlpattern</oa></spec>
+      <spec>:fmapc<oa>!</oa> <oa>-modes=<a>modes</a></oa> <oa>urlpattern</oa></spec>
       <description>
         <p>
           <oa>urlpattern</oa> のマッピングを削除します。
@@ -232,7 +191,7 @@ let INFO = <>
     </item>
     <item>
       <tags>:funmap</tags>
-      <spec>:funmap <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a></spec>
+      <spec>:funmap <oa>-urls=<a>urlpattern</a></oa> <oa>-modes=<a>modes</a></oa> <a>lhs</a></spec>
       <description>
         <p>
           マッピングを削除します。
@@ -269,6 +228,10 @@ let INFO = <>
     <p>
       キーイベントを送るべきフレームの番号。
       番号は、補完を参考にしてください。
+    </p>
+    <h3 tag="fmap-modes">modes</h3>
+    <p>
+      マップするモードのリスト (デフォルトは、NORMALモード)
     </p>
     <h3 tag="fmaps-examples">.vimperatorrc 用の fmaps サンプル</h3>
     <p>コマンドラインで直接に入力するときは、":lazy" を除いてください。</p>
@@ -346,6 +309,10 @@ let INFO = <>
     '\'': KeyEvent.DOM_VK_QUOTE
   };
 
+  const State = {
+    feeding: false
+  };
+
   function id (v)
     v;
 
@@ -396,22 +363,35 @@ let INFO = <>
   }
 
   function feed (keys, eventNames, target) {
-    let _passAllKeys = modes.passAllKeys;
-    modes.passAllKeys = true;
-    modes.passNextKey = false;
-
-    for (let [, keyEvent] in Iterator(events.fromString(keys))) {
-      eventNames.forEach(function (eventName) {
-        let ke = util.cloneObject(keyEvent);
-        let [, vkey, name] = eventName.match(/^(v)?(.+)$/);
-        if (vkey)
-          virtualize(ke);
-        let event = createEvent(name, ke);
-        target.dispatchEvent(event);
-      });
+    function finalize (){
+      modes.passAllKeys = _passAllKeys;
+      State.feeding = false;
     }
 
-    modes.passAllKeys = _passAllKeys;
+    State.feeding = true;
+
+    let _passAllKeys = modes.passAllKeys;
+
+    try {
+      modes.passAllKeys = true;
+      modes.passNextKey = false;
+
+      for (let [, keyEvent] in Iterator(events.fromString(keys))) {
+        eventNames.forEach(function (eventName) {
+          let ke = util.cloneObject(keyEvent);
+          let [, vkey, name] = eventName.match(/^(v)?(.+)$/);
+          if (vkey)
+            virtualize(ke);
+          let event = createEvent(name, ke);
+          target.dispatchEvent(event);
+        });
+      }
+    } catch (e) {
+      finalize();
+      throw e;
+    }
+
+    finalize();
   }
 
   function makeTryValidator (func)
@@ -429,11 +409,26 @@ let INFO = <>
   let xpathValidator =
     makeTryValidator(function (expr) document.evaluate(expr, document, null, null, null))
 
+  function fromModeString (s){
+    for (let [, {name, mask, char}] in Iterator(modes._modeMap))
+      if (s === name || s === char)
+        return mask;
+  }
+
+  function fromModeStrings (ss, def) {
+    if (def && (!ss || ss.length < 1))
+      return [modes.NORMAL];
+    return ss.map(fromModeString).filter(function (it) (typeof it === 'number'));
+  }
+
+  function modeStringsValidator (ss)
+    (!ss || (fromModeStrings(ss).length === ss.length));
+
   function makeListValidator (list)
     function (values)
       (values && !values.some(function (value) !list.some(function (event) event === value)));
 
-  function findMappings ({all, filter, urls, ignoreUrls, not, result}) {
+  function findMappings ({all, filter, urls, ignoreUrls, not, result, modes: targetModes}) {
     function match (map) {
       let r = (
         map.feedSomeKeys &&
@@ -455,12 +450,23 @@ let INFO = <>
     if (urls)
       urls = RegExp(urls);
 
-    return mappings._user[modes.NORMAL].filter(match);
+    // FIXME 同じオブジェクトがダブって返るかも(あるいはそれで良い？)
+    let result = [];
+    for (let [, m] in Iterator(targetModes || [modes.NORMAL]))
+      result = result.concat(mappings._user[m].filter(match));
+
+    return result;
   }
 
   function unmap (condition) {
+    condition = Object.create(condition);
+    let ms = condition.modes || [modes.NORMAL];
     condition.not = true;
-    mappings._user[modes.NORMAL] = findMappings(condition);
+    condition.modes = undefined;
+    for (let [, m] in Iterator(ms)) {
+      condition.modes = [m];
+      mappings._user[m] = findMappings(condition);
+    }
   }
 
   function list (condition) {
@@ -515,7 +521,8 @@ let INFO = <>
       ];
       if (currentURL) {
         result.unshift(['^' + util.escapeRegex(buffer.URL), 'Current URL']);
-        result.unshift([util.escapeRegex(content.document.domain), 'Current domain']);
+        if (content.document.domain)
+          result.unshift([util.escapeRegex(content.document.domain), 'Current domain']);
       }
       return result;
     };
@@ -528,6 +535,11 @@ let INFO = <>
     ];
   }
 
+  const ModeStringsCompleter = [
+    [name, disp + ' mode' + (char ? ' (alias: ' + char + ')' : '')]
+    for ([n, {name, char, disp, extended}] in Iterator(modes._modeMap))
+    if (!extended && /^\D+$/.test(n))
+  ];
 
 
   'fmap fmaps'.split(/\s+/).forEach(function (cmd) {
@@ -536,6 +548,7 @@ let INFO = <>
     function action (multi) {
       return function (args) {
         let prefix = args['-prefix'] || '';
+        let ms = fromModeStrings(args['-modes'], true);
 
         function add ([lhs, rhs]) {
           if (!lhs)
@@ -543,7 +556,7 @@ let INFO = <>
 
           rhs = rhs || lhs;
           mappings.addUserMap(
-            [modes.NORMAL],
+            ms,
             [prefix + lhs],
             args['description'] || 'by feedSomeKeys_3.js',
             function () {
@@ -553,7 +566,7 @@ let INFO = <>
               let win = document.commandDispatcher.focusedWindow;
               let frames = getFrames();
 
-              let elem = body(win);
+              let elem = liberator.focus || body(win);
 
               if (typeof args['-frame'] !== 'undefined') {
                 frames = [frames[args['-frame']]];
@@ -562,6 +575,10 @@ let INFO = <>
 
               if (args['-xpath']) {
                 elem = or(frames, function (f) fromXPath(f.document, args['-xpath'])) || elem;
+              }
+
+              if (args['-selector']) {
+                elem = or(frames, function (f) f.document.querySelector(args['-selector'])) || elem;
               }
 
               feed(rhs, args['-events'] || ['keypress'], elem);
@@ -585,7 +602,8 @@ let INFO = <>
             list({
               filter: prefix + args.literalArg.trim(),
               urls: args['-urls'],
-              ignoreUrls: !args['-urls']
+              ignoreUrls: !args['-urls'],
+              modes: ms
             });
           } else {
             add([lhs, rhs]);
@@ -601,10 +619,12 @@ let INFO = <>
       {
         literal: 0,
         options: [
+          [['-modes', '-m'], commands.OPTION_LIST, modeStringsValidator, ModeStringsCompleter],
           [['-urls', '-u'], commands.OPTION_STRING, regexpValidator, urlCompleter({currentURL: true})],
           [['-desc', '-description', '-d'], commands.OPTION_STRING],
           [['-frame', '-f'], commands.OPTION_INT, null, frameCompleter],
           [['-xpath', '-x'], commands.OPTION_STRING, xpathValidator],
+          [['-selector', '-s'], commands.OPTION_STRING],
           [['-prefix', '-p'], commands.OPTION_STRING],
           [
             ['-events', '-e'],
@@ -626,12 +646,13 @@ let INFO = <>
     ['fmapc'],
     'Clear fmappings',
     function (args) {
+      let ms = fromModeStrings(args['-modes'], true);
       if (args.bang) {
-        unmap({ignoreUrls: true});
+        unmap({ignoreUrls: true, modes: ms});
         liberator.log('All fmappings were removed.');
       } else {
         let result = {};
-        unmap({urls: args.literalArg, result: result});
+        unmap({urls: args.literalArg, result: result, modes: ms});
         liberator.echo(result.matched ? 'Some fmappings were removed.' : 'Not found specifed fmappings.');
       }
     },
@@ -641,7 +662,10 @@ let INFO = <>
       completer: function (context) {
         context.title = ['URL Pattern'];
         context.completions = urlCompleter({})(context);
-      }
+      },
+      options: [
+        [['-modes', '-m'], commands.OPTION_LIST],
+      ]
     },
     true
   );
@@ -656,12 +680,19 @@ let INFO = <>
         return liberator.echoerr('E471: Argument required');
 
       let result = {};
-      unmap({filter: name, urls: urls, ignoreUrls: args['-ignoreurls'], result: result});
+      unmap({
+        filter: name,
+        urls: urls,
+        ignoreUrls: args['-ignoreurls'],
+        result: result,
+        modes: fromModeStrings(args['-modes'], true)
+      });
       liberator.echo(result.matched ? 'Some fmappings were removed.' : 'Not found specifed fmappings.');
     },
     {
       literal: 0,
       options: [
+        [['-modes', '-m'], commands.OPTION_LIST]
         [['-urls', '-u'], commands.OPTION_STRING, regexpValidator, urlCompleter({})],
         [['-ignoreurls', '-iu'], commands.OPTION_NOARG]
       ],
@@ -682,7 +713,7 @@ let INFO = <>
   );
 
   __context__.API =
-    'VKeys feed getFrames fromXPath virtualize unmap findMappings list'.split(/\s+/).reduce(
+    'State VKeys feed getFrames fromXPath virtualize unmap findMappings list'.split(/\s+/).reduce(
       function (result, name)
         (result[name] = eval(name), result),
       {}

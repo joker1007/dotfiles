@@ -123,7 +123,7 @@ var libly = liberator.plugins.libly;
 var $U = libly.$U;
 var logger = $U.getLogger("multi_requester");
 var mergedSiteinfo = {};
-var store = storage.newMap('plugins-multi_requester', true);
+var store = storage.newMap('plugins-multi_requester', {store: true});
 //}}}
 
 // Vimperator plugin command register {{{
@@ -242,7 +242,7 @@ var DataAccess = {
 
     if (useWedata) {
       logger.log("use wedata");
-      var wedata = new libly.Wedata("Multi%20Requester");
+      var wedata = new libly.Wedata("Multi Requester");
       wedata.getItems(24 * 60 * 60 * 1000,
         function(item) {
           var site = item.data;
@@ -332,9 +332,9 @@ var MultiRequester = {
             count: count
           }
         });
-        req.addEventListener("onException", $U.bind(this, this.onException));
-        req.addEventListener("onSuccess", $U.bind(this, this.onSuccess));
-        req.addEventListener("onFailure", $U.bind(this, this.onFailure));
+        req.addEventListener("exception", $U.bind(this, this.onException));
+        req.addEventListener("success", $U.bind(this, this.onSuccess));
+        req.addEventListener("failure", $U.bind(this, this.onFailure));
         req.get();
         MultiRequester.requestCount++;
       }
@@ -394,9 +394,9 @@ var MultiRequester = {
     if (!el) throw "extract link failed.: extractLink -> " + extractLink;
     var url = $U.pathToURL(el[0], res.req.url);
     var req = new libly.Request(url, null, $U.extend(res.req.options, { extractLink: true }));
-    req.addEventListener("onException", $U.bind(this, this.onException));
-    req.addEventListener("onSuccess", $U.bind(this, this.onSuccess));
-    req.addEventListener("onFailure", $U.bind(this, this.onFailure));
+    req.addEventListener("exception", $U.bind(this, this.onException));
+    req.addEventListener("success", $U.bind(this, this.onSuccess));
+    req.addEventListener("failure", $U.bind(this, this.onFailure));
     req.get();
     MultiRequester.requestCount++;
     MultiRequester.doProcess = true;

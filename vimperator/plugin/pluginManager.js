@@ -4,10 +4,10 @@ var PLUGIN_INFO =
 <description>Manage Vimperator Plugins</description>
 <description lang="ja">Vimpeatorプラグインの管理</description>
 <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
-<version>0.6.6</version>
+<version>0.6.7</version>
 <minVersion>2.3</minVersion>
 <maxVersion>2.4</maxVersion>
-<updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/pluginManager.js</updateURL>
+<updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/pluginManager.js</updateURL>
 <detail lang="ja"><![CDATA[
 これはVimperatorプラグインの詳細情報orヘルプを表示するためのプラグインです。
 == Command ==
@@ -190,8 +190,19 @@ for (let it in Iterator(tags)){
     };
 }
 function makeLink(str, withLink){
-    var href = withLink ? '$&' : '#';
-    return XMLList(str.replace(/(?:https?:\/\/|mailto:)\S+/g, '<a href="' + href + '" highlight="URL">$&</a>'));
+    let s = str;
+    let result = XMLList();
+    while (s.length > 0) {
+        let m = s.match(/(?:https?:\/\/|mailto:)\S+/);
+        if (m) {
+            result += <>{s.slice(0, m.index)}<a href={withLink ? m[0] : '#'} highlight="URL">{m[0]}</a></>;
+            s = s.slice(m.index + m[0].length);
+        } else {
+            result += <>{s}</>;
+            break;
+        }
+    }
+    return result;
 }
 function fromUTF8Octets(octets){
     return decodeURIComponent(octets.replace(/[%\x80-\xFF]/g, function(c){
@@ -292,7 +303,7 @@ Plugin.prototype = { // {{{
         return template.table(this.name, data);
     }, // }}}
     getResourceInfo: function(){
-        var store = storage.newMap('plugins-pluginManager', true);
+        var store = storage.newMap('plugins-pluginManager', {store: true});
         var url = this.info.updateURL;
         var localResource = store.get(this.name) || {};
         var serverResource = {
@@ -301,7 +312,7 @@ Plugin.prototype = { // {{{
                 headers: {}
             };
 
-        if (url && /^(http|ftp):\/\//.test(url)){
+        if (url && /^(https?|ftp):\/\//.test(url)){
             let xhr = util.httpGet(url);
             let version = '';
             let source = xhr.responseText || '';
@@ -314,10 +325,10 @@ Plugin.prototype = { // {{{
                     }
                 });
             } catch (e){}
-            let m = /\bPLUGIN_INFO[ \t\r\n]*=[ \t\r\n]*<VimperatorPlugin(?:[ \t\r\n][^>]*)?>([\s\S]+?)<\/VimperatorPlugin[ \t\r\n]*>/(source);
+            let m = /\bPLUGIN_INFO[ \t\r\n]*=[ \t\r\n]*<VimperatorPlugin(?:[ \t\r\n][^>]*)?>([\s\S]+?)<\/VimperatorPlugin[ \t\r\n]*>/.exec(source);
             if (m){
                 m = m[1].replace(/(?:<!(?:\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]|--(?:[^-]|-(?!-))*--)>)+/g, '');
-                m = /^[\w\W]*?<version(?:[ \t\r\n][^>]*)?>([^<]+)<\/version[ \t\r\n]*>/(m);
+                m = /^[\w\W]*?<version(?:[ \t\r\n][^>]*)?>([^<]+)<\/version[ \t\r\n]*>/.exec(m);
                 if (m){
                     version = m[1];
                 }

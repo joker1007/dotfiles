@@ -23,144 +23,317 @@
  * THE SOFTWARE.
  */
 
-let PLUGIN_INFO =
-<VimperatorPlugin>
-  <name>Twittperator</name>
-  <description>Twitter Client using OAuth and Streaming API</description>
-  <description lang="ja">OAuth/StreamingAPI対応Twitterクライアント</description>
-  <version>1.13.3</version>
-  <minVersion>2.3</minVersion>
-  <maxVersion>3.0</maxVersion>
-  <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
-  <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
-  <license>MIT License</license>
-  <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/twittperator.js</updateURL>
-  <detail><![CDATA[
-    This is the Twitter client plugin with OAuth authentication.
-    == Command ==
-    - Use completion for comfort.
-    :tw[ittperator] -getPIN
-        Opens the page to authorize Twittperator and get your PIN from Twitter.
-    :tw[ittperator] -setPIN {PINcode}
-        Allows Twittperator to access Twitter by signifying your PIN.
-
-    :tw[ittperator]
-        Shows recent your timeline. (The timeline will be cashed and expired 90 seconds after Twittperator get from Twitter.)
-    :tw[ittperator]!
-        Gets recent your timeline from Twitter and shows it.
-    :tw[ittperator]!@
-        Shows mentions to you.
-    :tw[ittperator]!@user
-        Show @user's tweets.
-    :tw[ittperator] {TweetText}
-        Tweets {TweetText}.
-    :tw[ittperator] @user#id {TweetText}
-        Tweets a reply to @user.
-    :tw[ittperator] RT @user#id: {refTweet}
-        Does official retweet.
-    :tw[ittperator] {TweetText} RT @user#id: {refTweet}
-        Does classic retweet.
-    :tw[ittperator]!+status_id
-        Adds the tweet to your favorites.
-    :tw[ittperator]!-status_id
-        Delete the tweet from your favorites.
-    :tw[ittperator]!?{SearchText}
-        Shows the result of searching {SearchText}.
-    :tw[ittperator]!/{URI}
-        Opens {URI}.
-    :tw[ittperator]!delete {StatusID}
-        Deletes the {StatusID} tweet.
-    == Authentication Setting ==
+// INFO {{{
+let INFO =
+<>
+  <plugin name="Twittperator" version="1.17.1"
+          href="https://github.com/vimpr/vimperator-plugins/raw/master/twittperator.js"
+          summary="Twitter Client using OAuth and Streaming API">
+    <author email="teramako@gmail.com" href="http://d.hatena.ne.jp/teramako/">teramako</author>
+    <author email="anekos@snca.net" href="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
+    <license>MIT License</license>
+    <project name="Vimperator" minVersion="2.3"/>
+    <p>
+      This is the Twitter client plugin with OAuth authentication.
+    </p>
+    <h2>Command</h2>
+      - Use completion for comfort.
+    <item>
+      <spec>:tw<oa>ittperator</oa> -getPIN</spec>
+      <description>
+        <p>Opens the page to authorize Twittperator and get your PIN from Twitter.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> -setPIN <a>PINCode</a></spec>
+      <description>
+        <p>Allows Twittperator to access Twitter by signifying your PIN.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa></spec>
+      <description>
+        <p>Shows recent your timeline. (The timeline will be cashed and expired 90 seconds after Twittperator get from Twitter.)</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!</spec>
+      <description>
+        <p>Gets recent your timeline from Twitter and shows it.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!@</spec>
+      <description>
+        <p>Shows mentions to you.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!@user</spec>
+      <description>
+        <p>Show @user's tweets.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> <a>TweetText</a></spec>
+      <description>
+        <p>Tweets <a>TweetText</a>.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> @user#id <a>TweetText</a></spec>
+      <description>
+        <p>Tweets a reply to @user.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> RT @user#id: <a>refTweet</a></spec>
+      <description>
+        <p>Does official retweet.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> <a>TweetText</a> RT @user#id: <a>refTweet</a></spec>
+      <description>
+        <p>Does classic retweet.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!+status_id</spec>
+      <description>
+        <p>Adds the tweet to your favorites.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!-status_id</spec>
+      <description>
+        <p>Delete the tweet from your favorites.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!?<a>SearchText</a></spec>
+      <description>
+        <p>Shows the result of searching <a>SearchText</a>.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!/<a>URI</a></spec>
+      <description>
+        <p>Opens <a>URI</a>.</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!delete <a>StatusID</a></spec>
+      <description>
+        <p>Deletes the <a>StatusID</a> tweet.</p>
+      </description>
+    </item>
+    <h2>Authentication Setting</h2>
     First of all, you have to get your PIN from Twitter and signify it to Twittperator. Type a following command:
-    >||
+    <code>
         :tw -getPIN
-    ||<
+    </code>
     and you will get the page to authorize Twittperator to access Twitter in a new tab.
     If you allow and you will get the PIN (7 digit numbers), then yank it.
 
     Secondarily, authorize Twittperator with your PIN.
-    >||
+    <code>
         :tw -setPIN yanked_PIN
-    ||<
-    == FAQ ==
+    </code>
+    <h2>FAQ</h2>
+    <p>
     - What is this ?
+    </p>
+    <p>
         The plugin that just tweet with Vimperator.
+    </p>
+    <p>
     - My timeline is hard to see...?
+    </p>
+    <p>
         We are making an effort, and welcoming patches.
+    </p>
+    <p>
     - By the way, is it possible to show timeline automatically?
+    </p>
+    <p>
         Use chirpstream. Write the below line into rc file.
         let g:twittperator_use_chirp = 1
+    </p>
+    <p>
     - It's too much of the bother to show my timeline manually!!
+    </p>
+    <p>
         We think implementing a wider display method and a mean of word wrapping will solve this issue.
         Any ideas?
+    </p>
+    <p>
     - Is there a plan to work together Growl GNTP?
+    </p>
+    <p>
         Write the plugin.
-  ]]></detail>
-  <detail lang="ja"><![CDATA[
-    これはOAuth認証を用いたTwitterクライアントプラグインです。
-    == Command ==
-    - 適当に補完しましょう。
-    :tw[ittperator] -getPIN
-        PINコード取得ページを開きます。
-    :tw[ittperator] -setPIN {PINcode}
-        PINcodeを設定します。
+    </p>
+  </plugin>
+  <plugin name="Twittperator" version="1.17.1"
+          href="https://github.com/vimpr/vimperator-plugins/raw/master/twittperator.js"
+          lang="ja"
+          summary="OAuth/StreamingAPI対応Twitterクライアント">
+    <author email="teramako@gmail.com" href="http://d.hatena.ne.jp/teramako/">teramako</author>
+    <author email="anekos@snca.net" href="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
+    <license>MIT License</license>
+    <project name="Vimperator" minVersion="2.3"/>
+    <p>
+      これはOAuth認証を用いたTwitterクライアントプラグインです。
+    </p>
+    <h2>Command</h2>
+      - 適当に補完しましょう。
+    <item>
+      <spec>:tw<oa>ittperator</oa> -getPIN</spec>
+      <description>
+        <p>PINコード取得ページを開きます。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> -setPIN <a>PINcode</a></spec>
+      <description>
+        <p>PINcodeを設定します。</p>
+      </description>
+    </item>
 
-    :tw[ittperator]
-        前回取得したタイムラインを表示します。 (キャッシュが90秒以上古い場合は再取得。)
-    :tw[ittperator]!
-        強制的に取得したタイムラインを表示します。
-    :tw[ittperator]!@
-      あなたへの言及(mentions)表示します。
-    :tw[ittperator]!@user
-        @user のタイムラインを表示します。
-    :tw[ittperator] {TweetText}
-        {TweetText}をポストします。
-    :tw[ittperator] @user#id {TweetText}
-        @user への返信になります。
-    :tw[ittperator] RT @user#id: {refTweet}
-        公式RTになるはずです。
-    :tw[ittperator] {TweetText} RT @user#id: {refTweet}
-        非公式RTになるはずです。
-    :tw[ittperator]!+status_id
-        tweetをfavoriteします。
-    :tw[ittperator]!-status_id
-        tweetをunfavoriteします。
-    :tw[ittperator]!?{SearchText}
-        {SearchText}の検索結果を表示します。
-    :tw[ittperator]!/{URI}
-        {URI}を開きます。
-    :tw[ittperator]!delete {StatusID}
-        {StatusID}のツイートを削除します。
-    == Authentication Setting ==
+    <item>
+      <spec>:tw<oa>ittperator</oa></spec>
+      <description>
+        <p>前回取得したタイムラインを表示します。 (キャッシュが90秒以上古い場合は再取得。)</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!</spec>
+      <description>
+        <p>強制的に取得したタイムラインを表示します。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!@</spec>
+      <description>
+        <p>あなたへの言及(mentions)表示します。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!@user</spec>
+      <description>
+        <p>@user のタイムラインを表示します。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> <a>TweetText</a></spec>
+      <description>
+        <p><a>TweetText</a>をポストします。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> @user#id <a>TweetText</a></spec>
+      <description>
+        <p>@user への返信になります。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> RT @user#id: <a>refTweet</a></spec>
+      <description>
+        <p>公式RTになるはずです。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa> <a>TweetText</a> RT @user#id: <a>refTweet</a></spec>
+      <description>
+        <p>非公式RTになるはずです。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!+status_id</spec>
+      <description>
+        <p>tweetをfavoriteします。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!-status_id</spec>
+      <description>
+        <p>tweetをunfavoriteします。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!?<a>SearchText</a></spec>
+      <description>
+        <p><a>SearchText</a>の検索結果を表示します。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!/<a>URI</a></spec>
+      <description>
+        <p><a>URI</a>を開きます。</p>
+      </description>
+    </item>
+    <item>
+      <spec>:tw<oa>ittperator</oa>!delete <a>StatusID</a></spec>
+      <description>
+        <p><a>StatusID</a>のツイートを削除します。</p>
+      </description>
+    </item>
+    <h2>Authentication Setting</h2>
     最初にPINコードを取得し設定する必要があります。
-    >||
+    <code>
         :tw -getPIN
-    ||<
+    </code>
     を実行すると新規タブに本アプリケーションを許可するかを問うページが開かれます。
     許可をすると、PINコード(数値)が表示されるのでコピーしてください。
 
-    >||
+    <code>
         :tw -setPIN コピーしたPINコード
-    ||<
+    </code>
     で初期設定完了です。
-    == FAQ ==
+    <h2>FAQ</h2>
+    <p>
     - なんて読むんだ
+    </p>
+    <p>
         知らん。トゥイットゥペレータと自分は勝手に読んでいる。
+    </p>
+    <p>
     - 何のためのクライアント？
+    </p>
+    <p>
         Vimperatorを使っていて、さくっと呟きたいとき用です（ぉ
+    </p>
+    <p>
     - TL表示をもっと工夫しろ
+    </p>
+    <p>
         ごめんなさい。改良してコミットしてくれると嬉しいです。
+    </p>
+    <p>
     - つーか、TLくらい自動取得しろ
+    </p>
+    <p>
         はい、がんばりました。
-        let g:twittperator_use_chirp = 1
+        <code>let g:twittperator_use_chirp = 1</code>
         として、chirpstream を利用してください。
+    </p>
+    <p>
     - ぶっちゃけTL表示とか面倒だよね？
+    </p>
+    <p>
         はい、がんばります・・・
         でかい表示領域と行の折り返し方法が確立できれば、もっと頑張れる気がします。
+    </p>
+    <p>
     - Growl GNTP との連携しないの？
+    </p>
+    <p>
         プラグイン書きましょう。
-  ]]></detail>
-</VimperatorPlugin>;
+    </p>
+  </plugin>
+</>;
+
+// }}}
 
 (function() {
 
@@ -1048,7 +1221,7 @@ let PLUGIN_INFO =
                 callback(self.accessor);
               }
             }else{
-              alert(d.statusText);
+              window.alert(d.statusText);
             }
           },
         };
@@ -1060,7 +1233,7 @@ let PLUGIN_INFO =
         var btquery =  query ? "?" + this.buildQuery(query) : "";
         var message = {
           method: "GET",
-          action: setting.apiURLBase + api + btquery,
+          action: setting.getAPIURL(api + btquery),
           parameters: {
             oauth_signature_method: "HMAC-SHA1",
             oauth_consumer_key: this.accessor.get("consumerKey", ""), // Queryの構築
@@ -1088,7 +1261,7 @@ let PLUGIN_INFO =
       post: function(api, content, callback) {
         var message = {
           method: "POST",
-          action: setting.apiURLBase + api,
+          action: setting.getAPIURL(api),
           parameters: {
             oauth_signature_method: "HMAC-SHA1",
             oauth_consumer_key: this.accessor.get("consumerKey", ""),
@@ -1122,7 +1295,7 @@ let PLUGIN_INFO =
         var btquery =  query ? "?" + this.buildQuery(query) : "";
         var message = {
           method: "DELETE",
-          action: setting.apiURLBase + api + btquery,
+          action: setting.getAPIURL(api + btquery),
           parameters: {
             oauth_signature_method: "HMAC-SHA1",
             oauth_consumer_key: this.accessor.get("consumerKey", ""), // Queryの構築
@@ -1237,8 +1410,9 @@ let PLUGIN_INFO =
             url + '.json',
             query,
             function (text) {
+              let json;
               try {
-                return callback(JSON.parse(text));
+                json = JSON.parse(text);
               } catch (e) {
                 (onError
                  ||
@@ -1248,6 +1422,7 @@ let PLUGIN_INFO =
                    throw e;
                  })(e);
               }
+              return callback(json);
             }
           );
         };
@@ -1273,7 +1448,7 @@ let PLUGIN_INFO =
       }
 
       for (let [n, v] in Iterator(options)) {
-        if (/^on[A-Z]/(n) && (v instanceof Function))
+        if (/^on[A-Z]/.test(n) && (v instanceof Function))
           this.events[n.toLowerCase()] = v;
       }
 
@@ -1409,7 +1584,7 @@ let PLUGIN_INFO =
             lines[0] = buf + lines[0];
             for (let [, line] in Iterator(lines.slice(0, -1))) {
               try {
-                if (/^\s*\{/(line))
+                if (/^\s*\{/.test(line))
                   onMsg(Utils.fixStatusObject(JSON.parse(line)), line);
               } catch (e) { liberator.log(e); }
             }
@@ -1439,6 +1614,9 @@ let PLUGIN_INFO =
 
       if (msg.text)
         Twittperator.onMessage(msg);
+
+      if (msg.friends)
+        Twittperator.onFriends(msg);
     }
 
     function clearPluginData() {
@@ -1467,8 +1645,8 @@ let PLUGIN_INFO =
       });
     }, // }}}
     getUserTimeline: function(target, onload) { // {{{
-      let [api, query] = target ? ["statuses/user_timeline", {screen_name: target}]
-                                : ["statuses/home_timeline", {}];
+      let [api, query] = target ? ["statuses/user_timeline", {screen_name: target, count: setting.count}]
+                                : ["statuses/home_timeline", {count: setting.count}];
 
       tw.jsonGet(
         api,
@@ -1488,6 +1666,9 @@ let PLUGIN_INFO =
           onload(result);
         }
       );
+    }, // }}}
+    lookupUser: function({screenNames, ids}, callback) { // {{{
+      tw.jsonGet("users/lookup", { user_id: String(ids || []), screen_name: String(screenNames || []) }, callback);
     }, // }}}
     say: function(status, inReplyToStatusId) { // {{{
       let sendData = {status: status, source: "Twittperator"};
@@ -1543,6 +1724,12 @@ let PLUGIN_INFO =
       function unescapeBrakets(str)
         str.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
+      function fixId (obj, name) {
+        let nameStr = name + "_str";
+        if (obj.hasOwnProperty(name) && obj.hasOwnProperty(nameStr) && typeof obj[name] === "number")
+          obj.__defineGetter__(name, function () this[nameStr]);
+      }
+
       let result = {};
       for (let [n, v] in Iterator(st)) {
         result[n] = v && typeof v === "object" ? Utils.fixStatusObject(v) :
@@ -1550,8 +1737,10 @@ let PLUGIN_INFO =
                     v;
       }
 
-      if (result.hasOwnProperty("id") && result.hasOwnProperty("id_str") && typeof result.id === "number")
-        result.__defineGetter__("id", function () this.id_str);
+      for (let [n, v] in Iterator(st)) {
+        if (/(^|_)id$/.test(n))
+          fixId(result, n);
+      }
 
       return result;
     }, // }}}
@@ -1581,6 +1770,31 @@ let PLUGIN_INFO =
     }, // }}}
   }; // }}}
   let Twittperator = { // {{{
+    activitySummary: function(id) { // {{{
+      tw.jsonGet(
+        'https://api.twitter.com/i/statuses/' + id + '/activity/summary',
+        {},
+        function(json) {
+          function idToIcon (id) {
+            return <span><a href={'http://twitter.com/#!/' + id}>{icons[id] ? <img src={icons[id]}/> : <>&#128568;</>}</a></span>;
+          }
+
+          let icons = {};
+          for (let [, t] in Iterator(history)) {
+            if (t.user && t.user.id_str && t.user.profile_image_url)
+              icons[t.user.id_str] = t.user.profile_image_url;
+          }
+          liberator.echo(<>
+            <dl>
+              <dt>Retweeter {json.retweeters_count}</dt>
+              <dd>{template.map(json.retweeters, idToIcon)}</dd>
+              <dt>Favoriters {json.favoriters_count}</dt>
+              <dd>{template.map(json.favoriters, idToIcon)}</dd>
+            </dl>
+          </>);
+        }
+      );
+    }, // }}}
     confirm: function(msg, onYes, onNo, onCancel) { // {{{
       if (!onNo)
         onNo = function () Twittperator.echo('canceled.');
@@ -1625,7 +1839,7 @@ let PLUGIN_INFO =
       function loadPluginFromDir(checkGV) {
         return function(dir) {
           dir.readDirectory().forEach(function(file) {
-            if (/\.tw$/(file.path) && (!checkGV || isEnabled(file)))
+            if (/\.tw$/.test(file.path) && (!checkGV || isEnabled(file)))
               Twittperator.sourceScriptFile(file);
           });
         }
@@ -1636,6 +1850,61 @@ let PLUGIN_INFO =
 
       io.getRuntimeDirectories("plugin/twittperator").forEach(loadPluginFromDir(true));
       io.getRuntimeDirectories("twittperator").forEach(loadPluginFromDir(false));
+    }, // }}}
+    lookupUser: function(users) { // {{{
+      function showUsersInfo(json) { // {{{
+        let xml = modules.template.map(json, function(user) {
+          return <>
+            <tr>
+              <td class="twittperator lookup-user photo">
+                <img src={user.profile_image_url} />
+              </td>
+              <td class="twittperator lookup-user screen-name">
+                <a href={"https://twitter.com/#!/" + user.screen_name}>
+                  {user.name}
+                </a>
+              </td>
+              <td class="twittperator lookup-user attributes">
+                {user.location} -
+                id {user.id_str} -
+                {user.following ? '' : 'not'} following -
+                {user.friends_count}/{user.followers_count} ee/er -
+                {user.statuses_count} tweets -
+                {user.favourites_count} favs -
+                {user.listed_count} listed -
+                from {new Date(user.created_at).toLocaleString()}
+              </td>
+            </tr>
+            <tr>
+              <td class="twittperator lookup-user description" colspan="3">
+                {user.description}
+              </td>
+            </tr>
+          </>;
+        });
+        liberator.echo(
+          <>
+            <style type="text/css"><![CDATA[
+              .twittperator.lookup-user.photo { vertical-align: top; width: 28px; }
+              .twittperator.lookup-user.photo img { border: 0px; width: 24px; height: 24px; vertical-align: baseline; margin: 1px; }
+              .twittperator.lookup-user.attributes { white-space: normal !important; }
+              .twittperator.lookup-user.description { white-space: normal !important; }
+              .twittperator.lookup-user.description a { text-decoration: none; }
+            ]]></style>
+            <table>{xml}</table>
+          </>
+        );
+      } // }}}
+
+      let ids = [], screenNames = [];
+      for (let [, v] in Iterator(users))
+        (/^\d+$/.test(v) ? ids : screenNames).push(v);
+      Twitter.lookupUser({ids: ids, screenNames: screenNames}, function(json) {
+        showUsersInfo(json);
+      });
+    }, // }}}
+    onFriends: function(msg) { // {{{
+      __context__.Friends = friends = msg.friends;
     }, // }}}
     onMessage: function(msg) { // {{{
       history.unshift(msg);
@@ -1706,11 +1975,11 @@ let PLUGIN_INFO =
         ("window.parent.liberator.modules.plugins.twittperator.Twittperator.showStatusMenu(" + parseInt(st.id) + ")");
 
       let html = <style type="text/css"><![CDATA[
-          .twitter.user { vertical-align: top; }
-          .twitter.entry-content { white-space: normal !important; }
-          .twitter.entry-content a { text-decoration: none; }
-          .twitter.entry-content.rt:before { content: "RT "; color: silver; }
-          img.twitter.photo { border: 0px; width: 16px; height: 16px; vertical-align: baseline; margin: 1px; }
+          .twittperator.timeline.user { vertical-align: top; }
+          .twittperator.timeline.entry-content { white-space: normal !important; }
+          .twittperator.timeline.entry-content a { text-decoration: none; }
+          .twittperator.timeline.entry-content.rt:before { content: "RT "; color: silver; }
+          img.twittperator.timeline.photo { border: 0px; width: 24px; height: 24px; vertical-align: baseline; margin: 1px; }
       ]]></style>.toSource()
                  .replace(/(?:\r\n|[\r\n])[ \t]*/g, " ") +
           s.reduce(function(table, status) {
@@ -1718,35 +1987,35 @@ let PLUGIN_INFO =
               ("retweeted_status" in status) ?
               let (rt = status.retweeted_status)
               <tr>
-                <td class="twitter user">
+                <td class="twittperator timeline user">
                   <a href={userURL(rt.user.screen_name)}>
-                    <img src={rt.user.profile_image_url} alt={rt.user.screen_name} class="twitter photo"/>
+                    <img src={rt.user.profile_image_url} alt={rt.user.screen_name} class="twittperator timeline photo"/>
                     <strong>{rt.user.screen_name}&#x202C;</strong>
                   </a>
                   <a href={userURL(status.user.screen_name)}>
-                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
+                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twittperator timeline photo"/>
                   </a>
                 </td>
-                <td class="twitter entry-content rt">
+                <td class="twittperator timeline entry-content rt">
                   {Utils.anchorLink(rt.text)}
                 </td>
-                <td class="twitter menu">
+                <td class="twittperator timeline menu">
                   <a href="javascript: void 0" onclick={menuEvent(status)}>
                    &#1758;
                   </a>
                 </td>
               </tr> :
               <tr>
-                <td class="twitter user">
+                <td class="twittperator timeline user">
                   <a href={userURL(status.user.screen_name)}>
-                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
+                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twittperator timeline photo"/>
                     <strong title={status.user.name}>{status.user.screen_name}&#x202C;</strong>
                   </a>
                 </td>
-                <td class="twitter entry-content">
+                <td class="twittperator timeline entry-content">
                   {Utils.anchorLink(status.text)}
                 </td>
-                <td class="twitter menu">
+                <td class="twittperator timeline menu">
                   <a href="javascript: void 0" onclick={menuEvent(status)}>
                    &#1758;
                   </a>
@@ -1779,7 +2048,7 @@ let PLUGIN_INFO =
 
       Utils.xmlhttpRequest({
         method: 'GET',
-        url: "http://search.twitter.com/search.json?" + tw.buildQuery({ q: word }),
+        url: "http://search.twitter.com/search.json?" + tw.buildQuery({ q: word, rpp: setting.count, lang: setting.lang }),
         onload: function(xhr) {
           let res = JSON.parse(xhr.responseText);
           if (res.results.length > 0) {
@@ -1839,10 +2108,9 @@ let PLUGIN_INFO =
       }
     }, // }}}
     withProtectedUserConfirmation: function(check, actionName, action) { // {{{
-      let protectedUserName = Twittperator.isProtected(check);
-      if (protectedUserName) {
+      if (Twittperator.isProtected(check)) {
         Twittperator.confirm(
-          protectedUserName + " is protected user! Do you really want to " + actionName + '?',
+          check.screenName + " is protected user! Do you really want to " + actionName + '?',
           action
         );
       } else {
@@ -1891,24 +2159,31 @@ let PLUGIN_INFO =
 
       context.compare = void 0;
       context.createRow = function(item, highlightGroup) {
-        let desc = item[1] || this.process[1].call(this, item, item.description);
-
-        if (desc && desc.user) {
-          return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-              <li highlight="CompDesc">
-                <img src={desc.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
-                &#160;{desc.user.screen_name}: {desc.text}
-              </li>
+        if (highlightGroup === "CompTitle") {
+          return <div highlight="CompTitle" style="white-space: nowrap">
+              <li highlight="CompDesc">{item}&#160;</li>
           </div>;
         }
 
-        return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-            <li highlight="CompDesc">{desc}&#160;</li>
-        </div>;
+        let [value, st] = item.item;
+        if (st.user) {
+          return <div highlight="CompItem" style="white-space: nowrap">
+              <li highlight="CompDesc">
+                <img src={st.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
+                &#160;{st.user.screen_name}: {st.text}
+              </li>
+          </div>;
+        } else {
+          return <div highlight="CompItem" style="white-space: nowrap">
+              <li highlight="CompDesc">
+                {st.text}
+              </li>
+          </div>;
+        }
       };
 
       context.filters = [statusObjectFilter];
-      context.title = ["Hidden", "Entry"];
+      context.title = "Entry";
     } // }}}
 
     function makeTimelineCompleter(completer) { // {{{
@@ -1961,6 +2236,8 @@ let PLUGIN_INFO =
           completer(function(s) ["@" + s.user.screen_name + "#" + s.id + ": " + removeNewLine(s.text), s]),
         screenName:
           completer(function(s) [s.user.screen_name, s]),
+        statusPage:
+          completer(function(s) [s.user.screen_name + '/status/' + s.id , s]),
         hashtag:
           function(filter) {
             return makeTimelineCompleter(function(context, args){
@@ -1988,7 +2265,7 @@ let PLUGIN_INFO =
             "^" +
             this.command.map(function(c)
               let (r = util.escapeRegex(c))
-                (/^\W$/(c) ? r : r + "( |$)")
+                (/^\W$/.test(c) ? r : r + "( |$)")
             ).join("|")
           );
         },
@@ -2053,7 +2330,7 @@ let PLUGIN_INFO =
         description: "Open link",
         action: function(arg) Twittperator.openLink(arg),
         timelineCompleter: true,
-        completer: Completers.text(function(s) /https?:\/\//(s.text))
+        completer: Completers.text(function(s) /https?:\/\//.test(s.text))
       }),
       SubCommand({
         command: ["delete"],
@@ -2064,7 +2341,16 @@ let PLUGIN_INFO =
             Twitter.destroy(m[0]);
         },
         timelineCompleter: true,
-        completer: Completers.id(seleceMine)
+        completer: Completers.rawid(seleceMine)
+      }),
+      SubCommand({
+        command: ["activity"],
+        description: "Activity Summary",
+        action: function(arg) {
+          Twittperator.activitySummary(arg);
+        },
+        timelineCompleter: true,
+        completer: Completers.id(function(st) st.id)
       }),
       SubCommand({
         command: ["info"],
@@ -2088,6 +2374,15 @@ let PLUGIN_INFO =
         },
         timelineCompleter: true,
         completer: Completers.rawid(function(st) st.id)
+      }),
+      SubCommand({
+        command: ["lookupuser"],
+        description: "Lookup users",
+        action: function(arg) {
+          Twittperator.lookupUser(arg.split(/\s+/));
+        },
+        timelineCompleter: true,
+        completer: Completers.screenName()
       }),
       SubCommand({
         command: ["track"],
@@ -2117,21 +2412,33 @@ let PLUGIN_INFO =
         completer: Completers.screenName(rejectMine)
       }),
       SubCommand({
+        command: ["status"],
+        description: "Open status page.",
+        action: function(arg) liberator.open("http://twitter.com/" + arg, liberator.NEW_TAB),
+        timelineCompleter: true,
+        completer: Completers.statusPage(function (s) s.id)
+      }),
+      SubCommand({
         command: ["thread"],
         description: "Show tweets thread.",
         action: function(arg) {
+          function showThread () {
+            Twittperator.showTL(thread);
+          }
           function getStatus(id, next) {
             let result;
-            if (history.some(function (it) (it.id == id && (result = it))))
+            if (history.some(function (it) (it.id == id && (result = it)))) {
               return next(result);
-            tw.jsonGet("statuses/show/" + id, null, function(res) next(res))
+            }
+            // XXX エラーの時はなにか表示しておくべき？
+            tw.jsonGet("statuses/show/" + id, null, function(res) next(res), showThread);
           }
           function trace(st) {
             thread.push(st);
             if (st.in_reply_to_status_id) {
               getStatus(st.in_reply_to_status_id, trace);
             } else {
-              Twittperator.showTL(thread);
+              showThread();
             }
           }
 
@@ -2193,7 +2500,7 @@ let PLUGIN_INFO =
 
     function subCommandCompleter(context, args) { // {{{
       if (!args.literalArg.match(/^(\W|\S+\s)/)) {
-        context.title = ["Sub command", "Description"];
+        context.title = ["Sub Command", "Description"];
         context.completions = SubCommands.map(function({ command, description }) [command[0], description]);
         return;
       }
@@ -2221,7 +2528,12 @@ let PLUGIN_INFO =
 
       let arg = args.literalArg.slice(0, context.caret);
       let m;
-      if (m = arg.match(/(RT\s+)@.*$/)) {
+      if (m = arg.match(/^D\s+/)) {
+        context.title = "Entry";
+        context.advance(m[0].length);
+        Completers.name(rejectMine)(context, args);
+        return;
+      } else if (m = arg.match(/(RT\s+)@.*$/)) {
         (m.index === 0 ? Completers.name_id
                        : Completers.name_id_text)(m.index === 0 && rejectMine)(context, args);
       } else if (m = tailMatch(/(^|\b|\s)#[^#\s]*$/, arg)) {
@@ -2233,7 +2545,7 @@ let PLUGIN_INFO =
       if (m)
         len = m.index + m[1].length;
 
-      context.title = ["Name#ID", "Entry"];
+      context.title = "Entry";
       context.offset += len;
       // XXX 本文でも検索できるように、@ はなかったことにする
       context.filter = context.filter.replace(/^[@#]/, "");
@@ -2271,7 +2583,7 @@ let PLUGIN_INFO =
             (!lastTime || ((lastTime + setting.statusValidDuration * 1000) < now));
 
           let completer = args.bang ? subCommandCompleter : commandCompelter;
-          let matches = args.bang || args.literalArg.match(/(RT\s+|)@|#/);
+          let matches = args.bang || args.literalArg.match(/(RT\s+|)@|#|^D\s+/);
 
           if (!matches)
             return;
@@ -2314,6 +2626,9 @@ let PLUGIN_INFO =
       apiURLBase: "http" + (!!gv.twittperator_use_ssl_connection_for_api_ep ? "s" : "") +
                   "://api.twitter.com/" + (gv.twittperator_twitter_api_version || 1)  + "/",
       trackWords: gv.twittperator_track_words,
+      count: (gv.twittperator_count || 20),
+      lang: (gv.twittperator_lang || ''),
+      getAPIURL: function (path) (/^https?\:\/\//.test(path) ? path : this.apiURLBase + path)
     });
 
   let statusRefreshTimer;
@@ -2322,11 +2637,15 @@ let PLUGIN_INFO =
   if (!history)
     history = __context__.Tweets = Store.get("history", []);
 
+  let friends = __context__.Friends;
+  if (!friends)
+    friends = __context__.Friends = Store.get("friends", []);
+
   let tw = new TwitterOauth(Store);
 
   // ストリーム
   let ChirpUserStream = Stream({ name: 'chirp stream', url: "https://userstream.twitter.com/2/user.json" });
-  let TrackingStream = Stream({ name: 'tracking stream', url: "http://stream.twitter.com/1/statuses/filter.json" });
+  let TrackingStream = Stream({ name: 'tracking stream', url: "https://stream.twitter.com/1/statuses/filter.json" });
 
   // 公開オブジェクト
   __context__.OAuth = tw;
@@ -2339,19 +2658,24 @@ let PLUGIN_INFO =
 
   Twittperator.loadPlugins();
 
-  if (setting.useChirp){
-    if(setting.allReplies)
-      ChirpUserStream.start({"replies":"all"});
-    else 
-      ChirpUserStream.start();
-  }
+  liberator.registerObserver(
+    'enter',
+    function () {
+    if (setting.useChirp){
+      if(setting.allReplies)
+        ChirpUserStream.start({"replies":"all"});
+      else
+        ChirpUserStream.start();
+    }
 
-  let trackWords = setting.trackWords || Store.get("trackWords");
-  if (trackWords)
-    TrackingStream.start({track: trackWords});
+    let trackWords = setting.trackWords || Store.get("trackWords");
+    if (trackWords)
+      TrackingStream.start({track: trackWords});
+  });
 
   __context__.onUnload = function() {
     Store.set("history", history);
+    Store.set("friends", friends);
     ChirpUserStream.stop();
     TrackingStream.stop();
   };
