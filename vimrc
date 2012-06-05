@@ -404,18 +404,6 @@ let g:html_use_css = 1
 let g:use_xhtml = 1
 let g:html_use_encoding = 'utf-8'
 
-" rubycomplete.vim & RSense {{{
-if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
-  let g:rsenseUseOmniFunc = 1
-  let g:rsenseHome = expand('~/dotfiles/rsense')
-else
-  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-endif
-" }}}
-
 " grep.vim
 let Grep_Default_Options = '-i'
 nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
@@ -571,11 +559,15 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
+" Use fuzzy completion.
+let g:neocomplcache_enable_fuzzy_completion = 1
 " filename width
 let g:neocomplcache_max_menu_width = 30
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_min_keyword_length = 2
+let g:neocomplcache_auto_completion_start_length = 2
+let g:neocomplcache_manual_completion_start_length = 0
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_min_keyword_length = 3
 let g:neocomplcache_plugin_completion_length = {
 \ 'snippets_complete' : 1,
 \ }
@@ -630,6 +622,19 @@ MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" rubycomplete.vim & RSense {{{
+if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
+  let g:rsenseHome = expand('~/dotfiles/rsense')
+  let g:rsenseUseOmniFunc = 1
+else
+  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+endif
+" }}}
+
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')
@@ -844,7 +849,7 @@ imap <C-C> <Plug>ToggleI
 nmap <C-C> <Plug>ToggleN
 vmap <C-C> <Plug>ToggleV
 
-let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", "context":"describe" }
+let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", 'context':"describe", 'true':'false', 'false':'true', '&&':'||', '||':'&&' }
 " }}}
 
 " RSpec syntax {{{
