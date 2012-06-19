@@ -422,6 +422,15 @@ endfunction
 
 call quickrun#register_outputter("ansi_buffer", ansi_buffer)
 
+" libruby load
+if has('gui_macvim') && has('kaoriya')
+  let s:ruby_libdir = system("ruby -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
+  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
+  if filereadable(s:ruby_libruby)
+    let $RUBY_DLL = s:ruby_libruby
+  endif
+endif
+
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
 let g:quickrun_config._ = {'runner' : 'vimproc'}
