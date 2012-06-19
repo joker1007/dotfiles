@@ -91,7 +91,9 @@ set virtualedit=block       " 矩形選択でカーソル位置の制限を解�
 set autoread                " 他でファイルが編集された時に自動で読み込む
 
 " for MacVim with rvm
-set shell=/bin/bash
+if has('gui_macvim') && has('kaoriya')
+  set shell=/bin/bash
+endif
 
 " Edit vimrc
 nnoremap [space] <Nop>

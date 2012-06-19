@@ -52,4 +52,11 @@ else
     alias lv="$PAGER"
 fi
 
+# rbenv
+if type rbenv > /dev/null 2>&1; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+  source ~/.rbenv/completions/rbenv.zsh
+fi
+
 [ -s ~/.zshenv.local ] && source ~/.zshenv.local
