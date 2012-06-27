@@ -352,7 +352,7 @@ let g:hatena_user = 'joker1007'
 " shファイルの保存時にはファイルのパーミッションを755にする {{{
 function! ChangeShellScriptPermission()
   if !has("win32")
-    if &ft =~ "\\(z\\|c\\|ba\\)\\?sh$"
+    if &ft =~ "\\(z\\|c\\|ba\\)\\?sh$" && expand('%:t') !~ "\\(zshrc\\|zshenv\\)$"
       call system("chmod 755 " . shellescape(expand('%:p')))
       echo "Set permission 755"
     endif
