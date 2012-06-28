@@ -10,7 +10,7 @@ limit coredumpsize 0
 # Setup command search path
 typeset -U path
 # (N-/) を付けることで存在しなければ無視してくれる
-path=($HOME/bin $HOME/Library/Haskell/bin(N-/) /opt/local/bin(N-/) /opt/local/sbin(N-/) /usr/local/sbin(N-/) /usr/local/bin(N-/) /usr/local/*/bin(N-/) $path /sbin /usr/sbin /usr/*/bin(N-/) /var/*/bin(N-/))
+path=($HOME/.rbenv/bin(N-/) $HOME/bin $HOME/Library/Haskell/bin(N-/) $HOME/.cabal/bin(N-/) /opt/local/bin(N-/) /opt/local/sbin(N-/) /usr/local/sbin(N-/) /usr/local/bin(N-/) /usr/local/*/bin(N-/) $path /sbin /usr/sbin /usr/*/bin(N-/) /var/*/bin(N-/))
 
 # リモートから起動するコマンド用の環境変数を設定(必要なら)
 export RSYNC_RSH=ssh
@@ -54,7 +54,6 @@ fi
 
 # rbenv
 if type rbenv > /dev/null 2>&1; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
   source ~/.rbenv/completions/rbenv.zsh
 fi
