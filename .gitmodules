@@ -160,3 +160,6 @@
 [submodule "vim/bundle/unite-tag"]
 	path = vim/bundle/unite-tag
 	url = git://github.com/tsukkee/unite-tag.git
+[submodule "vim/bundle/open-browser.vim"]
+	path = vim/bundle/open-browser.vim
+	url = git://github.com/tyru/open-browser.vim.git

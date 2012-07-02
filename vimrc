@@ -940,3 +940,8 @@ let g:tagbar_left = 1
 let g:tagbar_width = 40
 let g:tagbar_updateonsave_maxlines = 10000
 let g:tagbar_sort = 0
+
+" open-browser
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
