@@ -160,3 +160,6 @@
 [submodule "vim/bundle/open-browser.vim"]
 	path = vim/bundle/open-browser.vim
 	url = git://github.com/tyru/open-browser.vim.git
+[submodule "vim/bundle/unite-git_grep"]
+	path = vim/bundle/unite-git_grep
+	url = git://github.com/joker1007/unite-git_grep.git
