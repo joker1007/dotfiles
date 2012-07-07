@@ -628,15 +628,20 @@ MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " rubycomplete.vim & RSense {{{
-if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
-  let g:rsenseHome = expand('~/dotfiles/rsense')
-  let g:rsenseUseOmniFunc = 1
-else
-  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-endif
+" if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
+  " let g:rsenseHome = expand('~/dotfiles/rsense')
+  " let g:rsenseUseOmniFunc = 1
+" else
+  " MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+  " MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+  " MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  " MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+" endif
+MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 " }}}
 
 

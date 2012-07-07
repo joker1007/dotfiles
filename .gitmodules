@@ -94,9 +94,6 @@
 [submodule "zsh/auto-fu.zsh"]
 	path = zsh/auto-fu.zsh
 	url = git://github.com/hchbaw/auto-fu.zsh.git
-[submodule "rsense"]
-	path = rsense
-	url = git://github.com/m2ym/rsense.git
 [submodule "vim/bundle/vim-indent-guides"]
 	path = vim/bundle/vim-indent-guides
 	url = git://github.com/nathanaelkane/vim-indent-guides.git
