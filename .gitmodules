@@ -154,9 +154,6 @@
 [submodule "vim/bundle/unite-haddoc"]
 	path = vim/bundle/unite-haddoc
 	url = git://github.com/eagletmt/unite-haddock.git
-[submodule "vim/bundle/unite-git_grep"]
-	path = vim/bundle/unite-git_grep
-	url = git://github.com/sgur/unite-git_grep.git
 [submodule "vim/bundle/unite-tag"]
 	path = vim/bundle/unite-tag
 	url = git://github.com/tsukkee/unite-tag.git
