@@ -1,7 +1,6 @@
 Host github.com
-  User joker
+  User git
   Port 22
   Hostname github.com
-  IdentityFile ~/.ssh/id_rsa_github
-  TCPKeepAlive yes
+  IdentityFile ~/.ssh/keyfile
   IdentitiesOnly yes
