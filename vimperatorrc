@@ -243,7 +243,6 @@ liberator.globalVariables.accountSwitcherLoginServices = [
   'joker1007@hatena',
   'joker1007@hatelabo',
   'joker1007@twitter',
-  'kakyoin.hierophant@google',
 ];
 EOM
 
