@@ -364,14 +364,23 @@ MyAutocmd BufWritePost * call ChangeShellScriptPermission()
 " QFixHowm用設定======================================================{{{
 set runtimepath+=~/qfixapp
 
+" ファイル拡張子をmkdにする
+let howm_filename = '%Y-%m-%d-%H%M%S.mkd'
+" ファイルタイプをmarkdownにする
+let QFixHowm_FileType = 'markdown'
+" 折り畳み正規表現
+let QFixHowm_FoldingPattern = '^[=.*#]'
+
+" タイトル記号
+let QFixHowm_Title = '#'
+
 "キーマップリーダー
 let QFixHowm_Key = 'g'
 
 "howm_dirはファイルを保存したいディレクトリを設定。
 let howm_dir          = '~/Dropbox/howm'
-let howm_filename     = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
 let howm_fileencoding = 'utf-8'
-let howm_fileformat   = 'dos'
+let howm_fileformat   = 'unix'
 
 if has('win32')
   let mygrepprg = 'yagrep'
@@ -382,6 +391,9 @@ endif
 let QFixHowm_MruFileMax = 30
 
 let QFixHowm_RecentMode = 2
+
+" リネーム後のファイル名制限
+let QFixHowm_FilenameLen = 80
 
 
 "ブラウザの指定
