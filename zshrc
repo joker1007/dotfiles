@@ -306,6 +306,13 @@ zstyle ':auto-fu:highlight' completion bold,underline
 # RSense
 export RSENSE_HOME=$HOME/dotfiles/rsense
 
+# hub
+if type hub > /dev/null 2>&1; then
+  function git() {
+    hub "$@"
+  }
+fi
+
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
