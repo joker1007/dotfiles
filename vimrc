@@ -461,7 +461,7 @@ endif
 " poslist
 nmap <C-O> <Plug>(poslist-prev-pos)
 nmap <C-I> <Plug>(poslist-next-pos)
-let g:poslist_histsize = 1000
+let g:poslist_histsize = 2000
 
 " Unite.vim {{{
 nnoremap [unite] <Nop>
@@ -484,7 +484,13 @@ nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
+nnoremap <silent> [unite]gg  :<C-u>Unite -buffer-name=grep vcs_grep/git -start-insert<CR>
+
+let g:unite_winheight = 15
 let g:unite_source_grep_max_candidates = 500
+
+call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
+
 " }}}
 
 
