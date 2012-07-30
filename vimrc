@@ -466,12 +466,16 @@ let g:poslist_histsize = 2000
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]f   :<C-u>Unite -buffer-name=files buffer file_mru file<CR>
-nnoremap <silent> [unite]vf  :<C-u>Unite -vertical -buffer-name=files buffer file_mru file<CR>
+nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files file_mru<CR>
+nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files file_rec/async<CR>
+nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files directory_mru<CR>
+nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files file_mru <CR>
 nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files buffer file<CR>
-nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru file<CR>
-nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files buffer file_mru file<CR>
-nnoremap <silent> [unite]b   :<C-u>Unite -auto-preview -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
+nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]b   :<C-u>Unite -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vB  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  -winwidth=45 -no-quit buffer<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=45 -no-quit -toggle -buffer-name=outline outline<CR>
@@ -528,6 +532,7 @@ nnoremap [git]b :<C-u>Gblame<Enter>
 let g:proj_window_width = 48
 
 " vimfiler {{{
+let g:vimfiler_as_default_explorer = 1
 nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 let g:vimfiler_max_directory_histories = 20
 function ChangeVimfilerKeymap()
