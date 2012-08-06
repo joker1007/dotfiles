@@ -160,3 +160,9 @@
 [submodule "vim/bundle/unite-git_grep"]
 	path = vim/bundle/unite-git_grep
 	url = git://github.com/joker1007/unite-git_grep.git
+[submodule "vim/bundle/vim-textobj-indent"]
+	path = vim/bundle/vim-textobj-indent
+	url = git://github.com/kana/vim-textobj-indent.git
+[submodule "vim/bundle/vim2hs"]
+	path = vim/bundle/vim2hs
+	url = git://github.com/dag/vim2hs.git
