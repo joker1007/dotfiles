@@ -318,7 +318,7 @@ function grbi() {
   if [ "$1" -gt 0 ]; then
     git rebase -i "HEAD~${1}"
   else
-    echo "Input arg: greater then 0"
+    echo "Using: grbi n\n  (n is number greater then 0)"
   fi
 }
 
