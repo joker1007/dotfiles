@@ -313,6 +313,15 @@ if type hub > /dev/null 2>&1; then
   }
 fi
 
+# git rebase -i
+function grbi() {
+  if [ "$1" -gt 0 ]; then
+    git rebase -i "HEAD~${1}"
+  else
+    echo "Input arg: greater then 0"
+  fi
+}
+
 # rvmの読み込み
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
