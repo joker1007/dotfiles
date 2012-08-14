@@ -585,20 +585,21 @@ let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
 let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
+"let g:neocomplcache_enable_underbar_completion = 1
 " Use fuzzy completion.
-let g:neocomplcache_enable_fuzzy_completion = 1
+" let g:neocomplcache_enable_fuzzy_completion = 1
 " filename width
-let g:neocomplcache_max_menu_width = 30
+let g:neocomplcache_max_menu_width = 40
 " Set minimum syntax keyword length.
 let g:neocomplcache_auto_completion_start_length = 2
 let g:neocomplcache_manual_completion_start_length = 0
 let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_min_keyword_length = 2
 let g:neocomplcache_plugin_completion_length = {
 \ 'snippets_complete' : 1,
 \ }
 " let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_enable_prefetch = 1
 
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
@@ -606,6 +607,11 @@ let g:neocomplcache_dictionary_filetype_lists = {
 \ 'vimshell' : $HOME . '/.vimshell/command-history',
 \ }
 "let g:neocomplcache_snippets_dir = ''
+
+" キャッシュしないファイル名
+let g:neocomplcache_disable_caching_file_path_pattern = '\.log\|\.log\.\|\.jax'
+" 自動補完を行わないバッファ名
+let g:neocomplcache_lock_buffer_name_pattern = '\.log\|\.log\.\|.*quickrun.*\|.jax'
 
 " Define keyword.
 if !exists('g:neocomplcache_keyword_patterns')
@@ -663,8 +669,10 @@ MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
 MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
 MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 0
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 0
 MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+let ruby_operators = 1
 " }}}
 
 
