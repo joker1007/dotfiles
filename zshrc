@@ -127,7 +127,8 @@ darwin*)
   alias cp='gcp'
   alias eche='gecho'
   alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-  alias gvim='open -a /Applications/MacVim.app/Contents/MacOS/MacVim'
+  alias gvim='/Applications/MacVim.app/Contents/MacOS/mvim'
+  alias gvimdiff='/Applications/MacVim.app/Contents/MacOS/mvimdiff'
   alias firefox-open='open -a /Applications/Firefox.app/Contents/MacOS/firefox-bin'
   ;;
 linux*)
