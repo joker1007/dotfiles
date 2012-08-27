@@ -172,3 +172,6 @@
 [submodule "vim/bundle/html-template-syntax"]
 	path = vim/bundle/html-template-syntax
 	url = git://github.com/pbrisbin/html-template-syntax.git
+[submodule "rsense"]
+	path = rsense
+	url = git://github.com/m2ym/rsense.git
