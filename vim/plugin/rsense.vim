@@ -1,1 +1,1 @@
-/Users/joker/dotfiles/rsense/etc/rsense.vim
+../../rsense/etc/rsense.vim
