@@ -342,6 +342,7 @@ endfunction
 MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
 MyAutocmd FileType python,ruby,coffee,vim call EnableSmartchrRegExp()
 MyAutocmd FileType ruby call EnableSmartchrRubyHash()
+MyAutocmd FileType ruby,eruby setlocal tags+=~/rtags
 MyAutocmd FileType haml call EnableSmartchrHaml()
 MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
 " }}}
@@ -973,6 +974,9 @@ if &diff
   nmap <buffer> <leader>2 :diffget BASE<CR>
   nmap <buffer> <leader>3 :diffget REMOTE<CR>
 endif
+
+" ctags
+nmap <leader>lt :set tags+=**/tags<CR>
 
 " TagBar
 nmap <silent> ,t :TagbarToggle<CR>
