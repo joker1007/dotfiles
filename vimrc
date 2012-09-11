@@ -432,7 +432,7 @@ let g:quickrun_config._ = {'runner' : 'vimproc'}
 let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
-  \ 'outputter': 'buffered:target=buffer',
+  \ 'outputter': 'buffer',
   \ 'exec': 'bundle exec %c %o --color --drb --tty %s'
   \}
 let g:quickrun_config['rspec/normal'] = {
@@ -660,6 +660,10 @@ MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
   let g:rsenseHome = expand('~/dotfiles/rsense')
   let g:rsenseUseOmniFunc = 1
+  if !exists('g:neocomplcache_omni_functions')
+    let g:neocomplcache_omni_functions = {}
+  endif
+  let g:neocomplcache_omni_functions.ruby = 'RSenseCompleteFunction'
 else
   MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
   MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
