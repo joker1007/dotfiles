@@ -216,7 +216,7 @@ else
 endif
 
 " mark, register確認
-nnoremap ,m  :<C-u>marks<CR>
+" nnoremap ,m  :<C-u>marks<CR>
 nnoremap ,r  :<C-u>registers<CR>
 "---------------------------------------------------------}}}
 
@@ -490,6 +490,7 @@ nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
 nnoremap <silent> [unite]gg  :<C-u>Unite -buffer-name=grep vcs_grep/git -start-insert<CR>
+nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
 
 let g:unite_winheight = 15
 let g:unite_source_grep_max_candidates = 500
@@ -989,3 +990,11 @@ let g:tagbar_sort = 0
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
+
+" for Haskell
+function! GhcModSetting()
+  nmap <buffer> ,mt :<C-U>GhcModType<CR>
+  nmap <buffer> ,mc :<C-U>GhcModTypeClear<CR>
+  nmap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
+endfunction
+MyAutocmd FileType haskell call GhcModSetting()
