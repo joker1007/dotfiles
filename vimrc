@@ -694,158 +694,16 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
 " ref.vim
 let g:ref_open = 'vsplit'
+let g:ref_refe_cmd = "rurema"
+let g:ref_refe_version = 2
+let g:ref_refe_rsense_cmd = g:rsenseHome . "/bin/rsense"
 
-" ref-rurema {{{
-" options.
-if !exists('g:ref_rurema_cmd')
-  let g:ref_rurema_cmd = executable('rurema') ? 'rurema' : ''
-endif
-let s:cmd = g:ref_rurema_cmd
+let g:ref_source_webdict_sites = {
+\   'wikipedia:ja': 'http://ja.wikipedia.org/wiki/%s',
+\   'weblio': 'http://ejje.weblio.jp/content/%s',
+\ }
 
-if !exists('g:ref_rurema_encoding')
-  let g:ref_rurema_encoding = &termencoding
-endif
-
-" source define
-let s:rurema_source = {'name': 'rurema'}
-
-function! s:rurema_source.available()
-  return !empty(g:ref_rurema_cmd)
-endfunction
-
-function! s:rurema_source.get_body(query)
-  let res = ref#system(ref#to_list(g:ref_rurema_cmd) + ref#to_list(a:query))
-  if res.stderr != ''
-    throw matchstr(res.stderr, '^.\{-}\ze\n')
-  endif
-
-  let content = res.stdout
-
-  if exists('g:ref_rurema_encoding') && !('g:ref_rurema_encoding') && g:ref_rurema_encoding != &encoding
-    let converted = iconv(content, g:ref_rurema_encoding,  &encoding)
-    if converted != ''
-      let content = converted
-    endif
-  endif
-
-  return content
-endfunction
-
-function! s:rurema_source.opened(query)
-  let [type, _] = s:rurema_detect_type()
-  if type ==# 'list'
-    silent! %s/ /\r/ge
-    silent! global/^\s*$/delete _
-  endif
-
-  call s:rurema_syntax(type)
-  1
-endfunction
-
-function! s:rurema_source.get_keyword()
-  let pos = getpos('.')[1:]
-  if &l:filetype ==# 'ref-rurema'
-    let [type, name] = s:rurema_detect_type()
-
-    if type ==# 'list'
-      return getline(pos[0])
-    endif
-  endif
-endfunction
-
-function! s:rurema_detect_type()
-  let [l1, l2, l3] = [getline(1), getline(2), getline(3)]
-  let require = l1 =~# '^require'
-  let m = matchstr(require ? l3 : l1, '^\%(class\|module\|object\) \zs\S\+')
-  if m != ''
-    return ['class', m]
-  endif
-
-  " include builtin variable.
-  let m = matchstr(require ? l3 : l2, '^--- \zs\S\+')
-  if m != ''
-    return ['method', m]
-  endif
-  return ['list', '']
-endfunction
-
-" copy from ref/autoload/refe.vim
-function! s:rurema_syntax(type)
-  if exists('b:current_syntax') && b:current_syntax == 'ref-rurema-' . a:type
-    return
-  endif
-
-  syntax clear
-
-  syntax include @refRuremaRuby syntax/ruby.vim
-
-  if a:type ==# 'list'
-    syntax match refRuremaClassOrMethod '^.*$' contains=@refRuremaClassSepMethod
-  elseif a:type ==# 'class'
-    syntax region refRuremaMethods start="^---- \w* methods .*----$" end="^$" fold contains=refRuremaMethod,refRuremaMethodHeader
-    syntax match refRuremaMethod '\S\+' contained
-    syntax region refRuremaMethodHeader matchgroup=refRuremaLine start="^----" end="----$" keepend oneline contained
-  endif
-
-  syntax match refRuremaClassAndMethod '\v%(\u\w*%(::|\.|#))+\h\w*[?!=~]?' contains=@refRuremaClassSepMethod
-  syntax cluster refRuremaClassSepMethod contains=refRuremaCommonClass,refRuremaCommonMethod,refRuremaCommonSep
-
-  syntax match refRuremaCommonSep '::\|#' contained nextgroup=refRuremaCommonClass,refRuremaCommonMethod
-  syntax match refRuremaCommonClass '\u\w*' contained nextgroup=refRuremaCommonSep
-  syntax match refRuremaCommonMethod '[[:lower:]_]\w*[?!=~]\?' contained
-
-
-  highlight default link refRuremaMethodHeader rubyClass
-  highlight default link refRuremaMethod rubyFunction
-  highlight default link refRuremaLine rubyOperator
-
-  highlight default link refRuremaCommonSep rubyOperator
-  highlight default link refRuremaCommonClass rubyClass
-  highlight default link refRuremaCommonMethod rubyFunction
-
-  " Copy from syntax/ruby.vim
-  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<\z(\h\w*\)\ze+hs=s+2    matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
-  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<"\z([^"]*\)"\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
-  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<'\z([^']*\)'\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart		      fold keepend
-  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<`\z([^`]*\)`\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
-
-  syntax region refRuremaRubyCodeBlock
-  \      start=/^ \{2,4}\ze\S/
-  \      end=/\n\+\ze \{,1}\S/ contains=@refRuremaRuby
-
-  syntax match refRefeTitle "^===.\+$"
-  highlight default link refRefeTitle Statement
-
-  if a:type ==# 'method'
-    syntax match refRuremaMethod '^--- \w\+[!?]'
-    highlight default link refRuremaMethod Function
-  endif
-
-  let b:current_syntax = 'ref-rurema-' . a:type
-endfunction
-
-call ref#register(s:rurema_source)
-call ref#register_detection('ruby', 'rurema', 'overwrite')
-
-function! RefRuremaFromCurrentWord()
-  let word = expand("<cword>")
-  call ref#open("rurema", word)
-endfunction
-
-function! RefRuremaFromSelectWord()
-  let tmp = @@
-  silent normal gvy
-  let selected = @@
-  let @@ = tmp
-  call ref#open("rurema", selected)
-endfunction
-
-nnoremap [ref] <Nop>
-nmap     ,r [ref]
-MyAutocmd FileType ruby,ref-rurema nnoremap <buffer><silent> [ref]<C-R> :<C-U>call RefRuremaFromCurrentWord()<CR>
-MyAutocmd FileType ruby,ref-rurema xnoremap <buffer><silent> <C-R> :<C-U>call RefRuremaFromSelectWord()<CR>
-
-" }}}
+nmap ,rr :<C-U>Ref refe<Space>
 
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup = 1
