@@ -840,7 +840,7 @@ nmap <leader>lt :set tags+=**/tags<CR>
 " TagBar
 nmap <silent> ,t :TagbarToggle<CR>
 let g:tagbar_left = 1
-let g:tagbar_width = 40
+let g:tagbar_width = 30
 let g:tagbar_updateonsave_maxlines = 10000
 let g:tagbar_sort = 0
 
