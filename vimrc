@@ -871,6 +871,9 @@ function! s:align()
   endif
 endfunction
 
+" gundo
+nnoremap U :<C-U>GundoToggle<CR>
+
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nnoremap gx <Plug>(openbrowser-smart-search)
