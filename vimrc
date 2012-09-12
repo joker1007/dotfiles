@@ -824,6 +824,12 @@ augroup quickfixopen
   autocmd QuickfixCmdPost make cw
 augroup END
 
+nnoremap <silent> ,q :<C-U>copen<CR>
+nnoremap <silent> ]q :<C-U>cnext<CR>
+nnoremap <silent> [q :<C-U>cprev<CR>
+nnoremap <silent> ]Q :<C-U>clast<CR>
+nnoremap <silent> [Q :<C-U>cfirst<CR>
+
 " errormarker.vim
 let errormarker_disablemappings = 1
 
@@ -835,10 +841,10 @@ if &diff
 endif
 
 " ctags
-nmap <leader>lt :set tags+=**/tags<CR>
+nnoremap <leader>lt :set tags+=**/tags<CR>
 
 " TagBar
-nmap <silent> ,t :TagbarToggle<CR>
+nnoremap <silent> ,t :TagbarToggle<CR>
 let g:tagbar_left = 1
 let g:tagbar_width = 30
 let g:tagbar_updateonsave_maxlines = 10000
@@ -846,13 +852,13 @@ let g:tagbar_sort = 0
 
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
+nnoremap gx <Plug>(openbrowser-smart-search)
+vnoremap gx <Plug>(openbrowser-smart-search)
 
 " for Haskell
 function! GhcModSetting()
-  nmap <buffer> ,mt :<C-U>GhcModType<CR>
-  nmap <buffer> ,mc :<C-U>GhcModTypeClear<CR>
-  nmap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
+  nnoremap <buffer> ,mt :<C-U>GhcModType<CR>
+  nnoremap <buffer> ,mc :<C-U>GhcModTypeClear<CR>
+  nnoremap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
 endfunction
 MyAutocmd FileType haskell call GhcModSetting()
