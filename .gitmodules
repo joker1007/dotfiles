@@ -175,3 +175,9 @@
 [submodule "rsense"]
 	path = rsense
 	url = git://github.com/m2ym/rsense.git
+[submodule "vim/bundle/vim-ref-ri"]
+	path = vim/bundle/vim-ref-ri
+	url = git://github.com/taka84u9/vim-ref-ri.git
+[submodule "vim/bundle/ref-hoogle"]
+	path = vim/bundle/ref-hoogle
+	url = git://github.com/ujihisa/ref-hoogle.git
