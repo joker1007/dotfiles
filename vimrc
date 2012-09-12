@@ -850,6 +850,27 @@ let g:tagbar_width = 30
 let g:tagbar_updateonsave_maxlines = 10000
 let g:tagbar_sort = 0
 
+" Tabular
+nnoremap <Leader>a= :Tabularize /=<CR>
+vnoremap <Leader>a= :Tabularize /=<CR>
+nnoremap <Leader>a: :Tabularize /:\zs<CR>
+vnoremap <Leader>a: :Tabularize /:\zs<CR>
+nnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
+vnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nnoremap gx <Plug>(openbrowser-smart-search)

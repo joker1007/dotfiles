@@ -181,3 +181,6 @@
 [submodule "vim/bundle/ref-hoogle"]
 	path = vim/bundle/ref-hoogle
 	url = git://github.com/ujihisa/ref-hoogle.git
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
