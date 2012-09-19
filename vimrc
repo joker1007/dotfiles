@@ -479,7 +479,7 @@ nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -bu
 nnoremap <silent> [unite]b   :<C-u>Unite -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vB  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  -winwidth=45 -no-quit buffer<CR>
-nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=45 -no-quit -toggle -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=35 -no-quit -toggle -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]"   :<C-u>Unite -buffer-name=register -prompt=">\  register<CR>
 nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
