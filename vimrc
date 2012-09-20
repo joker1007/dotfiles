@@ -135,7 +135,7 @@ map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\ 
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\ 
 set wildmenu
 set cmdheight=2
 set wildmode=list:full
@@ -886,3 +886,9 @@ function! GhcModSetting()
   nnoremap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
 endfunction
 MyAutocmd FileType haskell call GhcModSetting()
+
+" syntastic
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': [],
+                           \ 'passive_filetypes': ['haskell'] }

@@ -1,3 +1,3 @@
 augroup ghcmodcheck
-  autocmd! BufWritePost <buffer> GhcModCheckAsync
+  autocmd! BufWritePost <buffer> GhcModCheckAndLintAsync
 augroup END
