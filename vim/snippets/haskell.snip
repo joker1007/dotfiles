@@ -1,0 +1,69 @@
+snippet if
+abbr if ... then ... else ...
+  if ${1:condition}
+     then ${2:expression}
+     else ${3:expression}
+
+snippet case
+abbr case ... of ...
+  case ${1:expression} of
+       ${2:pattern} -> ${3:expression}
+       ${4:pattern} -> ${5:expression}
+
+snippet ts
+abbr Type signature
+  ${1:name} :: ${2:Type} -> ${3:Type}
+
+snippet =>
+abbr Type constraint
+  (${1:Class} ${2:Type var}) => ${3:$2}
+
+snippet def[]
+abbr Function definition for list patterns
+  ${1:name} :: [${2:Type}] -> ${3:Type}
+  $1 [] = ${4:undefined}
+  $1 ${5:(x:xs)} = ${6:undefined}
+
+snippet def
+abbr Function
+  ${1:name} ${2:pattern} = ${3:undefined}
+
+snippet defp
+abbr Function with pattern
+  ${1:name} ${2:pattern} = ${3:undefined}
+  $1 ${4:pattern} = ${5:undefined}
+
+snippet defpp
+abbr Function with pattern
+  ${1:name} ${2:pattern} = ${3:undefined}
+  $1 ${4:pattern} = ${5:undefined}
+  $1 ${6:pattern} = ${7:undefined}
+
+snippet |
+abbr Guard
+  | ${1:predicate} = ${2:undefined}
+
+snippet \
+abbr Lambda expression
+  \${1:pattern} -> ${2:expression}
+
+snippet [|]
+abbr List comprehension
+  [${3:foo }$1 | ${1:x} <- ${2:xs} ]
+
+snippet let
+abbr let ... in ...
+  let ${1:name} = ${2:expression}
+  in ${3:expression}
+
+snippet type
+abbr type ... = ...
+  type ${1:name} = ${2:original}
+
+snippet data
+abbr data ... = ...
+  data ${1} = ${2}
+
+snippet nt
+abbr newtype ... = ...
+  newtype ${1} = ${2} ${3:Type}
