@@ -1,4 +1,8 @@
 # Ruby
+snippet encutf
+abbr # coding: utf-8
+    # coding: utf-8
+
 snippet class
 abbr    class end
     class ${1:name}
@@ -11,6 +15,88 @@ abbr    module end
       ${2}
     end
 
+snippet defi
+abbr    def initialize(...
+    def initialize${1:(${2:args\})}
+        ${3}
+    end
+
+snippet unless
+abbr    unless end
+    unless ${1:condition}
+        ${2}
+    end
+
+snippet ife
+abbr    if else end
+    if ${1:condition}
+        ${2}
+    else
+        ${3}
+    end
+
+snippet ifei
+abbr    if elsif end
+    if ${1:condition}
+        ${2}
+    elsif ${3:condition}
+        ${4}
+    end
+
+snippet case
+abbr    case when end
+    case ${1:var}
+    when ${2:expr}
+      ${3}
+    end
+
+alias case sw
+
+snippet inj
+abbr    inject(n) do end
+    inject(${1:initial}) do |${2:acc}, ${3:val}|
+        ${4}
+    end
+
+snippet injp
+abbr    inject(n, &:method)
+    inject(${1:initial}, &:${2:method})
+
+snippet eacho
+abbr    each_with_object(obj) do end
+    each_with_object(${1:memoobj}) do |${2:val}, ${3:memoobj}|
+        ${4}
+    end
+
+snippet map
+abbr    map do end
+    map do |${1:var}|
+        ${2}
+    end
+
+snippet mapp
+abbr    map(&:method)
+    map(&:${1:method})
+
+snippet sortby
+abbr    sort_by(&:method)
+    sort_by(&:${1:method})
+
+alias sortby sort_by
+
+snippet sortbydo
+abbr    sort_by do end
+    sort_by do |${1:var}|
+        ${2}
+    end
+
+snippet begin
+abbr    begin rescue end
+    begin
+        ${1:# TODO}
+    rescue
+        ${2:# TODO}
+    end
 
 # Rspec
 # describe
