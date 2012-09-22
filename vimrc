@@ -609,6 +609,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 \ 'vimshell' : $HOME . '/.vimshell/command-history',
 \ }
 let g:neocomplcache_snippets_dir = $HOME . '/.vim/snippets'
+nnoremap <Space>se :<C-U>NeoComplCacheEditSnippets<CR>
 
 " キャッシュしないファイル名
 let g:neocomplcache_disable_caching_file_path_pattern = '\.log\|\.log\.\|\.jax'
