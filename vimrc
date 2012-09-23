@@ -682,7 +682,8 @@ endif
 " let ruby_operators = 1
 
 " enable ruby & rails snippet only rails file
-MyAutocmd Syntax ruby if exists("b:rails_root") | NeoComplCacheSetFileType ruby.rails | endif
+MyAutocmd BufEnter * if exists("b:rails_root") | NeoComplCacheSetFileType ruby.rails | endif
+MyAutocmd BufEnter * if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | NeoComplCacheSetFileType ruby.rspec | endif
 " }}}
 
 
@@ -763,12 +764,12 @@ let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 
 " RSpec syntax {{{
 function! RSpecSyntax()
   hi def link rubyRailsTestMethod             Function
-  syn keyword rubyRailsTestMethod describe context it its specify shared_examples_for it_should_behave_like before after around subject fixtures controller_name helper_name
+  syn keyword rubyRailsTestMethod describe context it its specify shared_examples_for shared_examples shared_context it_should_behave_like it_behaves_like before after around subject fixtures controller_name helper_name include_context include_examples
   syn match rubyRailsTestMethod '\<let\>!\='
   syn keyword rubyRailsTestMethod violated pending expect double mock mock_model stub_model
   syn match rubyRailsTestMethod '\.\@<!\<stub\>!\@!'
 endfunction
-MyAutocmd BufReadPost *_spec.rb call RSpecSyntax()
+MyAutocmd Syntax ruby if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | call RSpecSyntax() | endif
 " }}}
 
 " Monit syntax {{{
