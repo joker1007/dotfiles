@@ -21,7 +21,7 @@ snippet desccon
     end
 
 snippet bef
-    before(:each) do
+    before do
         ${1}
     end
 
@@ -40,6 +40,13 @@ snippet aft
     end
 
 alias aft after
+
+snippet afta
+    after(:all) do
+        ${1}
+    end
+
+alias afta afterall
 
 snippet con
     context "${1}" do
