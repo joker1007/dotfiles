@@ -1,17 +1,33 @@
+snippet lang
+abbr LANGUAGE pragma
+prev_word   '^'
+    {-# LANGUAGE ${1} #-}
+
+snippet     imp
+abbr        import
+prev_word   '^'
+    import ${1:Module}
+
+snippet     qual
+abbr        import qualified
+prev_word   '^'
+    import qualified ${1:Module} as ${2:Name}
+
 snippet if
 abbr if ... then ... else ...
-  if ${1:condition}
-     then ${2:expression}
-     else ${3:expression}
+    if ${1:condition}
+       then ${2:expression}
+       else ${3:expression}
 
 snippet case
 abbr case ... of ...
-  case ${1:expression} of
-       ${2:pattern} -> ${3:expression}
-       ${4:pattern} -> ${5:expression}
+    case ${1:expression} of
+         ${2:pattern} -> ${3:expression}
+         ${4:pattern} -> ${5:expression}
 
-snippet ts
+snippet ::
 abbr Type signature
+prev_word   '^'
   ${1:name} :: ${2:Type} -> ${3:Type}
 
 snippet =>
@@ -20,50 +36,64 @@ abbr Type constraint
 
 snippet def[]
 abbr Function definition for list patterns
+prev_word   '^'
   ${1:name} :: [${2:Type}] -> ${3:Type}
   $1 [] = ${4:undefined}
   $1 ${5:(x:xs)} = ${6:undefined}
 
 snippet def
 abbr Function
-  ${1:name} ${2:pattern} = ${3:undefined}
+prev_word   '^'
+    ${1:name} ${2:pattern} = ${3:undefined}
 
 snippet defp
 abbr Function with pattern
-  ${1:name} ${2:pattern} = ${3:undefined}
-  $1 ${4:pattern} = ${5:undefined}
+prev_word   '^'
+    ${1:name} ${2:pattern} = ${3:undefined}
+    $1 ${4:pattern} = ${5:undefined}
 
 snippet defpp
 abbr Function with pattern
-  ${1:name} ${2:pattern} = ${3:undefined}
-  $1 ${4:pattern} = ${5:undefined}
-  $1 ${6:pattern} = ${7:undefined}
+prev_word   '^'
+    ${1:name} ${2:pattern} = ${3:undefined}
+    $1 ${4:pattern} = ${5:undefined}
+    $1 ${6:pattern} = ${7:undefined}
+
+snippet def::
+abbr Function with Type Signature
+prev_word   '^'
+    ${1:name} :: ${3:Type} -> ${4:Type}
+    $1 ${2:pattern} = ${5:undefined}
 
 snippet |
 abbr Guard
-  | ${1:predicate} = ${2:undefined}
+prev_word   '^'
+    | ${1:predicate} == ${2:undefined}
 
 snippet \
 abbr Lambda expression
-  \${1:pattern} -> ${2:expression}
+    \${1:pattern} -> ${2:expression}
 
 snippet [|]
 abbr List comprehension
-  [${3:foo }$1 | ${1:x} <- ${2:xs} ]
+    [${3:foo }$1 | ${1:x} <- ${2:xs} ]
 
 snippet let
 abbr let ... in ...
-  let ${1:name} = ${2:expression}
-  in ${3:expression}
+    let ${1:name} = ${2:expression}
+    in ${3:expression}
 
 snippet type
 abbr type ... = ...
-  type ${1:name} = ${2:original}
+prev_word   '^'
+    type ${1:Type} = ${2:Original}
 
 snippet data
 abbr data ... = ...
-  data ${1} = ${2}
+prev_word   '^'
+    data ${1:Type} = ${2}
 
-snippet nt
+snippet newtype
 abbr newtype ... = ...
-  newtype ${1} = ${2} ${3:Type}
+prev_word   '^'
+    newtype ${1} = ${2} ${3:OldType}

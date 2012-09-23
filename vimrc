@@ -608,8 +608,14 @@ let g:neocomplcache_dictionary_filetype_lists = {
 \ 'default' : '',
 \ 'vimshell' : $HOME . '/.vimshell/command-history',
 \ }
+
 let g:neocomplcache_snippets_dir = $HOME . '/.vim/snippets'
 nnoremap <Space>se :<C-U>NeoComplCacheEditSnippets<CR>
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 
 " キャッシュしないファイル名
 let g:neocomplcache_disable_caching_file_path_pattern = '\.log\|\.log\.\|\.jax'
@@ -891,6 +897,8 @@ function! GhcModSetting()
   nnoremap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
 endfunction
 MyAutocmd FileType haskell call GhcModSetting()
+
+let g:haskell_conceal = 0
 
 " syntastic
 let g:syntastic_auto_loc_list = 1
