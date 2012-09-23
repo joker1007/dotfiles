@@ -680,6 +680,9 @@ endif
 " MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 0
 " MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 0
 " let ruby_operators = 1
+
+" enable ruby & rails snippet only rails file
+MyAutocmd Syntax ruby if exists("b:rails_root") | NeoComplCacheSetFileType ruby.rails | endif
 " }}}
 
 
