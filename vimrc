@@ -528,6 +528,10 @@ nnoremap [git]a :<C-u>Gwrite<Enter>
 nnoremap [git]c :<C-u>Gcommit<Enter>
 nnoremap [git]C :<C-u>Git commit --amend<Enter>
 nnoremap [git]b :<C-u>Gblame<Enter>
+
+" ftdetect is often failed
+MyAutocmd BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif
+MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif
 " }}}
 
 " project.vim
