@@ -446,19 +446,19 @@ let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec zeus %c %o --color --drb --tty %s'
+  \ 'exec': 'bundle exec zeus test %o --color --tty %s'
   \}
 let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec %c %o --color --drb --tty %s'
+  \ 'exec': 'bundle exec %c %o --color --drb %s'
   \}
 let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec zeus %c %o --color --drb --tty %s'
+  \ 'exec': 'bundle exec zeus cucumber %o --color %s'
   \}
 function! RSpecQuickrun()
   if exists('g:use_zeus_rspec')
@@ -470,8 +470,10 @@ function! RSpecQuickrun()
       \ 'outputter/multi/targets' : ['buffer', 'quickfix']
       \}
   endif
+
   nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
 endfunction
+MyAutocmd BufReadPost *_spec.rb call RSpecQuickrun()
 
 function! CucumberQuickrun()
   if exists('g:use_zeus_cucumber')
@@ -479,6 +481,8 @@ function! CucumberQuickrun()
   else
     let b:quickrun_config = {'type' : 'cucumber/bundle'}
   endif
+
+  nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
 endfunction
 MyAutocmd BufReadPost *.feature call CucumberQuickrun()
 
