@@ -273,7 +273,7 @@ function _update_vcs_info_msg() {
     [ -s $HOME/.rvm/scripts/rvm ] && psvar[2]=`rvm-prompt i v p g s`
 
     # for rbenv
-    [ -s $HOME/.rbenv/shims/ruby ] && psvar[2]=`rbenv version | sed -e 's/ .*//'`
+    [ -s $HOME/.rbenv/shims/ruby ] && psvar[2]=`rbenv version-name`
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
