@@ -9,6 +9,7 @@ prev_word '^'
 
 snippet desch
 abbr    spec_helper describe
+prev_word '^'
     require 'spec_helper'
 
     describe ${1:`Snippet_RubySpecNameFromFilename()`} do
@@ -16,11 +17,14 @@ abbr    spec_helper describe
     end
 
 snippet desccon
+abbr    describe for controller
+prev_word '^'
     describe "${1:GET|POST|PUT|DELETE} ${2:/some/path}${3}" do
         ${4}
     end
 
 snippet bef
+prev_word '^'
     before do
         ${1}
     end
@@ -28,6 +32,7 @@ snippet bef
 alias bef before
 
 snippet befa
+prev_word '^'
     before(:all) do
         ${1}
     end
@@ -35,6 +40,7 @@ snippet befa
 alias befa beforeall
 
 snippet aft
+prev_word '^'
     after do
         ${1}
     end
@@ -42,6 +48,7 @@ snippet aft
 alias aft after
 
 snippet afta
+prev_word '^'
     after(:all) do
         ${1}
     end
@@ -49,6 +56,7 @@ snippet afta
 alias afta afterall
 
 snippet con
+prev_word '^'
     context "${1}" do
         ${2}
     end
@@ -56,6 +64,7 @@ snippet con
 alias con context
 
 snippet cona
+prev_word '^'
 abbr context after callback
     context "after #${1:save!}" do
         before do
@@ -65,30 +74,39 @@ abbr context after callback
     end
 
 snippet subjc
+prev_word '^'
     subject { ${1:FactoryGirl.create(:${2:name\})} }
 
+alias subjc subject
+
 snippet subjb
+prev_word '^'
     subject { ${1:FactoryGirl.build(:${2:name\})} }
 
 # it
 snippet it
+prev_word '^'
     it "${1}" do
         ${2}
     end
 
 snippet itb
+prev_word '^'
 abbr        it {}
         it { ${1} }
 
 snippet its
+prev_word '^'
     it "should ${1:work correctly}" do
         ${2}
     end
 
 snippet is
+prev_word '^'
     it { should ${1} }
 
 snippet isn
+prev_word '^'
     it { should_not ${1} }
 
 # should
@@ -154,7 +172,7 @@ snippet shnbko
     ${2}
 
 snippet shnbe
-    .should_not be_${1:predicate}
+    should_not be_${1:predicate}
 
 snippet shre
     should raise_error(${1:error})
@@ -240,6 +258,7 @@ snippet shnbio
 
 # shared_context
 snippet sc
+prev_word '^'
 abbr shared_context do end
     shared_context "${1:condition}" do
         ${2}
@@ -248,12 +267,14 @@ abbr shared_context do end
 alias sc shared_context
 
 snippet scm
+prev_word '^'
 abbr shared_context with metadata
     shared_context "${1:condition}", :${2:key} => ${3:value} do
         ${4}
     end
 
 snippet inc
+prev_word '^'
 abbr include_context
     include_context "${1}"
 
@@ -261,6 +282,7 @@ alias inc include_context
 
 # shared_example
 snippet se
+prev_word '^'
 abbr shared_examples do end
     shared_examples "${1:do something}" do
         ${2}
@@ -269,6 +291,7 @@ abbr shared_examples do end
 alias se shared_examples
 
 snippet sed
+prev_word '^'
     shared_examples "${1:}" do
         describe "as $1" do
             ${2}
@@ -276,12 +299,14 @@ snippet sed
     end
 
 snippet ibl
+prev_word '^'
 abbr it_behaves_like
     it_behaves_like '${1}'
 
 alias ibl it_behaves
 
 snippet ine
+prev_word '^'
 abbr include_examples
     include_examples "${1}"
 
@@ -289,14 +314,17 @@ alias ine include_examples
 
 # let
 snippet let
+prev_word '^'
 abbr let {}
     let(:${1}) { ${2} }
 
 snippet let!
+prev_word '^'
 abbr let! {}
     let!(:${1}) { ${2} }
 
 snippet letf
+prev_word '^'
     let(:${1:model}) do 
         FactoryGirl.create(:${2:$1})
     end

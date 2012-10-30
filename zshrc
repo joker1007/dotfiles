@@ -324,6 +324,13 @@ function grbi() {
   fi
 }
 
+# zeus restart
+function rezeus() {
+    \rm .zeus.sock || true
+    ps -ef | grep zeus | awk ' { print $2 } ' | xargs kill || true
+    bundle exec zeus start
+}
+
 # ctags for Ruby
 alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
 
