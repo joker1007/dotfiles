@@ -130,9 +130,6 @@
 [submodule "vim/bundle/AnsiEsc.vim"]
 	path = vim/bundle/AnsiEsc.vim
 	url = git://github.com/vim-scripts/AnsiEsc.vim.git
-[submodule "vim/bundle/neocomplcache-snippets-complete"]
-	path = vim/bundle/neocomplcache-snippets-complete
-	url = git://github.com/Shougo/neocomplcache-snippets-complete.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
@@ -190,3 +187,6 @@
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/neosnippet"]
+	path = vim/bundle/neosnippet
+	url = git://github.com/Shougo/neosnippet.git
