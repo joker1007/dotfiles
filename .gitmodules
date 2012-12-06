@@ -190,3 +190,9 @@
 [submodule "vim/bundle/neosnippet"]
 	path = vim/bundle/neosnippet
 	url = git://github.com/Shougo/neosnippet.git
+[submodule "vim/bundle/neocomplcache-rsense"]
+	path = vim/bundle/neocomplcache-rsense
+	url = git://github.com/Shougo/neocomplcache-rsense.git
+[submodule "vim/bundle/unite-ruby-require"]
+	path = vim/bundle/unite-ruby-require
+	url = git://github.com/rhysd/unite-ruby-require.vim.git
