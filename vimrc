@@ -649,8 +649,8 @@ let g:neocomplcache_dictionary_filetype_lists = {
 \ 'vimshell' : $HOME . '/.vimshell/command-history',
 \ }
 
-let g:neocomplcache_snippets_dir = $HOME . '/.vim/snippets'
-nnoremap <Space>se :<C-U>NeoComplCacheEditSnippets<CR>
+let g:neosnippet#snippets_directory = $HOME . '/.vim/snippets'
+nnoremap <Space>se :<C-U>NeoSnippetEdit<CR>
 
 " For snippet_complete marker.
 if has('conceal')
@@ -669,13 +669,14 @@ endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-"imap <C-k> <Plug>(neocomplcache_snippets_expand)
-"smap <C-k> <Plug>(neocomplcache_snippets_expand)
+"imap <C-k> <Plug>(neosnippet_expand_or_jump)
+"smap <C-k> <Plug>(neosnippet_expand_or_jump)
 "inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -945,3 +946,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['haskell'] }
+
+" unite-ruby-require
+let g:unite_source_ruby_require_ruby_command = '$HOME/.rbenv/shims/ruby'
