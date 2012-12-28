@@ -1,0 +1,145 @@
+# Some useful Unicode entities
+
+# Non-Breaking Space
+
+snippet nbs
+	&nbsp;
+# ←
+
+snippet left
+	&#x2190;
+# →
+
+snippet right
+	&#x2192;
+# ↑
+
+snippet up
+	&#x2191;
+# ↓
+
+snippet down
+	&#x2193;
+# ↩
+
+snippet return
+	&#x21A9;
+# ⇤
+
+snippet backtab
+	&#x21E4;
+# ⇥
+
+snippet tab
+	&#x21E5;
+# ⇧
+
+snippet shift
+	&#x21E7;
+# ⌃
+
+snippet ctrl
+	&#x2303;
+# ⌅
+
+snippet enter
+	&#x2305;
+# ⌘
+
+snippet cmd
+	&#x2318;
+# ⌥
+
+snippet option
+	&#x2325;
+# ⌦
+
+snippet delete
+	&#x2326;
+# ⌫
+
+snippet backspace
+	&#x232B;
+# ⎋
+
+snippet esc
+	&#x238B;
+# Generic Doctype
+
+snippet doct4strict
+prev_word '^'
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+
+snippet doct4transitional
+prev_word '^'
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+
+snippet doct
+prev_word '^'
+	<!DOCTYPE HTML>
+
+alias doct doct5
+
+# Attributes
+
+snippet attr
+	${1:attribute}="${2:property}"
+
+snippet attr+
+	${1:attribute}="${2:property}" attr+${3}
+
+snippet .
+	class="${1}"${2}
+
+snippet #
+	id="${1}"${2}
+
+snippet alt
+	alt="${1}"${2}
+
+snippet charset
+	charset="${1:utf-8}"${2}
+
+snippet data
+	data-${1}="${2:$1}"${3}
+
+snippet for
+	for="${1}"${2}
+
+snippet height
+	height="${1}"${2}
+
+snippet href
+	href="${1:#}"${2}
+
+snippet lang
+	lang="${1:en}"${2}
+
+snippet media
+	media="${1}"${2}
+
+snippet name
+	name="${1}"${2}
+
+snippet rel
+	rel="${1}"${2}
+
+snippet scope
+	scope="${1:row}"${2}
+
+snippet src
+	src="${1}"${2}
+
+snippet title
+	title="${1}"${2}
+
+snippet type
+	type="${1}"${2}
+
+snippet value
+	value="${1}"${2}
+
+snippet width
+	width="${1}"${2}

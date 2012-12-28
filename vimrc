@@ -729,7 +729,7 @@ endif
 " let ruby_operators = 1
 
 " enable ruby & rails snippet only rails file
-MyAutocmd BufEnter * if exists("b:rails_root") | NeoComplCacheSetFileType ruby.rails | endif
+MyAutocmd BufEnter * if exists("b:rails_root") && (&filetype == "ruby") | NeoComplCacheSetFileType ruby.rails | endif
 MyAutocmd BufEnter * if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | NeoComplCacheSetFileType ruby.rspec | endif
 " }}}
 
@@ -949,3 +949,10 @@ let g:syntastic_mode_map = { 'mode': 'active',
 
 " unite-ruby-require
 let g:unite_source_ruby_require_ruby_command = '$HOME/.rbenv/shims/ruby'
+
+" ft hamstache
+function! HamstacheSyntax()
+   let &filetype = "haml"
+endfunction
+MyAutocmd BufReadPost *.hamstache call HamstacheSyntax()
+
