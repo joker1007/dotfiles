@@ -462,13 +462,9 @@ let g:quickrun_config['cucumber/zeus'] = {
   \}
 function! RSpecQuickrun()
   if exists('g:use_zeus_rspec')
-    let b:quickrun_config = {'type' : 'rspec/zeus',
-      \ 'outputter/multi/targets' : ['buffer', 'quickfix']
-      \}
+    let b:quickrun_config = {'type' : 'rspec/zeus'}
   else
-    let b:quickrun_config = {'type' : 'rspec/bundle',
-      \ 'outputter/multi/targets' : ['buffer', 'quickfix']
-      \}
+    let b:quickrun_config = {'type' : 'rspec/bundle'}
   endif
 
   nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
