@@ -37,3 +37,5 @@
 	st = status
 	sm = submodule
 	mg = merge --no-ff --no-commit
+[gc]
+	auto = 0
