@@ -4,10 +4,12 @@
 [core]
 	excludesfile = /Users/joker/.gitignore
 	mergeoptions = --no-ff --no-commit
+	quotepath = false
 [color]
 	ui = auto
 [alias]
 	ad = add
+	adp = add -p
 	br = branch
 	ci = commit
 	cia = commit --amend
@@ -19,6 +21,7 @@
 	dn = diff --name-only
 	dw = diff --color-words
 	ft = fetch
+	ftp = fetch --prune
 	l = log --oneline -n 20
 	lgraph = log --oneline --graph --decorate --all -n 20
 	lp = log --oneline -n 20 -p
@@ -28,6 +31,7 @@
 	ps = push
 	psh = push origin HEAD
 	rb = rebase
+	rbi = rebase -i
 	rbh = rebase HEAD
 	rbo = rebase --onto
 	rs = reset
