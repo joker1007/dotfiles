@@ -264,6 +264,9 @@ let skk_imdisable_state  = 0
 let skk_sticky_key       = ';'
 " }}}
 
+" wq alias
+command! -nargs=0 Wq wq
+
 " UTF8、SJIS(CP932)、EUCJPで開き直す {{{
 command! -bang -nargs=? Utf8
 	\ edit<bang> ++enc=utf-8 <args>
