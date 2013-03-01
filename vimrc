@@ -955,3 +955,5 @@ function! HamstacheSyntax()
 endfunction
 MyAutocmd BufReadPost *.hamstache call HamstacheSyntax()
 
+" ag.vim
+let g:agprg="--nocolor --nogroup --column"
