@@ -451,6 +451,12 @@ let g:quickrun_config['rspec/zeus'] = {
   \ 'outputter': 'buffer',
   \ 'exec': 'bundle exec zeus test %o --color --tty %s'
   \}
+let g:quickrun_config['rspec/spring'] = {
+  \ 'type': 'rspec/spring',
+  \ 'command': 'rspec',
+  \ 'outputter': 'buffer',
+  \ 'exec': 'bundle exec spring rspec %o --color --tty %s'
+  \}
 let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
@@ -463,8 +469,16 @@ let g:quickrun_config['cucumber/zeus'] = {
   \ 'outputter': 'buffer',
   \ 'exec': 'bundle exec zeus cucumber %o --color %s'
   \}
+let g:quickrun_config['cucumber/spring'] = {
+  \ 'type': 'cucumber/spring',
+  \ 'command': 'cucumber',
+  \ 'outputter': 'buffer',
+  \ 'exec': 'bundle exec spring cucumber %o --color %s'
+  \}
 function! RSpecQuickrun()
-  if exists('g:use_zeus_rspec')
+  if exists('g:use_spring_rspec')
+    let b:quickrun_config = {'type' : 'rspec/spring'}
+  elseif exists('g:use_zeus_rspec')
     let b:quickrun_config = {'type' : 'rspec/zeus'}
   else
     let b:quickrun_config = {'type' : 'rspec/bundle'}
@@ -475,7 +489,9 @@ endfunction
 MyAutocmd BufReadPost *_spec.rb call RSpecQuickrun()
 
 function! CucumberQuickrun()
-  if exists('g:use_zeus_cucumber')
+  if exists('g:use_spring_cucumber')
+    let b:quickrun_config = {'type' : 'cucumber/spring'}
+  elseif exists('g:use_zeus_cucumber')
     let b:quickrun_config = {'type' : 'cucumber/zeus'}
   else
     let b:quickrun_config = {'type' : 'cucumber/bundle'}
@@ -484,6 +500,19 @@ function! CucumberQuickrun()
   nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
 endfunction
 MyAutocmd BufReadPost *.feature call CucumberQuickrun()
+
+function! SetUseSpring()
+  let g:use_spring_rspec = 1
+  let g:use_spring_cucumber = 1
+endfunction
+
+function! SetUseZeus()
+  let g:use_zeus_rspec = 1
+  let g:use_zeus_cucumber = 1
+endfunction
+
+command! -nargs=0 UseSpring call SetUseSpring()
+command! -nargs=0 UseZeus call SetUseZeus()
 
 " libruby load
 if has('gui_macvim') && has('kaoriya')
