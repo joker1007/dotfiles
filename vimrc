@@ -532,9 +532,9 @@ let g:poslist_histsize = 2000
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files buffer file file/new<CR>
-nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files file_mru<CR>
-nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files file_rec/async<CR>
+nnoremap <silent> [unite]ff   :<C-u>Unite -auto-resize -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]fr   :<C-u>Unite -auto-resize -buffer-name=files file_mru<CR>
+nnoremap <silent> [unite]fa   :<C-u>Unite -auto-resize -buffer-name=files file_rec/async<CR>
 nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files directory_mru<CR>
 nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files buffer file file/new<CR>
 nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files file_mru <CR>
@@ -544,20 +544,20 @@ nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -bu
 nnoremap <silent> [unite]b   :<C-u>Unite -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vB  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  -winwidth=45 -no-quit buffer<CR>
-nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=35 -no-quit -toggle -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=45 -wrap -no-quit -toggle -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]"   :<C-u>Unite -buffer-name=register -prompt=">\  register<CR>
 nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<CR>
 nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u   :<C-u>Unite source<CR>
-nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
+nnoremap <silent> [unite]l   :<C-u>Unite -auto-resize -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
-nnoremap <silent> [unite]gg  :<C-u>Unite -buffer-name=grep vcs_grep/git -start-insert<CR>
 nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
 
 let g:unite_winheight = 15
+let g:unite_winwidth = 45
 let g:unite_source_grep_max_candidates = 500
 
 call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
@@ -986,7 +986,7 @@ endfunction
 MyAutocmd BufReadPost *.hamstache call HamstacheSyntax()
 
 " ag.vim
-let g:agprg="--nocolor --nogroup --column"
+let g:agprg="ag --nocolor --nogroup --column"
 
 " ruby buffer
 if has('ruby')
