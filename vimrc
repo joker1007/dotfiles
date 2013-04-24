@@ -704,8 +704,8 @@ let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -748,13 +748,9 @@ else
   MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
   MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
   MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
 endif
-" MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 0
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 0
-" MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 0
 " let ruby_operators = 1
 
 " enable ruby & rails snippet only rails file
