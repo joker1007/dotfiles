@@ -532,9 +532,9 @@ let g:poslist_histsize = 2000
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]ff   :<C-u>Unite -auto-resize -buffer-name=files buffer file file/new<CR>
-nnoremap <silent> [unite]fr   :<C-u>Unite -auto-resize -buffer-name=files file_mru<CR>
-nnoremap <silent> [unite]fa   :<C-u>Unite -auto-resize -buffer-name=files file_rec/async<CR>
+nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files file_mru<CR>
+nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files file_rec/async<CR>
 nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files directory_mru<CR>
 nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files buffer file file/new<CR>
 nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files file_mru <CR>
@@ -550,7 +550,7 @@ nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<C
 nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]u   :<C-u>Unite source<CR>
-nnoremap <silent> [unite]l   :<C-u>Unite -auto-resize -buffer-name=lines line<CR>
+nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
