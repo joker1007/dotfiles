@@ -2,6 +2,8 @@
 
 PWD=`pwd`
 
+echo "Gen Simbolic Link .gitconfig => ~/.gitconfig"
+ln -sf ${PWD}/gitconfig ~/.gitconfig
 echo "Gen Simbolic Link .vim => ~/.vim"
 ln -sf ${PWD}/vim ~/.vim
 echo "Gen Simbolic Link .vimrc => ~/.vimrc"

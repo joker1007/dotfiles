@@ -1,8 +1,10 @@
 [user]
 	name = joker1007
 	email = kakyoin.hierophant@gmail.com
+[include]
+	path = .gitconfig.local
 [core]
-	excludesfile = /Users/joker/.gitignore
+	excludesfile = ~/.gitignore
 	mergeoptions = --no-ff --no-commit
 	quotepath = false
 [color]
@@ -27,6 +29,7 @@
 	lp = log --oneline -n 20 -p
 	ls = log --stat -n 1
 	log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d'
+	log-all-mine = log --author=joker1007 --all --color --pretty='%h\t%Cgreen%cd%Creset\t%cn%x09%s\t%Cred%d'
 	pl = pull
 	ps = push
 	psh = push origin HEAD
@@ -34,6 +37,7 @@
 	rbi = rebase -i
 	rbh = rebase HEAD
 	rbo = rebase --onto
+	rbom = rebase origin/master master
 	rs = reset
 	rsh = reset --hard
 	sh = show
