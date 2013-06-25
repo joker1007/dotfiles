@@ -450,7 +450,7 @@ let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec zeus test %o --color --tty %s'
+  \ 'exec': 'zeus test %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
@@ -468,7 +468,7 @@ let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec zeus cucumber %o --color %s'
+  \ 'exec': 'zeus cucumber %o --color %s'
   \}
 let g:quickrun_config['cucumber/spring'] = {
   \ 'type': 'cucumber/spring',
@@ -556,11 +556,42 @@ nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
 nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
 
+let g:unite_enable_start_insert = 1
+
 let g:unite_winheight = 15
 let g:unite_winwidth = 45
 let g:unite_source_grep_max_candidates = 500
 
 call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
+
+call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async', 'matchers', ['matcher_fuzzy'])
+call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async', 'converters', ['converter_relative_abbr'])
+
+
+function! s:unite_my_settings()
+  " Overwrite settings.
+
+  nmap <buffer> l     <Plug>(unite_choose_action)
+  nmap <buffer> <C-c>     <Plug>(unite_choose_action)
+
+  imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+  nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+
+  let unite = unite#get_current_unite()
+  if unite.buffer_name =~# '^grep'
+    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+  else
+    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+  endif
+
+  nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+          \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+endfunction
+MyAutocmd FileType unite call s:unite_my_settings()
 
 " }}}
 
