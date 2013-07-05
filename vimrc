@@ -564,8 +564,15 @@ let g:unite_source_grep_max_candidates = 500
 
 call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
 
-call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async', 'matchers', ['matcher_fuzzy'])
-call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async', 'converters', ['converter_relative_abbr'])
+call unite#custom#source('buffer,file,file_mru', 'sorters', 'sorter_rank')
+
+call unite#custom#source('file_rec,file_rec/async', 'filters',
+      \ ['converter_relative_word', 'matcher_default',
+      \  'sorter_rank', 'converter_relative_abbr', 'converter_file_directory'])
+
+call unite#custom#source(
+      \ 'file_mru', 'converters',
+      \ ['converter_file_directory'])
 
 
 function! s:unite_my_settings()
@@ -580,6 +587,8 @@ function! s:unite_my_settings()
   imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
   nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
   nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+
+  nmap <silent><buffer><expr> f unite#do_action('vimfiler')
 
   let unite = unite#get_current_unite()
   if unite.buffer_name =~# '^grep'
@@ -767,21 +776,12 @@ MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " rubycomplete.vim & RSense {{{
-if filereadable(expand('~/dotfiles/rsense/bin/rsense'))
-  let g:rsenseHome = expand('~/dotfiles/rsense')
-  let g:rsenseUseOmniFunc = 1
-  if !exists('g:neocomplcache_omni_functions')
-    let g:neocomplcache_omni_functions = {}
-  endif
-  let g:neocomplcache_omni_functions.ruby = 'RSenseCompleteFunction'
-else
-  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
-endif
+MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
 " let ruby_operators = 1
 
 " enable ruby & rails snippet only rails file
@@ -804,7 +804,6 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 let g:ref_open = 'vsplit'
 let g:ref_refe_cmd = "rurema"
 let g:ref_refe_version = 2
-let g:ref_refe_rsense_cmd = g:rsenseHome . "/bin/rsense"
 
 let g:ref_source_webdict_sites = {
 \   'wikipedia:ja': 'http://ja.wikipedia.org/wiki/%s',

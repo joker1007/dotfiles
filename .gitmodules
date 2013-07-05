@@ -169,9 +169,6 @@
 [submodule "vim/bundle/html-template-syntax"]
 	path = vim/bundle/html-template-syntax
 	url = git://github.com/pbrisbin/html-template-syntax.git
-[submodule "rsense"]
-	path = rsense
-	url = git://github.com/m2ym/rsense.git
 [submodule "vim/bundle/vim-ref-ri"]
 	path = vim/bundle/vim-ref-ri
 	url = git://github.com/taka84u9/vim-ref-ri.git
@@ -190,9 +187,6 @@
 [submodule "vim/bundle/neosnippet"]
 	path = vim/bundle/neosnippet
 	url = git://github.com/Shougo/neosnippet.git
-[submodule "vim/bundle/neocomplcache-rsense"]
-	path = vim/bundle/neocomplcache-rsense
-	url = git://github.com/Shougo/neocomplcache-rsense.git
 [submodule "vim/bundle/unite-ruby-require"]
 	path = vim/bundle/unite-ruby-require
 	url = git://github.com/rhysd/unite-ruby-require.vim.git
@@ -205,3 +199,6 @@
 [submodule "vim/bundle/mustache"]
 	path = vim/bundle/mustache
 	url = git://github.com/juvenn/mustache.vim.git
+[submodule "vim/bundle/vim-review"]
+	path = vim/bundle/vim-review
+	url = git://github.com/moro/vim-review.git
