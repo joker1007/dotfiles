@@ -15,7 +15,7 @@ set! ui.key.generalAccessKey=0
 
 " Awesomebarの補完対象にBookmarkletを含める&件数を変更
 set! browser.urlbar.filter.javascript=false
-set! browser.urlbar.maxRichResults=20
+set! browser.urlbar.maxRichResults=30
 
 " ポップアップ許可数を拡張 cf.http://la.ma.la/blog/diary_200611171115.htm
 set! dom.popup_maximum=9999
@@ -33,7 +33,7 @@ set autocomplete=true
 set complete=sl
 
 " hintにアルファベットを使用する
-set hintchars=abcdefghijklmnopqrstuvwxyz
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
 
 " ブラウザタイトルの変更
 set titlestring=Vimperator
@@ -173,15 +173,6 @@ EOM
 " plugins
 " ======================================================================
 
-" delicious_search.js
-" autocmd VimperatorEnter .* :set complete+=D
-
-" hatena_bookmark_search.js
-autocmd VimperatorEnter .* :set complete+=H
-
-" migemo_hint.js
-" set hintmatching=custom
-
 " sbmcommentsviewer.js
 let g:def_sbm_format = "timestamp,id,tags,comment"
 let g:def_sbms = "hd"
@@ -196,13 +187,6 @@ let g:direct_sbm_is_use_migemo = "true"
 "map A :sbm<CR>
 "map a :sbm<Space>
 "map ,a :btags<CR>
-
-" ldrize_cooperation.js
-let g:ldrc_captureMappings = "['j','k','p','o','?']"
-let g:ldrc_hints = "true"
-let g:ldrc_intelligence_bind = "true"
-let g:ldrc_skip = "0.4"
-map Q :toggleldrc<CR>
 
 " twittperator.js
 map ,t :twittperator<Space>

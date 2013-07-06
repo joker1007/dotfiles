@@ -1,4 +1,4 @@
-var PLUGIN_INFO =
+var PLUGIN_INFO = xml`
 <VimperatorPlugin>
     <name>SBM Comments Viewer</name>
     <description>List show Social Bookmark Comments</description>
@@ -12,7 +12,7 @@ var PLUGIN_INFO =
 viewSBMComments [url] [options]
  url             : 省略時は現在のURL
  options:
-     -f, -format : 出力時のフォーマット(`,'区切りのリスト)
+     -f, -format : 出力時のフォーマット(${'`'},'区切りのリスト)
                    (default: id,timestamp,tags,comment)
                    let g:def_sbm_format = ... で指定可能
      -t, -type   : 出力するSBMタイプ
@@ -32,6 +32,7 @@ viewSBMComments [url] [options]
 - l : livedoor clip
 - z : Buzzurl
 - t : Topsy
+- T : Twitter
 - XXX:今後増やしていきたい
 
 >||
@@ -43,7 +44,7 @@ e.g.)
  一度取得したものは(30分ほど)キャッシュに貯めてますので何度も見直すことが可能です。
  粋なコマンド名募集中
      ]]></detail>
-</VimperatorPlugin>;
+</VimperatorPlugin>`;
 liberator.plugins.sbmCommentsViewer = (function(){
 
 var isFilterNoComments = liberator.globalVariables.sbm_comments_viewer_filter_nocomments || false;
@@ -74,27 +75,28 @@ SBMContainer.prototype = { //{{{
         ));
     },
     toHTML: function(format, countOnly){
-        var label = <>
-            {this.faviconURL ? <img src={this.faviconURL} width="16" height="16" style="vertical-align: middle; margin-right: 5px;" /> : <></>}
-            {manager.type[this.type] + ' ' + this.count + '(' + this.entries.length + ')'}
-            {this.pageURL ? <a href="#" highlight="URL" style="margin-left: 5px;">{this.pageURL}</a> : <></>}
-        </>;
+        var label = xml`
+            ${this.faviconURL ? xml`<img src=${this.faviconURL} width="16" height="16" style="vertical-align: middle; margin-right: 5px;" />` : ``}
+            ${manager.type[this.type] + ' ' + this.count + '(' + this.entries.length + ')'}
+            ${this.pageURL ? xml`<a href="#" highlight="URL" style="margin-left: 5px;">${this.pageURL}</a>` : ``}
+        `;
         if (countOnly){
             return label;
         } else {
-            let xml = <div highlight="CompGroup" class="liberator-sbmcommentsviewer" style="line-height: 1.6;">
-                <div highlight="Completions"><div highlight="CompTitle"><li highlight="CompResult">{label}</li><li highlight="CompDesc"></li></div></div>
-            </div>;
+            let html = xml``;
             let self = this;
-            xml.* += (function(){
-                var div = <></>;
+            html = xml`${html}${(function(){
+                var div = xml``;
                 self.entries.forEach(function(e){
                     if (isFilterNoComments && !e.comment) return;
-                    div += e.toHTML(format);
+                    div = xml`${div}${e.toHTML(format)}`;
                 });
                 return div;
-            })();
-            return xml;
+            })()}`;
+            html = xml`<div highlight="CompGroup" class="liberator-sbmcommentsviewer" style="line-height: 1.6;">
+                <div highlight="Completions"><div highlight="CompTitle"><li highlight="CompResult">${label}</li><li highlight="CompDesc"></li></div></div>
+            ${html}</div>`;
+            return html;
         }
     }
 }; //}}}
@@ -125,39 +127,40 @@ SBMEntry.prototype = { //{{{
     toHTML: function(format){
         function makeLink(str, withLink){
             let s = str;
-            let result = XMLList();
+            let result = xml``;
             while (s.length > 0) {
                 let m = s.match(/(?:https?:\/\/|mailto:)\S+/);
                 if (m) {
-                    result += <>{s.slice(0, m.index)}<a href={withLink ? m[0] : '#'} highlight="URL">{m[0]}</a></>;
+                    result = xml`${result}${s.slice(0, m.index)}<a href=${withLink ? m[0] : '#'} highlight="URL">${m[0]}</a>`;
                     s = s.slice(m.index + m[0].length);
                 } else {
-                    result += <>{s}</>;
+                    result = xml`${result}${s}`;
                     break;
                 }
             }
             return result;
         }
 
-        var xml = <div highlight="Completions" class="liberator-sbmcommentsviewer-content" style="margin: 0; padding: 3px 5px; border-bottom: 1px dotted;"/>;
+        var entry = xml``;
         var self = this;
         format.forEach(function(colum){
             switch(colum){
                 case 'id':
-                    xml.* += <span class="liberator-sbmcommentsviewer-id" style="margin-right: 10px;">{self.userIcon ? <><img src={self.userIcon} width="16" height="16" style="margin-right: 5px; vertical-align: middle;"/>{self.id}</> : <>{self.id}</>}</span>;
+                    entry = xml`${entry}<span class="liberator-sbmcommentsviewer-id" style="margin-right: 10px;">${self.userIcon ? xml`<img src=${self.userIcon} width="16" height="16" style="margin-right: 5px; vertical-align: middle;"/>${self.id}` : `${self.id}`}</span>`;
                     break;
                 case 'timestamp':
-                    xml.* += <span class="liberator-sbmcommentsviewer-timestamp" style="margin-right: 10px;">{self.formatDate()}</span>;
+                    entry = xml`${entry}<span class="liberator-sbmcommentsviewer-timestamp" style="margin-right: 10px;">${self.formatDate()}</span>`;
                     break;
                 case 'tags':
-                    xml.* += <span class="liberator-sbmcommentsviewer-tags" highlight="Tag" style="margin-right: 10px;">{self.tags.join(',')}</span>; break;
+                    entry = xml`${entry}<span class="liberator-sbmcommentsviewer-tags" highlight="Tag" style="margin-right: 10px;">${self.tags.join(',')}</span>`; break;
                 case 'comment':
-                    xml.* += <span class="liberator-sbmcommentsviewer-comment" style="margin-right: 10px; white-space: normal;">{makeLink(self.comment)}</span>; break;
+                    entry = xml`${entry}<span class="liberator-sbmcommentsviewer-comment" style="margin-right: 10px; white-space: normal;">${makeLink(self.comment)}</span>`; break;
                 default:
-                    xml.* += <span>-</span>;
+                    entry = xml`${entry}<span>-</span>`;
             }
         });
-        return xml;
+        entry = xml`<div highlight="Completions" class="liberator-sbmcommentsviewer-content" style="margin: 0; padding: 3px 5px; border-bottom: 1px dotted;">${entry}</div>`;
+        return entry;
     },
     formatDate: function(){
         if (!this.timeStamp) return '';
@@ -251,8 +254,8 @@ var SBM = { //{{{
             }
             var pageURL, items;
             try {
-                pageURL = evaluateXPath(rss, '//rss:channel/rss:link')[0].textContent;
-                items = evaluateXPath(rss, '//rss:item');
+                pageURL = evaluateXPath(rss, '//channel/link')[0].textContent;
+                items = evaluateXPath(rss, '//item');
             } catch(e){
                 liberator.log(e);
             }
@@ -313,7 +316,7 @@ var SBM = { //{{{
                 });
                 return c;
             } else {
-                liberator.log('Faild: LivedoorClip');
+                liberator.log('Failed: LivedoorClip');
             }
         }
     }, //}}}
@@ -341,7 +344,7 @@ var SBM = { //{{{
                 });
                 return c;
             } else {
-                liberator.log('Faild: Buzzurl');
+                liberator.log('Failed: Buzzurl');
             }
         }
     }, //}}} 
@@ -368,7 +371,36 @@ var SBM = { //{{{
                 });
                 return c;
             } else {
-                liberator.echo('Faild: Topsy');
+                liberator.echo('Failed: Topsy');
+            }
+        }
+    }, //}}}
+    twitter: { //{{{
+        getURL: function(url){
+            var urlPrefix = 'http://search.twitter.com/search.json?q='
+            return urlPrefix + encodeURIComponent(url.replace(/%23/g,'#'));
+        },
+        parser: function(xhr){
+            var json = jsonDecode(xhr.responseText);
+            if (json && json.results){
+                let c = new SBMContainer('T', json.results.length, {
+                    faviconURL: 'https://twitter.com/favicon.ico',
+                    pageURL:    'https://twitter.com/search/realtime?q=' + encodeURIComponent(json.query)
+                });
+                json.results.forEach(function(result){
+                    c.add( result.from_user,
+                           new Date(result.created_at),
+                           result.text,
+                           null,
+                           {
+                            userIcon: result.profile_image_url,
+                            link: 'https://twitter.com/' + result.from_user
+                           }
+                    );
+                });
+                return c;
+            } else {
+                liberator.echo('Failed: Twitter');
             }
         }
     } //}}}
@@ -457,7 +489,8 @@ var manager = {
         d: 'delicious',
         l: 'livedoorclip',
         z: 'buzzurl', 
-        t: 'topsy'
+        t: 'topsy',
+        T: 'twitter'
     },
     format: {
         id: 'ID',
