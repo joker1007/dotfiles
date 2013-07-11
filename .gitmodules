@@ -1,3 +1,6 @@
 [submodule "zsh/auto-fu.zsh"]
 	path = zsh/auto-fu.zsh
 	url = git://github.com/hchbaw/auto-fu.zsh
+[submodule "vim/bundle/neobundle.vim"]
+	path = vim/bundle/neobundle.vim
+	url = git://github.com/Shougo/neobundle.vim
