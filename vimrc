@@ -1,3 +1,5 @@
+set nocompatible
+
 " 文字コード, 改行コード {{{
 set encoding=utf-8
 set fileencodings=ucs_bom,utf8,ucs-2le,ucs-2
@@ -47,16 +49,87 @@ if has('iconv')
 endif
 " }}}
 
-" pathogen {{{
-filetype off
-call pathogen#incubate()
-call pathogen#helptags()
-set helpfile=$VIMRUNTIME/doc/help.txt
-filetype on
-" }}}
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'tyru/skk.vim'
+NeoBundle 'vim-scripts/surround.vim'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'vim-scripts/L9'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'kana/vim-smartchr'
+NeoBundle 'vim-scripts/grep.vim'
+NeoBundle 'tsukkee/unite-help'
+NeoBundle 'ujihisa/unite-gem'
+NeoBundle 'Sixeight/unite-grep'
+NeoBundle 'thinca/vim-unite-history'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'nelstrom/vim-textobj-rubyblock'
+NeoBundle 'motemen/hatena-vim'
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'claco/jasmine.vim'
+NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'hchbaw/auto-fu.zsh'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'kana/vim-submode'
+NeoBundle 'thinca/vim-poslist'
+NeoBundle 'thinca/vim-visualstar'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'kana/vim-altr'
+NeoBundle 'taku-o/vim-toggle'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'vim-scripts/sudo.vim'
+NeoBundle 'tpope/vim-cucumber'
+NeoBundle 'vim-scripts/errormarker.vim'
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'thinca/vim-qfreplace'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'eagletmt/ghcmod-vim'
+NeoBundle 'ujihisa/neco-ghc'
+NeoBundle 'eagletmt/unite-haddock'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'joker1007/unite-git_grep'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'dag/vim2hs'
+NeoBundle 'tpope/vim-haml'
+NeoBundle 'pbrisbin/html-template-syntax'
+NeoBundle 'taka84u9/vim-ref-ri'
+NeoBundle 'ujihisa/ref-hoogle'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'rhysd/unite-ruby-require.vim'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'nono/vim-handlebars'
+NeoBundle 'juvenn/mustache.vim'
+NeoBundle 'moro/vim-review'
 
 syntax enable
 filetype plugin indent on
+
+NeoBundleCheck
 
 if filereadable(expand('~/.vimrc.local'))
   execute 'source' expand('~/.vimrc.local')
