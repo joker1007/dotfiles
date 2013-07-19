@@ -125,6 +125,7 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'nono/vim-handlebars'
 NeoBundle 'juvenn/mustache.vim'
 NeoBundle 'moro/vim-review'
+NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
 syntax enable
 filetype plugin indent on
