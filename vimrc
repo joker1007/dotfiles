@@ -727,8 +727,13 @@ function ChangeVimfilerKeymap()
   nmap <buffer> s <Plug>(vimfiler_select_sort_type)
   nmap <End> <Plug>(vimfiler_clear_mark_all_lines)
   nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
+  nmap <buffer> V <Plug>(vimfiler_quick_look)
 endfunction
 MyAutocmd FileType vimfiler call ChangeVimfilerKeymap()
+
+if has('mac')
+  let g:vimfiler_quick_look_command = 'quick_look'
+endif
 " }}}
 
 " vimshell {{{
