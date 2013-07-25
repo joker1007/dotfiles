@@ -126,6 +126,10 @@ NeoBundle 'nono/vim-handlebars'
 NeoBundle 'juvenn/mustache.vim'
 NeoBundle 'moro/vim-review'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'mattn/favstar-vim'
+NeoBundle 'basyura/TweetVim', 'dev'
 
 syntax enable
 filetype plugin indent on
@@ -218,8 +222,8 @@ set showcmd
 
 " tabline
 set showtabline=2
-nnoremap <S-Right> :<C-U>tabnext<CR>
-nnoremap <S-Left> :<C-U>tabprevious<CR>
+nnoremap <silent> <S-Right> :<C-U>tabnext<CR>
+nnoremap <silent> <S-Left> :<C-U>tabprevious<CR>
 nnoremap L :<C-U>tabnext<CR>
 nnoremap H :<C-U>tabprevious<CR>
 
@@ -1167,3 +1171,26 @@ RUBY
     endfunction
 endif
 
+" TweetVim
+let g:tweetvim_include_rts = 1
+if has('mac')
+  let g:tweetvim_display_icon = 0
+else
+  let g:tweetvim_display_icon = 1
+end
+
+function! ChangeTweetVimKeyMap()
+  nnoremap <buffer><silent> s :<C-u>TweetVimSay<CR>
+endfunction
+MyAutocmd FileType tweetvim call ChangeTweetVimKeyMap()
+
+" スクリーン名のキャッシュを利用して、neocomplcache で補完する
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+nnoremap <silent> [unite]t   :<C-u>Unite tweetvim<CR>
+nnoremap <silent> [space]ts   :<C-u>TweetVimUserStream<CR>
+nnoremap <silent> [space]tt   :<C-u>TweetVimHomeTimeline<CR>
