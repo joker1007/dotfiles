@@ -561,10 +561,19 @@ let g:quickrun_config['cucumber/spring'] = {
   \ 'outputter': 'buffer',
   \ 'exec': 'bundle exec spring cucumber %o --color %s'
   \}
+
+command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'}
+command! -nargs=0 UseZeusRSpec   let b:quickrun_config = {'type' : 'rspec/zeus'}
+command! -nargs=0 UseSpringRSpec let b:quickrun_config = {'type' : 'rspec/spring'}
+
+command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/bundle'}
+command! -nargs=0 UseZeusCucumber   let b:quickrun_config = {'type' : 'cucumber/zeus'}
+command! -nargs=0 UseSpringCucumber let b:quickrun_config = {'type' : 'cucumber/spring'}
+
 function! RSpecQuickrun()
-  if exists('g:use_spring_rspec')
+  if exists('g:use_spring_rspec') && g:use_spring_rspec == 1
     let b:quickrun_config = {'type' : 'rspec/spring'}
-  elseif exists('g:use_zeus_rspec')
+  elseif exists('g:use_zeus_rspec') && g:use_zeus_rspec == 1
     let b:quickrun_config = {'type' : 'rspec/zeus'}
   else
     let b:quickrun_config = {'type' : 'rspec/bundle'}
@@ -575,9 +584,9 @@ endfunction
 MyAutocmd BufReadPost *_spec.rb call RSpecQuickrun()
 
 function! CucumberQuickrun()
-  if exists('g:use_spring_cucumber')
+  if exists('g:use_spring_cucumber') && g:use_spring_cucumber == 1
     let b:quickrun_config = {'type' : 'cucumber/spring'}
-  elseif exists('g:use_zeus_cucumber')
+  elseif exists('g:use_zeus_cucumber') && g:use_zeus_cucumber == 1
     let b:quickrun_config = {'type' : 'cucumber/zeus'}
   else
     let b:quickrun_config = {'type' : 'cucumber/bundle'}
@@ -589,12 +598,23 @@ MyAutocmd BufReadPost *.feature call CucumberQuickrun()
 
 function! SetUseSpring()
   let g:use_spring_rspec = 1
+  let g:use_zeus_rspec = 0
   let g:use_spring_cucumber = 1
+  let g:use_zeus_cucumber = 0
 endfunction
 
 function! SetUseZeus()
   let g:use_zeus_rspec = 1
+  let g:use_spring_rspec = 0
   let g:use_zeus_cucumber = 1
+  let g:use_spring_cucumber = 0
+endfunction
+
+function! SetUseBundle()
+  let g:use_zeus_rspec = 0
+  let g:use_spring_rspec = 0
+  let g:use_zeus_cucumber = 0
+  let g:use_spring_cucumber = 0
 endfunction
 
 command! -nargs=0 UseSpring call SetUseSpring()
@@ -875,8 +895,20 @@ MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
 " let ruby_operators = 1
 
 " enable ruby & rails snippet only rails file
-MyAutocmd BufEnter * if exists("b:rails_root") && (&filetype == "ruby") | NeoComplCacheSetFileType ruby.rails | endif
-MyAutocmd BufEnter * if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | NeoComplCacheSetFileType ruby.rspec | endif
+function! s:RailsSnippet()
+  if exists("b:rails_root") && (&filetype == "ruby")
+    NeoSnippetSource ~/.vim/snippets/rails.snip
+  endif
+endfunction
+
+function! s:RSpecSnippet()
+  if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$")
+    NeoSnippetSource ~/.vim/snippets/rspec.snip
+  endif
+endfunction
+
+MyAutocmd BufEnter * call s:RailsSnippet()
+MyAutocmd BufEnter * call s:RSpecSnippet()
 " }}}
 
 
