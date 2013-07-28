@@ -1106,6 +1106,13 @@ nnoremap U :<C-U>GundoToggle<CR>
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nnoremap gx <Plug>(openbrowser-smart-search)
 vnoremap gx <Plug>(openbrowser-smart-search)
+function! OpenBrowserLine()
+  let matched = matchlist(getline("."), 'https\?://[0-9A-Za-z_#?~=\-+%\.\/:]\+')
+  if len(matched) == 0
+    break
+  endif
+  execute "OpenBrowser " . matched[0]
+endfunction
 
 " for Haskell
 function! GhcModSetting()
