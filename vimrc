@@ -750,7 +750,7 @@ let g:proj_window_width = 48
 let g:vimfiler_as_default_explorer = 1
 nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 let g:vimfiler_max_directory_histories = 20
-function ChangeVimfilerKeymap()
+function s:ChangeVimfilerKeymap()
   nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
   nmap <buffer> j j
   nmap <buffer> k k
@@ -759,7 +759,7 @@ function ChangeVimfilerKeymap()
   nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
   nmap <buffer> V <Plug>(vimfiler_quick_look)
 endfunction
-MyAutocmd FileType vimfiler call ChangeVimfilerKeymap()
+MyAutocmd FileType vimfiler call s:ChangeVimfilerKeymap()
 
 if has('mac')
   let g:vimfiler_quick_look_command = 'quick_look'
@@ -995,57 +995,6 @@ endfunction
 MyAutocmd Syntax ruby if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | call RSpecSyntax() | endif
 " }}}
 
-" Monit syntax {{{
-function! MonitSyntax()
-  syn keyword monitCommand set check include
-  syn keyword monitSubject directory fifo file filesystem host process system nextgroup=monitIdentifier skipwhite
-  syn keyword monitKeyword pidfile path nextgroup=monitFilePath skipwhite
-  syn keyword monitKeyword alert noalert system logfile
-  syn keyword monitKeyword group failed port checksum start stop restart
-  syn keyword monitKeyword program daemon space usage
-  syn keyword monitKeyword timeout restarts within cycles
-  syn keyword monitCondition if then else
-  syn keyword monitKeyword depends
-  syn keyword monitChecksum md5 sha1
-
-  syn keyword monitKeyword type nextgroup=monitSocket
-  syn keyword monitSocket tcp udp tcpssl
-
-  syn keyword monitKeyword proto protocol nextgroup=monitProtocol
-  syn keyword monitProtocol https ssl http ftp smtp pop ntp3 nntp imap clamav ssh dwp ldap2 ldap3 tns contained
-
-  syn keyword monitKeyword logfile syslog address enable disable pemfile allow read-only check init count pidfile statefile group start stop uid gid connection port portnumber unix unixsocket mail-format resource expect send mailserver every mode active passive manual depends host default request cpu mem totalmem children loadavg timestamp changed second seconds minute minutes hour hours day days inode pid ppid perm permission icmp process file directory filesystem size action unmonitor rdate rsync data invalid exec nonexist policy reminder instance eventqueue basedir slot slots system idfile gps radius secret target maxforward hostheader
-  syn keyword monitNoise is as are on only with within and has using use the sum program programs than for usage was but of
-
-  syn keyword monitKeyword url nextgroup=monitUrl
-  syn match monitUrl "[a-z]\+://.\+"
-
-
-  syn match monitIdentifier "[a-zA-Z0-9\-\.]\+"
-  syn match monitFilePath "[/a-zA-Z0-9-\.]\+"
-  syn match monitNumber "\d\+"
-  syn match monitComment "#.*$"
-
-  syn region monitString start='"' end='"'
-
-  let b:current_syntax = "monitrc"
-
-  hi def link monitCommand Function
-  hi def link monitComment Comment
-  hi def link monitCondition Conditional
-  hi def link monitFilePath Identifier
-  hi def link monitIdentifier Identifier
-  hi def link monitKeyword Statement
-  hi def link monitNoise Normal
-  hi def link monitNumber Number
-  hi def link monitProtocol Structure
-  hi def link monitString String
-  hi def link monitSubject Type
-endfunction
-
-au FileType monitrc call MonitSyntax()
-" }}}
-
 " Quickfix
 augroup quickfixopen
   autocmd!
@@ -1114,16 +1063,6 @@ function! OpenBrowserLine()
   execute "OpenBrowser " . matched[0]
 endfunction
 
-" for Haskell
-function! GhcModSetting()
-  nnoremap <buffer> ,mt :<C-U>GhcModType<CR>
-  nnoremap <buffer> ,mc :<C-U>GhcModTypeClear<CR>
-  nnoremap <buffer> ,ml :<C-U>GhcModLintAsync<CR>
-endfunction
-MyAutocmd FileType haskell call GhcModSetting()
-
-let g:haskell_conceal = 0
-
 " syntastic
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
@@ -1134,10 +1073,10 @@ let g:syntastic_mode_map = { 'mode': 'active',
 let g:unite_source_ruby_require_ruby_command = '$HOME/.rbenv/shims/ruby'
 
 " ft hamstache
-function! HamstacheSyntax()
+function! s:HamstacheSyntax()
    let &filetype = "haml"
 endfunction
-MyAutocmd BufReadPost *.hamstache call HamstacheSyntax()
+MyAutocmd BufReadPost *.hamstache call s:HamstacheSyntax()
 
 " ag.vim
 let g:agprg="ag --nocolor --nogroup --column"
@@ -1224,10 +1163,10 @@ else
   let g:tweetvim_display_icon = 1
 end
 
-function! ChangeTweetVimKeyMap()
+function! s:ChangeTweetVimKeyMap()
   nnoremap <buffer><silent> s :<C-u>TweetVimSay<CR>
 endfunction
-MyAutocmd FileType tweetvim call ChangeTweetVimKeyMap()
+MyAutocmd FileType tweetvim call s:ChangeTweetVimKeyMap()
 
 " スクリーン名のキャッシュを利用して、neocomplcache で補完する
 if !exists('g:neocomplcache_dictionary_filetype_lists')
