@@ -69,23 +69,31 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'tyru/skk.vim'
 NeoBundle 'vim-scripts/surround.vim'
 NeoBundle 'tpope/vim-rails'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'vim-ruby/vim-ruby'
+
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'taka84u9/vim-ref-ri'
+NeoBundle 'ujihisa/ref-hoogle'
+
 NeoBundle 'vim-scripts/L9'
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'nelstrom/vim-textobj-rubyblock'
 NeoBundle 'motemen/hatena-vim'
-NeoBundle 'mattn/zencoding-vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
-NeoBundle 'tpope/vim-fugitive'
+
+NeoBundle 'mattn/zencoding-vim'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'digitaltoad/vim-jade'
-NeoBundle 'hchbaw/auto-fu.zsh'
+NeoBundle 'tpope/vim-haml'
+NeoBundle 'nono/vim-handlebars'
+NeoBundle 'juvenn/mustache.vim'
+
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'thinca/vim-poslist'
@@ -93,26 +101,22 @@ NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'taku-o/vim-toggle'
 NeoBundle 'vim-scripts/sudo.vim'
-NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'vim-scripts/errormarker.vim'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'mattn/webapi-vim'
+
 NeoBundle 'eagletmt/ghcmod-vim'
 NeoBundle 'ujihisa/neco-ghc'
+NeoBundle 'dag/vim2hs'
+NeoBundle 'pbrisbin/html-template-syntax'
+
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'kana/vim-textobj-indent'
-NeoBundle 'dag/vim2hs'
-NeoBundle 'tpope/vim-haml'
-NeoBundle 'pbrisbin/html-template-syntax'
-NeoBundle 'taka84u9/vim-ref-ri'
-NeoBundle 'ujihisa/ref-hoogle'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rking/ag.vim'
-NeoBundle 'nono/vim-handlebars'
-NeoBundle 'juvenn/mustache.vim'
 NeoBundle 'moro/vim-review'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 NeoBundle 'basyura/bitly.vim'
@@ -146,6 +150,7 @@ NeoBundleLazy 'Shougo/neocomplcache', {
 \       'insert' : 1,
 \   }
 \}
+
 NeoBundleLazy 'Shougo/vimfiler', {
 \   'depends' : ["Shougo/unite.vim"],
 \   'autoload' : {
@@ -154,6 +159,7 @@ NeoBundleLazy 'Shougo/vimfiler', {
 \       'explorer' : 1,
 \   }
 \}
+
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
@@ -163,6 +169,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \                 'VimShellTerminal', 'VimShellPop'],
       \   'mappings' : ['<Plug>(vimshell_switch)']
       \ }}
+
 NeoBundleLazy 'mattn/gist-vim', {
 \   'autoload' : {
 \       'commands' : [ "Gist" ]
@@ -180,6 +187,13 @@ NeoBundleLazy 'kana/vim-altr', {
 \       'mappings' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
 \   }
 \}
+
+NeoBundleLazy 'tpope/vim-fugitive', {
+\   'autoload' : {
+\       'commands' : [ "Git", "Gstatus", "Gdiff", "Glog", "Gwrite", "Gcommit", "Gblame", "Gedit", "Gbrowse", "Ggrep" ]
+\   }
+\}
+
 
 
 syntax enable
@@ -711,6 +725,9 @@ function! s:bundle.hooks.on_source(bundle)
   let g:unite_winwidth = 45
   let g:unite_source_grep_max_candidates = 500
 
+  " unite-ruby-require
+  let g:unite_source_ruby_require_ruby_command = expand("~/.rbenv/shims/ruby")
+
   call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
 
   call unite#custom#source('buffer,file,file_mru', 'sorters', 'sorter_rank')
@@ -797,10 +814,11 @@ MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | 
 let g:proj_window_width = 48
 
 " vimfiler {{{
+nnoremap <silent> ,vf :<C-U>VimFiler<CR>
+
 let s:bundle = neobundle#get('vimfiler')
 function! s:bundle.hooks.on_source(bundle)
   let g:vimfiler_as_default_explorer = 1
-  nnoremap <silent> ,vf :<C-U>VimFiler<CR>
   let g:vimfiler_max_directory_histories = 20
   function s:ChangeVimfilerKeymap()
     nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
@@ -813,8 +831,8 @@ function! s:bundle.hooks.on_source(bundle)
   endfunction
   MyAutocmd FileType vimfiler call s:ChangeVimfilerKeymap()
 
-  if has('mac')
-    let g:vimfiler_quick_look_command = 'quick_look'
+  if filereadable(expand('~/.vimfiler.local'))
+    execute 'source' expand('~/.vimfiler.local')
   endif
 endfunction
 unlet s:bundle
@@ -1141,9 +1159,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['haskell'] }
-
-" unite-ruby-require
-let g:unite_source_ruby_require_ruby_command = '$HOME/.rbenv/shims/ruby'
 
 " ft hamstache
 function! s:HamstacheSyntax()
