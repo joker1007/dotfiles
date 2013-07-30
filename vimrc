@@ -189,6 +189,7 @@ NeoBundleLazy 'kana/vim-altr', {
 \}
 
 NeoBundleLazy 'tpope/vim-fugitive', {
+\   'augroup' : 'fugitive',
 \   'autoload' : {
 \       'commands' : [ "Git", "Gstatus", "Gdiff", "Glog", "Gwrite", "Gcommit", "Gblame", "Gedit", "Gbrowse", "Ggrep" ]
 \   }
