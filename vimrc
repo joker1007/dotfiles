@@ -131,6 +131,8 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 \   }
 \}
 
+NeoBundle 'tpope/vim-fugitive'
+
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'ujihisa/unite-gem'
 NeoBundle 'thinca/vim-unite-history'
@@ -146,12 +148,23 @@ NeoBundleLazy 'Shougo/unite.vim', {
 \}
 
 NeoBundleLazy 'Shougo/neosnippet'
-NeoBundleLazy 'Shougo/neocomplcache', {
-\   'depends' : ["Shougo/neosnippet"],
-\   'autoload' : {
-\       'insert' : 1,
-\   }
-\}
+
+if has('lua')
+  NeoBundleLazy 'Shougo/neocomplete', {
+  \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
+  \   'vim_version' : '7.3.885',
+  \   'autoload' : {
+  \       'insert' : 1,
+  \   }
+  \}
+else
+  NeoBundleLazy 'Shougo/neocomplcache', {
+  \   'depends' : ["Shougo/neosnippet"],
+  \   'autoload' : {
+  \       'insert' : 1,
+  \   }
+  \}
+endif
 
 NeoBundleLazy 'Shougo/vimfiler', {
 \   'depends' : ["Shougo/unite.vim"],
@@ -187,14 +200,6 @@ NeoBundleLazy 'sjl/gundo.vim', {
 NeoBundleLazy 'kana/vim-altr', {
 \   'autoload' : {
 \       'mappings' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
-\   }
-\}
-
-NeoBundleLazy 'tpope/vim-fugitive', {
-\   'augroup' : 'fugitive',
-\   'autoload' : {
-\       'commands' : [ "Git", "Gstatus", "Gdiff", "Glog", "Gwrite", "Gcommit", "Gblame", "Gedit", "Gbrowse", "Ggrep" ],
-\       'filetypes' : ['gitcommit', 'gitrebase'],
 \   }
 \}
 
@@ -881,105 +886,26 @@ endfunction
 unlet s:bundle
 " }}}
 
-" neocomplcache================================================{{{
-let s:bundle = neobundle#get("neocomplcache")
+" rubycomplete.vim {{{
+MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
+MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
+MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
+" let ruby_operators = 1
+" }}}
+
+" neosnippet {{{
+nnoremap <Space>se :<C-U>NeoSnippetEdit<CR>
+let s:bundle = neobundle#get('neosnippet')
 function! s:bundle.hooks.on_source(bundle)
-  " Disable AutoComplPop.
-  let g:acp_enableAtStartup = 0
-  " Use neocomplcache.
-  let g:neocomplcache_enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplcache_enable_smart_case = 1
-  " Use camel case completion.
-  let g:neocomplcache_enable_camel_case_completion = 1
-  " Use underbar completion.
-  "let g:neocomplcache_enable_underbar_completion = 1
-  " Use fuzzy completion.
-  " let g:neocomplcache_enable_fuzzy_completion = 1
-  " filename width
-  let g:neocomplcache_max_menu_width = 40
-  " Set minimum syntax keyword length.
-  let g:neocomplcache_auto_completion_start_length = 2
-  let g:neocomplcache_manual_completion_start_length = 0
-  let g:neocomplcache_min_syntax_length = 3
-  let g:neocomplcache_min_keyword_length = 2
-  let g:neocomplcache_plugin_completion_length = {
-  \ 'snippets_complete' : 1,
-  \ }
-  " let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-  let g:neocomplcache_enable_prefetch = 1
-
-  " Define dictionary.
-  let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : '',
-  \ 'vimshell' : $HOME . '/.vimshell/command-history',
-  \ }
-
   let g:neosnippet#snippets_directory = $HOME . '/.vim/snippets'
-  nnoremap <Space>se :<C-U>NeoSnippetEdit<CR>
 
   " For snippet_complete marker.
   if has('conceal')
     set conceallevel=2 concealcursor=i
   endif
-
-  " キャッシュしないファイル名
-  let g:neocomplcache_disable_caching_file_path_pattern = '\.log\|\.log\.\|\.jax'
-  " 自動補完を行わないバッファ名
-  let g:neocomplcache_lock_buffer_name_pattern = '\.log\|\.log\.\|.*quickrun.*\|.jax'
-
-  " Define keyword.
-  if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
-  endif
-  let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-  " Plugin key-mappings.
-  "imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  "smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  "inoremap <expr><C-g> neocomplcache#undo_completion()
-  inoremap <expr><C-l> neocomplcache#complete_common_string()
-
-  " SuperTab like snippets behavior.
-  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-  " <TAB>: completion.
-  "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-y> neocomplcache#close_popup()
-  "inoremap <expr><C-e> neocomplcache#cancel_popup()
-
-  " AutoComplPop like behavior.
-  "let g:neocomplcache_enable_auto_select = 1
-
-  " Shell like behavior(not recommended).
-  "setlocal completeopt+=longest
-  "let g:neocomplcache_enable_auto_select = 1
-  "let g:neocomplcache_disable_auto_complete = 1
-  "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
-  "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-
-  " Enable omni completion.
-  MyAutocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-  " rubycomplete.vim & RSense {{{
-  MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
-  MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
-  " let ruby_operators = 1
 
   " enable ruby & rails snippet only rails file
   function! s:RailsSnippet()
@@ -996,26 +922,185 @@ function! s:bundle.hooks.on_source(bundle)
 
   MyAutocmd BufEnter * call s:RailsSnippet()
   MyAutocmd BufEnter * call s:RSpecSnippet()
-  " }}}
-
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-  endif
-  let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-  let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-  let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-  let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-  " for TweetVim スクリーン名のキャッシュを利用して、neocomplcache で補完する
-  if !exists('g:neocomplcache_dictionary_filetype_lists')
-    let g:neocomplcache_dictionary_filetype_lists = {}
-  endif
-  let neco_dic = g:neocomplcache_dictionary_filetype_lists
-  let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 endfunction
 unlet s:bundle
+" }}}
+
+" neocomplcache or neocomplete {{{
+
+" Enable omni completion.
+MyAutocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+if has('lua')
+  let s:bundle = neobundle#get('neocomplete')
+  function! s:bundle.hooks.on_source(bundle)
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+
+    " Set minimum syntax keyword length.
+    let g:neocomplete#auto_completion_start_length = 2
+    let g:neocomplete#manual_completion_start_length = 0
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#min_keyword_length = 2
+
+    let g:neocomplete#enable_prefetch = 1
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME . '/.vimshell/command-history',
+    \ }
+
+    " キャッシュしないファイル名
+    let g:neocomplete#sources#buffer#disabled_pattern = '\.log\|\.log\.\|\.jax'
+    " 自動補完を行わないバッファ名
+    let g:neocomplete#lock_buffer_name_pattern = '\.log\|\.log\.\|.*quickrun.*\|.jax'
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+
+    " Plugin key-mappings.
+    inoremap <expr><C-l> neocomplete#complete_common_string()
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>"
+
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y> neocomplete#close_popup()
+
+    " AutoComplPop like behavior.
+    "let g:neocomplete#enable_auto_select = 1
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.c = '\%(\.\|->\)\h\w*'
+    let g:neocomplete#sources#omni#input_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+    " for TweetVim スクリーン名のキャッシュを利用して、neocomplcache で補完する
+    if !exists('g:neocomplete#sources#dictionary#dictionaries')
+      let g:neocomplete#sources#dictionary#dictionaries = {}
+    endif
+    let neco_dic = g:neocomplete#sources#dictionary#dictionaries
+    let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+  endfunction
+  unlet s:bundle
+else
+  let s:bundle = neobundle#get('neocomplcache')
+  function! s:bundle.hooks.on_source(bundle)
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplcache.
+    let g:neocomplcache_enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplcache_enable_smart_case = 1
+    " Use camel case completion.
+    let g:neocomplcache_enable_camel_case_completion = 1
+    " Use underbar completion.
+    "let g:neocomplcache_enable_underbar_completion = 1
+    " Use fuzzy completion.
+    " let g:neocomplcache_enable_fuzzy_completion = 1
+    " filename width
+    let g:neocomplcache_max_menu_width = 40
+    " Set minimum syntax keyword length.
+    let g:neocomplcache_auto_completion_start_length = 2
+    let g:neocomplcache_manual_completion_start_length = 0
+    let g:neocomplcache_min_syntax_length = 3
+    let g:neocomplcache_min_keyword_length = 2
+    let g:neocomplcache_plugin_completion_length = {
+    \ 'snippets_complete' : 1,
+    \ }
+    " let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+    let g:neocomplcache_enable_prefetch = 1
+
+    " Define dictionary.
+    let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME . '/.vimshell/command-history',
+    \ }
+
+    " キャッシュしないファイル名
+    let g:neocomplcache_disable_caching_file_path_pattern = '\.log\|\.log\.\|\.jax'
+    " 自動補完を行わないバッファ名
+    let g:neocomplcache_lock_buffer_name_pattern = '\.log\|\.log\.\|.*quickrun.*\|.jax'
+
+    " Define keyword.
+    if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+    endif
+    let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings.
+    "imap <C-k> <Plug>(neosnippet_expand_or_jump)
+    "smap <C-k> <Plug>(neosnippet_expand_or_jump)
+    "inoremap <expr><C-g> neocomplcache#undo_completion()
+    inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+    " <TAB>: completion.
+    "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y> neocomplcache#close_popup()
+    "inoremap <expr><C-e> neocomplcache#cancel_popup()
+
+    " AutoComplPop like behavior.
+    "let g:neocomplcache_enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "setlocal completeopt+=longest
+    "let g:neocomplcache_enable_auto_select = 1
+    "let g:neocomplcache_disable_auto_complete = 1
+    "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+    "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+    endif
+    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+    let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+    " for TweetVim スクリーン名のキャッシュを利用して、neocomplcache で補完する
+    if !exists('g:neocomplcache_dictionary_filetype_lists')
+      let g:neocomplcache_dictionary_filetype_lists = {}
+    endif
+    let neco_dic = g:neocomplcache_dictionary_filetype_lists
+    let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+  endfunction
+  unlet s:bundle
+endif
 " }}}
 
 " ref.vim
