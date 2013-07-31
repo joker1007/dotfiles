@@ -1358,3 +1358,40 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 " }}}
+
+" code snippet highlight {{{
+function! IncludeOtherSyntax(filetype)
+  let ft = toupper(a:filetype)
+  let group = 'codeGroup'.ft
+
+  if exists('b:current_syntax')
+    let s:current_syntax = b:current_syntax
+    unlet b:current_syntax
+  endif
+
+  execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+  try
+    execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+  catch
+  endtry
+
+  if exists('s:current_syntax')
+    let b:current_syntax=s:current_syntax
+  else
+    unlet b:current_syntax
+  endif
+
+  return group
+endfunction
+
+function! EnableCodeSnipHighlight(filetype, start, end, delimiterHi)
+  let ft = toupper(a:filetype)
+  let group = IncludeOtherSyntax(a:filetype)
+
+  execute 'syntax region codeSnip'.ft.'
+  \ matchgroup='.a:delimiterHi.'
+  \ start="'.a:start.'" end="'.a:end.'"
+  \ keepend contains=@'.group
+endfunction
+" }}}
+
