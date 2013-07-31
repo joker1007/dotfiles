@@ -871,6 +871,11 @@ function! s:bundle.hooks.on_source(bundle)
     \| call vimshell#altercmd#define('be', 'bundle exec')
     \| call vimshell#altercmd#define('ra', 'rails')
     \| call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
+
+  function! s:EarthquakeKeyMap()
+    nnoremap <buffer><expr> o OpenBrowserLine()
+  endfunction
+  MyAutocmd FileType int-earthquake call s:EarthquakeKeyMap()
 endfunction
 unlet s:bundle
 " }}}
