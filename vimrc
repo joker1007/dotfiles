@@ -203,6 +203,8 @@ NeoBundleLazy 'kana/vim-altr', {
 \   }
 \}
 
+NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
 
 
 syntax enable
@@ -1384,14 +1386,19 @@ function! IncludeOtherSyntax(filetype)
   return group
 endfunction
 
-function! EnableCodeSnipHighlight(filetype, start, end, delimiterHi)
-  let ft = toupper(a:filetype)
-  let group = IncludeOtherSyntax(a:filetype)
-
-  execute 'syntax region codeSnip'.ft.'
-  \ matchgroup='.a:delimiterHi.'
-  \ start="'.a:start.'" end="'.a:end.'"
-  \ keepend contains=@'.group
-endfunction
+let g:markdown_quote_syntax_filetypes = {
+        \ "coffee" : {
+        \   "start" : "^\\s*```coffee$",
+        \   "end"   : "^\\s*```\\ze\\s*$"
+        \},
+        \ "mustache" : {
+        \   "start" : "^\\s*```mustache$",
+        \   "end"   : "^\\s*```\\ze\\s*$"
+        \},
+        \ "haml" : {
+        \   "start" : "^\\s*```haml$",
+        \   "end"   : "^\\s*```\\ze\\s*$"
+        \},
+  \}
 " }}}
 
