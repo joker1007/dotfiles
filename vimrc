@@ -465,48 +465,48 @@ let NERDSpaceDelims = 1
 " smartchr {{{
 cnoremap <expr> (  smartchr#loop('\(', '(', {'ctype': '/?'})
 
-function! EnableSmartchrBasic()
+function! s:EnableSmartchrBasic()
   inoremap <buffer> ( ()<Esc>i
   inoremap <buffer> [ []<Esc>i
   inoremap <buffer> { {}<Esc>i
   inoremap <buffer><expr> + smartchr#one_of(' + ', '+', '++')
   inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
-  inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar><Bar> ', '<Bar>')
+  inoremap <buffer><expr> <Bar> smartchr#one_of('<Bar>', ' <Bar><Bar> ', '<Bar><Bar>')
   inoremap <buffer><expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= ' : search('\(\*\<bar>!\)\%#')? '= ' : smartchr#one_of(' = ', ' == ', '=')
 endfunction
 
-function! EnableSmartchrRegExp()
+function! s:EnableSmartchrRegExp()
   inoremap <buffer><expr> ~ search('\(!\<bar>=\) \%#', 'bcn')? '<bs>~ ' : '~'
 endfunction
 
-function! EnableSmartchrRubyHash()
+function! s:EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
 endfunction
 
-function! EnableSmartchrHaml()
-  call EnableSmartchrRubyHash()
+function! s:EnableSmartchrHaml()
+  call s:EnableSmartchrRubyHash()
   inoremap <buffer> [ []<Esc>i
   inoremap <buffer> { {}<Esc>i
 endfunction
 
-function! EnableSmartchrCoffeeFunction()
+function! s:EnableSmartchrCoffeeFunction()
   inoremap <buffer><expr> > smartchr#one_of('>', ' ->')
 endfunction
 
-MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call EnableSmartchrBasic()
-MyAutocmd FileType python,ruby,coffee,vim call EnableSmartchrRegExp()
-MyAutocmd FileType ruby call EnableSmartchrRubyHash()
+MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call s:EnableSmartchrBasic()
+MyAutocmd FileType python,ruby,coffee,vim call s:EnableSmartchrRegExp()
+MyAutocmd FileType ruby call s:EnableSmartchrRubyHash()
 MyAutocmd FileType ruby,eruby setlocal tags+=~/rtags
-MyAutocmd FileType haml call EnableSmartchrHaml()
-MyAutocmd FileType coffee call EnableSmartchrCoffeeFunction()
+MyAutocmd FileType haml call s:EnableSmartchrHaml()
+MyAutocmd FileType coffee call s:EnableSmartchrCoffeeFunction()
 " }}}
 
 " hatena.vim
 let g:hatena_user = 'joker1007'
 
 " shファイルの保存時にはファイルのパーミッションを755にする {{{
-function! ChangeShellScriptPermission()
+function! s:ChangeShellScriptPermission()
   if !has("win32")
     if &ft =~ "\\(z\\|c\\|ba\\)\\?sh$" && expand('%:t') !~ "\\(zshrc\\|zshenv\\)$"
       call system("chmod 755 " . shellescape(expand('%:p')))
@@ -514,7 +514,7 @@ function! ChangeShellScriptPermission()
     endif
   endif
 endfunction
-MyAutocmd BufWritePost * call ChangeShellScriptPermission()
+MyAutocmd BufWritePost * call s:ChangeShellScriptPermission()
 " }}}
 
 " QFixHowm用設定======================================================{{{
@@ -564,9 +564,9 @@ endif
 
 
 " ポップアップメニューのカラーを設定
-hi Pmenu ctermfg=15 ctermbg=18 guibg=#666666
-hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
-hi PmenuSbar guibg=#333333
+MyAutocmd Syntax * hi Pmenu ctermfg=15 ctermbg=18 guibg=#666666
+MyAutocmd Syntax * hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
+MyAutocmd Syntax * hi PmenuSbar guibg=#333333
 
 " TOhtml
 let g:html_number_lines = 0
@@ -801,6 +801,8 @@ function! s:bundle.hooks.on_source(bundle)
   endif
 
   let g:gist_detect_filetype = 1
+  let g:gist_open_browser_after_post = 1
+  let g:gist_show_privates = 1
 endfunction
 unlet s:bundle
 " }}}
@@ -931,7 +933,7 @@ unlet s:bundle
 " neocomplcache or neocomplete {{{
 
 " Enable omni completion.
-MyAutocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+MyAutocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
 MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
@@ -1362,42 +1364,15 @@ unlet s:bundle
 " }}}
 
 " code snippet highlight {{{
-function! IncludeOtherSyntax(filetype)
-  let ft = toupper(a:filetype)
-  let group = 'codeGroup'.ft
-
-  if exists('b:current_syntax')
-    let s:current_syntax = b:current_syntax
-    unlet b:current_syntax
-  endif
-
-  execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
-  try
-    execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
-  catch
-  endtry
-
-  if exists('s:current_syntax')
-    let b:current_syntax=s:current_syntax
-  else
-    unlet b:current_syntax
-  endif
-
-  return group
-endfunction
-
 let g:markdown_quote_syntax_filetypes = {
         \ "coffee" : {
-        \   "start" : "^\\s*```coffee$",
-        \   "end"   : "^\\s*```\\ze\\s*$"
+        \   "start" : "coffee",
         \},
         \ "mustache" : {
-        \   "start" : "^\\s*```mustache$",
-        \   "end"   : "^\\s*```\\ze\\s*$"
+        \   "start" : "mustache",
         \},
         \ "haml" : {
-        \   "start" : "^\\s*```haml$",
-        \   "end"   : "^\\s*```\\ze\\s*$"
+        \   "start" : "haml",
         \},
   \}
 " }}}
