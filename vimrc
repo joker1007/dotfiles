@@ -1377,3 +1377,8 @@ let g:markdown_quote_syntax_filetypes = {
   \}
 " }}}
 
+
+if filereadable(expand('~/.vimrc.local.after'))
+  execute 'source' expand('~/.vimrc.local.after')
+endif
+
