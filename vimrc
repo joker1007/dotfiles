@@ -589,13 +589,13 @@ let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec %c %o --color --drb --tty %s'
+  \ 'exec': 'bundle exec %c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
   \ 'outputter': 'buffer',
-  \ 'exec': '%c %o --color --drb --tty %s'
+  \ 'exec': '%c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
@@ -613,7 +613,7 @@ let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
   \ 'outputter': 'buffer',
-  \ 'exec': 'bundle exec %c %o --color --drb %s'
+  \ 'exec': 'bundle exec %c %o --color %s'
   \}
 let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
@@ -832,7 +832,7 @@ nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 let s:bundle = neobundle#get('vimfiler')
 function! s:bundle.hooks.on_source(bundle)
   let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_max_directory_histories = 20
+  let g:vimfiler_max_directory_histories = 100
   function s:ChangeVimfilerKeymap()
     nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
     nmap <buffer> j j
@@ -1157,6 +1157,8 @@ let s:bundle = neobundle#get("vim-altr")
 function! s:bundle.hooks.on_source(bundle)
   " For ruby tdd
   call altr#define('%.rb', 'spec/%_spec.rb')
+  " For ruby tdd
+  call altr#define('lib/%.rb', 'spec/lib/%_spec.rb')
   " For rails tdd
   call altr#define('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
   call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
@@ -1241,6 +1243,8 @@ let g:tagbar_sort = 0
 " Tabular
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
+nnoremap <Leader>a> :Tabularize /=><CR>
+vnoremap <Leader>a> :Tabularize /=><CR>
 nnoremap <Leader>a: :Tabularize /:\zs<CR>
 vnoremap <Leader>a: :Tabularize /:\zs<CR>
 nnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
@@ -1376,11 +1380,6 @@ function! s:bundle.hooks.on_source(bundle)
   else
     let g:tweetvim_display_icon = 1
   end
-
-  function! s:ChangeTweetVimKeyMap()
-    nnoremap <buffer><silent> s :<C-u>TweetVimSay<CR>
-  endfunction
-  MyAutocmd FileType tweetvim call s:ChangeTweetVimKeyMap()
 endfunction
 unlet s:bundle
 " }}}
