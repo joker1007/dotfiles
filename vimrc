@@ -1166,11 +1166,33 @@ unlet s:bundle
 " }}}
 
 " toggle.vim {{{
-imap <C-C> <Plug>ToggleI
-nmap <C-C> <Plug>ToggleN
-vmap <C-C> <Plug>ToggleV
+imap <silent><C-C> <Plug>ToggleI
+nmap <silent><C-C> <Plug>ToggleN
+vmap <silent><C-C> <Plug>ToggleV
 
-let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'elsif', 'elsif':'else', 'else':'if', 'it':'specify', 'specify':'it', 'describe':"context", 'context':"describe", 'true':'false', 'false':'true', '&&':'||', '||':'&&' }
+let g:toggle_pairs = {
+  \'and':'or',
+  \'or':'and',
+  \'if':'unless',
+  \'unless':'if',
+  \'elsif':'else',
+  \'else':'elsif',
+  \'it':'specify',
+  \'specify':'it',
+  \'describe':"context",
+  \'context':"describe",
+  \'true':'false',
+  \'false':'true',
+  \'yes':'no',
+  \'no':'yes',
+  \'on':'off',
+  \'off':'on',
+  \'public':'protected',
+  \'protected':'private',
+  \'private':'public',
+  \'&&':'||',
+  \'||':'&&'
+\}
 " }}}
 
 " RSpec syntax {{{
