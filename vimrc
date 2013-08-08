@@ -588,43 +588,43 @@ let g:quickrun_config._ = {'runner' : 'vimproc'}
 let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec %c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': '%c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'zeus test %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
   \ 'command': 'rspec',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec spring rspec %o --color --tty %s'
   \}
 let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec %c %o --color %s'
   \}
 let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'zeus cucumber %o --color %s'
   \}
 let g:quickrun_config['cucumber/spring'] = {
   \ 'type': 'cucumber/spring',
   \ 'command': 'cucumber',
-  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec spring cucumber %o --color %s'
   \}
 
