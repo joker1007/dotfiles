@@ -607,7 +607,7 @@ let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
   \ 'command': 'rspec',
   \ 'outputter/buffer/split': 'botright',
-  \ 'exec': 'bundle exec spring rspec %o --color --tty %s'
+  \ 'exec': 'spring rspec %o --color --tty %s'
   \}
 let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/zeus',
@@ -625,7 +625,7 @@ let g:quickrun_config['cucumber/spring'] = {
   \ 'type': 'cucumber/spring',
   \ 'command': 'cucumber',
   \ 'outputter/buffer/split': 'botright',
-  \ 'exec': 'bundle exec spring cucumber %o --color %s'
+  \ 'exec': 'spring cucumber %o --color %s'
   \}
 
 command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'}
