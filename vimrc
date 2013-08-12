@@ -148,6 +148,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
 \}
 
 NeoBundleLazy 'Shougo/neosnippet'
+NeoBundle 'Rip-Rip/clang_complete'
 
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete', {
@@ -1009,6 +1010,23 @@ if has('lua')
     endif
     let neco_dic = g:neocomplete#sources#dictionary#dictionaries
     let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+    " use clang_complete
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_overwrite_completefunc = 1
+    let g:neocomplete#force_omni_input_patterns.c =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplete#force_omni_input_patterns.cpp =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+    let g:neocomplete#force_omni_input_patterns.objc =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplete#force_omni_input_patterns.objcpp =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+    let g:clang_complete_auto = 0
+    let g:clang_auto_select = 0
+    "let g:clang_use_library = 1
   endfunction
   unlet s:bundle
 else
