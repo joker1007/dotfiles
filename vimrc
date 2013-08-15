@@ -68,6 +68,9 @@ NeoBundle 'Shougo/vimproc', {
   \ }
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'tyru/skkdict.vim'
+
+NeoBundle 'altercation/vim-colors-solarized'
+
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-cucumber'
@@ -245,6 +248,7 @@ set display=uhex            " 表示できない文字を16進数で表示
 set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
 set autoread                " 他でファイルが編集された時に自動で読み込む
+set background=dark
 
 " for MacVim with rvm
 if has('gui_macvim') && has('kaoriya')
@@ -293,6 +297,7 @@ map # <Plug>(visualstar-#)N
 " ステータスライン表示
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\ 
+set noshowmode
 set wildmenu
 set cmdheight=2
 set wildmode=list:full
@@ -360,9 +365,12 @@ MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
 if stridx($TERM, "xterm-256color") >= 0
-  colorscheme desert256
+  let g:solarized_termcolors= 256
+  let g:solarized_contrast = "high"
+  let g:solarized_termtrans = 1
+  colorscheme solarized
 else
-  colorscheme desert
+  colorscheme solarized
 endif
 
 " 256色モード
