@@ -910,11 +910,11 @@ unlet s:bundle
 
 " rubycomplete.vim {{{
 MyAutocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
-MyAutocmd FileType ruby,eruby let g:rubycomplete_rails = 0
-MyAutocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-MyAutocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
-MyAutocmd FileType ruby,eruby let g:rubycomplete_include_object_space = 1
+let g:rubycomplete_rails = 0
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_include_object = 1
+let g:rubycomplete_include_object_space = 1
 " let ruby_operators = 1
 " }}}
 
