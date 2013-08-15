@@ -66,7 +66,8 @@ NeoBundle 'Shougo/vimproc', {
   \     'unix' : 'make -f make_unix.mak',
   \    },
   \ }
-NeoBundle 'tyru/skk.vim'
+NeoBundle 'tyru/eskk.vim'
+NeoBundle 'tyru/skkdict.vim'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-cucumber'
@@ -418,6 +419,14 @@ let skk_show_annotation  = 1
 let skk_use_face         = 1
 let skk_imdisable_state  = 0
 let skk_sticky_key       = ';'
+" }}}
+
+" eskk {{{
+let g:eskk#large_dictionary = {
+      \ 'path': $HOME . "/.vim/dict/skk/SKK-JISYO.L",
+      \ 'sorted': 1,
+      \ 'encoding': 'euc-jp',
+      \}
 " }}}
 
 " wq alias
