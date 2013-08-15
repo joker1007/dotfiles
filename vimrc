@@ -918,16 +918,16 @@ let g:rubycomplete_include_object_space = 1
 " let ruby_operators = 1
 " }}}
 
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
 " neosnippet {{{
 nnoremap <Space>se :<C-U>NeoSnippetEdit<CR>
 let s:bundle = neobundle#get('neosnippet')
 function! s:bundle.hooks.on_source(bundle)
   let g:neosnippet#snippets_directory = $HOME . '/.vim/snippets'
-
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
-  endif
 
   " enable ruby & rails snippet only rails file
   function! s:RailsSnippet()
@@ -956,6 +956,7 @@ MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
 
 if has('lua')
   let s:bundle = neobundle#get('neocomplete')
