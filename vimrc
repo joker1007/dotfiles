@@ -124,7 +124,7 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'moro/vim-review'
-NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+NeoBundle 'bling/vim-airline'
 NeoBundle 'basyura/bitly.vim'
 NeoBundle 'mattn/favstar-vim'
 NeoBundleLazy 'basyura/twibill.vim'
@@ -384,6 +384,10 @@ endif
 " nnoremap ,m  :<C-u>marks<CR>
 nnoremap ,r  :<C-u>registers<CR>
 "---------------------------------------------------------}}}
+
+" vim-airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme = "wombat"
 
 " surround.vim {{{
 nmap ,( csw(
