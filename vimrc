@@ -256,14 +256,15 @@ set virtualedit=block       " 矩形選択でカーソル位置の制限を解�
 set autoread                " 他でファイルが編集された時に自動で読み込む
 set background=dark
 
-" Edit vimrc
+" Space prefix
 nnoremap [space] <Nop>
 nmap     <Space> [space]
 xmap     <Space> [space]
+
+" Edit vimrc
 nmap [space]v :edit $MYVIMRC<CR>
-nmap [space]lv :edit ~/.vimrc.local<CR>
 nmap [space]g :edit $MYGVIMRC<CR>
-nmap [space]lg :edit ~/.gvimrc.local<CR>
+
 nnoremap <C-H> :<C-U>help<Space>
 
 " 編集中の行に下線を引く
@@ -353,6 +354,10 @@ vnoremap <silent> g$ $
 " JとDで半ページ移動
 nnoremap J <C-D>
 nnoremap K <C-U>
+
+" <Space>h or <Space>lで行頭か行末に移動する
+noremap [space]h  ^
+noremap [space]l  $
 
 " 編集中のファイルのディレクトリに移動
 nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
