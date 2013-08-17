@@ -104,7 +104,7 @@ NeoBundle 'motemen/hatena-vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
 
-NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'mattn/emmet-vim'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'tpope/vim-haml'
