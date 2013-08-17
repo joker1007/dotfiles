@@ -55,6 +55,7 @@ endif
 
 call neobundle#rc(expand('~/.vim/bundle/'))
 
+" NeoBundle {{{
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -217,6 +218,7 @@ NeoBundleLazy 'kana/vim-altr', {
 
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
+" }}}
 
 
 syntax enable
@@ -239,14 +241,11 @@ command!
 \ autocmd<bang> vimrc <args>
 
 " Basic Setting {{{
-set nocompatible            " Use Vim defaults (much better!)
 set bs=indent,eol,start     " allow backspacing over everything in insert mode
 set ai                      " always set autoindenting on
-set backupdir=~/.vim/backup
+set nobackup
 set noswapfile              " No Swap
-set backup                  " keep a backup file
-set viminfo='20,\"50        " read/write a .viminfo file, don't store more
-                            " than 50 lines of registers
+set viminfo=%,'100,<500,h
 set history=100             " keep 100 lines of command line history
 set ruler                   " show the cursor position all the time
 set nu                      " show line number
@@ -256,11 +255,6 @@ set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
 set autoread                " 他でファイルが編集された時に自動で読み込む
 set background=dark
-
-" for MacVim with rvm
-if has('gui_macvim') && has('kaoriya')
-  set shell=/bin/bash
-endif
 
 " Edit vimrc
 nnoremap [space] <Nop>
@@ -428,18 +422,6 @@ onoremap [ t[
 " set paste
 nnoremap <silent> ,p :<C-U>set paste!<CR>:<C-U>echo("Toggle PasteMode => " . (&paste == 0 ? "Off" : "On"))<CR>
 
-" skk {{{
-let skk_jisyo            = '~/.skk-jisyo'
-let skk_large_jisyo      = '~/.vim/dict/skk/SKK-JISYO.L'
-let skk_auto_save_jisyo  = 1
-let skk_keep_state       = 0
-let skk_egg_like_newline = 1
-let skk_show_annotation  = 1
-let skk_use_face         = 1
-let skk_imdisable_state  = 0
-let skk_sticky_key       = ';'
-" }}}
-
 " eskk {{{
 let g:eskk#large_dictionary = {
       \ 'path': $HOME . "/.vim/dict/skk/SKK-JISYO.L",
@@ -467,11 +449,6 @@ au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8
 MyAutocmd BufNewFile,BufRead *.as set filetype=actionscript
 MyAutocmd BufNewFile,BufRead *.mxml set filetype=mxml
 
-" yanktmp用キー設定
-map <silent> sy :call YanktmpYank()<CR> 
-map <silent> sp :call YanktmpPaste_p()<CR> 
-map <silent> sP :call YanktmpPaste_P()<CR> 
-
 " バッファ切り替え {{{
 nmap [space]n :<C-U>bnext<CR>
 nmap [space]p :<C-U>bprevious<CR>
@@ -492,12 +469,7 @@ nmap ,b :buffers<CR>
 let NERDSpaceDelims = 1
 
 " smartchr {{{
-cnoremap <expr> (  smartchr#loop('\(', '(', {'ctype': '/?'})
-
 function! s:EnableSmartchrBasic()
-  inoremap <buffer> ( ()<Esc>i
-  inoremap <buffer> [ []<Esc>i
-  inoremap <buffer> { {}<Esc>i
   inoremap <buffer><expr> + smartchr#one_of(' + ', '+', '++')
   inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
   inoremap <buffer><expr> , smartchr#one_of(', ', ',')
@@ -583,11 +555,11 @@ let QFixHowm_FilenameLen = 80
 
 "ブラウザの指定
 if has('win32')
-  let QFixHowm_OpenURIcmd = '!start "C:\firefox-3.5.3-2009100400.en-US.win32-tete009-sse2-pgo\firefox.exe" %s'
+  let QFixHowm_OpenURIcmd = '!start "C:\firefox\firefox.exe" %s'
 elseif has('mac')
   let QFixHowm_OpenURIcmd = "call system('/usr/bin/open -a /Applications/Firefox.app/Contents/MacOS/firefox-bin %s')"
 elseif has('unix')
-  let QFixHowm_OpenURIcmd = "call system('firefox %s &')"
+  let QFixHowm_OpenURIcmd = "call system('xdg-open %s')"
 endif
 " }}}
 
@@ -608,8 +580,12 @@ let Grep_Default_Options = '-i'
 nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
 nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
-" quickrun
+" quickrun{{{
+
+" エスケープカラーを表示する。
 MyAutocmd FileType quickrun AnsiEsc
+" ヤンクを取りやすいようにconcealcursorを無効にする。
+MyAutocmd FileType quickrun setlocal concealcursor=""
 
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
@@ -657,15 +633,7 @@ let g:quickrun_config['cucumber/spring'] = {
   \ 'exec': 'spring cucumber %o --color %s'
   \}
 
-command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'}
-command! -nargs=0 UseZeusRSpec   let b:quickrun_config = {'type' : 'rspec/zeus'}
-command! -nargs=0 UseSpringRSpec let b:quickrun_config = {'type' : 'rspec/spring'}
-
-command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/bundle'}
-command! -nargs=0 UseZeusCucumber   let b:quickrun_config = {'type' : 'cucumber/zeus'}
-command! -nargs=0 UseSpringCucumber let b:quickrun_config = {'type' : 'cucumber/spring'}
-
-function! RSpecQuickrun()
+function! s:RSpecQuickrun()
   if exists('g:use_spring_rspec') && g:use_spring_rspec == 1
     let b:quickrun_config = {'type' : 'rspec/spring'}
   elseif exists('g:use_zeus_rspec') && g:use_zeus_rspec == 1
@@ -676,9 +644,9 @@ function! RSpecQuickrun()
 
   nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
 endfunction
-MyAutocmd BufReadPost *_spec.rb call RSpecQuickrun()
+MyAutocmd BufReadPost *_spec.rb call s:RSpecQuickrun()
 
-function! CucumberQuickrun()
+function! s:CucumberQuickrun()
   if exists('g:use_spring_cucumber') && g:use_spring_cucumber == 1
     let b:quickrun_config = {'type' : 'cucumber/spring'}
   elseif exists('g:use_zeus_cucumber') && g:use_zeus_cucumber == 1
@@ -689,31 +657,36 @@ function! CucumberQuickrun()
 
   nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
 endfunction
-MyAutocmd BufReadPost *.feature call CucumberQuickrun()
+MyAutocmd BufReadPost *.feature call s:CucumberQuickrun()
 
-function! SetUseSpring()
+function! s:SetUseSpring()
   let g:use_spring_rspec = 1
   let g:use_zeus_rspec = 0
   let g:use_spring_cucumber = 1
   let g:use_zeus_cucumber = 0
 endfunction
 
-function! SetUseZeus()
+function! s:SetUseZeus()
   let g:use_zeus_rspec = 1
   let g:use_spring_rspec = 0
   let g:use_zeus_cucumber = 1
   let g:use_spring_cucumber = 0
 endfunction
 
-function! SetUseBundle()
+function! s:SetUseBundle()
   let g:use_zeus_rspec = 0
   let g:use_spring_rspec = 0
   let g:use_zeus_cucumber = 0
   let g:use_spring_cucumber = 0
 endfunction
 
-command! -nargs=0 UseSpring call SetUseSpring()
-command! -nargs=0 UseZeus call SetUseZeus()
+command! -nargs=0 UseSpringRSpec let b:quickrun_config = {'type' : 'rspec/spring'} | call s:SetUseSpring()
+command! -nargs=0 UseZeusRSpec   let b:quickrun_config = {'type' : 'rspec/zeus'}   | call s:SetUseZeus()
+command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'} | call s:SetUseBundle()
+command! -nargs=0 UseSpringCucumber let b:quickrun_config = {'type' : 'cucumber/spring'} | call s:SetUseSpring()
+command! -nargs=0 UseZeusCucumber   let b:quickrun_config = {'type' : 'cucumber/zeus'}   | call s:SetUseZeus()
+command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/bundle'} | call s:SetUseBundle()
+" }}}
 
 " libruby load
 if has('gui_macvim') && has('kaoriya')
@@ -768,6 +741,7 @@ function! s:bundle.hooks.on_source(bundle)
   " unite-ruby-require
   let g:unite_source_ruby_require_ruby_command = expand("~/.rbenv/shims/ruby")
 
+  " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
   call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
 
   call unite#custom#source('buffer,file,file_mru', 'sorters', 'sorter_rank')
@@ -783,7 +757,6 @@ function! s:bundle.hooks.on_source(bundle)
 
   function! s:unite_my_settings()
     " Overwrite settings.
-
     nmap <buffer> l     <Plug>(unite_choose_action)
     nmap <buffer> <C-c>     <Plug>(unite_choose_action)
 
@@ -796,6 +769,7 @@ function! s:bundle.hooks.on_source(bundle)
 
     nmap <silent><buffer><expr> f unite#do_action('vimfiler')
 
+    " grep bufferの時はrをreplaceアクションにマップする
     let unite = unite#get_current_unite()
     if unite.buffer_name =~# '^grep'
       nnoremap <silent><buffer><expr> r     unite#do_action('replace')
@@ -864,8 +838,11 @@ function! s:bundle.hooks.on_source(bundle)
   let g:vimfiler_max_directory_histories = 100
   function s:ChangeVimfilerKeymap()
     nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
+
+    " j k 移動でループしないように
     nmap <buffer> j j
     nmap <buffer> k k
+
     nmap <buffer> s <Plug>(vimfiler_select_sort_type)
     nmap <End> <Plug>(vimfiler_clear_mark_all_lines)
     nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
@@ -1053,6 +1030,8 @@ if has('lua')
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
     let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+
+    " clang_complete
     let g:clang_complete_auto = 0
     let g:clang_auto_select = 0
     "let g:clang_use_library = 1
@@ -1205,7 +1184,7 @@ function! s:bundle.hooks.on_source(bundle)
   " For ruby tdd
   call altr#define('%.rb', 'spec/%_spec.rb')
   " For ruby tdd
-  call altr#define('lib/%.rb', 'spec/lib/%_spec.rb')
+  call altr#define('lib/%.rb', 'spec/lib/%_spec.rb', 'spec/%_spec.rb')
   " For rails tdd
   call altr#define('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
   call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
@@ -1249,7 +1228,7 @@ function! RSpecSyntax()
   hi def link rubyRailsTestMethod             Function
   syn keyword rubyRailsTestMethod describe context it its specify shared_examples_for shared_examples shared_context it_should_behave_like it_behaves_like before after around subject fixtures controller_name helper_name include_context include_examples
   syn match rubyRailsTestMethod '\<let\>!\='
-  syn keyword rubyRailsTestMethod violated pending expect double mock mock_model stub_model
+  syn keyword rubyRailsTestMethod violated pending expect double mock mock_model stub_model an_instance_of hash_including
   syn match rubyRailsTestMethod '\.\@<!\<stub\>!\@!'
 endfunction
 MyAutocmd Syntax ruby if (expand("%") =~ "_spec\.rb$") || (expand("%") =~ "^spec.*\.rb$") | call RSpecSyntax() | endif
@@ -1277,9 +1256,6 @@ if &diff
   nmap <buffer> <leader>3 :diffget REMOTE<CR>
 endif
 
-" ctags
-nnoremap <leader>lt :set tags+=**/tags<CR>
-
 " TagBar
 nnoremap <silent> ,t :TagbarToggle<CR>
 let g:tagbar_left = 1
@@ -1288,6 +1264,8 @@ let g:tagbar_updateonsave_maxlines = 10000
 let g:tagbar_sort = 0
 
 " Tabular
+nnoremap <Leader>a, :Tabularize /,<CR>
+vnoremap <Leader>a, :Tabularize /,<CR>
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
 nnoremap <Leader>a> :Tabularize /=><CR>
@@ -1297,6 +1275,7 @@ vnoremap <Leader>a: :Tabularize /:\zs<CR>
 nnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
 vnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
 
+" テーブルっぽく打つと自動的に位置調整を行う
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
 function! s:align()
@@ -1332,10 +1311,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['haskell'] }
 
 " ft hamstache
-function! s:HamstacheSyntax()
-   let &filetype = "haml"
-endfunction
-MyAutocmd BufReadPost *.hamstache call s:HamstacheSyntax()
+MyAutocmd BufReadPost *.hamstache set filetype=haml
 
 " ag.vim
 let g:agprg="ag --nocolor --nogroup --column"
@@ -1444,6 +1420,10 @@ let g:markdown_quote_syntax_filetypes = {
         \},
   \}
 " }}}
+
+
+" to 1.9 hash
+vnoremap <silent> <C-h> :s/:\([a-z0-9_]\+\)\s*=>/\1:/g<CR>
 
 
 if filereadable(expand('~/.vimrc.local.after'))
