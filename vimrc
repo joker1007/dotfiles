@@ -298,7 +298,7 @@ map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\ 
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{exists('*SkkGetModeStr')?SkkGetModeStr():''}%=%l/%L,%c%V%8P\
 set noshowmode
 set wildmenu
 set cmdheight=2
@@ -440,11 +440,11 @@ command! -nargs=0 Wq wq
 
 " UTF8、SJIS(CP932)、EUCJPで開き直す {{{
 command! -bang -nargs=? Utf8
-	\ edit<bang> ++enc=utf-8 <args>
+\ edit<bang> ++enc=utf-8 <args>
 command! -bang -nargs=? Sjis
-	\ edit<bang> ++enc=cp932 <args>
+\ edit<bang> ++enc=cp932 <args>
 command! -bang -nargs=? Euc
-	\ edit<bang> ++enc=eucjp <args>
+\ edit<bang> ++enc=eucjp <args>
 " }}}
 
 " YAMLファイル用タブストップ設定
