@@ -376,7 +376,7 @@ if stridx($TERM, "xterm-256color") >= 0
   let g:solarized_termtrans = 1
   colorscheme solarized
 else
-  colorscheme solarized
+  colorscheme desert
 endif
 
 " 256色モード
