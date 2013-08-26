@@ -20,6 +20,14 @@ prev_word '^'
       ${2}
     end
 
+snippet concern
+abbr    module end
+prev_word '^'
+    module ${1:name}
+      extend ActiveSupport::Concern
+      ${2}
+    end
+
 snippet defi
 abbr    def initialize(...
 prev_word '^'
