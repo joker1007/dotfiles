@@ -99,6 +99,7 @@ NeoBundle 'vim-scripts/AnsiEsc.vim'
 
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-niceblock'
 NeoBundle 'nelstrom/vim-textobj-rubyblock'
 NeoBundle 'motemen/hatena-vim'
 NeoBundle 'kchmck/vim-coffee-script'
@@ -113,7 +114,7 @@ NeoBundle 'juvenn/mustache.vim'
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
-NeoBundle 'thinca/vim-poslist'
+NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'taku-o/vim-toggle'
@@ -125,6 +126,9 @@ NeoBundle 'eagletmt/ghcmod-vim'
 NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'dag/vim2hs'
 NeoBundle 'pbrisbin/html-template-syntax'
+NeoBundle 'rhysd/accelerated-jk'
+NeoBundle 'yonchu/accelerated-smooth-scroll'
+NeoBundle 'LeafCage/foldCC'
 
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'kana/vim-textobj-indent'
@@ -284,6 +288,7 @@ set expandtab
 set foldmethod=marker
 nmap <silent> ,fc :<C-U>%foldclose<CR>
 nmap <silent> ,fo :<C-U>%foldopen<CR>
+set foldtext=FoldCCtext()
 
 " 検索設定
 set incsearch
@@ -702,10 +707,9 @@ if has('gui_macvim') && has('kaoriya')
   endif
 endif
 
-" poslist
-nmap <C-O> <Plug>(poslist-prev-pos)
-nmap <C-I> <Plug>(poslist-next-pos)
-let g:poslist_histsize = 2000
+" vim-milfeulle
+nmap <C-O> <Plug>(milfeulle-prev)
+nmap <C-I> <Plug>(milfeulle-next)
 
 
 " Unite.vim {{{
@@ -818,13 +822,15 @@ unlet s:bundle
 " Fugitive {{{
 nnoremap [git] <Nop>
 nmap ,g [git]
-nnoremap [git]d :<C-u>Gdiff HEAD<Enter>
-nnoremap [git]s :<C-u>Gstatus<Enter>
-nnoremap [git]l :<C-u>Glog<Enter>
-nnoremap [git]a :<C-u>Gwrite<Enter>
-nnoremap [git]c :<C-u>Gcommit<Enter>
-nnoremap [git]C :<C-u>Git commit --amend<Enter>
-nnoremap [git]b :<C-u>Gblame<Enter>
+nnoremap [git]d :<C-u>Gdiff HEAD<CR>
+nnoremap [git]s :<C-u>Gstatus<CR>
+nnoremap [git]l :<C-u>Glog<CR>
+nnoremap [git]a :<C-u>Gwrite<CR>
+nnoremap [git]c :<C-u>Gcommit<CR>
+nnoremap [git]C :<C-u>Git commit --amend<CR>
+nnoremap [git]b :<C-u>Gblame<CR>
+nnoremap [git]n :<C-u>Git now<CR>
+nnoremap [git]N :<C-u>Git now --all<CR>
 
 " ftdetect is often failed
 MyAutocmd BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif
@@ -1142,6 +1148,7 @@ endif
 let g:ref_open = 'vsplit'
 let g:ref_refe_cmd = "rurema"
 let g:ref_refe_version = 2
+let g:ref_use_vimproc = 1
 
 let g:ref_source_webdict_sites = {
 \   'wikipedia:ja': 'http://ja.wikipedia.org/wiki/%s',
@@ -1153,9 +1160,10 @@ nmap ,rr :<C-U>Ref refe<Space>
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
+let g:indent_guides_auto_colors = 1
+let g:indent_guides_color_change_percent = 35
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 " }}}
 
 " submode.vim {{{
@@ -1297,6 +1305,13 @@ endfunction
 " gundo
 nnoremap U :<C-U>GundoToggle<CR>
 
+" qfreplace
+MyAutocmd FileType qf nnoremap <buffer> r :<C-U>Qfreplace<CR>
+
+" sudo.vim
+command! ES :e sudo:%
+command! WS :w sudo:%
+
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nnoremap gx <Plug>(openbrowser-smart-search)
@@ -1426,6 +1441,9 @@ let g:markdown_quote_syntax_filetypes = {
   \}
 " }}}
 
+" accelerated-smooth-scroll
+let g:ac_smooth_scroll_du_sleep_time_msec = 5
+let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 
 " to 1.9 hash
 vnoremap <silent> <C-h> :s/:\([a-z0-9_]\+\)\s*=>/\1:/g<CR>
