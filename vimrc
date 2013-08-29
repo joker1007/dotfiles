@@ -149,6 +149,7 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
+NeoBundle 'airblade/vim-gitgutter'
 
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'ujihisa/unite-gem'
@@ -396,10 +397,6 @@ endif
 " nnoremap ,m  :<C-u>marks<CR>
 nnoremap ,r  :<C-u>registers<CR>
 "---------------------------------------------------------}}}
-
-" vim-airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme = "wombat"
 
 " surround.vim {{{
 nmap ,( csw(
@@ -867,6 +864,24 @@ endfunction
 MyAutocmd FileType gitv call s:my_gitv_settings()
 
 " }}}
+
+" vim-gitgitter {{{
+let g:gitgutter_sign_added = '✚'
+let g:gitgutter_sign_modified = '➜'
+let g:gitgutter_sign_removed = '✘'
+let g:gitgutter_sign_modified_removed = '✔'
+"}}}
+
+" vim-airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline_theme = "wombat"
+let g:airline#extensions#hunks#hunk_symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+  \ ]
+" }}}
+
 
 " project.vim
 let g:proj_window_width = 48
