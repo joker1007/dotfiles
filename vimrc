@@ -222,6 +222,18 @@ NeoBundleLazy 'kana/vim-altr', {
 \   }
 \}
 
+NeoBundleLazy 'osyo-manga/vim-anzu', {
+\   'autoload' : {
+\       'mappings' : [
+          \'<Plug>(anzu-n-with-echo)',
+          \'<Plug>(anzu-N-with-echo)',
+          \'<Plug>(anzu-star-with-echo)',
+          \'<Plug>(anzu-sharp-with-echo)'
+\       ],
+\   }
+\}
+
+
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 " }}}
@@ -1416,6 +1428,13 @@ MyAutocmd BufReadPost *.hamstache set filetype=haml
 
 " ag.vim
 let g:agprg="ag --nocolor --nogroup --column"
+
+" vim-anzu {{{
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+"}}}
 
 " ruby buffer
 if has('ruby')
