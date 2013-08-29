@@ -893,8 +893,11 @@ let g:airline#extensions#hunks#hunk_symbols = [
         \ g:gitgutter_sign_removed . ' '
   \ ]
 
-let g:airline_section_y = "%{strlen(&fenc)>0?&fenc:''}%{strlen(&ff)>0?'['.&ff.']':''}"
-let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
+let s:bundle = neobundle#get('vim-airline')
+function! s:bundle.hooks.on_source(bundle)
+  let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
+endfunction
+unlet s:bundle
 " }}}
 
 " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim {{{
