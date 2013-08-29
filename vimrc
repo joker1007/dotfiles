@@ -117,7 +117,7 @@ NeoBundle 'kana/vim-submode'
 NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'taku-o/vim-toggle'
+NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'mattn/webapi-vim'
@@ -1252,34 +1252,30 @@ endfunction
 unlet s:bundle
 " }}}
 
-" toggle.vim {{{
-imap <silent><C-C> <Plug>ToggleI
-nmap <silent><C-C> <Plug>ToggleN
-vmap <silent><C-C> <Plug>ToggleV
+" switch.vim {{{
+let g:variable_style_switch_definitions = [
+      \   {
+      \     '\<[a-z0-9]\+_\k\+\>': {
+      \       '_\(.\)': '\U\1'
+      \     },
+      \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
+      \       '\([A-Z]\)': '_\l\1'
+      \     },
+      \   }
+      \ ]
 
-let g:toggle_pairs = {
-  \'and':'or',
-  \'or':'and',
-  \'if':'unless',
-  \'unless':'if',
-  \'elsif':'else',
-  \'else':'elsif',
-  \'it':'specify',
-  \'specify':'it',
-  \'describe':"context",
-  \'context':"describe",
-  \'true':'false',
-  \'false':'true',
-  \'yes':'no',
-  \'no':'yes',
-  \'on':'off',
-  \'off':'on',
-  \'public':'protected',
-  \'protected':'private',
-  \'private':'public',
-  \'&&':'||',
-  \'||':'&&'
-\}
+nnoremap <silent><C-c> :Switch<CR>
+nnoremap <silent>- :Switch<CR>
+nnoremap + :call switch#Switch(g:variable_style_switch_definitions)<cr>
+
+let g:switch_custom_definitions = [
+      \ ['and', 'or'],
+      \ ['it', 'specify'],
+      \ ['describe', 'context'],
+      \ ['yes', 'no'],
+      \ ['on', 'off'],
+      \ ['public', 'protected', 'private'],
+\ ]
 " }}}
 
 " RSpec syntax {{{
