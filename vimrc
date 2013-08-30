@@ -77,6 +77,9 @@ NeoBundle 'moro/vim-review'
 
 NeoBundle 'kana/vim-submode'
 
+NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
+
 " colorschemes plugin {{{
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'baskerville/bubblegum'
@@ -130,13 +133,6 @@ NeoBundle 'nono/vim-handlebars'
 NeoBundle 'juvenn/mustache.vim'
 " }}}
 
-" cursor move {{{
-NeoBundle 'osyo-manga/vim-milfeulle'
-NeoBundle 'thinca/vim-visualstar'
-NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'yonchu/accelerated-smooth-scroll'
-" }}}
-
 " visibility {{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'LeafCage/foldCC'
@@ -162,6 +158,29 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
+
+NeoBundleLazy 'sjl/gundo.vim', {
+\   'autoload' : {
+\       'commands' : [ "GundoShow", "GundoToggle" ]
+\   }
+\}
+
+NeoBundleLazy 'kana/vim-altr', {
+\   'autoload' : {
+\       'mappings' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
+\   }
+\}
+
+NeoBundleLazy 'osyo-manga/vim-anzu', {
+\   'autoload' : {
+\       'mappings' : [
+          \'<Plug>(anzu-n-with-echo)',
+          \'<Plug>(anzu-N-with-echo)',
+          \'<Plug>(anzu-star-with-echo)',
+          \'<Plug>(anzu-sharp-with-echo)'
+\       ],
+\   }
+\}
 " }}}
 
 " tweetvim {{{
@@ -175,6 +194,12 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 \   }
 \}
 " }}}
+
+" cursor move {{{
+NeoBundle 'osyo-manga/vim-milfeulle'
+NeoBundle 'thinca/vim-visualstar'
+NeoBundle 'rhysd/accelerated-jk'
+NeoBundle 'yonchu/accelerated-smooth-scroll'
 
 NeoBundleLazy 'Lokaltog/vim-easymotion', {
 \   'autoload' : {
@@ -195,6 +220,7 @@ NeoBundleLazy 'Lokaltog/vim-easymotion', {
 \       ],
 \   }
 \}
+" }}}
 
 " git {{{
 NeoBundle 'tpope/vim-fugitive'
@@ -267,33 +293,6 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ }}
 
 " }}}
-
-NeoBundleLazy 'sjl/gundo.vim', {
-\   'autoload' : {
-\       'commands' : [ "GundoShow", "GundoToggle" ]
-\   }
-\}
-
-NeoBundleLazy 'kana/vim-altr', {
-\   'autoload' : {
-\       'mappings' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
-\   }
-\}
-
-NeoBundleLazy 'osyo-manga/vim-anzu', {
-\   'autoload' : {
-\       'mappings' : [
-          \'<Plug>(anzu-n-with-echo)',
-          \'<Plug>(anzu-N-with-echo)',
-          \'<Plug>(anzu-star-with-echo)',
-          \'<Plug>(anzu-sharp-with-echo)'
-\       ],
-\   }
-\}
-
-
-NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
 " }}}
 
 
