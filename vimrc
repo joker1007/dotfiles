@@ -140,10 +140,20 @@ NeoBundle 'bling/vim-airline'
 " }}}
 
 " haskell develop {{{
-NeoBundle 'eagletmt/ghcmod-vim'
-NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'dag/vim2hs'
 NeoBundle 'pbrisbin/html-template-syntax'
+
+NeoBundleLazy 'eagletmt/ghcmod-vim', {
+\   'autoload' : {
+\       'filetypes' : [ "haskell" ]
+\   }
+\}
+
+NeoBundleLazy 'ujihisa/neco-ghc', {
+\   'autoload' : {
+\       'filetypes' : [ "haskell" ]
+\   }
+\}
 " }}}
 
 " web browse, api {{{
@@ -155,9 +165,15 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rking/ag.vim'
-NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
+
+NeoBundleLazy 'AndrewRadev/switch.vim', {
+\   'autoload' : {
+\       'commands' : [ "Switch" ],
+\       'functions' : [ "switch#Switch" ],
+\   }
+\}
 
 NeoBundleLazy 'sjl/gundo.vim', {
 \   'autoload' : {
@@ -993,9 +1009,6 @@ function! GetCharCode()
   return "'". char ."' ". nr
 endfunction
 " }}}
-
-" project.vim
-let g:proj_window_width = 48
 
 " vimfiler {{{
 nnoremap <silent> ,vf :<C-U>VimFiler<CR>
