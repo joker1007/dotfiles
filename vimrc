@@ -1330,10 +1330,10 @@ nmap ,rr :<C-U>Ref refe<Space>
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 1
+let g:indent_guides_auto_colors = 0
 let g:indent_guides_color_change_percent = 35
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 " }}}
 
 " submode.vim {{{
