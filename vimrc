@@ -70,7 +70,14 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'tyru/skkdict.vim'
 
-" colorschemes
+NeoBundle 'scrooloose/nerdcommenter'
+
+NeoBundle 'motemen/hatena-vim'
+NeoBundle 'moro/vim-review'
+
+NeoBundle 'kana/vim-submode'
+
+" colorschemes plugin {{{
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'baskerville/bubblegum'
 NeoBundle 'nanotech/jellybeans.vim'
@@ -78,17 +85,24 @@ NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'vim-scripts/twilight'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'jpo/vim-railscasts-theme'
+" }}}
 
+" ruby rails develop {{{
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
+" }}}
 
+" ref {{{
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'taka84u9/vim-ref-ri'
 NeoBundle 'ujihisa/ref-hoogle'
+" }}}
 
+" vim-scripts {{{
 NeoBundle 'vim-scripts/surround.vim'
 NeoBundle 'vim-scripts/L9'
 NeoBundle 'vim-scripts/YankRing.vim'
@@ -96,47 +110,61 @@ NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
+"}}}
 
+" smartchr textobj {{{
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-niceblock'
 NeoBundle 'nelstrom/vim-textobj-rubyblock'
-NeoBundle 'motemen/hatena-vim'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
+NeoBundle 'kana/vim-textobj-indent'
+" }}}
 
+
+" html template {{{
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'tpope/vim-haml'
 NeoBundle 'nono/vim-handlebars'
 NeoBundle 'juvenn/mustache.vim'
+" }}}
 
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'kana/vim-submode'
+" cursor move {{{
 NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'AndrewRadev/switch.vim'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'mattn/webapi-vim'
+NeoBundle 'rhysd/accelerated-jk'
+NeoBundle 'yonchu/accelerated-smooth-scroll'
+" }}}
 
+" visibility {{{
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'LeafCage/foldCC'
+NeoBundle 'bling/vim-airline'
+" }}}
+
+" haskell develop {{{
 NeoBundle 'eagletmt/ghcmod-vim'
 NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'dag/vim2hs'
 NeoBundle 'pbrisbin/html-template-syntax'
-NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'yonchu/accelerated-smooth-scroll'
-NeoBundle 'LeafCage/foldCC'
+" }}}
 
+" web browse, api {{{
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'mattn/webapi-vim'
+" }}}
+
+" other programinng {{{
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rking/ag.vim'
-NeoBundle 'moro/vim-review'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'AndrewRadev/switch.vim'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'thinca/vim-qfreplace'
+" }}}
+
+" tweetvim {{{
 NeoBundle 'basyura/bitly.vim'
 NeoBundle 'mattn/favstar-vim'
 NeoBundleLazy 'basyura/twibill.vim'
@@ -146,11 +174,41 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 \       'commands' : [ "TweetVimHomeTimeline", "TweetVimSay", "TweetVimUserStream", "TweetVimUserTimeline" ]
 \   }
 \}
+" }}}
 
+NeoBundleLazy 'Lokaltog/vim-easymotion', {
+\   'autoload' : {
+\       'mappings' : [
+          \'\\w',
+          \'\\t',
+          \'\\n',
+          \'\\k',
+          \'\\j',
+          \'\\f',
+          \'\\e',
+          \'\\b',
+          \'\\W',
+          \'\\T',
+          \'\\N',
+          \'\\F',
+          \'\\B'
+\       ],
+\   }
+\}
+
+" git {{{
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'airblade/vim-gitgutter'
 
+NeoBundleLazy 'mattn/gist-vim', {
+\   'autoload' : {
+\       'commands' : [ "Gist" ]
+\   }
+\}
+" }}}
+
+" unite {{{
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'ujihisa/unite-gem'
 NeoBundle 'thinca/vim-unite-history'
@@ -164,7 +222,9 @@ NeoBundleLazy 'Shougo/unite.vim', {
 \       'commands' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
 \   }
 \}
+" }}}
 
+" neocon {{{
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundle 'Rip-Rip/clang_complete'
 
@@ -184,7 +244,9 @@ else
   \   }
   \}
 endif
+" }}}
 
+" vimshell, vimfiler {{{
 NeoBundleLazy 'Shougo/vimfiler', {
 \   'depends' : ["Shougo/unite.vim"],
 \   'autoload' : {
@@ -204,11 +266,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'mappings' : ['<Plug>(vimshell_switch)']
       \ }}
 
-NeoBundleLazy 'mattn/gist-vim', {
-\   'autoload' : {
-\       'commands' : [ "Gist" ]
-\   }
-\}
+" }}}
 
 NeoBundleLazy 'sjl/gundo.vim', {
 \   'autoload' : {
