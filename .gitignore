@@ -3,6 +3,7 @@
 .vim/.VimballRecord
 .vim/backup/*
 vim/backup/*
+vim/undo/*
 vim/.VimballRecord
 vimperator/info
 vim/.netrwhist

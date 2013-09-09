@@ -438,6 +438,12 @@ set title
 " 対応括弧を表示
 set showmatch
 
+" undo
+if has('persistent_undo')
+  set undodir=~/.vim/undo
+  set undofile
+endif
+
 " 自動折り返しを日本語に対応させるスクリプト用の設定
 set formatoptions+=mM
 
