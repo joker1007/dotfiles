@@ -354,9 +354,21 @@ xmap     <Space> [space]
 
 " Edit vimrc
 nmap [space]v :edit $MYVIMRC<CR>
-nmap [space]rv :source $MYVIMRC<CR>
 nmap [space]g :edit $MYGVIMRC<CR>
-nmap [space]rg :source $MYGVIMRC<CR>
+
+" Reload vimrc"{{{
+if has('vim_starting')
+  function! ReloadVimrc()
+    source $MYVIMRC
+    if has('gui_running')
+      source $MYGVIMRC
+    endif
+
+  echo "Reload vimrc"
+  endfunction
+endif
+nmap <expr> [space]rv ReloadVimrc()
+"}}}
 
 nnoremap <C-H> :<C-U>help<Space>
 
@@ -372,6 +384,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=0
 set expandtab
+set smarttab
 
 " 折り畳み設定
 set foldmethod=marker
