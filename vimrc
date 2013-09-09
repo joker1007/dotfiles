@@ -612,7 +612,10 @@ MyAutocmd BufWritePost * call s:ChangeShellScriptPermission()
 " }}}
 
 " QFixHowm用設定======================================================{{{
-set runtimepath+=~/qfixapp
+
+if has('vim_starting')
+  set runtimepath+=~/qfixapp
+endif
 
 " ファイル拡張子をmkdにする
 let howm_filename = '%Y-%m-%d-%H%M%S.mkd'
