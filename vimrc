@@ -619,6 +619,9 @@ MyAutocmd FileType coffee call s:EnableSmartchrCoffeeFunction()
 
 " hatena.vim
 let g:hatena_user = 'joker1007'
+let g:hatena_upload_on_write = 0
+let g:hatena_upload_on_write_bang = 1
+let g:hatena_entry_file = '~/Dropbox/hateda.txt'
 
 " shファイルの保存時にはファイルのパーミッションを755にする {{{
 function! s:ChangeShellScriptPermission()
