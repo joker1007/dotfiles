@@ -13,20 +13,23 @@ set guioptions=egimrLta
 "---------------------------------------------------------------------------
 " フォント設定:
 "
-if has('win32')
-  " Windows用
-  set guifont=M+2VM+IPAG_circle:h11,KonatuTohaba:h12,MS_Gothic:h12:cSHIFTJIS
-  "set guifont=MS_Mincho:h12:cSHIFTJIS
-  " 行間隔の設定
-  set linespace=1
-  " 一部のUCS文字の幅を自動計測して決める
-  if has('kaoriya')
-    set ambiwidth=auto
+
+if &guifont == ""
+  if has('win32')
+    " Windows用
+    set guifont=M+2VM+IPAG_circle:h11,KonatuTohaba:h12,MS_Gothic:h12:cSHIFTJIS
+    "set guifont=MS_Mincho:h12:cSHIFTJIS
+    " 行間隔の設定
+    set linespace=1
+    " 一部のUCS文字の幅を自動計測して決める
+    if has('kaoriya')
+      set ambiwidth=auto
+    endif
+  elseif has('mac')
+    set guifont=Ricty:h14
+  else
+    set guifont=M+1VM+IPAG\ circle\ 10
   endif
-elseif has('mac')
-  set guifont=Inconsolata:h14
-else
-  set guifont=M+1VM+IPAG\ circle\ 10
 endif
 
 

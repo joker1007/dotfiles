@@ -354,7 +354,9 @@ xmap     <Space> [space]
 
 " Edit vimrc
 nmap [space]v :edit $MYVIMRC<CR>
+nmap [space]rv :source $MYVIMRC<CR>
 nmap [space]g :edit $MYGVIMRC<CR>
+nmap [space]rg :source $MYGVIMRC<CR>
 
 nnoremap <C-H> :<C-U>help<Space>
 
