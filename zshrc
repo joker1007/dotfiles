@@ -150,6 +150,7 @@ alias gco='git commit'
 alias gpu='git push'
 alias be='bundle exec'
 alias bz='bundle exec zeus'
+alias sp='spring'
 
 
 # Global aliases
@@ -337,3 +338,6 @@ alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions
 [ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
 
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/home/joker/.gvm/bin/gvm-init.sh" ]] && source "/home/joker/.gvm/bin/gvm-init.sh"
