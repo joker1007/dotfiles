@@ -72,6 +72,12 @@ NeoBundle 'tyru/skkdict.vim'
 
 NeoBundle 'scrooloose/nerdcommenter'
 
+NeoBundleLazy 'thinca/vim-prettyprint', {
+\   'autoload' : {
+\       'commands' : [ "PrettyPrint", "PP" ]
+\   }
+\}
+
 NeoBundle 'motemen/hatena-vim'
 NeoBundle 'moro/vim-review'
 
