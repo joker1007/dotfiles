@@ -80,6 +80,8 @@ NeoBundle 'kana/vim-submode'
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 
+NeoBundle 'jelera/vim-javascript-syntax'
+
 " colorschemes plugin {{{
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'baskerville/bubblegum'
@@ -269,6 +271,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " neocon {{{
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundle 'Rip-Rip/clang_complete'
+NeoBundle 'teramako/jscomplete-vim'
 
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete', {
@@ -1147,9 +1150,10 @@ unlet s:bundle
 " neocomplcache or neocomplete {{{
 
 " Enable omni completion.
+let g:jscomplete_use = ['dom', 'moz', 'es6th']
 MyAutocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
 MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-MyAutocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+MyAutocmd FileType javascript setlocal omnifunc=jscomplete#CompleteJS
 MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
@@ -1243,6 +1247,10 @@ if has('lua')
     let g:clang_complete_auto = 0
     let g:clang_auto_select = 0
     "let g:clang_use_library = 1
+
+    " jscomplete
+    let g:neocomplete#sources#omni#functions.javascript =
+    \ 'jscomplete#CompleteJS'
   endfunction
   unlet s:bundle
 else
