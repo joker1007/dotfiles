@@ -1249,6 +1249,9 @@ if has('lua')
     "let g:clang_use_library = 1
 
     " jscomplete
+    if !exists('g:neocomplete#sources#omni#functions')
+      let g:neocomplete#sources#omni#functions = {}
+    endif
     let g:neocomplete#sources#omni#functions.javascript =
     \ 'jscomplete#CompleteJS'
   endfunction
