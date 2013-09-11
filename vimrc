@@ -205,6 +205,12 @@ NeoBundleLazy 'osyo-manga/vim-anzu', {
 \       ],
 \   }
 \}
+
+NeoBundleLazy "osyo-manga/vim-gyazo", {
+\   'autoload' : {
+\       'commands' : [ "GyazoPost", "GyazoOpenBrowser", "GyazoTweetVim", "GyazoOpenBrowserCurrentWindow", "GyazoTweetVimCurrentWindow" ]
+\   }
+\}
 " }}}
 
 " tweetvim {{{
@@ -264,6 +270,7 @@ NeoBundle 'ujihisa/unite-gem'
 NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'eagletmt/unite-haddock'
+NeoBundle 'ujihisa/unite-haskellimport'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'rhysd/unite-ruby-require.vim'
 
