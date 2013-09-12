@@ -369,8 +369,11 @@ nmap     <Space> [space]
 xmap     <Space> [space]
 
 " Edit vimrc
-nmap [space]v :edit $MYVIMRC<CR>
-nmap [space]g :edit $MYGVIMRC<CR>
+nnoremap [space]v :<C-U>edit $MYVIMRC<CR>
+
+if has('gui_running')
+  nnoremap [space]g :<C-U>edit $MYGVIMRC<CR>
+endif
 
 " Reload vimrc"{{{
 if has('vim_starting')
@@ -380,7 +383,7 @@ if has('vim_starting')
       source $MYGVIMRC
     endif
 
-  echo "Reload vimrc"
+  echom "Reload vimrc"
   endfunction
 endif
 nmap <expr> [space]rv ReloadVimrc()
@@ -430,10 +433,14 @@ set showcmd
 
 " tabline
 set showtabline=2
+command! -nargs=+ -complete=file Te tabedit <args>
+command! -nargs=* -complete=file Tn tabnew <args>
 nnoremap <silent> <S-Right> :<C-U>tabnext<CR>
 nnoremap <silent> <S-Left> :<C-U>tabprevious<CR>
-nnoremap L :<C-U>tabnext<CR>
-nnoremap H :<C-U>tabprevious<CR>
+nnoremap <silent> L :<C-U>tabnext<CR>
+nnoremap <silent> H :<C-U>tabprevious<CR>
+nnoremap [tab]+     :<C-U>tabmove +1<CR>
+nnoremap [tab]-     :<C-U>tabmove -1<CR>
 
 " completion
 set complete=.,w,b,u,t,i,d,k
@@ -580,8 +587,8 @@ MyAutocmd BufNewFile,BufRead *.as set filetype=actionscript
 MyAutocmd BufNewFile,BufRead *.mxml set filetype=mxml
 
 " バッファ切り替え {{{
-nmap [space]n :<C-U>bnext<CR>
-nmap [space]p :<C-U>bprevious<CR>
+nnoremap [space]n :<C-U>bnext<CR>
+nnoremap [space]p :<C-U>bprevious<CR>
 nnoremap <Leader>1   :e #1<CR>
 nnoremap <Leader>2   :e #2<CR>
 nnoremap <Leader>3   :e #3<CR>
@@ -1407,6 +1414,12 @@ call submode#map('window/manip', 'n', '', 'j', '<C-W>j')
 call submode#map('window/manip', 'n', '', 'k', '<C-W>k')
 call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
 call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
+
+call submode#enter_with('tab/move', 'n', '', '<Leader>t')
+call submode#map('tab/move', 'n', 'r', 'h', 'H')
+call submode#map('tab/move', 'n', 'r', 'l', 'L')
+call submode#map('tab/move', 'n', 'r', '+', '[tab]+')
+call submode#map('tab/move', 'n', 'r', '-', '[tab]-')
 " }}}
 
 " vim-altr {{{
