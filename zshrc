@@ -68,13 +68,13 @@ setopt auto_param_slash
 setopt auto_remove_slash
 
 # ディレクトリの絶対パスがセットされた変数は、そのディレクトリの名前として扱う。
-setopt auto_name_dirs 
+setopt auto_name_dirs
 
 # history
 setopt extended_history hist_ignore_dups hist_ignore_space share_history inc_append_history
 
 # =command を command のパス名に展開する
-setopt equals 
+setopt equals
 
 # ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
 # setopt extended_glob
@@ -92,7 +92,7 @@ setopt magic_equal_subst
 setopt no_beep
 
 # 内部コマンド jobs の出力をデフォルトで jobs -l にする
-setopt long_list_jobs 
+setopt long_list_jobs
 
 # 補完候補表示後、元のプロンプトに戻る
 setopt always_last_prompt
@@ -109,7 +109,6 @@ setopt auto_pushd
 setopt auto_menu
 
 # Alias and functions
-alias copy='cp -ip' del='rm -i' move='mv -i'
 alias fullreset='echo "\ec\ec"'
 h () 		{history $* | less}
 alias ls='ls -F' la='ls -a' ll='ls -la'
@@ -135,34 +134,38 @@ linux*)
   alias ls='ls -F --color=auto'
   ;;
 esac
-#alias dir='dir --color=auto'
-#alias vdir='vdir --color=auto'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias ra='rails'
+alias ralis='rails'
 alias s='screen -xR'
 alias g='git'
-alias gst='git status'
-alias gco='git commit'
-alias gpu='git push'
+alias st='git status -sb'
+alias ad='git add'
+alias d='git diff'
+alias dc='git diff --cached'
+alias l='git lgraph'
+alias rb='git rebase'
+alias rbi='git rebase -i'
+alias psh='git psh'
+alias gst='git status -sb'
+alias co='git checkout'
+alias ci='git commit'
 alias be='bundle exec'
 alias bz='bundle exec zeus'
 alias sp='spring'
-
 
 # Global aliases
 alias -g L="| lv"
 alias -g LE="| less"
 alias -g G="| grep"
-
-
-# Suffix aliases(起動コマンドは環境によって変更する)
-#alias -s pdf=acroread dvi=xdvi 
-#alias -s {odt,ods,odp,doc,xls,ppt}=soffice
-#alias -s {tgz,lzh,zip,arc}=file-roller
+alias -g C="| cut"
+alias -g S="| sort"
+alias -g RP="RAILS_ENV=production"
+alias -g RT="RAILS_ENV=TEST"
 
 
 # 補完システムを利用: 補完の挙動が分かりやすくなる2つの設定のみ記述
@@ -305,9 +308,6 @@ zstyle ':completion:*' completer _oldlist _complete _match _ignored _history
 zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((??)##)"
 zstyle ':auto-fu:highlight' completion bold,underline
 
-# RSense
-export RSENSE_HOME=$HOME/dotfiles/rsense
-
 # hub
 if type hub > /dev/null 2>&1; then
   function git() {
@@ -322,13 +322,6 @@ function grbi() {
   else
     echo "Using: grbi n\n  (n is number greater then 0)"
   fi
-}
-
-# zeus restart
-function rezeus() {
-    \rm .zeus.sock || true
-    ps -ef | grep zeus | awk ' { print $2 } ' | xargs kill || true
-    bundle exec zeus start
 }
 
 # ctags for Ruby
