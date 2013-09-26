@@ -86,7 +86,7 @@ cmap <M-c> <C-v><M-c>
 cmap <M-v> <C-v><M-v>
 
 " C-r でブラウザ再起動
-map <C-r> :restart<CR>
+nnoremap <C-r> :<C-U>restart<CR>
 
 " 上のディレクトリに移動
 "map <BS> gu
@@ -96,7 +96,7 @@ map <C-BS> gU
 map <BS> <A-Left>
 
 " 読み込み停止
-map ,s :stop<cr>
+nnoremap ,s :<C-U>stop<cr>
 
 " j/k でのスクロール幅を1行から3行に変更
 noremap j 5j
@@ -110,21 +110,21 @@ map J <C-d>
 map K <C-u>
 
 " タブ移動
-map h <C-p>
-map l <C-n>
-map <C-k> <C-p>
-map <C-j> <C-n>
-map <Left>  <C-p>
-map <Right> <C-n>
+nnoremap h <C-p>
+nnoremap l <C-n>
+nnoremap <C-k> <C-p>
+nnoremap <C-j> <C-n>
+nnoremap <Left>  <C-p>
+nnoremap <Right> <C-n>
 
 " タブ順序変更
 "map <C-h> :tabmove! -1<CR>
 "map <C-l> :tabmove! +1<CR>
-map <S-Right> :tabmove! +1<CR>
-map <S-Left>  :tabmove! -1<CR>
+nnoremap <S-Right> :<C-U>tabmove! +1<CR>
+nnoremap <S-Left>  :<C-U>tabmove! -1<CR>
 
 " buffer
-map . :buffer<Space>
+nnoremap . :buffer<Space>
 
 
 " URL中の数字を++/--
@@ -132,17 +132,13 @@ noremap ++ <C-a>
 noremap -- <C-x>
 
 " ! でページのCSSをon/off
-map ! :set invum<CR>
+" nnoremap ! :set invum<CR>
 
 " ex modeでC-jを無効化
 cmap <C-j> <Nop>
 
-" Delicious Bookmark Sidebar
-map ,d :sidebar Delicious<cr>
-
 " あとで読む
-map ,l :open atode<CR>
-map ,i :open instlet<CR>
+nnoremap ,i :<C-U>open instlet<CR>
 
 " irvine hint mode
 javascript <<EOM
@@ -198,17 +194,17 @@ let g:twittperator_plugin_reply_popup_alert = 1
 let g:twittperator_screen_name = "joker1007"
 
 " multi_requester.js
-map ,rt :mr<Space>twitter-search-pcod-no-jp<Space>
-map ,rT :mr<Space>twitter-search-pcod-no-jp<Space>["joker1007"]<CR>
-map ,rf :mr<Space>favotter-new<Space>
-map ,rF :mr<Space>favotter-new<Space>["joker1007"]<CR>
+nnoremap ,rt :mr<Space>twitter-search-pcod-no-jp<Space>
+nnoremap ,rT :mr<Space>twitter-search-pcod-no-jp<Space>["joker1007"]<CR>
+nnoremap ,rf :mr<Space>favotter-new<Space>
+nnoremap ,rF :mr<Space>favotter-new<Space>["joker1007"]<CR>
 
 " copy.js
-map cs :copy<Space>
-map cc <esc>:copy<cr>
-map cu <esc>:copy %URL%<cr>
-map ct <esc>:copy %TITLE%<cr>
-map cb <esc>:copy %TITLE% - %URL%<cr>
+nnoremap cs :copy<Space>
+nnoremap cc <esc>:copy<cr>
+nnoremap cu <esc>:copy %URL%<cr>
+nnoremap ct <esc>:copy %TITLE%<cr>
+nnoremap cb <esc>:copy %TITLE% - %URL%<cr>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE% %URL%' },
