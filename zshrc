@@ -165,7 +165,7 @@ alias -g G="| grep"
 alias -g C="| cut"
 alias -g S="| sort"
 alias -g RP="RAILS_ENV=production"
-alias -g RT="RAILS_ENV=TEST"
+alias -g RT="RAILS_ENV=test"
 
 
 # 補完システムを利用: 補完の挙動が分かりやすくなる2つの設定のみ記述
