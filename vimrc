@@ -175,6 +175,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
+NeoBundle 'derekwyatt/vim-scala'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -273,6 +274,7 @@ NeoBundle 'eagletmt/unite-haddock'
 NeoBundle 'ujihisa/unite-haskellimport'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'rhysd/unite-ruby-require.vim'
+NeoBundle 'basyura/unite-yarm'
 
 NeoBundleLazy 'Shougo/unite.vim', {
 \   'autoload' : {
