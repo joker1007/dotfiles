@@ -176,6 +176,7 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
