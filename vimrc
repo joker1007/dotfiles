@@ -177,6 +177,9 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
+NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'Shougo/vimproc'}
+NeoBundle 'joker1007/quickrun-rspec-growl-outputter', {'depends' : 'Shougo/vimproc'}
+NeoBundle 'osyo-manga/shabadou.vim'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -733,48 +736,74 @@ MyAutocmd FileType quickrun AnsiEsc
 " ヤンクを取りやすいようにconcealcursorを無効にする。
 MyAutocmd FileType quickrun setlocal concealcursor=""
 
+call quickrun#module#register(shabadou#make_quickrun_hook_anim(
+      \"now_running",
+      \['--- Now Running ---', ],
+      \12,
+      \), 1)
+
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
-let g:quickrun_config._ = {'runner' : 'vimproc'}
+let g:quickrun_config._ = {
+      \'runner' : 'vimproc',
+      \'outputter/buffer/split' : ':botright 8sp',
+      \'runner/vimproc/updatetime' : 40,
+      \'hook/now_running/enable' : 1,
+      \}
+
 let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
-  \ 'outputter/buffer/split': 'botright',
+  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter/error': 'buffer',
+  \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'bundle exec %c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
-  \ 'outputter/buffer/split': 'botright',
+  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter/error': 'buffer',
+  \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': '%c %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
-  \ 'outputter/buffer/split': 'botright',
+  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter/error': 'buffer',
+  \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'zeus test %o --color --tty %s'
   \}
 let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
   \ 'command': 'rspec',
-  \ 'outputter/buffer/split': 'botright',
+  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter/error': 'buffer',
+  \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'spring rspec %o --color --tty %s'
   \}
 let g:quickrun_config['cucumber/bundle'] = {
-  \ 'type': 'cucumber/zeus',
+  \ 'type': 'cucumber/bundle',
   \ 'command': 'cucumber',
+  \ 'outputter': 'error',
+  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec %c %o --color %s'
   \}
 let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
+  \ 'outputter': 'error',
+  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'zeus cucumber %o --color %s'
   \}
 let g:quickrun_config['cucumber/spring'] = {
   \ 'type': 'cucumber/spring',
   \ 'command': 'cucumber',
+  \ 'outputter': 'error',
+  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'spring cucumber %o --color %s'
   \}
