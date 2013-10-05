@@ -413,8 +413,8 @@ set smarttab
 
 " 折り畳み設定
 set foldmethod=marker
-nmap <silent> ,fc :<C-U>%foldclose<CR>
-nmap <silent> ,fo :<C-U>%foldopen<CR>
+nnoremap <silent> ,fc :<C-U>%foldclose<CR>
+nnoremap <silent> ,fo :<C-U>%foldopen<CR>
 set foldtext=FoldCCtext()
 
 " 検索設定
