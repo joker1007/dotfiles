@@ -177,9 +177,12 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
-NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'Shougo/vimproc'}
-NeoBundle 'joker1007/quickrun-rspec-growl-outputter', {'depends' : 'Shougo/vimproc'}
+if has('mac')
+  NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'Shougo/vimproc'}
+endif
 NeoBundle 'osyo-manga/shabadou.vim'
+NeoBundle 'joker1007/quickrun-rspec-notifier'
+NeoBundle 'superbrothers/vim-quickrun-markdown-gfm'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -754,7 +757,7 @@ let g:quickrun_config._ = {
 let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter': 'multi:error:rspec_notifier',
   \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'bundle exec %c %o --color --tty %s'
@@ -762,7 +765,7 @@ let g:quickrun_config['rspec/bundle'] = {
 let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter': 'multi:error:rspec_notifier',
   \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': '%c %o --color --tty %s'
@@ -770,7 +773,7 @@ let g:quickrun_config['rspec/normal'] = {
 let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter': 'multi:error:rspec_notifier',
   \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'zeus test %o --color --tty %s'
@@ -778,7 +781,7 @@ let g:quickrun_config['rspec/zeus'] = {
 let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
   \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_growl_notifier',
+  \ 'outputter': 'multi:error:rspec_notifier',
   \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'spring rspec %o --color --tty %s'
@@ -807,6 +810,11 @@ let g:quickrun_config['cucumber/spring'] = {
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'spring cucumber %o --color %s'
   \}
+
+let g:quickrun_config['markdown'] = {
+ \ 'type': 'markdown/gfm',
+ \ 'outputter': 'browser'
+ \}
 
 function! s:RSpecQuickrun()
   if exists('g:use_spring_rspec') && g:use_spring_rspec == 1
