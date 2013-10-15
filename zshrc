@@ -325,6 +325,13 @@ function grbi() {
   fi
 }
 
+function json_post() {
+  url=$1
+  method=$2
+  json=$3
+  curl -v -H "Accept: application/json" -H "Content-type: application/json" -X ${method} -d ${json} ${url}
+}
+
 # ctags for Ruby
 alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
 
