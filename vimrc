@@ -183,6 +183,8 @@ endif
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'joker1007/quickrun-rspec-notifier'
 NeoBundle 'superbrothers/vim-quickrun-markdown-gfm'
+NeoBundle 'kana/vim-metarw'
+NeoBundle 'joker1007/vim-metarw-qiita'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -742,7 +744,7 @@ MyAutocmd FileType quickrun setlocal concealcursor=""
 call quickrun#module#register(shabadou#make_quickrun_hook_anim(
       \"now_running",
       \['--- Now Running ---', ],
-      \12,
+      \40,
       \), 1)
 
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
@@ -750,6 +752,7 @@ let g:quickrun_config = {}
 let g:quickrun_config._ = {
       \'runner' : 'vimproc',
       \'outputter/buffer/split' : ':botright 8sp',
+      \'outputter/error': 'buffer',
       \'runner/vimproc/updatetime' : 40,
       \'hook/now_running/enable' : 1,
       \}
@@ -758,7 +761,6 @@ let g:quickrun_config['rspec/bundle'] = {
   \ 'type': 'rspec/bundle',
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'bundle exec %c %o --color --tty %s'
   \}
@@ -766,7 +768,6 @@ let g:quickrun_config['rspec/normal'] = {
   \ 'type': 'rspec/normal',
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': '%c %o --color --tty %s'
   \}
@@ -774,7 +775,6 @@ let g:quickrun_config['rspec/zeus'] = {
   \ 'type': 'rspec/zeus',
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'zeus test %o --color --tty %s'
   \}
@@ -782,7 +782,6 @@ let g:quickrun_config['rspec/spring'] = {
   \ 'type': 'rspec/spring',
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': ':botright 8sp',
   \ 'exec': 'spring rspec %o --color --tty %s'
   \}
@@ -790,7 +789,6 @@ let g:quickrun_config['cucumber/bundle'] = {
   \ 'type': 'cucumber/bundle',
   \ 'command': 'cucumber',
   \ 'outputter': 'error',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'bundle exec %c %o --color %s'
   \}
@@ -798,7 +796,6 @@ let g:quickrun_config['cucumber/zeus'] = {
   \ 'type': 'cucumber/zeus',
   \ 'command': 'cucumber',
   \ 'outputter': 'error',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'zeus cucumber %o --color %s'
   \}
@@ -806,7 +803,6 @@ let g:quickrun_config['cucumber/spring'] = {
   \ 'type': 'cucumber/spring',
   \ 'command': 'cucumber',
   \ 'outputter': 'error',
-  \ 'outputter/error': 'buffer',
   \ 'outputter/buffer/split': 'botright',
   \ 'exec': 'spring cucumber %o --color %s'
   \}
@@ -1722,8 +1718,9 @@ let g:markdown_quote_syntax_filetypes = {
 let g:ac_smooth_scroll_du_sleep_time_msec = 5
 let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 
-" to 1.9 hash
-vnoremap <silent> <C-h> :s/:\([a-z0-9_]\+\)\s*=>/\1:/g<CR>
+" vim-metarw-qiita
+let g:qiita_user = "joker1007"
+let g:qiita_per_page = 50
 
 
 if filereadable(expand('~/.vimrc.local.after'))
