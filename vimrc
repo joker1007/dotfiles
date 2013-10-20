@@ -185,6 +185,9 @@ NeoBundle 'joker1007/quickrun-rspec-notifier'
 NeoBundle 'superbrothers/vim-quickrun-markdown-gfm'
 NeoBundle 'kana/vim-metarw'
 NeoBundle 'joker1007/vim-metarw-qiita'
+NeoBundle 'joker1007/vim-metarw-github-issues'
+NeoBundle 'lilydjwg/colorizer'
+NeoBundle 'pasela/unite-webcolorname'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -1721,6 +1724,9 @@ let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 " vim-metarw-qiita
 let g:qiita_user = "joker1007"
 let g:qiita_per_page = 50
+
+" vim-metarw-github-issues
+let g:github_user = "joker1007"
 
 
 if filereadable(expand('~/.vimrc.local.after'))
