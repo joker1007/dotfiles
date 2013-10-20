@@ -760,55 +760,60 @@ let g:quickrun_config._ = {
       \'hook/now_running/enable' : 1,
       \}
 
-let g:quickrun_config['rspec/bundle'] = {
-  \ 'type': 'rspec/bundle',
+let s:rspec_quickrun_config = {
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
   \ 'outputter/buffer/split': ':botright 8sp',
-  \ 'exec': 'bundle exec %c %o --color --tty %s'
+  \ 'hook/close_buffer/enable_success' : 1,
   \}
-let g:quickrun_config['rspec/normal'] = {
-  \ 'type': 'rspec/normal',
-  \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/buffer/split': ':botright 8sp',
-  \ 'exec': '%c %o --color --tty %s'
-  \}
-let g:quickrun_config['rspec/zeus'] = {
-  \ 'type': 'rspec/zeus',
-  \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/buffer/split': ':botright 8sp',
-  \ 'exec': 'zeus test %o --color --tty %s'
-  \}
-let g:quickrun_config['rspec/spring'] = {
-  \ 'type': 'rspec/spring',
-  \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/buffer/split': ':botright 8sp',
-  \ 'exec': 'spring rspec %o --color --tty %s'
-  \}
-let g:quickrun_config['cucumber/bundle'] = {
-  \ 'type': 'cucumber/bundle',
+
+let g:quickrun_config['rspec/bundle'] =
+  \ extend(copy(s:rspec_quickrun_config), {
+    \ 'type': 'rspec/bundle',
+    \ 'exec': 'bundle exec %c %o --color --tty %s'
+  \})
+
+let g:quickrun_config['rspec/normal'] =
+  \ extend(copy(s:rspec_quickrun_config), {
+    \ 'type': 'rspec/normal',
+    \ 'exec': '%c %o --color --tty %s'
+  \})
+
+let g:quickrun_config['rspec/zeus'] =
+  \ extend(copy(s:rspec_quickrun_config), {
+    \ 'type': 'rspec/zeus',
+    \ 'exec': 'zeus rspec %o --color --tty %s'
+  \})
+
+let g:quickrun_config['rspec/spring'] =
+  \ extend(copy(s:rspec_quickrun_config), {
+    \ 'type': 'rspec/spring',
+    \ 'exec': 'spring rspec %o --color --tty %s'
+  \})
+
+let s:cucumber_quickrun_config = {
   \ 'command': 'cucumber',
-  \ 'outputter': 'error',
-  \ 'outputter/buffer/split': 'botright',
-  \ 'exec': 'bundle exec %c %o --color %s'
+  \ 'outputter': 'buffer',
+  \ 'outputter/buffer/split': ':botright 8sp',
   \}
-let g:quickrun_config['cucumber/zeus'] = {
-  \ 'type': 'cucumber/zeus',
-  \ 'command': 'cucumber',
-  \ 'outputter': 'error',
-  \ 'outputter/buffer/split': 'botright',
-  \ 'exec': 'zeus cucumber %o --color %s'
-  \}
-let g:quickrun_config['cucumber/spring'] = {
-  \ 'type': 'cucumber/spring',
-  \ 'command': 'cucumber',
-  \ 'outputter': 'error',
-  \ 'outputter/buffer/split': 'botright',
-  \ 'exec': 'spring cucumber %o --color %s'
-  \}
+
+let g:quickrun_config['cucumber/bundle'] =
+  \ extend(copy(s:cucumber_quickrun_config), {
+    \ 'type': 'cucumber/bundle',
+    \ 'exec': 'bundle exec %c %o --color %s'
+  \})
+
+let g:quickrun_config['cucumber/zeus'] =
+  \ extend(copy(s:cucumber_quickrun_config), {
+    \ 'type': 'cucumber/zeus',
+    \ 'exec': 'zeus cucumber %o --color %s'
+  \})
+
+let g:quickrun_config['cucumber/spring'] =
+  \ extend(copy(s:cucumber_quickrun_config), {
+    \ 'type': 'cucumber/spring',
+    \ 'exec': 'spring cucumber %o --color %s'
+  \})
 
 let g:quickrun_config['markdown'] = {
  \ 'type': 'markdown/gfm',
