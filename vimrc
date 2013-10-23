@@ -83,6 +83,8 @@ NeoBundle 'moro/vim-review'
 
 NeoBundle 'kana/vim-submode'
 
+NeoBundle 'tpope/vim-markdown'
+
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 
