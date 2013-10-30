@@ -53,6 +53,8 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+let g:neobundle#types#git#default_protocol = "git"
+
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " NeoBundle {{{
@@ -300,7 +302,10 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " neocon {{{
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundle 'Rip-Rip/clang_complete'
-NeoBundle 'teramako/jscomplete-vim'
+NeoBundle 'marijnh/tern_for_vim', {
+      \ 'build': {
+        \ 'others': 'npm install'
+      \}}
 
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete', {
@@ -1216,10 +1221,8 @@ unlet s:bundle
 " neocomplcache or neocomplete {{{
 
 " Enable omni completion.
-let g:jscomplete_use = ['dom', 'moz', 'es6th']
 MyAutocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
 MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-MyAutocmd FileType javascript setlocal omnifunc=jscomplete#CompleteJS
 MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
@@ -1313,13 +1316,6 @@ if has('lua')
     let g:clang_complete_auto = 0
     let g:clang_auto_select = 0
     "let g:clang_use_library = 1
-
-    " jscomplete
-    if !exists('g:neocomplete#sources#omni#functions')
-      let g:neocomplete#sources#omni#functions = {}
-    endif
-    let g:neocomplete#sources#omni#functions.javascript =
-    \ 'jscomplete#CompleteJS'
   endfunction
   unlet s:bundle
 else
