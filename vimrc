@@ -246,7 +246,7 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'yonchu/accelerated-smooth-scroll'
+" NeoBundle 'yonchu/accelerated-smooth-scroll'
 
 NeoBundleLazy 'Lokaltog/vim-easymotion', {
 \   'autoload' : {
@@ -1598,9 +1598,9 @@ endfunction
 
 " syntastic
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': [],
-                           \ 'passive_filetypes': ['haskell', 'scala'] }
+let g:syntastic_mode_map = { 'mode': 'passive',
+                           \ 'active_filetypes': ['ruby'],
+                           \ 'passive_filetypes': [] }
 
 " ft hamstache
 MyAutocmd BufReadPost *.hamstache set filetype=haml
@@ -1721,8 +1721,8 @@ let g:markdown_quote_syntax_filetypes = {
 " }}}
 
 " accelerated-smooth-scroll
-let g:ac_smooth_scroll_du_sleep_time_msec = 5
-let g:ac_smooth_scroll_fb_sleep_time_msec = 5
+" let g:ac_smooth_scroll_du_sleep_time_msec = 5
+" let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 
 " vim-metarw-qiita
 let g:qiita_user = "joker1007"
