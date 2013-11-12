@@ -305,6 +305,10 @@ unsetopt sh_word_split
 source ~/.zsh/auto-fu.zsh/auto-fu.zsh
 zle-line-init () {auto-fu-init;}; zle -N zle-line-init
 
+# zsh-syntax-highlighting
+[ -s $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+  source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 zstyle ':completion:*' completer _oldlist _complete _match _ignored _history
 zstyle ':auto-fu:var' autoable-function/skipwords "('|$'|\")*" "^((??)##)"
 zstyle ':auto-fu:highlight' completion bold,underline
