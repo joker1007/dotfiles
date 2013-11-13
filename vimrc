@@ -292,6 +292,7 @@ NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'rhysd/unite-ruby-require.vim'
 NeoBundle 'basyura/unite-yarm'
 NeoBundle 'joker1007/unite-pull-request'
+NeoBundle "osyo-manga/unite-quickrun_config"
 
 NeoBundleLazy 'Shougo/unite.vim', {
 \   'autoload' : {
