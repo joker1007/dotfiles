@@ -926,8 +926,8 @@ nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark>
 nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -prompt=ref> ref/man<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
 nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
-nnoremap <silent> [unite]pr  :<C-u>Unite pull_request:
-nnoremap <silent> [unite]pf  :<C-u>Unite pull_request_file:
+nnoremap [unite]pr  :<C-u>Unite pull_request:
+nnoremap [unite]pf  :<C-u>Unite pull_request_file:
 
 let s:bundle = neobundle#get("unite.vim")
 function! s:bundle.hooks.on_source(bundle)
