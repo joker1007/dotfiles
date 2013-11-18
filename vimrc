@@ -149,6 +149,7 @@ NeoBundle 'juvenn/mustache.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'LeafCage/foldCC'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'osyo-manga/vim-over'
 " }}}
 
 " haskell develop {{{
