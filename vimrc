@@ -887,7 +887,12 @@ command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/
 
 " libruby load
 if has('gui_macvim') && has('kaoriya')
-  let s:ruby_libdir = system("ruby -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
+  if filereadable(expand("~/.rbenv/shims/ruby"))
+    let s:ruby_exec = expand("~/.rbenv/shims/ruby")
+  else
+    let s:ruby_exec = "ruby"
+  endif
+  let s:ruby_libdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
   let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
   if filereadable(s:ruby_libruby)
     let $RUBY_DLL = s:ruby_libruby
