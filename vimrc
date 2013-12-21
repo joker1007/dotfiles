@@ -106,6 +106,7 @@ NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'vim-scripts/twilight'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'jpo/vim-railscasts-theme'
+NeoBundle '29decibel/codeschool-vim-theme'
 " }}}
 
 " ruby rails develop {{{
@@ -537,10 +538,7 @@ MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
 if stridx($TERM, "xterm-256color") >= 0
-  let g:solarized_termcolors= 256
-  let g:solarized_contrast = "high"
-  let g:solarized_termtrans = 1
-  colorscheme solarized
+  colorscheme railscasts
 else
   colorscheme desert
 endif
