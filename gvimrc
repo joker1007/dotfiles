@@ -68,7 +68,7 @@ set mousehide
 " ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
 set guioptions+=a
 
-colorscheme desert
+colorscheme railscasts
 
 " ポップアップメニューのカラーを設定
 hi Pmenu ctermbg=18 guibg=#666666
