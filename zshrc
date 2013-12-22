@@ -196,5 +196,10 @@ alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions
 
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
+if [ -s ~/.zaw/zaw.zsh ]; then
+  source ~/.zaw/zaw.zsh
+  bindkey '^r' zaw-history
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/home/joker/.gvm/bin/gvm-init.sh" ]] && source "/home/joker/.gvm/bin/gvm-init.sh"
