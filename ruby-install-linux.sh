@@ -28,6 +28,6 @@ export MAKE_OPTS="-j 2"
 rbenv install -k -f $version
 
 export RBENV_VERSION=$version
-rbenv exec gem update --system 2.1.4
+rbenv exec gem update --system
 rbenv exec gem install bundler --pre --no-ri --no-rdoc
 rbenv rehash
