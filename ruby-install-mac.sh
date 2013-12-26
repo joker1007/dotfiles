@@ -23,7 +23,6 @@ export RUBY_CONFIGURE_OPTS_ARRAY=( \
 
 export RUBY_CONFIGURE_OPTS=" \
   --with-arch=x86_64 \
-  --with-valgrind \
   --with-out-ext=tk,tk/* \
   --enable-shared \
   --enable-pthread \
