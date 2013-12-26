@@ -4,7 +4,7 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-2.1.0-dev}
+version=${1:-2.2.0-dev}
 
 trap 'exit 1' 2
 
@@ -13,8 +13,13 @@ eval "$(rbenv init -)"
 export RUBY_CONFIGURE_OPTS_ARRAY=( \
   CC=clang CXX=clang++ \
   optflags="-O2 -march=corei7-avx -mtune=corei7-avx" \
-  debugflags="-ggdb3" \
 )
+
+# export RUBY_CONFIGURE_OPTS_ARRAY=( \
+  # CC=clang CXX=clang++ \
+  # optflags="-O2 -march=corei7-avx -mtune=corei7-avx" \
+  # debugflags="-ggdb3" \
+# )
 
 export RUBY_CONFIGURE_OPTS=" \
   --with-arch=x86_64 \
@@ -22,8 +27,6 @@ export RUBY_CONFIGURE_OPTS=" \
   --with-out-ext=tk,tk/* \
   --enable-shared \
   --enable-pthread \
-  --disable-install-doc \
-  --disable-libedit \
   --with-gdbm-dir=$(brew --prefix gdbm) \
   --with-dbm-dir=$(brew --prefix gdbm) \
   --with-dbm-type=gdbm_compat \

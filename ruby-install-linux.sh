@@ -2,7 +2,7 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-2.1.0-dev}
+version=${1:-2.2.0-dev}
 
 trap 'exit 1' 2
 
@@ -17,8 +17,6 @@ export RUBY_CONFIGURE_OPTS=" \
   --with-out-ext=tk,tk/* \
   --enable-shared \
   --enable-pthread \
-  --disable-install-doc \
-  --disable-libedit \
 "
 
 export MAKE_OPTS="-j 2"
