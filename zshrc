@@ -144,6 +144,7 @@ alias -g RT="RAILS_ENV=test"
 # 補完システムを利用: 補完の挙動が分かりやすくなる2つの設定のみ記述
 zstyle ':completion:*' format '%BCompleting %d%b'
 zstyle ':completion:*' group-name ''
+zstyle ':completion:*' completer _oldlist _complete _history _match _ignored _prefix
 
 # % zmv '(*).jpeg' '$1.jpg'
 # % zmv '(**/)foo(*).jpeg' '$1bar$2.jpg'
