@@ -310,7 +310,10 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " }}}
 
 " neocon {{{
-NeoBundleLazy 'Shougo/neosnippet'
+NeoBundleLazy 'Shougo/neosnippet', {
+  \   'depends' : ["Shougo/neosnippet-snippets"]
+\}
+NeoBundleLazy 'Shougo/neosnippet-snippets'
 NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'marijnh/tern_for_vim', {
       \ 'build': {
