@@ -1625,6 +1625,9 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 " ft hamstache
 MyAutocmd BufReadPost *.hamstache set filetype=haml
 
+" ft ejs
+MyAutocmd BufReadPost *.ejs set filetype=html
+
 " ag.vim
 let g:agprg="ag --nocolor --nogroup --column"
 
