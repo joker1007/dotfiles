@@ -666,7 +666,7 @@ endfunction
 MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call s:EnableSmartchrBasic()
 MyAutocmd FileType python,ruby,coffee,vim call s:EnableSmartchrRegExp()
 MyAutocmd FileType ruby call s:EnableSmartchrRubyHash()
-MyAutocmd FileType ruby,eruby setlocal tags+=~/rtags
+MyAutocmd FileType ruby,eruby setlocal tags+=gems.tags,./gems.tags,~/rtags
 MyAutocmd FileType haml call s:EnableSmartchrHaml()
 MyAutocmd FileType coffee call s:EnableSmartchrCoffeeFunction()
 " }}}
