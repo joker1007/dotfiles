@@ -917,15 +917,15 @@ let g:webapi#system_function = "vimproc#system"
 " Unite.vim {{{
 nnoremap [unite] <Nop>
 nmap     ,u [unite]
-nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files file_mru<CR>
 nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files file_rec/async<CR>
 nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files directory_mru<CR>
-nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=filesfile file/new<CR>
 nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files file_mru <CR>
 nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files buffer file<CR>
-nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files buffer file file/new<CR>
-nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files buffer file file/new<CR>
+nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]b   :<C-u>Unite -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  buffer<CR>
 nnoremap <silent> [unite]vB  :<C-u>Unite -vertical -buffer-name=buffers -prompt=Buffer>\  -winwidth=45 -no-quit buffer<CR>
