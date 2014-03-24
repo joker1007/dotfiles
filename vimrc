@@ -1208,6 +1208,14 @@ let g:rubycomplete_include_object_space = 1
 " let ruby_operators = 1
 " }}}
 
+" rails.vim {{{
+nnoremap ,rm :<C-u>Rmodel<Space>
+nnoremap ,rc :<C-u>Rcontroller<Space>
+nnoremap ,rv :<C-u>Rview<Space>
+nnoremap ,rs :<C-u>Rspec<Space>
+nnoremap ,rl :<C-u>Rlog<Space>
+" }}}
+
 " For snippet_complete marker.
 if has('conceal')
   set conceallevel=2 concealcursor=i
