@@ -6,9 +6,9 @@
 " set! browser.tabs.closeButtons=2
 
 " セッションマネージャーの起動時設定
-set! extensions.sessionmanager.old_startup_page=0
-set! extensions.sessionmanager.startup=0
-set! browser.startup.page=0
+"set! extensions.sessionmanager.old_startup_page=0
+"set! extensions.sessionmanager.startup=0
+"set! browser.startup.page=0
 
 " ページのアクセスキーを無効化
 set! ui.key.generalAccessKey=0
@@ -60,33 +60,15 @@ noremap <C-2> :set toolbars=noaddons,bookmarks,nomenu,nonavigation,tabs<cr>
 noremap <C-3> :set toolbars=noaddons,bookmarks,menu,navigation,tabs<cr>
 
 " Hintのスタイル
-highlight! Hint font-size: 14pt; padding: 2px; background: rgba(80, 80, 80, .7); color: white; font-family: "KonatuTohaba",monospace;
+highlight! Hint font-size: 12pt; padding: 2px; background: rgba(80, 80, 80, .7); z-index: 1000000; color: white; font-family: "Ricty",monospace;
+
 
 " mappings
 " ======================================================================
-" OSのキーバインドを再現 
-map  <M-c> <C-v><M-c>
-imap <C-f> <Right>
-imap <C-b> <Left>
-imap <C-p> <Up>
-imap <C-n> <Down>
-imap <M-a> <C-v><M-a>
-imap <M-z> <C-v><M-z>
-imap <M-x> <C-v><M-x>
-imap <M-c> <C-v><M-c>
-imap <M-v> <C-v><M-v>
-cmap <C-f> <Right>
-cmap <C-b> <Left>
-cmap <C-p> <Up>
-cmap <C-n> <Down>
-cmap <M-a> <C-v><M-a>
-cmap <M-z> <C-v><M-z>
-cmap <M-x> <C-v><M-x>
-cmap <M-c> <C-v><M-c>
-cmap <M-v> <C-v><M-v>
-
 " C-r でブラウザ再起動
-nnoremap <C-r> :<C-U>restart<CR>
+nnoremap <C-r> :restart<CR>
+
+nnoremap ,/ :noh<CR>
 
 " 上のディレクトリに移動
 "map <BS> gu
@@ -96,14 +78,14 @@ map <C-BS> gU
 map <BS> <A-Left>
 
 " 読み込み停止
-nnoremap ,s :<C-U>stop<cr>
+nnoremap ,s :stop<cr>
 
 " j/k でのスクロール幅を1行から3行に変更
-noremap j 5j
-noremap k 5k
+noremap j 3j
+noremap k 3k
 
-noremap <C-e> <C-v>j
-noremap <C-y> <C-v>k
+noremap <C-e> j
+noremap <C-y> k
 
 " J/K をC-d/u互換に
 map J <C-d>
@@ -120,25 +102,17 @@ nnoremap <Right> <C-n>
 " タブ順序変更
 "map <C-h> :tabmove! -1<CR>
 "map <C-l> :tabmove! +1<CR>
-nnoremap <S-Right> :<C-U>tabmove! +1<CR>
-nnoremap <S-Left>  :<C-U>tabmove! -1<CR>
+nnoremap <S-Right> :tabmove! +1<CR>
+nnoremap <S-Left>  :tabmove! -1<CR>
 
 " buffer
 nnoremap . :buffer<Space>
-
-
-" URL中の数字を++/--
-noremap ++ <C-a>
-noremap -- <C-x>
-
-" ! でページのCSSをon/off
-" nnoremap ! :set invum<CR>
 
 " ex modeでC-jを無効化
 cmap <C-j> <Nop>
 
 " あとで読む
-nnoremap ,i :<C-U>open instlet<CR>
+nnoremap ,i :open instlet<CR>
 
 " irvine hint mode
 javascript <<EOM
@@ -171,8 +145,8 @@ EOM
 
 " sbmcommentsviewer.js
 let g:def_sbm_format = "timestamp,id,tags,comment"
-let g:def_sbms = "hd"
-map ,c :viewSBMComments<CR>
+let g:def_sbms = "h"
+nnoremap ,c :viewSBMComments<CR>
 
 " direct_bookmark.js
 let g:direct_sbm_use_services_by_tag = "d"
@@ -193,16 +167,12 @@ let g:twittperator_use_chirp = 1
 let g:twittperator_plugin_reply_popup_alert = 1
 let g:twittperator_screen_name = "joker1007"
 
-" multi_requester.js
-nnoremap ,rt :mr<Space>twitter-search-pcod-no-jp<Space>
-nnoremap ,rT :mr<Space>twitter-search-pcod-no-jp<Space>["joker1007"]<CR>
-nnoremap ,rf :mr<Space>favotter-new<Space>
-nnoremap ,rF :mr<Space>favotter-new<Space>["joker1007"]<CR>
-
 " copy.js
 nnoremap cs :copy<Space>
 nnoremap cc <esc>:copy<cr>
 nnoremap cu <esc>:copy %URL%<cr>
+nnoremap cm <esc>:copy markdown<cr>
+nnoremap ch <esc>:copy hatena<cr>
 nnoremap ct <esc>:copy %TITLE%<cr>
 nnoremap cb <esc>:copy %TITLE% - %URL%<cr>
 js <<EOM
@@ -229,19 +199,12 @@ EOM
 
 " feedSomeKeys_3.js
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-" Tumblr (要dashboard+tombloo.user.js, ReblogCommand.user.js)
-lazy fmaps -u='http://.*\.tumblr\.com/' r,tj
-lazy fmaps -u='http://.*\.tumblr\.com/dashboard' r,tj
-" favotter (要Twit Fav command Minibuffer)
-lazy fmaps -u='http://favotter\.matope\.com/' :fmap f,F
+lazy fmaps -u='waffle\.io' -events=vkeydown,vkeypress,vkeyup i r /
+lazy fmaps -u='tweetdeck\.twitter\.com' j k r t F,f n d p ? 1 2 3 4 5 6 7 8 9 0
+lazy fmaps -u='.*\.tumblr\.com' -events=vkeydown,vkeypress,vkeyup j k r,t l h q
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
-lazy fmaps -u='www\.google\.com/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J,<Space> K,<S-Space>
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
-lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m <Del> <C-S-Left> <C-S-Right>
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
 
 " javascripts
 " ======================================================================
@@ -271,7 +234,7 @@ hi CompResult width: 45%; overflow: hidden; max-width: 60%;
 
 " qmarks
 " ======================================================================
-qmark g https://mail.google.com/
+qmark m https://mail.google.com/
 qmark c https://www.google.com/calendar/
 
 " colorscheeme
