@@ -13,3 +13,9 @@
 [submodule "zaw"]
 	path = zaw
 	url = git://github.com/zsh-users/zaw.git
+[submodule "git-now"]
+	path = git-now
+	url = git://github.com/iwata/git-now.git
+[submodule "hub"]
+	path = hub
+	url = git://github.com/github/hub.git
