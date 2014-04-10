@@ -19,3 +19,6 @@
 [submodule "hub"]
 	path = hub
 	url = git://github.com/github/hub.git
+[submodule "direnv"]
+	path = direnv
+	url = git://github.com/zimbatm/direnv
