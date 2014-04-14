@@ -139,6 +139,7 @@ alias -g G="| grep"
 alias -g A="| ag"
 alias -g C="| cut"
 alias -g S="| sort"
+alias -g RD="RAILS_ENV=development"
 alias -g RP="RAILS_ENV=production"
 alias -g RT="RAILS_ENV=test"
 

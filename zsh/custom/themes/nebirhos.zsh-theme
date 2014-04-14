@@ -11,7 +11,7 @@ else
 fi
 
 # Get the host name (first 4 chars)
-HOST_PROMPT_="%{$fg_bold[red]%}%n@%m %{$fg_bold[cyan]%}%c "
+HOST_PROMPT_="%{$fg_bold[yellow]%}%n@%m %{$fg_bold[cyan]%}%c "
 GIT_PROMPT="%{$fg_bold[blue]%}\$(git_prompt_info)\$(git_prompt_status)%{$fg_bold[blue]%} % %{$reset_color%}"
 TIME_PROMPT="[%T]"
 PROMPT="$HOST_PROMPT_$RUBY_PROMPT_${GIT_PROMPT}$TIME_PROMPT
