@@ -30,5 +30,7 @@ echo "Gen Simbolic Link zaw => ~/.zaw"
 ln -sf ${PWD}/zaw ~/.zaw
 echo "Gen Simbolic Link .irbrc => ~/.irbrc"
 ln -sf ${PWD}/irbrc ~/.irbrc
+echo "Gen Simbolic Link .gitconfig => ~/.gitconfig"
+ln -sf ${PWD}/gitconfig ~/.gitconfig
 echo "Gen Simbolic Link .tigrc => ~/.tigrc"
 ln -sf ${PWD}/tigrc ~/.tigrc
