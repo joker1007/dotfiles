@@ -541,14 +541,14 @@ MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "no
 MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
-if stridx($TERM, "xterm-256color") >= 0
+if stridx($TERM, "256color") >= 0
   colorscheme railscasts
 else
   colorscheme desert
 endif
 
 " 256色モード
-if stridx($TERM, "xterm-256color") >= 0
+if stridx($TERM, "256color") >= 0
   set t_Co=256
 else
   set t_Co=16
