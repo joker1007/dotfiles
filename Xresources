@@ -1,0 +1,52 @@
+URxvt*font:           xft:Ricty\ for\ Powerline:size=12:antialias=true
+URxvt*termName:       rxvt-256color
+URxvt*saveLines:      65536
+URxvt*fading:         30
+URxvt*transparent:    true
+URxvt*shading:        50
+URxvt*skipBuiltinGlyphs: false
+
+Xft*dpi:              96
+Xft*antialias:        True
+Xft*hinting:          Full
+
+URxvt*background: #0f0f0f
+URxvt*foreground: #c8c8c8
+
+!black
+URxvt*color0:  #251f1f
+URxvt*color8:  #5e5e5e
+!red
+URxvt*color1:  #eb4509
+URxvt*color9:  #eb4509
+!green
+URxvt*color2:  #94e76b
+URxvt*color10: #95e76b
+!yellow
+URxvt*color3:  #ffac18
+URxvt*color11: #ffac18
+!blue
+URxvt*color4:  #46aede
+URxvt*color12: #46aede
+!magenta
+URxvt*color5:  #e32c57
+URxvt*color13: #e32c57
+!cyan
+URxvt*color6:  #d6dbac
+URxvt*color14: #d6dbac
+!white
+URxvt*color7:  #efefef
+URxvt*color15: #efefef
+
+!-*- Perl extensions -*-
+URxvt.perl-ext-common:default,matcher
+URxvt.keysym.M-u:     perl:url-select:select_next
+URxvt.url-launcher:   /usr/bin/firefox-bin
+URxvt.underlineURLs:  True
+URxvt.matcher.button: 1
+URxvt.keysym.M-Escape:perl:keyboard-select:activate
+URxvt.keysym.M-c:     perl:clipboard:copy
+URxvt.keysym.M-v:     perl:clipboard:paste
+URxvt.keysym.M-C-v:   perl:clipboard:paste_escaped
+!URxvt.copyCommand:   xsel -ib
+!URxvt.pasteCommand:  xsel -ob
