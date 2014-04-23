@@ -212,3 +212,8 @@ fi
 if type direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
+
+# rupa/z
+if [ -s ~/.zsh/z/z.sh ]; then
+  source ~/.zsh/z/z.sh
+fi

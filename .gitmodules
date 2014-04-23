@@ -22,3 +22,6 @@
 [submodule "direnv"]
 	path = direnv
 	url = git://github.com/zimbatm/direnv
+[submodule "zsh/z"]
+	path = zsh/z
+	url = git://github.com/rupa/z
