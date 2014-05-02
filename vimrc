@@ -1162,7 +1162,7 @@ unlet s:bundle
 " vimshell {{{
 nnoremap <silent> ,vs :<C-U>VimShell<CR>
 
-function! g:my_chpwd(args, context)
+function! g:MyChpwd(args, context)
   call vimshell#execute('ls')
 endfunction
 
@@ -1188,7 +1188,7 @@ function! s:bundle.hooks.on_source(bundle)
     \| call vimshell#altercmd#define('ll', 'ls -l')
     \| call vimshell#altercmd#define('be', 'bundle exec')
     \| call vimshell#altercmd#define('ra', 'rails')
-    \| call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
+    \| call vimshell#hook#add('chpwd', 'MyChpwd', 'g:MyChpwd')
 
   function! s:EarthquakeKeyMap()
     nnoremap <buffer><expr> o OpenBrowserLine()
