@@ -179,6 +179,7 @@ NeoBundleLazy 'ujihisa/neco-ghc', {
 " web browse, api {{{
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
+NeoBundle 'kannokanno/previm'
 " }}}
 
 " other programinng {{{
