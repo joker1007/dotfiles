@@ -789,19 +789,13 @@ let s:rspec_quickrun_config = {
 let g:quickrun_config['rspec/bundle'] =
   \ extend(copy(s:rspec_quickrun_config), {
     \ 'type': 'rspec/bundle',
-    \ 'exec': 'bundle exec %c %o --color --tty %s'
+    \ 'exec': 'bundle exec %c %o --color --tty %s%a'
   \})
 
 let g:quickrun_config['rspec/normal'] =
   \ extend(copy(s:rspec_quickrun_config), {
     \ 'type': 'rspec/normal',
-    \ 'exec': '%c %o --color --tty %s'
-  \})
-
-let g:quickrun_config['rspec/zeus'] =
-  \ extend(copy(s:rspec_quickrun_config), {
-    \ 'type': 'rspec/zeus',
-    \ 'exec': 'zeus rspec %o --color --tty %s'
+    \ 'exec': '%c %o --color --tty %s%a'
   \})
 
 let g:quickrun_config['rspec/spring'] =
@@ -820,12 +814,6 @@ let g:quickrun_config['cucumber/bundle'] =
   \ extend(copy(s:cucumber_quickrun_config), {
     \ 'type': 'cucumber/bundle',
     \ 'exec': 'bundle exec %c %o --color %s'
-  \})
-
-let g:quickrun_config['cucumber/zeus'] =
-  \ extend(copy(s:cucumber_quickrun_config), {
-    \ 'type': 'cucumber/zeus',
-    \ 'exec': 'zeus cucumber %o --color %s'
   \})
 
 let g:quickrun_config['cucumber/spring'] =
@@ -848,7 +836,7 @@ function! s:RSpecQuickrun()
     let b:quickrun_config = {'type' : 'rspec/bundle'}
   endif
 
-  nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
+  nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -args :" . line(".") . "<CR>"
 endfunction
 MyAutocmd BufReadPost *_spec.rb call s:RSpecQuickrun()
 
