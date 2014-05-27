@@ -801,7 +801,7 @@ let g:quickrun_config['rspec/normal'] =
 let g:quickrun_config['rspec/spring'] =
   \ extend(copy(s:rspec_quickrun_config), {
     \ 'type': 'rspec/spring',
-    \ 'exec': 'spring rspec %o --color --tty %s'
+    \ 'exec': 'spring rspec %o --color --tty %s%a'
   \})
 
 let s:cucumber_quickrun_config = {
