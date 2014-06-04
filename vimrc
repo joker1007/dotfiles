@@ -652,7 +652,7 @@ function! s:EnableSmartchrRegExp()
 endfunction
 
 function! s:EnableSmartchrRubyHash()
-  inoremap <buffer><expr> > smartchr#one_of('>', ' => ')
+  inoremap <buffer><expr> > smartchr#one_of('>', '>>', ' => ')
 endfunction
 
 function! s:EnableSmartchrHaml()
