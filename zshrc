@@ -198,6 +198,18 @@ function json_post() {
 # ctags for Ruby
 alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
 
+# percolとghqでローカルのリポジトリクローンに飛ぶ
+function percol-src () {
+    local selected_dir=$(ghq list | percol --query "$LBUFFER")
+    if [ -n "$selected_dir" ]; then
+        BUFFER="ghq look ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N percol-src
+bindkey '^s' percol-src
+
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 if [ -s ~/.zaw/zaw.zsh ]; then
