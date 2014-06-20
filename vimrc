@@ -294,7 +294,7 @@ NeoBundleLazy 'mattn/gist-vim', {
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'ujihisa/unite-gem'
 NeoBundle 'thinca/vim-unite-history'
-NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'Shougo/unite-outline'
 NeoBundle 'eagletmt/unite-haddock'
 NeoBundle 'ujihisa/unite-haskellimport'
 NeoBundle 'tsukkee/unite-tag'
