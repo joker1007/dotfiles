@@ -36,3 +36,6 @@ echo "Gen Simbolic Link .gitconfig => ~/.gitconfig"
 ln -sf ${PWD}/gitconfig ~/.gitconfig
 echo "Gen Simbolic Link .tigrc => ~/.tigrc"
 ln -sf ${PWD}/tigrc ~/.tigrc
+echo "Gen Simbolic Link peco_config.json => ~/.config/peco/config.json"
+mkdir -p ~/.config/peco
+ln -sf ${PWD}/peco_config.json ~/.config/peco/config.json

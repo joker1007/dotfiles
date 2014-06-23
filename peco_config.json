@@ -1,0 +1,14 @@
+{
+    "Keymap": {
+        "C-p": "peco.SelectPrevious",
+        "C-n": "peco.SelectNext",
+        "C-m": "peco.RotateMatcher",
+        "C-a": "peco.BeginningOfLine",
+        "C-e": "peco.EndOfLine",
+        "C-x": "peco.ToggleSelection",
+        "Pgdn": "peco.SelectPreviousPage",
+        "Pgup": "peco.SelectNextPage",
+        "ArrowLeft": "peco.BackwardChar",
+        "ArrowRight": "peco.ForwardChar"
+    }
+}

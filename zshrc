@@ -198,17 +198,37 @@ function json_post() {
 # ctags for Ruby
 alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
 
-# percolとghqでローカルのリポジトリクローンに飛ぶ
-function percol-src () {
-    local selected_dir=$(ghq list | percol --query "$LBUFFER")
+# pecoとghqでローカルのリポジトリクローンに飛ぶ
+function peco-src () {
+    local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
     if [ -n "$selected_dir" ]; then
-        BUFFER="ghq look ${selected_dir}"
+        BUFFER="cd ${selected_dir}"
         zle accept-line
     fi
     zle clear-screen
 }
-zle -N percol-src
-bindkey '^s' percol-src
+zle -N peco-src
+bindkey '^s' peco-src
+
+function peco-gitbranch () {
+    local selected_branch=$(git branch --no-color | sed -e 's/\*/ /g' | peco | cut -d \  -f 3)
+    if [ -n "$selected_branch" ]; then
+        BUFFER="git checkout ${selected_branch}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-gitbranch
+bindkey '^b' peco-gitbranch
+
+function cdgem() {
+  local gem_name=$(bundle list | sed -e 's/* //g' | peco | cut -d \  -f 3)
+  if [ -n "$gem_name" ]; then
+    local gem_dir=$(bundle show ${gem_name})
+    echo "cd to ${gem_dir}"
+    cd $(bundle show ${gem_name})
+  fi
+}
 
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
