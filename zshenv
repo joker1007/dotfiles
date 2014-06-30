@@ -61,4 +61,6 @@ fi
 # golang
 export GOPATH=~/gocode
 
+export GITHUB_API_ENDPOINT="https://api.github.com"
+
 [ -s ~/.zshenv.local ] && source ~/.zshenv.local

@@ -98,6 +98,7 @@ darwin*)
   alias firefox-open='open -a /Applications/Firefox.app/Contents/MacOS/firefox-bin'
   ;;
 linux*)
+  alias open='xdg-open'
   alias ls='ls -F --color=auto'
   ;;
 esac
@@ -187,6 +188,8 @@ function grbi() {
     echo "Using: grbi n\n  (n is number greater then 0)"
   fi
 }
+
+[ -s ~/.zshrc.github ] && source ~/.zshrc.github
 
 function json_post() {
   url=$1
