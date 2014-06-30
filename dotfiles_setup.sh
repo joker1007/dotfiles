@@ -20,6 +20,8 @@ echo "Gen Simbolic Link tmux.conf => ~/.tmux.conf"
 ln -sf ${PWD}/tmux.conf ~/.tmux.conf
 echo "Gen Simbolic Link .zshrc => ~/.zshrc"
 ln -sf ${PWD}/zshrc ~/.zshrc
+echo "Gen Simbolic Link .zshrc.github => ~/.zshrc.github"
+ln -sf ${PWD}/zshrc.github ~/.zshrc.github
 echo "Gen Simbolic Link .zsh => ~/.zsh"
 ln -sf ${PWD}/zsh ~/.zsh
 echo "Gen Simbolic Link .zshenv => ~/.zshenv"
