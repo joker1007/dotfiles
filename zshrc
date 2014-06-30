@@ -214,7 +214,7 @@ zle -N peco-src
 bindkey '^s' peco-src
 
 function peco-gitbranch () {
-    local selected_branch=$(git branch --no-color | sed -e 's/\*/ /g' | peco | cut -d \  -f 3)
+    local selected_branch=$(git branch --no-color | sed -e 's/\*/ /g' | peco --query "$LBUFFER" | cut -d \  -f 3)
     if [ -n "$selected_branch" ]; then
         BUFFER="git checkout ${selected_branch}"
         zle accept-line
@@ -225,7 +225,8 @@ zle -N peco-gitbranch
 bindkey '^b' peco-gitbranch
 
 function cdgem() {
-  local gem_name=$(bundle list | sed -e 's/^ *\* *//g' | peco | cut -d \  -f 1)
+  query=$1
+  local gem_name=$(bundle list | sed -e 's/^ *\* *//g' | peco --query=$query | cut -d \  -f 1)
   if [ -n "$gem_name" ]; then
     local gem_dir=$(bundle show ${gem_name})
     echo "cd to ${gem_dir}"
