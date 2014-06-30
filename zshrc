@@ -226,7 +226,7 @@ function cdgem() {
   if [ -n "$gem_name" ]; then
     local gem_dir=$(bundle show ${gem_name})
     echo "cd to ${gem_dir}"
-    cd $(bundle show ${gem_name})
+    cd ${gem_dir}
   fi
 }
 
