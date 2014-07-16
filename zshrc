@@ -234,6 +234,16 @@ function cdgem() {
   fi
 }
 
+function peco-rake() {
+  local taskname="$(rake -W | cut -f 1,2 -d\  | uniq | peco | cut -f 2 -d\  )"
+
+  if [ -n "$taskname" ]; then
+      echo "Execute \"rake $taskname\""
+      rake $taskname
+  fi
+}
+alias rp=peco-rake
+
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 if [ -s ~/.zaw/zaw.zsh ]; then
