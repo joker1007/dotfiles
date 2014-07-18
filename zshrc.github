@@ -1,6 +1,6 @@
 function github_view_auths() {
   read -s password?password:\ 
-  curl -s --user joker1007:${password} https://api.github.com/authorizations
+  curl -s --user joker1007:${password} https://api.github.com/authorizations?per_page=100
 }
 
 function github_repo_name() {
