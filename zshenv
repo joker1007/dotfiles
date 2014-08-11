@@ -8,9 +8,30 @@
 
 limit coredumpsize 0
 # Setup command search path
-typeset -U path
+typeset -U path PATH
 # (N-/) を付けることで存在しなければ無視してくれる
-path=($HOME/.rbenv/bin(N-/) $HOME/.nodenv/bin(N-/) $HOME/bin $HOME/gocode/bin $HOME/Library/Haskell/bin(N-/) $HOME/.cabal/bin(N-/) /Applications/MacVim.app/Contents/MacOS(N-/) /usr/local/sbin(N-/) /usr/local/bin(N-/) /usr/local/*/bin(N-/) /usr/local/share/npm/bin(N-/) /sbin /usr/sbin $path /opt/*/bin(N-/) /opt/*/sbin(N-/) /usr/*/bin(N-/) /var/*/bin(N-/))
+path=(
+  $HOME/.rbenv/bin(N-/)
+  $HOME/.rbenv/shims(N-/)
+  $HOME/.nodenv/bin(N-/)
+  $HOME/.nodenv/shims(N-/)
+  $HOME/bin
+  $HOME/gocode/bin
+  $HOME/Library/Haskell/bin(N-/)
+  $HOME/.cabal/bin(N-/)
+  /Applications/MacVim.app/Contents/MacOS(N-/)
+  /usr/local/sbin(N-/)
+  /usr/local/bin(N-/)
+  /usr/local/*/bin(N-/)
+  /usr/local/share/npm/bin(N-/)
+  /sbin
+  /usr/sbin
+  $path
+  /opt/*/bin(N-/)
+  /opt/*/sbin(N-/)
+  /usr/*/bin(N-/)
+  /var/*/bin(N-/)
+)
 
 # リモートから起動するコマンド用の環境変数を設定(必要なら)
 export RSYNC_RSH=ssh
