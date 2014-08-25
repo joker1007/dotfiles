@@ -1615,6 +1615,10 @@ function! OpenBrowserLine()
 endfunction
 
 " syntastic
+if executable('rubocop')
+  let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+endif
+
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['ruby'],
