@@ -116,6 +116,9 @@ NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
+
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'clausreinke/typescript-tools'
 " }}}
 
 " ref {{{
@@ -1621,7 +1624,7 @@ endif
 
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby'],
+                           \ 'active_filetypes': ['ruby', 'typescript'],
                            \ 'passive_filetypes': [] }
 
 " ft hamstache
