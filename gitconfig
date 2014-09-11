@@ -47,3 +47,5 @@
 	mg = merge --no-ff --no-commit
 [gc]
 	auto = 0
+[github]
+	user = joker1007

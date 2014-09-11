@@ -320,10 +320,6 @@ NeoBundleLazy 'Shougo/neosnippet', {
 \}
 NeoBundleLazy 'Shougo/neosnippet-snippets'
 NeoBundle 'Rip-Rip/clang_complete'
-NeoBundle 'marijnh/tern_for_vim', {
-      \ 'build': {
-        \ 'others': 'npm install'
-      \}}
 
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete', {
