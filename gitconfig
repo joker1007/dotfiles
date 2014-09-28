@@ -49,3 +49,5 @@
 	auto = 0
 [github]
 	user = joker1007
+[push]
+	default = simple
