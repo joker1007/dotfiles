@@ -1618,9 +1618,13 @@ if executable('rubocop')
   let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 endif
 
+if executable('coffeelint')
+  let g:syntastic_coffee_checkers = ['coffeelint']
+endif
+
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby', 'typescript'],
+                           \ 'active_filetypes': ['ruby', 'typescript', 'coffee'],
                            \ 'passive_filetypes': [] }
 
 " ft hamstache
