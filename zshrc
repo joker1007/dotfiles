@@ -244,6 +244,12 @@ function peco-rake() {
 }
 alias rp=peco-rake
 
+# wine
+export WINEPREFIX="$HOME/.wineprefixes/base"
+function prefix() {
+  export WINEPREFIX="$HOME/.wineprefixes/$1"
+}
+
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 if [ -s ~/.zaw/zaw.zsh ]; then
