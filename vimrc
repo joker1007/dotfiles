@@ -1,4 +1,7 @@
-set nocompatible
+if has('vim_starting')
+  set nocompatible
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
 " 文字コード, 改行コード {{{
 set encoding=utf-8
@@ -54,16 +57,11 @@ else
 " }}}
 endif
 
-
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
+" NeoBundle {{{
 let g:neobundle#types#git#default_protocol = "git"
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-" NeoBundle {{{
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -361,6 +359,8 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ }}
 
 " }}}
+
+call neobundle#end()
 " }}}
 
 
