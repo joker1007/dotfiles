@@ -111,7 +111,7 @@ NeoBundle '29decibel/codeschool-vim-theme'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-cucumber'
-NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-quickrun', {'depends' : 'Shougo/vimproc'}
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
 
@@ -192,7 +192,7 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
 if has('mac')
-  NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'Shougo/vimproc'}
+  NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'thinca/vim-quickrun'}
 endif
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'joker1007/quickrun-rspec-notifier'
