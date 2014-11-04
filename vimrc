@@ -1246,6 +1246,16 @@ MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
 
+" clang_complete
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_use_library = 1
+let g:clang_debug = 1
+if has('mac')
+  let g:clang_library_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
+endif
+let g:clang_user_options = '-std=c++11'
+
 if has('lua')
   let s:bundle = neobundle#get('neocomplete')
   function! s:bundle.hooks.on_source(bundle)
@@ -1330,11 +1340,6 @@ if has('lua')
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
     let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-    " clang_complete
-    let g:clang_complete_auto = 0
-    let g:clang_auto_select = 0
-    "let g:clang_use_library = 1
   endfunction
   unlet s:bundle
 else
