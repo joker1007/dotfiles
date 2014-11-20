@@ -82,18 +82,18 @@ let INFO = xml`
 let SITE_INFO = [
   {
     label: "みんくちゃんねる",
-    site: "http://minkch\\.com/archives/.*\\.html",
-    xpath: '//a[img[@class="pict"]]|//div/img[@class="pict"]',
-    filter: "\\.(jpe?g|gif|png)$"
+    site: "http://minkchan\\.com/blog-entry-\\d+\\.html",
+    xpath: '//div[@class="article-body-more"]/a',
+    filter: "\\.(jpe?g|gif|png|mp4|flv)$"
   }, {
     label: "カナ速",
     site: "http://kanasoku\\.blog82\\.fc2\\.com/blog-entry-.*\\.html",
     xpath: '//div[@class="entry_body"]//a[img]',
     filter: "\\.(jpe?g|gif|png)$"
   }, {
-    label: "がぞう～速報",
+    label: "がぞ〜速報",
     site: "http://stalker\\.livedoor\\.biz/archives/.*\\.html",
-    xpath: '//div[@class="main" or @class="mainmore"]//a/img[@class="pict"]/..',
+    xpath: 'id("mainmore")/a/img[@class="pict"]/..',
     filter: "\\.(jpe?g|gif|png)$"
   }, {
     label: "ギャルゲーブログ",
@@ -112,7 +112,7 @@ let SITE_INFO = [
   }, {
     labe: "【2ch】ニュー速クオリティ",
     site: "http://news4vip\\.livedoor\\.biz/archives/.*\\.html",
-    xpath: '//a[img[@class="pict"]] | //div/img[@class="pict"]',
+    xpath: '//a[img[@class="image pict"]] | //div/img[@class="pict"]',
     filter: "\\.(jpe?g|gif|png)$"
   }, {
     label: "ねとねた",
@@ -123,6 +123,21 @@ let SITE_INFO = [
     label: "PINK速報",
     site: "http://pinkimg\\.blog57\\.fc2\\.com/blog-entry-.*\\.html",
     xpath: '//div[@class="entry_text"]/a[img]',
+    filter: "\\.(jpe?g|gif|png)$"
+  }, {
+    label: "お宝エログ幕府",
+    site: "http://bakufu\\.jp/archives/\\d+",
+    xpath: '//div[@class="entry-content"]/a[position()>1 and img]',
+    filter: "\\.(jpe?g|gif|png)$"
+  }, {
+    label: "おっき速報",
+    site: "http://okkisokuho\\.blog107\\.fc2\\.com/blog-entry-\\d+\\.html",
+    xpath: '//div[@class="entry_text"]/a[img]',
+    filter: "\\.(jpe?g|gif|png)$"
+  }, {
+    label: "二次萌エロ画像ブログ",
+    site: "http://moeimg\\.blog133\\.fc2\\.com/blog-entry-\\d+\\.html",
+    xpath: '//div[@class="entry-body"]/div[@class="box"]/a[img]',
     filter: "\\.(jpe?g|gif|png)$"
   }
 ];
@@ -152,7 +167,7 @@ let SITE_INFO = [
     try {
       mime = mimeService.getTypeFromURI(uri);
     } catch(e) {
-      liberator.reportError(e);
+      liberator.log('zip-de-download: error: ' + e);
     };
     let ext = mimeService.getPrimaryExtension(mime ? mime : mimeType, null)
     let name = uri.path.split("/").pop();
@@ -171,7 +186,7 @@ let SITE_INFO = [
   }
   function getXPathFromExtensions(exts){
     function getXPath(elem){
-      if (!elem)
+      if (!elem || !elem.getAttribute)
         return '';
 
       // 連番かもしれない id は無視する
@@ -320,15 +335,16 @@ let SITE_INFO = [
       }
       if ("-list" in arg){
         let [file, urls, comment] = self.download(arg[0], true, option);
-        let xml = `
-          <h1><span>Download :</span><span>{file.path}</span></h1>
-          <p>{comment}</p>
+        let listUrlsXml = liberator.modules.template.map(urls, function(url) xml`<li>${url}</li>`);
+        let listXml = xml`
+          <h1><span>Download :</span><span>${file.path}</span></h1>
+          <p>${comment}</p>
           <ol>
-            {liberator.modules.template.map(urls, function(url) <li>{url}</li>)}
+            ${listUrlsXml}
           </ol>
           <br/>
         `;
-        liberator.echo(xml, true);
+        liberator.echo(listXml, true);
         return;
       }
       liberator.echo("Started DownloadZip");
