@@ -1124,6 +1124,7 @@ if neobundle#tap('vimfiler')
     " j k 移動でループしないように
     nmap <buffer> j j
     nmap <buffer> k k
+    nmap <buffer> <Enter> <Plug>(vimfiler_execute_vimfiler_associated)
 
     nmap <buffer> s <Plug>(vimfiler_select_sort_type)
     nmap <End> <Plug>(vimfiler_clear_mark_all_lines)
