@@ -934,8 +934,7 @@ nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
 nnoremap [unite]pr  :<C-u>Unite pull_request:
 nnoremap [unite]pf  :<C-u>Unite pull_request_file:
 
-let s:bundle = neobundle#get("unite.vim")
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('unite.vim')
   let g:unite_enable_start_insert = 1
 
   let g:unite_winheight = 15
@@ -985,8 +984,9 @@ function! s:bundle.hooks.on_source(bundle)
             \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
   endfunction
   MyAutocmd FileType unite call s:unite_my_settings()
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 
@@ -999,8 +999,7 @@ nnoremap [gist]e :Gist -e<CR>
 nnoremap [gist]d :Gist -d<CR>
 nnoremap [gist]l :Gist -l<CR>
 
-let s:bundle = neobundle#get("gist-vim")
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('gist-vim')
   if has("mac")
     let g:gist_clip_command = 'pbcopy'
   elseif has("unix")
@@ -1010,8 +1009,9 @@ function! s:bundle.hooks.on_source(bundle)
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   let g:gist_show_privates = 1
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " Fugitive {{{
@@ -1077,12 +1077,6 @@ let g:airline#extensions#hunks#hunk_symbols = [
         \ g:gitgutter_sign_modified . ' ',
         \ g:gitgutter_sign_removed . ' '
   \ ]
-
-let s:bundle = neobundle#get('vim-airline')
-function! s:bundle.hooks.on_source(bundle)
-  let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
-endfunction
-unlet s:bundle
 " }}}
 
 " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim {{{
@@ -1125,8 +1119,7 @@ endfunction
 " vimfiler {{{
 nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 
-let s:bundle = neobundle#get('vimfiler')
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('vimfiler')
   let g:vimfiler_as_default_explorer = 1
   let g:vimfiler_max_directory_histories = 100
   function s:ChangeVimfilerKeymap()
@@ -1146,8 +1139,9 @@ function! s:bundle.hooks.on_source(bundle)
   if filereadable(expand('~/.vimfiler.local'))
     execute 'source' expand('~/.vimfiler.local')
   endif
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " vimshell {{{
@@ -1157,8 +1151,7 @@ function! g:MyChpwd(args, context)
   call vimshell#execute('ls')
 endfunction
 
-let s:bundle = neobundle#get("vimshell")
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('vimshell')
   if has('win32') || has('win64')
     " Display user name on Windows.
     let g:vimshell_prompt = $USERNAME."% "
@@ -1185,8 +1178,9 @@ function! s:bundle.hooks.on_source(bundle)
     nnoremap <buffer><expr> o OpenBrowserLine()
   endfunction
   MyAutocmd FileType int-earthquake call s:EarthquakeKeyMap()
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " rubycomplete.vim {{{
@@ -1214,8 +1208,7 @@ endif
 
 " neosnippet {{{
 nnoremap <Space>se :<C-U>NeoSnippetEdit<CR>
-let s:bundle = neobundle#get('neosnippet')
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('neosnippet')
   let g:neosnippet#snippets_directory = $HOME . '/.vim/snippets'
 
   " enable ruby & rails snippet only rails file
@@ -1233,8 +1226,9 @@ function! s:bundle.hooks.on_source(bundle)
 
   MyAutocmd BufEnter * call s:RailsSnippet()
   MyAutocmd BufEnter * call s:RSpecSnippet()
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " neocomplcache or neocomplete {{{
@@ -1257,8 +1251,7 @@ endif
 " let g:clang_user_options = '-std=c++11'
 
 if has('lua')
-  let s:bundle = neobundle#get('neocomplete')
-  function! s:bundle.hooks.on_source(bundle)
+  if neobundle#tap('neocomplete')
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
     " Use neocomplete.
@@ -1340,11 +1333,11 @@ if has('lua')
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
     let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  endfunction
-  unlet s:bundle
+
+    call neobundle#untap()
+  endif
 else
-  let s:bundle = neobundle#get('neocomplcache')
-  function! s:bundle.hooks.on_source(bundle)
+  if neobundle#tap('neocomplcache')
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
     " Use neocomplcache.
@@ -1433,8 +1426,9 @@ else
     endif
     let neco_dic = g:neocomplcache_dictionary_filetype_lists
     let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
-  endfunction
-  unlet s:bundle
+
+    call neobundle#untap()
+  endif
 endif
 " }}}
 
@@ -1492,8 +1486,7 @@ call submode#map('tab/move', 'n', 'r', '-', '[tab]-')
 nmap <F3> <Plug>(altr-forward)
 nmap <F2> <Plug>(altr-back)
 
-let s:bundle = neobundle#get("vim-altr")
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-altr')
   " For ruby tdd
   call altr#define('%.rb', 'spec/%_spec.rb')
   " For ruby tdd
@@ -1503,8 +1496,9 @@ function! s:bundle.hooks.on_source(bundle)
   call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
   call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
   call altr#define('app/%.rb', 'spec/%_spec.rb')
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " switch.vim {{{
@@ -1730,16 +1724,16 @@ nnoremap <silent> S :<C-u>TweetVimSay<CR>
 nnoremap <silent> [unite]t   :<C-u>Unite tweetvim<CR>
 nnoremap <silent> [space]ts   :<C-u>TweetVimUserStream<CR>
 nnoremap <silent> [space]tt   :<C-u>TweetVimHomeTimeline<CR>
-let s:bundle = neobundle#get("TweetVim")
-function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('TweetVim')
   let g:tweetvim_include_rts = 1
   if has('mac')
     let g:tweetvim_display_icon = 0
   else
     let g:tweetvim_display_icon = 1
   end
-endfunction
-unlet s:bundle
+
+  call neobundle#untap()
+endif
 " }}}
 
 " code snippet highlight {{{
