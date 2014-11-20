@@ -1250,11 +1250,11 @@ MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
 let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
 let g:clang_use_library = 1
-let g:clang_debug = 1
+" let g:clang_debug = 1
 if has('mac')
   let g:clang_library_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
 endif
-let g:clang_user_options = '-std=c++11'
+" let g:clang_user_options = '-std=c++11'
 
 if has('lua')
   let s:bundle = neobundle#get('neocomplete')
