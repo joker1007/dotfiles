@@ -314,14 +314,10 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " }}}
 
 " neocon {{{
-NeoBundleLazy 'Shougo/neosnippet', {
-  \   'depends' : ["Shougo/neosnippet-snippets"]
-\}
-NeoBundleLazy 'Shougo/neosnippet-snippets'
 NeoBundle 'Rip-Rip/clang_complete'
 
 if has('lua')
-  NeoBundleLazy 'Shougo/neocomplete', {
+  NeoBundle 'Shougo/neocomplete', {
   \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
   \   'vim_version' : '7.3.885',
   \   'autoload' : {
@@ -329,13 +325,17 @@ if has('lua')
   \   }
   \}
 else
-  NeoBundleLazy 'Shougo/neocomplcache', {
+  NeoBundle 'Shougo/neocomplcache', {
   \   'depends' : ["Shougo/neosnippet"],
   \   'autoload' : {
   \       'insert' : 1,
   \   }
   \}
 endif
+NeoBundle 'Shougo/neosnippet', {
+  \   'depends' : ["Shougo/neosnippet-snippets"]
+\}
+NeoBundle 'Shougo/neosnippet-snippets'
 " }}}
 
 " vimshell, vimfiler {{{
