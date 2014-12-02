@@ -3,8 +3,9 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" 文字コード, 改行コード {{{
+" charset {{{
 set encoding=utf-8
+scriptencoding utf-8
 set fileformats=unix,dos,mac
 
 if has('guess_encode')
@@ -363,6 +364,7 @@ NeoBundleLazy 'Shougo/vimshell', {
 call neobundle#end()
 " }}}
 
+filetype plugin indent on
 NeoBundleCheck
 
 if filereadable(expand('~/.vimrc.local'))
@@ -1760,9 +1762,12 @@ let g:qiita_per_page = 50
 let g:github_user = "joker1007"
 
 syntax enable
-filetype plugin indent on
 
 if filereadable(expand('~/.vimrc.local.after'))
   execute 'source' expand('~/.vimrc.local.after')
 endif
 
+if !has('vim_starting')
+  " Call on_source hook when reloading .vimrc.
+  call neobundle#call_hook('on_source')
+endif
