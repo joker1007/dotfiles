@@ -10,10 +10,10 @@ trap 'exit 1' 2
 
 eval "$(rbenv init -)"
 
-export RUBY_CONFIGURE_OPTS_ARRAY=( \
-  CC=clang CXX=clang++ \
-  optflags="-O2 -march=corei7-avx -mtune=corei7-avx" \
-)
+# export RUBY_CONFIGURE_OPTS_ARRAY=( \
+  # CC=clang CXX=clang++ \
+  # optflags="-O2 -march=corei7-avx -mtune=corei7-avx" \
+# )
 
 # export RUBY_CONFIGURE_OPTS_ARRAY=( \
   # CC=clang CXX=clang++ \
@@ -25,11 +25,8 @@ export RUBY_CONFIGURE_OPTS=" \
   --with-arch=x86_64 \
   --with-out-ext=tk,tk/* \
   --enable-shared \
-  --with-libyaml-dir=$(brew --prefix libyaml) \
-  --with-libffi-dir=$(brew --prefix libffi) \
   --with-openssl-dir=$(brew --prefix openssl) \
   --with-readline-dir=$(brew --prefix readline) \
-  --with-opt-dir=$(brew --prefix) \
 "
 
 export MAKE_OPTS="-j 2"
