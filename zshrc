@@ -269,3 +269,6 @@ fi
 if [ -s ~/.zsh/z/z.sh ]; then
   source ~/.zsh/z/z.sh
 fi
+
+# added by travis gem
+[ -f /Users/joker/.travis/travis.sh ] && source /Users/joker/.travis/travis.sh
