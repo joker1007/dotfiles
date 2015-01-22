@@ -304,8 +304,8 @@ NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'rhysd/unite-ruby-require.vim'
 NeoBundle 'basyura/unite-yarm'
 NeoBundle 'joker1007/unite-pull-request'
-NeoBundle "osyo-manga/unite-quickrun_config"
-NeoBundle "Shougo/neomru.vim"
+NeoBundle 'osyo-manga/unite-quickrun_config'
+NeoBundle 'Shougo/neomru.vim'
 
 NeoBundleLazy 'Shougo/unite.vim', {
 \   'autoload' : {
@@ -895,8 +895,8 @@ if has('gui_macvim') && has('kaoriya')
 endif
 
 " vim-milfeulle
-nmap <C-O> <Plug>(milfeulle-prev)
-nmap <C-I> <Plug>(milfeulle-next)
+" nmap <C-O> <Plug>(milfeulle-prev)
+" nmap <C-I> <Plug>(milfeulle-next)
 
 " webapi-vim
 let g:webapi#system_function = "vimproc#system"
@@ -945,11 +945,11 @@ if neobundle#tap('unite.vim')
   " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
   call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
 
-  call unite#custom#source('buffer,file,file_mru', 'sorters', 'sorter_rank')
+  call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
 
-  call unite#custom#source('file_rec,file_rec/async', 'filters',
-        \ ['converter_relative_word', 'matcher_default',
-        \  'sorter_rank', 'converter_relative_abbr', 'converter_file_directory'])
+  call unite#custom#source('file_rec,file_rec/async', 'converters',
+        \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
+  call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
 
   call unite#custom#source(
         \ 'file_mru', 'converters',
