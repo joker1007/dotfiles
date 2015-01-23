@@ -129,7 +129,9 @@ NeoBundle 'ujihisa/ref-hoogle'
 " vim-scripts {{{
 NeoBundle 'vim-scripts/surround.vim'
 NeoBundle 'vim-scripts/L9'
-NeoBundle 'vim-scripts/YankRing.vim'
+if v:progname != "nvim"
+  NeoBundle 'vim-scripts/YankRing.vim'
+endif
 NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
@@ -255,7 +257,7 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 " }}}
 
 " cursor move {{{
-NeoBundle 'osyo-manga/vim-milfeulle'
+" NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'rhysd/accelerated-jk'
 " NeoBundle 'yonchu/accelerated-smooth-scroll'
