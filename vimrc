@@ -759,24 +759,44 @@ nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 " quickrun{{{
 
 " エスケープカラーを表示する。
-MyAutocmd FileType quickrun AnsiEsc
+" MyAutocmd FileType quickrun AnsiEsc
+nnoremap ,a :<C-U>AnsiEsc<CR>
 " ヤンクを取りやすいようにconcealcursorを無効にする。
 MyAutocmd FileType quickrun setlocal concealcursor=""
 
 call quickrun#module#register(shabadou#make_quickrun_hook_anim(
       \"now_running",
-      \['--- Now Running ---', ],
-      \40,
+      \['||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', '||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', ],
+      \2,
       \), 1)
+
+let s:ansiesc_hook = {
+      \ 'kind' : 'hook',
+      \ 'name' : 'ansiesc',
+      \ 'config' : {},
+      \ }
+
+function! s:ansiesc_hook.on_exit(session, context)
+  let l:winnr = winnr("$")
+  execute l:winnr 'wincmd w'
+  let ft = &filetype
+  if ft == 'quickrun'
+    AnsiEsc
+  endif
+endfunction
+
+call quickrun#module#register(s:ansiesc_hook, 1)
 
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
       \'runner' : 'vimproc',
-      \'outputter/buffer/split' : ':botright 8sp',
+      \'outputter/buffer/split' : ':botright 10sp',
       \'outputter/error': 'buffer',
       \'runner/vimproc/updatetime' : 40,
       \'hook/now_running/enable' : 1,
+      \'hook/time/enable' : 1,
+      \'hook/ansiesc/enable' : 1,
       \}
 
 let s:rspec_quickrun_config = {
