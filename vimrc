@@ -796,7 +796,6 @@ let g:quickrun_config._ = {
       \'runner/vimproc/updatetime' : 40,
       \'hook/now_running/enable' : 1,
       \'hook/time/enable' : 1,
-      \'hook/ansiesc/enable' : 1,
       \}
 
 let s:rspec_quickrun_config = {
