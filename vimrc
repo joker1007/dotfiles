@@ -206,6 +206,7 @@ NeoBundle 'joker1007/vim-metarw-github-issues'
 NeoBundle 'lilydjwg/colorizer'
 NeoBundle 'pasela/unite-webcolorname'
 NeoBundle 'mattn/httpstatus-vim'
+NeoBundle 'tmux-plugins/vim-tmux'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
