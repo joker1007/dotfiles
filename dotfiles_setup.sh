@@ -41,3 +41,5 @@ ln -sf ${PWD}/tigrc ~/.tigrc
 echo "Gen Simbolic Link peco_config.json => ~/.config/peco/config.json"
 mkdir -p ~/.config/peco
 ln -sf ${PWD}/peco_config.json ~/.config/peco/config.json
+mkdir -p ~/.tmux/plugins
+ln -sf ${PWD}/tpm ~/.tmux/plugins/tpm
