@@ -390,7 +390,7 @@ set ai                      " always set autoindenting on
 set nobackup
 set noswapfile              " No Swap
 set viminfo=%,'100,<500,h
-set history=100             " keep 100 lines of command line history
+set history=1000            " keep 1000 lines of command line history
 set ruler                   " show the cursor position all the time
 set nu                      " show line number
 set ambiwidth=double
@@ -399,6 +399,8 @@ set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
 set autoread                " 他でファイルが編集された時に自動で読み込む
 set background=dark
+set ttimeout
+set ttimeoutlen=100
 
 " Space prefix
 nnoremap [space] <Nop>
