@@ -37,5 +37,5 @@ rbenv install -k -f $version
 
 export RBENV_VERSION=$version
 rbenv exec gem update --system
-rbenv exec gem install bundler --pre --no-ri --no-rdoc
+rbenv exec gem install bundler --no-ri --no-rdoc
 rbenv rehash

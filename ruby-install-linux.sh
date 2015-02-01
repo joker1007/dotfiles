@@ -10,13 +10,13 @@ eval "$(rbenv init -)"
 
 export CC=clang
 export CXX=clang++
-export CFLAGS="-O2 -march=corei7-avx -mtune=corei7-avx"
-export CXXLAGS="${CFLAGS}"
+# export CFLAGS="-O2 -march=corei7-avx -mtune=corei7-avx"
+# export CXXLAGS="${CFLAGS}"
 
 export RUBY_CONFIGURE_OPTS=" \
+  --with-arch=x86_64 \
   --with-out-ext=tk,tk/* \
   --enable-shared \
-  --enable-pthread \
 "
 
 export MAKE_OPTS="-j 2"
@@ -27,5 +27,5 @@ rbenv install -k -f $version
 
 export RBENV_VERSION=$version
 rbenv exec gem update --system
-rbenv exec gem install bundler --pre --no-ri --no-rdoc
+rbenv exec gem install bundler --no-ri --no-rdoc
 rbenv rehash
