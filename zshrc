@@ -144,6 +144,7 @@ alias -g S="| sort"
 alias -g RD="RAILS_ENV=development"
 alias -g RP="RAILS_ENV=production"
 alias -g RT="RAILS_ENV=test"
+alias -g ST="amanogawa -f '%f%t%d' | column -t -s '	' | peco | awk '{print \$1}'"
 
 # 補完システムを利用: 補完の挙動が分かりやすくなる2つの設定のみ記述
 zstyle ':completion:*' format '%BCompleting %d%b'
