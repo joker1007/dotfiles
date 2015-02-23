@@ -207,6 +207,7 @@ NeoBundle 'lilydjwg/colorizer'
 NeoBundle 'pasela/unite-webcolorname'
 NeoBundle 'mattn/httpstatus-vim'
 NeoBundle 'tmux-plugins/vim-tmux'
+NeoBundle 'haya14busa/incsearch.vim'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -1772,6 +1773,16 @@ let g:markdown_quote_syntax_filetypes = {
         \},
   \}
 " }}}
+
+" incsearch.vim
+if neobundle#tap('incsearch.vim')
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+
+  call neobundle#untap()
+endif
+
 
 " accelerated-smooth-scroll
 " let g:ac_smooth_scroll_du_sleep_time_msec = 5
