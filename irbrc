@@ -1,20 +1,8 @@
 require "rubygems"
 
 begin
-  require "interactive_editor"
-rescue LoadError => err
-  warn "Couldn't load interactive_editor: #{err}"
-end
-
-begin
-  # load wirble
-  require 'wirble'
-
-  # start wirble (with color)
-  Wirble.init
-  Wirble.colorize
-rescue LoadError => err
-  warn "Couldn't load Wirble: #{err}"
+  require "irbtools"
+rescue LoadError
 end
 
 require "irb/completion"
