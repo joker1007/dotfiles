@@ -22,6 +22,8 @@ echo "Gen Simbolic Link .zshrc => ~/.zshrc"
 ln -sf ${PWD}/zshrc ~/.zshrc
 echo "Gen Simbolic Link .zshrc.github => ~/.zshrc.github"
 ln -sf ${PWD}/zshrc.github ~/.zshrc.github
+echo "Gen Simbolic Link .zshrc.peco => ~/.zshrc.peco"
+ln -sf ${PWD}/zshrc.peco ~/.zshrc.peco
 echo "Gen Simbolic Link .zsh => ~/.zsh"
 ln -sf ${PWD}/zsh ~/.zsh
 echo "Gen Simbolic Link .zshenv => ~/.zshenv"

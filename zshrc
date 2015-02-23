@@ -92,6 +92,7 @@ darwin*)
   alias rm='grm'
   alias cp='gcp'
   alias eche='gecho'
+  alias tac='gtac'
   alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
   alias gvim='/Applications/MacVim.app/Contents/MacOS/mvim'
   alias gvimdiff='/Applications/MacVim.app/Contents/MacOS/mvimdiff'
@@ -192,6 +193,8 @@ function grbi() {
 
 [ -s ~/.zshrc.github ] && source ~/.zshrc.github
 
+[ -s ~/.zshrc.github ] && source ~/.zshrc.peco
+
 function json_post() {
   url=$1
   method=$2
@@ -201,49 +204,6 @@ function json_post() {
 
 # ctags for Ruby
 alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
-
-# pecoとghqでローカルのリポジトリクローンに飛ぶ
-function peco-src () {
-    local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-src
-bindkey '^s' peco-src
-
-function peco-gitbranch () {
-    local selected_branch=$(git branch --no-color | sed -e 's/\*/ /g' | peco --query "$LBUFFER" | cut -d \  -f 3)
-    if [ -n "$selected_branch" ]; then
-        BUFFER="git checkout ${selected_branch}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-gitbranch
-bindkey '^b' peco-gitbranch
-
-function cdgem() {
-  query=$1
-  local gem_name=$(bundle list | sed -e 's/^ *\* *//g' | peco --query=$query | cut -d \  -f 1)
-  if [ -n "$gem_name" ]; then
-    local gem_dir=$(bundle show ${gem_name})
-    echo "cd to ${gem_dir}"
-    cd ${gem_dir}
-  fi
-}
-
-function peco-rake() {
-  local taskname="$(rake -W | cut -f 1,2 -d\  | uniq | peco | cut -f 2 -d\  )"
-
-  if [ -n "$taskname" ]; then
-      echo "Execute \"rake $taskname\""
-      rake $taskname
-  fi
-}
-alias rp=peco-rake
 
 # wine
 export WINEPREFIX="$HOME/.wineprefixes/base"
@@ -255,7 +215,6 @@ function prefix() {
 
 if [ -s ~/.zaw/zaw.zsh ]; then
   source ~/.zaw/zaw.zsh
-  bindkey '^r' zaw-history
 fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
