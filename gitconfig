@@ -18,6 +18,7 @@
 	cih = commit --amend -C HEAD
 	cih1 = commit --amend -c HEAD@{1}
 	co = checkout
+	co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
 	d = diff
 	dc = diff --cached
 	dn = diff --name-only
