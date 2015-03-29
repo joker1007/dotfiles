@@ -362,6 +362,9 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'mappings' : ['<Plug>(vimshell_switch)']
       \ }}
 
+
+NeoBundle 'mattn/vim-sonots'
+
 " }}}
 
 call neobundle#end()

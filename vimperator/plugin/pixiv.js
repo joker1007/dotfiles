@@ -212,22 +212,12 @@ commands.addUserCommand(
 // }}}
 
 // {{{ save single image file
-    let getImageUrl=function(pageContents){
-      let url;
-      let htmldoc=getDOMHtmlDocument(pageContents);
-      if(htmldoc){
-        if(0<htmldoc.getElementsByTagName('img').length)
-          url=htmldoc.getElementsByTagName('img').item(0).getAttribute('src');
-        else
-          url='';
-      }else{
-        url=pageContents.match(/http:\/\/img[0-9]{2}\.pixiv\.net\/img\/[0-9a-z_]+\/[0-9]+\.jpg|http:\/\/img[0-9]{2}\.pixiv\.net\/img\/[0-9a-z_]+\/[0-9]+\.png/i);
-      }
+    let getImageUrl=function(pContents){
+      let url = pContents.getElementsByClassName("original-image")[0].getAttribute( "data-src" );
       return url;
     };
 
-    let saveImageFile=function(){
-      let imgUrl=getImageUrl(xhrImgInfo.responseText);
+    let saveImageFile=function(imgUrl){
       if(0<imgUrl.length){
         let destPath=getDestPath(imgUrl);
         if(destPath==null){
@@ -276,11 +266,19 @@ commands.addUserCommand(
     };
 // }}}
 
-// {{{ trueImgINfo
+// {{{ trueNestImgInfo
+    let trueNestImgInfo=function(){
+      let htmldoc=getDOMHtmlDocument(xhrImgInfo.responseText);
+      if ( htmldoc ) {
+        let imgUrl = htmldoc.getElementsByTagName( 'img' )[0].getAttribute( 'src' );
+        saveImageFile(imgUrl);
+      }
+    };
+// }}}
+
+// {{{ trueImgInfo
     let trueImgInfo=function(){
-      if(-1!=type.search(/big&illust_id=/i)){
-        saveImageFile();
-      }else if(-1!=type.search(/manga&illust_id=/i)){
+      if(-1!=type.search(/manga&illust_id=/i)){
         saveMangaFiles();
       }else{
         liberator.echoerr("This page is not image page and not manga page.");
@@ -301,16 +299,35 @@ commands.addUserCommand(
       done : function (aResult) {
         if ( aResult == fp.returnOK ) {
           saveDirectory = fp.file;
-          xhrImgInfo = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
-                        .createInstance();
-          xhrImgInfo.QueryInterface( Ci.nsIDOMEventTarget );
-          xhrImgInfo.addEventListener( "load", trueImgInfo, false );
-          xhrImgInfo.addEventListener( "error", falseImgInfo, false );
-          xhrImgInfo.QueryInterface( Ci.nsIXMLHttpRequest );
-          xhrImgInfo.open( "GET", url, true);
-          xhrImgInfo.setRequestHeader( 'Referer', contents.URL );
-          xhrImgInfo.setRequestHeader( 'Cookie', cookie );
-          xhrImgInfo.send( null );
+          if ( url == null ) {
+            if ( type == null ) {
+              let imgUrl=getImageUrl(contents);
+              saveImageFile(imgUrl);
+            } else {
+              let secondUrl = "http://www.pixiv.net/"+type;
+              xhrImgInfo = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
+                            .createInstance();
+              xhrImgInfo.QueryInterface( Ci.nsIDOMEventTarget );
+              xhrImgInfo.addEventListener( "load", trueNestImgInfo, false );
+              xhrImgInfo.addEventListener( "error", falseImgInfo, false );
+              xhrImgInfo.QueryInterface( Ci.nsIXMLHttpRequest );
+              xhrImgInfo.open( "GET", secondUrl, true);
+              xhrImgInfo.setRequestHeader( 'Referer', contents.URL );
+              xhrImgInfo.setRequestHeader( 'Cookie', cookie );
+              xhrImgInfo.send( null );
+            }
+          } else {
+            xhrImgInfo = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
+                          .createInstance();
+            xhrImgInfo.QueryInterface( Ci.nsIDOMEventTarget );
+            xhrImgInfo.addEventListener( "load", trueImgInfo, false );
+            xhrImgInfo.addEventListener( "error", falseImgInfo, false );
+            xhrImgInfo.QueryInterface( Ci.nsIXMLHttpRequest );
+            xhrImgInfo.open( "GET", url, true);
+            xhrImgInfo.setRequestHeader( 'Referer', contents.URL );
+            xhrImgInfo.setRequestHeader( 'Cookie', cookie );
+            xhrImgInfo.send( null );
+          }
         }
       }
     };
@@ -318,9 +335,11 @@ commands.addUserCommand(
 
     type = contents.getElementsByClassName('works_display')
                   .item(0).firstChild.getAttribute('href');
-    if(-1!=type.search(/big&illust_id=/i)){
-      url=contents.documentURI.replace('medium','big');
-    }else if(-1!=type.search(/manga&illust_id=/i)){
+    if( type == null ){ // single iamge
+      url=null; 
+    }else if(-1!=type.search(/member_illust\.php\?mode=big\&illust\_id=/i)) {
+      url=null;
+    }else if(-1!=type.search(/manga&illust_id=/i)){ // plural image
       url=contents.documentURI.replace('medium','manga')+'&type=scroll';
     }else{
       liberator.echoerr("This page is not image page and not manga page.");
