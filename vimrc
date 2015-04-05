@@ -95,7 +95,8 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 
-NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
 
 " colorschemes plugin {{{
 NeoBundle 'altercation/vim-colors-solarized'
