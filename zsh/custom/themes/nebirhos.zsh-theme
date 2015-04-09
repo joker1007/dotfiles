@@ -10,11 +10,15 @@ else
   fi
 fi
 
+if type ruby > /dev/null 2>&1; then
+  BUNDLE_GEMFILE_PROMPT_="%{$fg_bold[blue]%}gemfile:(%{$fg[green]%}\$(echo \$BUNDLE_GEMFILE | ruby -r pathname -ne 'begin puts Pathname(\$_).relative_path_from(Pathname(Dir.pwd)); rescue; end')%{$fg_bold[blue]%})%{$reset_color%} "
+fi
+
 # Get the host name (first 4 chars)
 HOST_PROMPT_="%{$fg_bold[yellow]%}%n@%m %{$fg_bold[cyan]%}%c "
 GIT_PROMPT="%{$fg_bold[blue]%}\$(git_prompt_info)\$(git_prompt_status)%{$fg_bold[blue]%} % %{$reset_color%}"
 TIME_PROMPT="[%T]"
-PROMPT="$HOST_PROMPT_$RUBY_PROMPT_${GIT_PROMPT}$TIME_PROMPT
+PROMPT="$HOST_PROMPT_$RUBY_PROMPT_$BUNDLE_GEMFILE_PROMPT_${GIT_PROMPT}$TIME_PROMPT
 %# "
 
 ZSH_THEME_GIT_PROMPT_PREFIX="git:(%{$fg[red]%}"
