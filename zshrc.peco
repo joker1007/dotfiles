@@ -51,6 +51,23 @@ function cdgem() {
   fi
 }
 
+function swgemfile() {
+  local gemfile=$(find . \( -name "Gemfile*" -or -name "*.gemfile" \) -not -name "*.lock" -maxdepth 2 | peco)
+  if [ -n "$gemfile" ]; then
+    local gemfile_fullpath=$(echo ${gemfile} | ruby -r pathname -ne 'puts Pathname(Dir.pwd).join($_)')
+    touch .envrc
+    sed -i -e '/BUNDLE_GEMFILE/d' .envrc
+    echo "export BUNDLE_GEMFILE=${gemfile_fullpath}" >> .envrc
+    direnv allow .
+    direnv reload
+  else
+    sed -i -e '/BUNDLE_GEMFILE/d' .envrc
+    direnv allow .
+    direnv reload
+  fi
+}
+alias swg=swgemfile
+
 function peco-rake() {
   local taskname="$(rake -W | cut -f 1,2 -d\  | uniq | peco | cut -f 2 -d\  )"
 
