@@ -1648,6 +1648,16 @@ if executable('rubocop')
   let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 endif
 
+function! s:toggle_rubocop() abort
+  if index(g:syntastic_ruby_checkers, 'rubocop') >= 0
+    let g:syntastic_ruby_checkers = ['mri']
+  else
+    let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+  endif
+endfunction
+
+command! ToggleRubocop :call s:toggle_rubocop()
+
 if executable('coffeelint')
   let g:syntastic_coffee_checkers = ['coffeelint']
 endif
