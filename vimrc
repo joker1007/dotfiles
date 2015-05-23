@@ -1662,9 +1662,14 @@ if executable('coffeelint')
   let g:syntastic_coffee_checkers = ['coffeelint']
 endif
 
+if executable('eslint')
+  let g:syntastic_javascript_checkers = ['eslint']
+endif
+
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby', 'typescript', 'coffee'],
+                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee'],
                            \ 'passive_filetypes': [] }
 
 " ft hamstache
