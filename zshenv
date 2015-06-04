@@ -13,8 +13,9 @@ typeset -U path PATH
 path=(
   $HOME/.rbenv/bin(N-/)
   $HOME/.rbenv/shims(N-/)
-  $HOME/.nodenv/bin(N-/)
-  $HOME/.nodenv/shims(N-/)
+  $HOME/.nodebrew/current/bin(N-/)
+  # $HOME/.nodenv/bin(N-/)
+  # $HOME/.nodenv/shims(N-/)
   $HOME/bin
   $HOME/gocode/bin
   $HOME/Library/Haskell/bin(N-/)
@@ -79,11 +80,11 @@ if type rbenv > /dev/null 2>&1; then
   source ~/.rbenv/completions/rbenv.zsh
 fi
 
-# nodenv
-if type nodenv > /dev/null 2>&1; then
-  eval "$(nodenv init -)"
-  source ~/.nodenv/completions/nodenv.zsh
-fi
+# # nodenv
+# if type nodenv > /dev/null 2>&1; then
+  # eval "$(nodenv init -)"
+  # source ~/.nodenv/completions/nodenv.zsh
+# fi
 
 # golang
 export GOPATH=~/gocode
