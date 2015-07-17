@@ -1810,6 +1810,7 @@ endif
 let dbext_default_profile = 'redshift'
 let dbext_default_profile_redshift = 'type=PGSQL'
 let dbext_default_profile_mysql = 'type=MYSQL'
+let g:rails_no_dbext = 1
 
 " accelerated-smooth-scroll
 " let g:ac_smooth_scroll_du_sleep_time_msec = 5
