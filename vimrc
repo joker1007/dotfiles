@@ -211,6 +211,9 @@ NeoBundle 'mattn/httpstatus-vim'
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'haya14busa/incsearch.vim'
 
+NeoBundle 'vim-scripts/SQLUtilities'
+NeoBundle 'vim-scripts/dbext.vim'
+
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
 \       'commands' : [ "Switch" ],
@@ -1803,6 +1806,10 @@ if neobundle#tap('incsearch.vim')
   call neobundle#untap()
 endif
 
+" dbext.vim
+let dbext_default_profile = 'redshift'
+let dbext_default_profile_redshift = 'type=PGSQL'
+let dbext_default_profile_mysql = 'type=MYSQL'
 
 " accelerated-smooth-scroll
 " let g:ac_smooth_scroll_du_sleep_time_msec = 5
