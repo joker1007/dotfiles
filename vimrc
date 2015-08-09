@@ -213,6 +213,7 @@ NeoBundle 'haya14busa/incsearch.vim'
 
 NeoBundle 'vim-scripts/SQLUtilities'
 NeoBundle 'vim-scripts/dbext.vim'
+NeoBundle 'exu/pgsql.vim'
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
 \   'autoload' : {
@@ -925,6 +926,13 @@ if has('gui_macvim') && has('kaoriya')
     let $RUBY_DLL = s:ruby_libruby
   endif
 endif
+
+" liblua load
+" if has('gui_macvim') && has('kaoriya')
+  " if filereadable(expand("/usr/local/lib/libluajit-5.1.2.dylib"))
+    " let $LUA_DLL = "/usr/local/lib/libluajit-5.1.2.dylib"
+  " endif
+" endif
 
 " vim-milfeulle
 " nmap <C-O> <Plug>(milfeulle-prev)
