@@ -91,6 +91,7 @@ NeoBundle 'moro/vim-review'
 NeoBundle 'kana/vim-submode'
 
 NeoBundle 'tpope/vim-markdown'
+NeoBundle 'mattn/vim-maketable'
 
 NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
@@ -195,6 +196,7 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
 if has('mac')
   NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'thinca/vim-quickrun'}
@@ -1678,10 +1680,13 @@ if executable('eslint')
   let g:syntastic_javascript_checkers = ['eslint']
 endif
 
+let g:syntastic_enable_elixir_checker = 1
+let g:syntastic_elixir_checkers = ['elixir']
+
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee'],
+                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee', 'elixir'],
                            \ 'passive_filetypes': [] }
 
 " ft hamstache
