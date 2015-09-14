@@ -87,6 +87,7 @@ NeoBundleLazy 'thinca/vim-prettyprint', {
 
 NeoBundle 'motemen/hatena-vim'
 NeoBundle 'moro/vim-review'
+NeoBundle 'cespare/vim-toml'
 
 NeoBundle 'kana/vim-submode'
 
