@@ -16,6 +16,7 @@ path=(
   $HOME/.nodebrew/current/bin(N-/)
   # $HOME/.nodenv/bin(N-/)
   # $HOME/.nodenv/shims(N-/)
+  $HOME/.embulk/bin(N-/)
   $HOME/bin
   $HOME/gocode/bin
   $HOME/Library/Haskell/bin(N-/)

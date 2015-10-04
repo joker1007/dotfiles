@@ -98,6 +98,7 @@ NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'elzr/vim-json'
 NeoBundle 'mxw/vim-jsx'
 
 " colorschemes plugin {{{
@@ -1836,6 +1837,9 @@ let g:qiita_per_page = 50
 
 " vim-metarw-github-issues
 let g:github_user = "joker1007"
+
+" vim-json
+let g:vim_json_syntax_conceal = 0
 
 syntax enable
 
