@@ -1678,14 +1678,20 @@ if executable('coffeelint')
   let g:syntastic_coffee_checkers = ['coffeelint']
 endif
 
+let g:syntastic_javascript_checkers = []
+
 if executable('eslint')
-  let g:syntastic_javascript_checkers = ['eslint']
+  let g:syntastic_javascript_checkers += ['eslint']
+endif
+
+if executable('flow')
+  let g:syntastic_javascript_checkers += ['flow']
 endif
 
 let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_elixir_checkers = ['elixir']
 
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee', 'elixir'],
@@ -1698,7 +1704,7 @@ MyAutocmd BufReadPost *.hamstache set filetype=haml
 MyAutocmd BufReadPost *.ejs set filetype=html
 
 " ag.vim
-let g:agprg="ag --nocolor --nogroup --column"
+let g:ag_prg="ag --vimgrep --smart-case"
 
 " vim-anzu {{{
 nmap n <Plug>(anzu-n-with-echo)
