@@ -402,8 +402,12 @@ set bs=indent,eol,start     " allow backspacing over everything in insert mode
 set ai                      " always set autoindenting on
 set nobackup
 set noswapfile              " No Swap
-set viminfo='100,<1000,h
-set history=1000            " keep 1000 lines of command line history
+if has('nvim')
+  set viminfo='100,<1000,:10000,h
+else
+  set viminfo='100,<1000,h
+endif
+set history=10000           " keep 10000 lines of command line history
 set ruler                   " show the cursor position all the time
 set nu                      " show line number
 set ambiwidth=double
