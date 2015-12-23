@@ -59,12 +59,7 @@ else
 endif
 
 " NeoBundle {{{
-let g:neobundle#types#git#default_protocol = "git"
-
 call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/vimproc', {
   \ 'build' : {
@@ -990,19 +985,20 @@ if neobundle#tap('unite.vim')
   " unite-ruby-require
   let g:unite_source_ruby_require_ruby_command = expand("~/.rbenv/shims/ruby")
 
-  " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
-  call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
+  function! neobundle#hooks.on_source(bundle)
+    " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
+    call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
 
-  call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
+    call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
 
-  call unite#custom#source('file_rec,file_rec/async', 'converters',
-        \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
-  call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
+    call unite#custom#source('file_rec,file_rec/async', 'converters',
+          \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
+    call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
 
-  call unite#custom#source(
-        \ 'file_mru', 'converters',
-        \ ['converter_file_directory'])
-
+    call unite#custom#source(
+          \ 'file_mru', 'converters',
+          \ ['converter_file_directory'])
+  endfunction
 
   function! s:unite_my_settings()
     " Overwrite settings.
@@ -1168,6 +1164,7 @@ nnoremap <silent> ,vf :<C-U>VimFiler<CR>
 if neobundle#tap('vimfiler')
   let g:vimfiler_as_default_explorer = 1
   let g:vimfiler_max_directory_histories = 100
+
   function s:ChangeVimfilerKeymap()
     nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
 
@@ -1183,9 +1180,11 @@ if neobundle#tap('vimfiler')
   endfunction
   MyAutocmd FileType vimfiler call s:ChangeVimfilerKeymap()
 
-  if filereadable(expand('~/.vimfiler.local'))
-    execute 'source' expand('~/.vimfiler.local')
-  endif
+  function! neobundle#hooks.on_source(bundle)
+    if filereadable(expand('~/.vimfiler.local'))
+      execute 'source' expand('~/.vimfiler.local')
+    endif
+  endfunction
 
   call neobundle#untap()
 endif
@@ -1204,14 +1203,17 @@ if neobundle#tap('vimshell')
     let g:vimshell_prompt = $USERNAME."% "
   else
     let g:vimshell_prompt = $USER . "@" . hostname() . "% "
-    if has('mac')
-      call vimshell#set_execute_file('html', 'gexe open -a /Applications/Firefox.app/Contents/MacOS/firefox')
-      call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
-    endif
   endif
   "let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
   let g:vimshell_right_prompt = '"[" . getcwd() . "]"'
   let g:vimshell_max_command_history = 3000
+
+  function! neobundle#hooks.on_source(bundle)
+    if has('mac')
+      call vimshell#set_execute_file('html', 'gexe open -a /Applications/Firefox.app/Contents/MacOS/firefox')
+      call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
+    endif
+  endfunction
 
   MyAutocmd FileType vimshell
     \ call vimshell#altercmd#define('g', 'git')
@@ -1535,16 +1537,17 @@ nmap <F3> <Plug>(altr-forward)
 nmap <F2> <Plug>(altr-back)
 
 if neobundle#tap('vim-altr')
-  " For ruby tdd
-  call altr#define('%.rb', 'spec/%_spec.rb')
-  " For ruby tdd
-  call altr#define('lib/%.rb', 'spec/lib/%_spec.rb', 'spec/%_spec.rb')
-  " For rails tdd
-  call altr#define('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
-  call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
-  call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
-  call altr#define('app/%.rb', 'spec/%_spec.rb')
-
+  function! neobundle#hooks.on_source(bundle)
+    " For ruby tdd
+    call altr#define('%.rb', 'spec/%_spec.rb')
+    " For ruby tdd
+    call altr#define('lib/%.rb', 'spec/lib/%_spec.rb', 'spec/%_spec.rb')
+    " For rails tdd
+    call altr#define('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
+    call altr#define('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
+    call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
+    call altr#define('app/%.rb', 'spec/%_spec.rb')
+  endfunction
   call neobundle#untap()
 endif
 " }}}
