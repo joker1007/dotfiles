@@ -128,7 +128,7 @@ NeoBundle 'ujihisa/ref-hoogle'
 " vim-scripts {{{
 NeoBundle 'vim-scripts/surround.vim'
 NeoBundle 'vim-scripts/L9'
-if v:progname != "nvim"
+if !has('nvim')
   NeoBundle 'vim-scripts/YankRing.vim'
 endif
 NeoBundle 'vim-scripts/grep.vim'
@@ -329,6 +329,13 @@ if has('lua')
   NeoBundle 'Shougo/neocomplete', {
   \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
   \   'vim_version' : '7.3.885',
+  \   'autoload' : {
+  \       'insert' : 1,
+  \   }
+  \}
+elseif has('nvim')
+  NeoBundle 'Shougo/deoplete.nvim', {
+  \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
   \   'autoload' : {
   \       'insert' : 1,
   \   }
@@ -1479,6 +1486,14 @@ if neobundle#tap('neocomplcache')
   let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 
   call neobundle#untap()
+endif
+
+if neobundle#tap('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+
+  " SuperTab like snippets behavior.
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
 " }}}
 
