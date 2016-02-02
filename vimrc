@@ -327,7 +327,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
 " }}}
 
 " neocon {{{
-NeoBundle 'Rip-Rip/clang_complete'
+NeoBundle 'justmao945/vim-clang'
 
 if has('lua')
   NeoBundle 'Shougo/neocomplete', {
@@ -825,6 +825,18 @@ let g:quickrun_config._ = {
       \'hook/time/enable' : 1,
       \}
 
+let g:quickrun_config.ruby = {
+  \ 'cmdopt': '-W2',
+  \ 'exec': 'bundle exec %c %o %s %a',
+  \ }
+
+let g:quickrun_config['ruby/plain'] =
+  \ extend(copy(g:quickrun_config.ruby), {
+    \ 'type': 'ruby/plain',
+    \ 'command': 'ruby',
+    \ 'exec': '%c %o %s %a',
+  \})
+
 let s:rspec_quickrun_config = {
   \ 'command': 'rspec',
   \ 'outputter': 'multi:error:rspec_notifier',
@@ -926,19 +938,24 @@ command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle
 command! -nargs=0 UseSpringCucumber let b:quickrun_config = {'type' : 'cucumber/spring'} | call s:SetUseSpring()
 command! -nargs=0 UseZeusCucumber   let b:quickrun_config = {'type' : 'cucumber/zeus'}   | call s:SetUseZeus()
 command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/bundle'} | call s:SetUseBundle()
+command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 " }}}
 
+
+
 " libruby load
-if has('gui_macvim') && has('kaoriya')
-  if filereadable(expand("~/.rbenv/shims/ruby"))
-    let s:ruby_exec = expand("~/.rbenv/shims/ruby")
-  else
-    let s:ruby_exec = "ruby"
-  endif
-  let s:ruby_libdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
-  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
-  if filereadable(s:ruby_libruby)
-    let $RUBY_DLL = s:ruby_libruby
+if filereadable(expand("~/.rbenv/shims/ruby"))
+  let s:ruby_exec = expand("~/.rbenv/shims/ruby")
+else
+  let s:ruby_exec = "ruby"
+endif
+let s:ruby_libdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
+let s:ruby_headerdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"rubyhdrdir\"]'")
+let s:ruby_archheaderdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"rubyarchhdrdir\"]'")
+let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
+if filereadable(s:ruby_libruby)
+  if has('gui_macvim') && has('kaoriya')
+    let &rubydll=s:ruby_libruby
   endif
 endif
 
@@ -1307,10 +1324,13 @@ MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
 
 " clang_complete
-if neobundle#tap('clang_complete')
-  let g:clang_complete_auto = 0
-  let g:clang_auto_select = 0
+if neobundle#tap('vim-clang')
+  let g:clang_auto = 0
   let g:clang_use_library = 1
+  let g:clang_check_syntax_auto = 1
+
+  let g:clang_c_options = '-I' . s:ruby_headerdir . ' -I' . s:ruby_archheaderdir
+  let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
   " let g:clang_debug = 1
   if has('mac')
     let g:clang_library_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
