@@ -159,7 +159,8 @@ NeoBundle 'juvenn/mustache.vim'
 " visibility {{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'LeafCage/foldCC'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'osyo-manga/vim-over'
 " }}}
 
