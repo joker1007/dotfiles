@@ -212,6 +212,13 @@ function prefix() {
   export WINEPREFIX="$HOME/.wineprefixes/$1"
 }
 
+# bq
+function bqj() {
+  local job_id=$1
+  shift
+  bq --format=json show -j $job_id | jq $@
+}
+
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 if [ -s ~/.zaw/zaw.zsh ]; then
