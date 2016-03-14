@@ -60,7 +60,7 @@ endif
 
 " NeoBundle {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
-let g:neobundle#default_options._ = { 'verbose' : 1 }
+" let g:neobundle#default_options._ = { 'verbose' : 1 }
 
 NeoBundle 'Shougo/vimproc', {
   \ 'build' : {
@@ -72,11 +72,11 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 NeoBundleLazy 'tyru/eskk.vim', {
-\   'autoload' : {
-\       'insert' : 1,
-\   }
+\   'on_i' : 1,
 \}
-NeoBundle 'tyru/skkdict.vim'
+NeoBundleLazy 'tyru/skkdict.vim', {
+\   'on_i' : 1,
+\}
 
 NeoBundleLazy 'scrooloose/nerdcommenter', {
 \   'on_map' : [
@@ -152,7 +152,7 @@ NeoBundle 'vim-scripts/surround.vim'
 NeoBundleLazy 'LeafCage/yankround.vim', {
       \ 'on_map' : ['p', 'P', 'gp', 'gP'],
 \}
-NeoBundle 'vim-scripts/grep.vim'
+" NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
@@ -307,7 +307,7 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', {
 " cursor move {{{
 " NeoBundle 'osyo-manga/vim-milfeulle'
 NeoBundle 'thinca/vim-visualstar'
-NeoBundle 'rhysd/accelerated-jk'
+" NeoBundle 'rhysd/accelerated-jk'
 " NeoBundle 'yonchu/accelerated-smooth-scroll'
 
 NeoBundleLazy 'Lokaltog/vim-easymotion', {
@@ -1161,10 +1161,10 @@ MyAutocmd FileType gitv call s:my_gitv_settings()
 " }}}
 
 " vim-gitgitter {{{
-let g:gitgutter_sign_added = '✚'
-let g:gitgutter_sign_modified = '➜'
-let g:gitgutter_sign_removed = '✘'
-let g:gitgutter_sign_modified_removed = '✔'
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '**'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_sign_modified_removed = '*-'
 "}}}
 
 " vim-airline {{{
