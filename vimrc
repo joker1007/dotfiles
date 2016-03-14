@@ -60,6 +60,7 @@ endif
 
 " NeoBundle {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
+let g:neobundle#default_options._ = { 'verbose' : 1 }
 
 NeoBundle 'Shougo/vimproc', {
   \ 'build' : {
@@ -67,37 +68,56 @@ NeoBundle 'Shougo/vimproc', {
   \     'cygwin' : 'make -f make_cygwin.mak',
   \     'mac' : 'make -f make_mac.mak',
   \     'unix' : 'make -f make_unix.mak',
+  \     'linux' : 'make',
   \    },
   \ }
-NeoBundle 'tyru/eskk.vim'
-NeoBundle 'tyru/skkdict.vim'
-
-NeoBundle 'scrooloose/nerdcommenter'
-
-NeoBundleLazy 'thinca/vim-prettyprint', {
+NeoBundleLazy 'tyru/eskk.vim', {
 \   'autoload' : {
-\       'commands' : [ "PrettyPrint", "PP" ]
+\       'insert' : 1,
 \   }
 \}
+NeoBundle 'tyru/skkdict.vim'
 
-NeoBundle 'motemen/hatena-vim'
+NeoBundleLazy 'scrooloose/nerdcommenter', {
+\   'on_map' : [
+      \'\cc',
+      \'\cn',
+      \'\c<space>',
+      \'\cm',
+      \'\ci',
+      \'\cs',
+      \'\cy',
+      \'\c$',
+      \'\cA',
+      \'\ca'
+\   ],
+\}
+
+NeoBundle 'thinca/vim-prettyprint'
+
 NeoBundle 'moro/vim-review'
 NeoBundle 'cespare/vim-toml'
 
 NeoBundle 'kana/vim-submode'
 
 NeoBundle 'tpope/vim-markdown'
-NeoBundle 'mattn/vim-maketable'
+NeoBundleLazy 'mattn/vim-maketable', {
+      \ 'on_ft' : ['markdown'],
+\}
 
-NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
+NeoBundleLazy 'joker1007/vim-ruby-heredoc-syntax', {
+      \ 'on_ft' : ['ruby', 'eruby'],
+\}
+
+NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {
+      \ 'on_ft' : ['markdown'],
+\}
 
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'elzr/vim-json'
 NeoBundle 'mxw/vim-jsx'
 
 " colorschemes plugin {{{
-NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'baskerville/bubblegum'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'w0ng/vim-hybrid'
@@ -113,10 +133,12 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'thinca/vim-quickrun', {'depends' : 'Shougo/vimproc'}
 NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'carlosvillu/coffeScript-VIM-Snippets'
+NeoBundleLazy 'carlosvillu/coffeScript-VIM-Snippets', {
+      \ 'on_ft' : ['coffee'],
+\}
 
 NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'clausreinke/typescript-tools'
+NeoBundle 'clausreinke/typescript-tools.vim'
 " }}}
 
 " ref {{{
@@ -127,10 +149,9 @@ NeoBundle 'ujihisa/ref-hoogle'
 
 " vim-scripts {{{
 NeoBundle 'vim-scripts/surround.vim'
-NeoBundle 'vim-scripts/L9'
-if !has('nvim')
-  NeoBundle 'vim-scripts/YankRing.vim'
-endif
+NeoBundleLazy 'LeafCage/yankround.vim', {
+      \ 'on_map' : ['p', 'P', 'gp', 'gP'],
+\}
 NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
@@ -141,13 +162,17 @@ NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-niceblock'
-NeoBundle 'nelstrom/vim-textobj-rubyblock'
+NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
+      \ 'on_ft' : ['ruby'],
+\}
 NeoBundle 'kana/vim-textobj-indent'
 " }}}
 
 
 " html template {{{
-NeoBundle 'mattn/emmet-vim'
+NeoBundle 'mattn/emmet-vim', {
+      \ 'on_i' : 1,
+\}
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'slim-template/vim-slim'
@@ -161,7 +186,9 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'LeafCage/foldCC'
 NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'osyo-manga/vim-over'
+NeoBundleLazy 'osyo-manga/vim-over', {
+      \ 'on_cmd' : ['OverCommandLine', 'OverCommandLineNoremap', 'OverCommandLineMap', 'OverCommandLineUnmap']
+\}
 " }}}
 
 " haskell develop {{{
@@ -169,30 +196,51 @@ NeoBundle 'dag/vim2hs'
 NeoBundle 'pbrisbin/html-template-syntax'
 
 NeoBundleLazy 'eagletmt/ghcmod-vim', {
-\   'autoload' : {
-\       'filetypes' : [ "haskell" ]
-\   }
+\   'on_ft' : [ "haskell" ]
 \}
 
 NeoBundleLazy 'ujihisa/neco-ghc', {
-\   'autoload' : {
-\       'filetypes' : [ "haskell" ]
-\   }
+\   'on_ft' : [ "haskell" ]
 \}
 " }}}
 
 " web browse, api {{{
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'kannokanno/previm'
+NeoBundleLazy 'kannokanno/previm', {
+      \ 'on_cmd' : ['PrevimOpen']
+\}
 " }}}
 
 " other programinng {{{
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'thinca/vim-qfreplace'
+NeoBundleLazy 'rking/ag.vim', {
+      \ 'on_cmd' : [
+        \ 'Ag',
+        \ 'AgBuffer',
+        \ 'AgAdd',
+        \ 'AgFromSearch',
+        \ 'LAg',
+        \ 'LAgBuffer',
+        \ 'LAgAdd',
+        \ 'LAgFile',
+        \ 'AgHelp',
+        \ 'LAgHelp',
+      \ ]
+\}
+NeoBundleLazy 'majutsushi/tagbar', {
+      \ 'on_cmd' : [
+        \ 'TagbarOpen',
+        \ 'TagbarToggle',
+        \ 'TagbarOpenAutoClose',
+        \ 'TagbarTogglePause',
+        \ 'TagbarCurrentTag',
+        \ 'TagbarShowTag',
+        \ 'TagbarGetTypeConfig',
+      \ ]
+\}
+NeoBundleLazy 'thinca/vim-qfreplace', { 'on_cmd' : ['Qfreplace'] }
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'supermomonga/shiraseru.vim', {'depends' : 'Shougo/vimproc'}
@@ -200,8 +248,8 @@ if has('mac')
   NeoBundle 'rhysd/quickrun-mac_notifier-outputter', {'depends' : 'thinca/vim-quickrun'}
 endif
 NeoBundle 'osyo-manga/shabadou.vim'
-NeoBundle 'joker1007/quickrun-rspec-notifier'
-NeoBundle 'superbrothers/vim-quickrun-markdown-gfm'
+NeoBundle 'joker1007/quickrun-rspec-notifier', {'depends' : 'thinca/vim-quickrun'}
+NeoBundleLazy 'superbrothers/vim-quickrun-markdown-gfm', {'on_ft': 'markdown'}
 NeoBundle 'kana/vim-metarw'
 NeoBundle 'joker1007/vim-metarw-qiita'
 NeoBundle 'joker1007/vim-metarw-github-issues'
@@ -220,39 +268,29 @@ NeoBundle 'ternjs/tern_for_vim', {
 \}}
 
 NeoBundleLazy 'AndrewRadev/switch.vim', {
-\   'autoload' : {
-\       'commands' : [ "Switch" ],
-\       'functions' : [ "switch#Switch" ],
-\   }
+\   'on_cmd' : [ "Switch" ],
+\   'on_func' : [ "switch#Switch" ],
 \}
 
 NeoBundleLazy 'sjl/gundo.vim', {
-\   'autoload' : {
-\       'commands' : [ "GundoShow", "GundoToggle" ]
-\   }
+\   'on_cmd' : [ "GundoShow", "GundoToggle" ]
 \}
 
 NeoBundleLazy 'kana/vim-altr', {
-\   'autoload' : {
-\       'mappings' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
-\   }
+\   'on_map' : ['<Plug>(altr-forward)', '<Plug>(altr-back)'],
 \}
 
 NeoBundleLazy 'osyo-manga/vim-anzu', {
-\   'autoload' : {
-\       'mappings' : [
-          \'<Plug>(anzu-n-with-echo)',
-          \'<Plug>(anzu-N-with-echo)',
-          \'<Plug>(anzu-star-with-echo)',
-          \'<Plug>(anzu-sharp-with-echo)'
-\       ],
-\   }
+\   'on_map' : [
+      \'<Plug>(anzu-n-with-echo)',
+      \'<Plug>(anzu-N-with-echo)',
+      \'<Plug>(anzu-star-with-echo)',
+      \'<Plug>(anzu-sharp-with-echo)'
+\   ],
 \}
 
 NeoBundleLazy "osyo-manga/vim-gyazo", {
-\   'autoload' : {
-\       'commands' : [ "GyazoPost", "GyazoOpenBrowser", "GyazoTweetVim", "GyazoOpenBrowserCurrentWindow", "GyazoTweetVimCurrentWindow" ]
-\   }
+\   'on_cmd' : [ "GyazoPost", "GyazoOpenBrowser", "GyazoTweetVim", "GyazoOpenBrowserCurrentWindow", "GyazoTweetVimCurrentWindow" ]
 \}
 " }}}
 
@@ -262,9 +300,7 @@ NeoBundle 'mattn/favstar-vim'
 NeoBundleLazy 'basyura/twibill.vim'
 NeoBundleLazy 'basyura/TweetVim', 'dev', {
 \   'depends' : ['basyura/twibill.vim', 'tyru/open-browser.vim' ],
-\   'autoload' : {
-\       'commands' : [ "TweetVimHomeTimeline", "TweetVimSay", "TweetVimUserStream", "TweetVimUserTimeline" ]
-\   }
+\   'on_cmd' : [ "TweetVimHomeTimeline", "TweetVimSay", "TweetVimUserStream", "TweetVimUserTimeline" ]
 \}
 " }}}
 
@@ -275,29 +311,27 @@ NeoBundle 'rhysd/accelerated-jk'
 " NeoBundle 'yonchu/accelerated-smooth-scroll'
 
 NeoBundleLazy 'Lokaltog/vim-easymotion', {
-\   'autoload' : {
-\       'mappings' : [
-          \'\\w',
-          \'\\t',
-          \'\\n',
-          \'\\k',
-          \'\\j',
-          \'\\f',
-          \'\\e',
-          \'\\b',
-          \'\\W',
-          \'\\T',
-          \'\\N',
-          \'\\F',
-          \'\\B'
-\       ],
-\   }
+\   'on_map' : [
+      \'\\w',
+      \'\\t',
+      \'\\n',
+      \'\\k',
+      \'\\j',
+      \'\\f',
+      \'\\e',
+      \'\\b',
+      \'\\W',
+      \'\\T',
+      \'\\N',
+      \'\\F',
+      \'\\B'
+\   ],
 \}
 " }}}
 
 " git {{{
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv'
+NeoBundle 'tpope/vim-fugitive', {'augroup' : 'fugitive'}
+NeoBundleLazy 'gregsexton/gitv', {'on_cmd' : ['Gitv']}
 NeoBundle 'airblade/vim-gitgutter'
 
 NeoBundleLazy 'mattn/gist-vim', {
@@ -334,23 +368,17 @@ if has('lua')
   NeoBundle 'Shougo/neocomplete', {
   \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
   \   'vim_version' : '7.3.885',
-  \   'autoload' : {
-  \       'insert' : 1,
-  \   }
+  \   'on_i' : 1,
   \}
 elseif has('nvim')
   NeoBundle 'Shougo/deoplete.nvim', {
   \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
-  \   'autoload' : {
-  \       'insert' : 1,
-  \   }
+  \   'on_i' : 1,
   \}
 else
   NeoBundle 'Shougo/neocomplcache', {
   \   'depends' : ["Shougo/neosnippet"],
-  \   'autoload' : {
-  \       'insert' : 1,
-  \   }
+  \   'on_i' : 1,
   \}
 endif
 NeoBundle 'Shougo/neosnippet', {
@@ -362,24 +390,18 @@ NeoBundle 'Shougo/neosnippet-snippets'
 " vimshell, vimfiler {{{
 NeoBundleLazy 'Shougo/vimfiler', {
 \   'depends' : ["Shougo/unite.vim"],
-\   'autoload' : {
-\       'commands' : [ "VimFilerTab", "VimFiler", "VimFilerExplorer", "VimFilerBufferDir" ],
-\       'mappings' : ['<Plug>(vimfiler_switch)'],
-\       'explorer' : 1,
-\   }
+\   'on_cmd' : [ "VimFilerTab", "VimFiler", "VimFilerExplorer", "VimFilerBufferDir" ],
+\   'on_map' : ['<Plug>(vimfiler_switch)'],
 \}
 
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
-      \ 'autoload' : {
-      \   'commands' : [{ 'name' : 'VimShell',
-      \                   'complete' : 'customlist,vimshell#complete'},
-      \                 'VimShellExecute', 'VimShellInteractive',
-      \                 'VimShellTerminal', 'VimShellPop'],
-      \   'mappings' : ['<Plug>(vimshell_switch)']
-      \ }}
-
-
+      \ 'on_cmd' : [{ 'name' : 'VimShell',
+      \                 'complete' : 'customlist,vimshell#complete'},
+      \               'VimShellExecute', 'VimShellInteractive',
+      \               'VimShellTerminal', 'VimShellPop'],
+      \ 'on_map' : ['<Plug>(vimshell_switch)']
+      \ }
 NeoBundle 'mattn/vim-sonots'
 
 " }}}
@@ -487,7 +509,7 @@ map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{eskk#statusline()}%=%l/%L,%c%V%8P\
+" set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{eskk#statusline()}%=%l/%L,%c%V%8P\
 set noshowmode
 set wildmenu
 set cmdheight=2
@@ -1105,9 +1127,13 @@ MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | 
 " }}}
 
 " gitv {{{
-nnoremap [git]vn :<C-u>Gitv<CR>
-nnoremap [git]va :<C-u>Gitv --all<CR>
-nnoremap [git]vf :<C-u>Gitv!<CR>
+if neobundle#tap("gitv")
+  nnoremap [git]vn :<C-u>Gitv<CR>
+  nnoremap [git]va :<C-u>Gitv --all<CR>
+  nnoremap [git]vf :<C-u>Gitv!<CR>
+
+  call neobundle#untap()
+endif
 
 " http://d.hatena.ne.jp/cohama/20130517/1368806202
 function! GitvGetCurrentHash()
@@ -1432,6 +1458,8 @@ if neobundle#tap('deoplete.nvim')
   " SuperTab like snippets behavior.
   imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -1565,11 +1593,16 @@ if &diff
 endif
 
 " TagBar
-nnoremap <silent> ,t :TagbarToggle<CR>
-let g:tagbar_left = 1
-let g:tagbar_width = 30
-let g:tagbar_updateonsave_maxlines = 10000
-let g:tagbar_sort = 0
+if neobundle#tap('tagbar')
+  let g:tagbar_left = 1
+  let g:tagbar_width = 30
+  let g:tagbar_updateonsave_maxlines = 10000
+  let g:tagbar_sort = 0
+
+  nnoremap <silent> ,t :TagbarToggle<CR>
+
+  call neobundle#untap()
+endif
 
 " Tabular
 nnoremap <Leader>a, :Tabularize /,<CR>
@@ -1783,6 +1816,22 @@ if neobundle#tap('incsearch.vim')
   map /  <Plug>(incsearch-forward)
   map ?  <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
+
+  call neobundle#untap()
+endif
+
+" yankround
+if neobundle#tap('yankround.vim')
+  function! neobundle#hooks.on_source(bundle)
+    nmap p <Plug>(yankround-p)
+    xmap p <Plug>(yankround-p)
+    nmap P <Plug>(yankround-P)
+    nmap gp <Plug>(yankround-gp)
+    xmap gp <Plug>(yankround-gp)
+    nmap gP <Plug>(yankround-gP)
+    nmap <C-p> <Plug>(yankround-prev)
+    nmap <C-n> <Plug>(yankround-next)
+  endfunction
 
   call neobundle#untap()
 endif
