@@ -155,7 +155,7 @@ NeoBundleLazy 'LeafCage/yankround.vim', {
 " NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
-NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'powerman/vim-plugin-AnsiEsc'
 "}}}
 
 " smartchr textobj {{{
