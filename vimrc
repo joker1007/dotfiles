@@ -723,12 +723,6 @@ MyAutocmd FileType haml call s:EnableSmartchrHaml()
 MyAutocmd FileType coffee call s:EnableSmartchrCoffeeFunction()
 " }}}
 
-" hatena.vim
-let g:hatena_user = 'joker1007'
-let g:hatena_upload_on_write = 0
-let g:hatena_upload_on_write_bang = 1
-let g:hatena_entry_file = '~/Dropbox/hateda.txt'
-
 " shファイルの保存時にはファイルのパーミッションを755にする {{{
 function! s:ChangeShellScriptPermission()
   if !has("win32")
@@ -800,11 +794,6 @@ let g:html_number_lines = 0
 let g:html_use_css = 1
 let g:use_xhtml = 1
 let g:html_use_encoding = 'utf-8'
-
-" grep.vim
-let Grep_Default_Options = '-i'
-nnoremap <C-G><C-G> :<C-u>GrepBuffer<Space>
-nnoremap <C-G><C-W> :<C-u>GrepBuffer<Space><C-r>= expand('<cword>')<CR>
 
 " quickrun{{{
 
@@ -1004,7 +993,7 @@ nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files -start-insert file_
 nnoremap <silent> [unite]fg   :<C-u>Unite -buffer-name=files -start-insert file_rec/git<CR>
 nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files -start-insert file_rec/async<CR>
 nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files -start-insert directory_mru<CR>
-nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=filesfile -start-insert file/new<CR>
+nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files -start-insert file/new<CR>
 nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files -start-insert file_mru <CR>
 nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files -start-insert buffer file<CR>
 nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file file/new<CR>
@@ -1024,6 +1013,7 @@ nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -start-insert -prompt
 nnoremap <silent> [unite]rr   :<C-u>Unite -buffer-name=ref -start-insert -prompt=ref> ref/refe<CR>
 nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
 nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
+nnoremap <silent> [unite]y   :<C-u>Unite -buffer-name=yankround yankround<CR>
 nnoremap [unite]pr  :<C-u>Unite pull_request:
 nnoremap [unite]pf  :<C-u>Unite pull_request_file:
 
