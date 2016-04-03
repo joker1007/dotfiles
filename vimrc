@@ -215,6 +215,13 @@ NeoBundleLazy 'kannokanno/previm', {
 " other programinng {{{
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
+NeoBundleLazy 'Shougo/vinarise.vim', {
+      \ 'on_cmd' : [
+        \ 'Vinarize',
+        \ 'VinarizeDump',
+      \ ]
+\}
+
 NeoBundleLazy 'rking/ag.vim', {
       \ 'on_cmd' : [
         \ 'Ag',
@@ -355,6 +362,7 @@ NeoBundle 'osyo-manga/unite-quickrun_config'
 NeoBundle 'Shougo/neomru.vim'
 
 NeoBundleLazy 'Shougo/unite.vim', {
+\   'name' : 'unite',
 \   'autoload' : {
 \       'commands' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
 \   }
