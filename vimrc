@@ -215,6 +215,7 @@ NeoBundleLazy 'kannokanno/previm', {
 " other programinng {{{
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'rhysd/github-complete.vim'
 NeoBundleLazy 'Shougo/vinarise.vim', {
       \ 'on_cmd' : [
         \ 'Vinarize',
@@ -1122,6 +1123,7 @@ nnoremap [git]N :<C-u>Git now --all<CR>
 " ftdetect is often failed
 MyAutocmd BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif
 MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif
+MyAutocmd BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif
 " }}}
 
 " gitv {{{
@@ -1556,6 +1558,15 @@ let g:switch_custom_definitions = [
       \ ['public', 'protected', 'private'],
 \ ]
 " }}}
+
+if neobundle#tap('github-complete.vim')
+  augroup ConfigGithubComplete
+    autocmd!
+    autocmd FileType gitcommit setl omnifunc=github_complete#complete
+  augroup END
+
+  call neobundle#untap()
+endif
 
 " RSpec syntax {{{
 function! RSpecSyntax()
