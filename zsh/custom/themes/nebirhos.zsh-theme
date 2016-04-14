@@ -11,7 +11,7 @@ else
 fi
 
 if type ruby > /dev/null 2>&1; then
-  BUNDLE_GEMFILE_PROMPT_="%{$fg_bold[blue]%}gemfile:(%{$fg[green]%}\$(echo \$BUNDLE_GEMFILE | ruby -r pathname -ne 'begin puts Pathname(\$_).relative_path_from(Pathname(Dir.pwd)); rescue; end')%{$fg_bold[blue]%})%{$reset_color%} "
+  BUNDLE_GEMFILE_PROMPT_="%{$fg_bold[blue]%}gemfile:(%{$fg[green]%}\$(echo \$BUNDLE_GEMFILE)%{$fg_bold[blue]%})%{$reset_color%} "
 fi
 
 # Get the host name (first 4 chars)
