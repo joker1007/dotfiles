@@ -216,6 +216,7 @@ NeoBundleLazy 'kannokanno/previm', {
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rhysd/github-complete.vim'
+NeoBundle 'hashivim/vim-terraform'
 NeoBundleLazy 'Shougo/vinarise.vim', {
       \ 'on_cmd' : [
         \ 'Vinarize',
