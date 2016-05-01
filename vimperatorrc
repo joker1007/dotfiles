@@ -21,8 +21,8 @@ set! browser.urlbar.maxRichResults=30
 set! dom.popup_maximum=9999
 
 " Gmail/LDR/Fastladder/OpenFLでは新規タブをバックグラウンドで開く
-autocmd LocationChange (?!https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/|www\.google\.com\/reader\/)) :set! browser.tabs.loadDivertedInBackground=false
-autocmd LocationChange https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/|www\.google\.com\/reader\/) :set! browser.tabs.loadDivertedInBackground=true
+autocmd LocationChange (?!https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/|www\.google\.com\/reader\/|inbox\.google\.com)) :set! browser.tabs.loadDivertedInBackground=false
+autocmd LocationChange https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/|www\.google\.com\/reader\/|inbox\.google\.com) :set! browser.tabs.loadDivertedInBackground=true
 
 " options
 " ======================================================================
@@ -148,16 +148,6 @@ let g:def_sbm_format = "timestamp,id,tags,comment"
 let g:def_sbms = "h"
 nnoremap ,c :viewSBMComments<CR>
 
-" direct_bookmark.js
-let g:direct_sbm_use_services_by_tag = "d"
-let g:direct_sbm_use_services_by_post = "d"
-let g:direct_sbm_is_normalize = "false"
-let g:direct_sbm_is_use_migemo = "true"
-"map B :bentry<CR>
-"map A :sbm<CR>
-"map a :sbm<Space>
-"map ,a :btags<CR>
-
 " twittperator.js
 map ,t :twittperator<Space>
 map ,T :twittperator!<Space>
@@ -180,19 +170,10 @@ liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE% %URL%' },
   { label: 'title',          value: '%TITLE%' },
   { label: 'url',            value: '%URL%' },
-  { label: 'markdown',       value: '[%TITLE%](%URL% "%TITLE%")' },
-  { label: 'markdownsel',    value: '[%SEL%](%URL% "%TITLE%")' },
+  { label: 'markdown',       value: '[%TITLE%](%URL%)' },
+  { label: 'markdownsel',    value: '[%SEL%](%URL%)' },
   { label: 'hatena',         value: '[%URL%:%TITLE%]' },
   { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
-];
-EOM
-
-" account_switcher.js
-js <<EOM
-liberator.globalVariables.accountSwitcherLoginServices = [
-  'joker1007@hatena',
-  'joker1007@hatelabo',
-  'joker1007@twitter',
 ];
 EOM
 
@@ -205,6 +186,8 @@ lazy fmaps -u='.*\.tumblr\.com' -events=vkeydown,vkeypress,vkeyup j k r,t l h q
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
+lazy fmaps -e=vkeypress -u='inbox\.google\.com' c / i j k n p o u e x X s r a # [ ] ? !
+lazy fmaps -e=vkeydown -u='github\.com' s t l w i a r e ? gn gd gc gi gp gw
 
 " javascripts
 " ======================================================================

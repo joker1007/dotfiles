@@ -437,7 +437,7 @@ function getMD5Hash(str){
     function toHexString(charCode){
         return ('0' + charCode.toString(16)).slice(-2);
     }
-    var s = [i < hash.length ? toHexString(hash.charCodeAt(i)) : '' for (i in hash)].join('');
+    var s = hash.split('').map(c=>toHexString(c.charCodeAt())).join('');
     return s;
 } //}}}
 /**
@@ -526,8 +526,8 @@ var manager = {
 }; //}}}
 
 var options = [
-    [['-type','-t'], commands.OPTION_STRING, function(str) (new RegExp('^['+[t for(t in manager.type)].join('') + ']+$')).test(str)],
-    [['-format','-f'], commands.OPTION_LIST,null, [[f,manager.format[f]] for (f in manager.format)]],
+    [['-type','-t'], commands.OPTION_STRING, null, Object.keys(manager.type).map(k => [k, manager.type[k]])],
+    [['-format','-f'], commands.OPTION_LIST, null, Object.keys(manager.format).map(k => [k, manager.format[k]])],
     [['-count','-c'], commands.OPTION_NOARG],
     [['-browser','-b'],commands.OPTION_NORARG]
 ];

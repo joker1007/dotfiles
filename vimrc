@@ -1564,6 +1564,7 @@ if neobundle#tap('github-complete.vim')
   augroup ConfigGithubComplete
     autocmd!
     autocmd FileType gitcommit setl omnifunc=github_complete#complete
+    autocmd FileType markdown setl omnifunc=github_complete#complete
   augroup END
 
   call neobundle#untap()
