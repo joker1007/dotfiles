@@ -70,6 +70,9 @@ nnoremap <C-r> :restart<CR>
 
 nnoremap ,/ :noh<CR>
 
+nnoremap ,t :tabopen<Space>
+nnoremap ,o :open<Space>
+
 " 上のディレクトリに移動
 "map <BS> gu
 map <C-BS> gU
@@ -149,10 +152,9 @@ let g:def_sbms = "h"
 nnoremap ,c :viewSBMComments<CR>
 
 " twittperator.js
-map ,t :twittperator<Space>
-map ,T :twittperator!<Space>
-map ,@ :twittperator!@joker1007<CR>
-map ,b :twittperator<Space>Browsing: %TITLE% - %URL%
+" map ,T :twittperator!<Space>
+" map ,@ :twittperator!@joker1007<CR>
+" map ,b :twittperator<Space>Browsing: %TITLE% - %URL%
 let g:twittperator_use_chirp = 1
 let g:twittperator_plugin_reply_popup_alert = 1
 let g:twittperator_screen_name = "joker1007"

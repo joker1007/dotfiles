@@ -1798,11 +1798,7 @@ nnoremap <silent> [space]ts   :<C-u>TweetVimUserStream<CR>
 nnoremap <silent> [space]tt   :<C-u>TweetVimHomeTimeline<CR>
 if neobundle#tap('TweetVim')
   let g:tweetvim_include_rts = 1
-  if has('mac')
-    let g:tweetvim_display_icon = 0
-  else
-    let g:tweetvim_display_icon = 1
-  end
+  let g:tweetvim_display_icon = 1
 
   call neobundle#untap()
 endif
