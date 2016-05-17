@@ -348,6 +348,12 @@ NeoBundleLazy 'mattn/gist-vim', {
 \       'commands' : [ "Gist" ]
 \   }
 \}
+
+NeoBundleLazy 'lambdalisue/vim-gista', {
+\   'autoload' : {
+\       'commands' : [ "Gista" ]
+\   }
+\}
 " }}}
 
 " unite {{{
