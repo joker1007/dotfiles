@@ -15,7 +15,7 @@ set! ui.key.generalAccessKey=0
 
 " Awesomebarの補完対象にBookmarkletを含める&件数を変更
 set! browser.urlbar.filter.javascript=false
-set! browser.urlbar.maxRichResults=30
+set! browser.urlbar.maxRichResults=20
 
 " ポップアップ許可数を拡張 cf.http://la.ma.la/blog/diary_200611171115.htm
 set! dom.popup_maximum=9999
@@ -30,7 +30,7 @@ autocmd LocationChange https?://(mail\.google\.com\/(mail|a)\/|(reader\.livedoor
 set autocomplete=true
 
 " :[tab]open の補完対象と順番
-set complete=sl
+set complete=lS
 
 " hintにアルファベットを使用する
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
