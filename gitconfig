@@ -25,9 +25,9 @@
 	dw = diff --color-words
 	ft = fetch
 	ftp = fetch --prune
-	l = log --oneline -n 20
-	lgraph = log --oneline --graph --decorate --all -n 40
-	lp = log --oneline -n 20 -p
+	l = log --oneline
+	lgraph = log --oneline --graph --decorate --all
+	lp = log --oneline -p
 	ls = log --stat -n 1
 	log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d'
 	log-all-mine = log --author=joker1007 --all --color --pretty='%h\t%Cgreen%cd%Creset\t%cn%x09%s\t%Cred%d'
@@ -52,3 +52,9 @@
 	user = joker1007
 [push]
 	default = simple
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
+[diff]
+	compactionHeuristic = true
