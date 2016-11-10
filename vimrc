@@ -219,12 +219,7 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'rhysd/github-complete.vim'
 NeoBundle 'hashivim/vim-terraform'
-NeoBundleLazy 'Shougo/vinarise.vim', {
-      \ 'on_cmd' : [
-        \ 'Vinarize',
-        \ 'VinarizeDump',
-      \ ]
-\}
+NeoBundle 'Shougo/vinarise.vim'
 
 NeoBundleLazy 'rking/ag.vim', {
       \ 'on_cmd' : [
