@@ -23,6 +23,7 @@ path=(
   $HOME/Library/Haskell/bin(N-/)
   $HOME/.cabal/bin(N-/)
   /Applications/MacVim.app/Contents/MacOS(N-/)
+  /usr/local/share/git-core/contrib/diff-highlight(N-/)
   /usr/local/sbin(N-/)
   /usr/local/bin(N-/)
   /usr/local/*/bin(N-/)
@@ -57,24 +58,6 @@ manpath=(
   /usr/local/share/man(N-/)
   /usr/share/man(N-/)
 )
-
-if type lv > /dev/null 2>&1; then
-  ## lvを優先する。
-  export PAGER="lv"
-else
-  ## lvがなかったらlessを使う。
-  export PAGER="less"
-fi
-
-if [ "$PAGER" = "lv" ]; then
-    ## -c: ANSIエスケープシーケンスの色付けなどを有効にする。
-    ## -l: 1行が長くと折り返されていても1行として扱う。
-    ##     （コピーしたときに余計な改行を入れない。）
-    export LV="-c -l"
-else
-    ## lvがなくてもlvでページャーを起動する。
-    alias lv="$PAGER"
-fi
 
 # rbenv
 if type rbenv > /dev/null 2>&1; then

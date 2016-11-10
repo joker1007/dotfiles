@@ -148,6 +148,22 @@ alias -g RP="RAILS_ENV=production"
 alias -g RT="RAILS_ENV=test"
 alias -g ST="amanogawa -f '%f%t%d' | column -t -s '	' | peco | awk '{print \$1}'"
 
+# Pager
+
+export LESS="-RXF"
+export PAGER="less"
+
+if [ "$PAGER" = "lv" ]; then
+    ## -c: ANSIエスケープシーケンスの色付けなどを有効にする。
+    ## -l: 1行が長くと折り返されていても1行として扱う。
+    ##     （コピーしたときに余計な改行を入れない。）
+    export LV="-c -l"
+else
+    ## lvがなくてもlvでページャーを起動する。
+    alias lv="$PAGER"
+fi
+
+
 # 補完システムを利用: 補完の挙動が分かりやすくなる2つの設定のみ記述
 zstyle ':completion:*' format '%BCompleting %d%b'
 zstyle ':completion:*' group-name ''
@@ -204,7 +220,9 @@ function json_post() {
 }
 
 # ctags for Ruby
-alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
+if type rbenv > /dev/null 2>&1; then
+  alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
+fi
 
 # wine
 export WINEPREFIX="$HOME/.wineprefixes/base"
