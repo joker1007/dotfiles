@@ -343,6 +343,11 @@ call dein#add('Shougo/unite.vim', {
 \   'name' : 'unite',
 \   'on_cmd' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
 \})
+
+call dein#add('Shougo/denite.nvim', {
+\   'name' : 'denite',
+\   'on_cmd' : [ "Denite", "DeniteBufferDir" ]
+\})
 " }}}
 
 " neocon {{{
@@ -564,7 +569,7 @@ noremap [space]h  ^
 noremap [space]l  $
 
 " 編集中のファイルのディレクトリに移動
-nnoremap ,d :execute ":lcd" . expand("%:p:h")<CR>
+command! CdCurrent execute ":lcd" . expand("%:p:h")
 
 " 最後に編集した場所にカーソルを移動する
 MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -1068,6 +1073,38 @@ if dein#tap('unite')
             \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
   endfunction
   MyAutocmd FileType unite call s:unite_my_settings()
+endif
+" }}}
+
+" denite {{{
+nnoremap [denite] <Nop>
+nmap     ,d [denite]
+nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file_rec<CR>
+nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -mode=insert file_mru<CR>
+nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -mode=insert directory_mru<CR>
+nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file_rec<CR>
+nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -mode=insert  buffer<CR>
+nnoremap <silent> [denite]o   :<C-u>Denite -mode=insert -buffer-name=outline unite:outline<CR>
+nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register unite:register<CR>
+nnoremap <silent> [denite]c   :<C-u>Denite -buffer-name=commands command<CR>
+nnoremap <silent> [denite]s   :<C-u>Denite -buffer-name=snippets unite:snippet<CR>
+" nnoremap <silent> [denite]u   :<C-u>Denite -mode=insert source<CR>
+nnoremap <silent> [denite]l   :<C-u>Denite -buffer-name=lines line<CR>
+nnoremap <silent> [denite]m   :<C-u>Denite -buffer-name=bookmark unite:bookmark<CR>
+nnoremap <silent> [denite]rm   :<C-u>Denite -buffer-name=ref -mode=insert unite:ref/man<CR>
+nnoremap <silent> [denite]rr   :<C-u>Denite -buffer-name=ref -mode=insert unite:ref/refe<CR>
+nnoremap <silent> [denite]g   :<C-u>Denite -buffer-name=grep grep<CR>
+nnoremap <silent> [denite]hd   :<C-u>Denite -mode=insert unite:haddock<CR>
+nnoremap <silent> [denite]y   :<C-u>Denite -buffer-name=yankround unite:yankround<CR>
+nnoremap [denite]pr  :<C-u>Denite unite:pull_request:
+nnoremap [denite]pf  :<C-u>Denite unite:pull_request_file:
+
+if dein#tap("denite")
+  function! s:denite_config()
+    call denite#custom#var('file_rec', 'command',
+          \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  endfunction
+  call dein#config(g:dein#name, {"hook_post_source": function("s:denite_config")})
 endif
 " }}}
 
