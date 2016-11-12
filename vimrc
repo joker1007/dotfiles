@@ -133,9 +133,7 @@ call dein#add('ujihisa/ref-hoogle')
 
 " vim-scripts {{{
 call dein#add('vim-scripts/surround.vim')
-call dein#add('LeafCage/yankround.vim', {
-      \ 'on_map' : ['p', 'P', 'gp', 'gP'],
-\})
+call dein#add('LeafCage/yankround.vim')
 " call dein#add('vim-scripts/grep.vim'
 call dein#add('vim-scripts/sudo.vim')
 call dein#add('vim-scripts/errormarker.vim')
@@ -1103,6 +1101,8 @@ if dein#tap("denite")
   function! s:denite_config()
     call denite#custom#var('file_rec', 'command',
           \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#map('insert', '<C-n>', 'move_to_next_line')
+    call denite#custom#map('insert', '<C-p>', 'move_to_prev_line')
   endfunction
   call dein#config(g:dein#name, {"hook_post_source": function("s:denite_config")})
 endif
@@ -1833,17 +1833,14 @@ endif
 
 " yankround
 if dein#tap('yankround.vim')
-  function! s:yankaround_config()
-    nmap p <Plug>(yankround-p)
-    xmap p <Plug>(yankround-p)
-    nmap P <Plug>(yankround-P)
-    nmap gp <Plug>(yankround-gp)
-    xmap gp <Plug>(yankround-gp)
-    nmap gP <Plug>(yankround-gP)
-    nmap <C-p> <Plug>(yankround-prev)
-    nmap <C-n> <Plug>(yankround-next)
-  endfunction
-  call dein#config(dein#name, {'hook_post_source': function("s:yankaround_config")})
+  nmap p <Plug>(yankround-p)
+  xmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
 endif
 
 " dbext.vim
