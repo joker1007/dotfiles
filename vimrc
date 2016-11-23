@@ -1031,7 +1031,7 @@ if dein#tap('unite')
 
   function! s:unite_config()
     " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
-    call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
+    call unite#custom#default_action('source/bookmark/directory', 'vimfiler')
 
     call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
 
@@ -1043,7 +1043,7 @@ if dein#tap('unite')
           \ 'file_mru', 'converters',
           \ ['converter_file_directory'])
   endfunction
-  call dein#config(g:dein#name, {'hook_post_source': function("s:unite_config")})
+  call dein#config(g:dein#name, {'hook_source': function("s:unite_config")})
 
   function! s:unite_my_settings()
     " Overwrite settings.
@@ -1104,7 +1104,7 @@ if dein#tap("denite")
     call denite#custom#map('insert', '<C-n>', 'move_to_next_line')
     call denite#custom#map('insert', '<C-p>', 'move_to_prev_line')
   endfunction
-  call dein#config(g:dein#name, {"hook_post_source": function("s:denite_config")})
+  call dein#config(g:dein#name, {"hook_source": function("s:denite_config")})
 endif
 " }}}
 
@@ -1263,7 +1263,7 @@ if dein#tap('vimfiler')
       execute 'source' expand('~/.vimfiler.local')
     endif
   endfunction
-  call dein#config(dein#name, {'hook_post_source': function("s:vimfiler_config")})
+  call dein#config(dein#name, {'hook_source': function("s:vimfiler_config")})
 endif
 " }}}
 
@@ -1291,7 +1291,7 @@ if dein#tap('vimshell')
       call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
     endif
   endfunction
-  call dein#config(dein#name, {'hook_post_source': function("s:vimshell_config")})
+  call dein#config(dein#name, {'hook_source': function("s:vimshell_config")})
 
   MyAutocmd FileType vimshell
     \ call vimshell#altercmd#define('g', 'git')
@@ -1542,7 +1542,7 @@ if dein#tap('vim-altr')
     call altr#define('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
     call altr#define('app/%.rb', 'spec/%_spec.rb')
   endfunction
-  call dein#config(dein#name, {'hook_post_source': function("s:vim_altr_config")})
+  call dein#config(dein#name, {'hook_source': function("s:vim_altr_config")})
 endif
 " }}}
 
