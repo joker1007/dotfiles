@@ -42,7 +42,7 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 -- theme.wallpaper_cmd = { "awsetbg /home/joker/Dropbox/Photos/wallpapers/091214_06stratosphere-brother.jpg" }
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "mlterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -72,15 +72,15 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-      if s == 1 then
-        gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/091214_06stratosphere-brother.jpg", s, true)
-      else
-        gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/zipyaru-20090805-11-0385.jpg", s, true)
-      end
-    end
-end
+-- if beautiful.wallpaper then
+--     for s = 1, screen.count() do
+--       if s == 1 then
+--         gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/091214_06stratosphere-brother.jpg", s, true)
+--       else
+--         gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/zipyaru-20090805-11-0385.jpg", s, true)
+--       end
+--     end
+-- end
 -- }}}
 
 -- {{{ Tags

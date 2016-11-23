@@ -13,11 +13,7 @@ export CXX=clang++
 # export CFLAGS="-O2 -march=corei7-avx -mtune=corei7-avx"
 # export CXXLAGS="${CFLAGS}"
 
-export RUBY_CONFIGURE_OPTS=" \
-  --with-arch=x86_64 \
-  --with-out-ext=tk,tk/* \
-  --enable-shared \
-"
+export RUBY_CONFIGURE_OPTS="--enable-shared"
 
 export MAKE_OPTS="-j 2"
 
