@@ -258,3 +258,9 @@ fi
 
 # added by travis gem
 [ -f /Users/joker/.travis/travis.sh ] && source /Users/joker/.travis/travis.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+[[ -s /home/joker/google-cloud-sdk/path.zsh.inc ]] && source '/home/joker/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+[[ -s /home/joker/google-cloud-sdk/completion.zsh.inc ]] && source '/home/joker/google-cloud-sdk/completion.zsh.inc'

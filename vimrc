@@ -59,10 +59,8 @@ else
 endif
 
 " NeoBundle {{{
-if dein#load_state(expand('~/.vim/bundle/'))
+" if dein#load_state(expand('~/.vim/bundle/'))
 call dein#begin(expand('~/.vim/bundle/'))
-" call dein#begin(expand('~/.vim/bundle/'))
-" let g:neobundle#default_options._ = { 'verbose' : 1 }
 
 call dein#add('Shougo/vimproc', {'build': 'make'})
 call dein#add('tyru/eskk.vim', {'on_i' : 1})
@@ -392,7 +390,8 @@ call dein#add('mattn/vim-sonots')
 
 call dein#end()
 call dein#save_state()
-endif
+" endif
+autocmd VimEnter * call dein#call_hook('post_source')
 " }}}
 
 filetype plugin indent on
