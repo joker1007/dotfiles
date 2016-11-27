@@ -11,6 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+local vicious = require("vicious")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -39,7 +41,13 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
--- theme.wallpaper_cmd = { "awsetbg /home/joker/Dropbox/Photos/wallpapers/091214_06stratosphere-brother.jpg" }
+theme.wallpaper = "/home/joker/wallpapers/light_sky_stars_background_85555_2560x1440.jpg"
+theme.font = "sans 12"
+theme.menu_height = 20
+theme.menu_width  = 180
+for s = 1, screen.count() do
+  gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "mlterm"
@@ -115,7 +123,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+mytextclock = awful.widget.textclock(" %m/%d (%a) %H:%M ")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -167,6 +175,35 @@ mytasklist.buttons = awful.util.table.join(
                                               if client.focus then client.focus:raise() end
                                           end))
 
+-- {{{ cpu widget
+cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu, " CPU: $1% ")
+-- }}}
+
+-- {{{ mem widget
+memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, " MEM: $2 / $3 ")
+-- }}}
+
+-- {{{ Battery widget
+batwidget1 = awful.widget.progressbar()
+batwidget1:set_width(8)
+batwidget1:set_height(14)
+batwidget1:set_vertical(true)
+batwidget1:set_background_color("#000000")
+batwidget1:set_border_color("#FFFFFF")
+batwidget1:set_color("#00bfff")
+vicious.register(batwidget1, vicious.widgets.bat, "$2", 120, "BAT0")
+batwidget2 = awful.widget.progressbar()
+batwidget2:set_width(8)
+batwidget2:set_height(14)
+batwidget2:set_vertical(true)
+batwidget2:set_background_color("#000000")
+batwidget2:set_border_color("#FFFFFF")
+batwidget2:set_color("#00bfff")
+vicious.register(batwidget2, vicious.widgets.bat, "$2", 120, "BAT1")
+-- }}}
+
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -195,6 +232,10 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(cpuwidget)
+    right_layout:add(memwidget)
+    right_layout:add(batwidget1)
+    right_layout:add(batwidget2)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])

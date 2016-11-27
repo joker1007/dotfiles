@@ -516,7 +516,11 @@ set complete=.,w,b,u,t,i,d
 inoremap <C-X><C-O> <C-X><C-O><C-P>
 
 " クリップボード設定
-set clipboard=unnamed
+if has('unix')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
 
 " バッファ切り替え
 set hidden
