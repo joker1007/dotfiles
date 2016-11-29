@@ -360,9 +360,7 @@ if has('lua')
   \   'on_i' : 1,
   \})
 elseif has('nvim')
-  call dein#add('Shougo/deoplete.nvim', {
-  \   'depends' : ['neosnippet', 'context_filetype.vim'],
-  \})
+  call dein#add('Shougo/deoplete.nvim')
 else
   call dein#add('Shougo/neocomplcache', {
   \   'depends' : ["neosnippet"],
