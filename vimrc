@@ -239,6 +239,7 @@ call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
 call dein#add('haya14busa/incsearch.vim')
 call dein#add('eugen0329/vim-esearch')
+call dein#add('fuenor/qfixhowm')
 
 call dein#add('vim-scripts/SQLUtilities')
 call dein#add('vim-scripts/dbext.vim')
@@ -1191,7 +1192,7 @@ let g:gitgutter_sign_modified_removed = '*-'
 "}}}
 
 " vim-airline {{{
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline_theme = "onedark"
 let g:airline#extensions#hunks#hunk_symbols = [
         \ g:gitgutter_sign_added . ' ',
