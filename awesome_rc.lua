@@ -13,6 +13,8 @@ local menubar = require("menubar")
 
 local vicious = require("vicious")
 
+local net_widgets = require("net_widgets")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -41,13 +43,11 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
-theme.wallpaper = "/home/joker/wallpapers/light_sky_stars_background_85555_2560x1440.jpg"
-theme.font = "sans 12"
-theme.menu_height = 20
+theme.wallpaper = "/home/joker/wallpapers/art_stars_moon_planet_space_74034_3840x2160.jpg"
+theme.font = "sans 16"
+theme.menu_height = 24
 theme.menu_width  = 180
-for s = 1, screen.count() do
-  gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-end
+theme.border_focus = "#333388"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "mlterm"
@@ -80,15 +80,11 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
--- if beautiful.wallpaper then
---     for s = 1, screen.count() do
---       if s == 1 then
---         gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/091214_06stratosphere-brother.jpg", s, true)
---       else
---         gears.wallpaper.maximized("/home/joker/Dropbox/Photos/wallpapers/zipyaru-20090805-11-0385.jpg", s, true)
---       end
---     end
--- end
+if beautiful.wallpaper then
+  for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+  end
+end
 -- }}}
 
 -- {{{ Tags
@@ -124,6 +120,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock(" %m/%d (%a) %H:%M ")
+mytextclock:set_font("sans 16")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -177,12 +174,14 @@ mytasklist.buttons = awful.util.table.join(
 
 -- {{{ cpu widget
 cpuwidget = wibox.widget.textbox()
+cpuwidget:set_font("sans 16")
 vicious.register(cpuwidget, vicious.widgets.cpu, " CPU: $1% ")
 -- }}}
 
 -- {{{ mem widget
 memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem, " MEM: $2 / $3 ")
+memwidget:set_font("sans 16")
+vicious.register(memwidget, vicious.widgets.mem, " MEM: $2 MB / $3 MB ")
 -- }}}
 
 -- {{{ Battery widget
@@ -204,6 +203,11 @@ batwidget2:set_color("#00bfff")
 vicious.register(batwidget2, vicious.widgets.bat, "$2", 120, "BAT1")
 -- }}}
 
+-- {{{ net widget
+net_wired = net_widgets.indicator({interfaces={"enp0s31f6"}, font="sans 16"})
+net_wireless = net_widgets.wireless({interface="wlp4s0", font="sans 16"})
+-- }}}
+
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -222,7 +226,7 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", height = 24, screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -232,6 +236,8 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(net_wired)
+    right_layout:add(net_wireless)
     right_layout:add(cpuwidget)
     right_layout:add(memwidget)
     right_layout:add(batwidget1)
@@ -494,6 +500,5 @@ client.connect_signal("focus", function(c)
 end)
 client.connect_signal("unfocus", function(c)
   c.border_color = beautiful.border_normal
-  c.opacity = 0.7
 end)
 -- }}}

@@ -17,3 +17,4 @@ vim/bundle/*/doc/tags-ja
 
 mlterm/*.log
 mlterm/*.six
+mlterm/challenge
