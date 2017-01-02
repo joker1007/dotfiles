@@ -1102,8 +1102,8 @@ if dein#tap("denite")
   function! s:denite_config()
     call denite#custom#var('file_rec', 'command',
           \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    call denite#custom#map('insert', '<C-n>', 'move_to_next_line')
-    call denite#custom#map('insert', '<C-p>', 'move_to_prev_line')
+    call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>')
+    call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>')
   endfunction
   call dein#config(g:dein#name, {"hook_source": function("s:denite_config")})
 endif
