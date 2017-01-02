@@ -1,6 +1,6 @@
 if has('vim_starting')
   set nocompatible
-  set runtimepath+=~/.vim/bundle/dein.vim/
+  set runtimepath+=~/.vim/bundle/repos/github.com/Shougo/dein.vim/
 endif
 
 " charset {{{
@@ -338,7 +338,6 @@ call dein#add('Shougo/neomru.vim')
 
 call dein#add('Shougo/unite.vim', {
 \   'name' : 'unite',
-\   'on_cmd' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
 \})
 
 call dein#add('Shougo/denite.nvim', {
