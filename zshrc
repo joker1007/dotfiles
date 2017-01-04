@@ -225,6 +225,7 @@ if type rbenv > /dev/null 2>&1; then
 fi
 
 # wine
+export WINEARCH=win32
 export WINEPREFIX="$HOME/.wineprefixes/base"
 function prefix() {
   export WINEPREFIX="$HOME/.wineprefixes/$1"
