@@ -1,1 +1,2 @@
 bind main R !?git rebase -i %(commit)
+set diff-highlight = true
