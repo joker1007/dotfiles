@@ -82,6 +82,7 @@ call dein#add('scrooloose/nerdcommenter', {
 \})
 
 call dein#add('thinca/vim-prettyprint')
+call dein#add('mhinz/vim-startify')
 
 call dein#add('moro/vim-review')
 call dein#add('cespare/vim-toml')
