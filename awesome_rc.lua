@@ -47,7 +47,8 @@ theme.wallpaper = "/home/joker/wallpapers/art_stars_moon_planet_space_74034_3840
 theme.font = "sans 16"
 theme.menu_height = 24
 theme.menu_width  = 180
-theme.border_focus = "#333388"
+theme.border_focus = "#33EEEE"
+theme.border_width = 2
 
 -- This is used later as the default terminal and editor to run.
 terminal = "mlterm"
