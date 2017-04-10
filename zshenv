@@ -14,6 +14,7 @@ path=(
   $HOME/.rbenv/bin(N-/)
   $HOME/.rbenv/shims(N-/)
   $HOME/.nodebrew/current/bin(N-/)
+  $HOME/.cargo/bin(N-/)
   # $HOME/.nodenv/bin(N-/)
   # $HOME/.nodenv/shims(N-/)
   $HOME/.local/bin(N-/)

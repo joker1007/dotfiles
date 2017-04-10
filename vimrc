@@ -218,6 +218,7 @@ call dein#add('majutsushi/tagbar', {
 call dein#add('thinca/vim-qfreplace', { 'on_cmd' : ['Qfreplace'] })
 call dein#add('octol/vim-cpp-enhanced-highlight')
 call dein#add('derekwyatt/vim-scala')
+call dein#add('rust-lang/rust.vim')
 call dein#add('derekwyatt/vim-sbt')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('fatih/vim-go')
