@@ -83,6 +83,7 @@ call dein#add('scrooloose/nerdcommenter', {
 
 call dein#add('thinca/vim-prettyprint')
 call dein#add('mhinz/vim-startify')
+call dein#add('hecal3/vim-leader-guide')
 
 call dein#add('moro/vim-review')
 call dein#add('cespare/vim-toml')
@@ -222,6 +223,7 @@ call dein#add('rust-lang/rust.vim')
 call dein#add('derekwyatt/vim-sbt')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('fatih/vim-go')
+call dein#add('rhysd/devdocs.vim')
 call dein#add('othree/html5.vim')
 call dein#add('JulesWang/css.vim')
 call dein#add('moskytw/nginx-contrib-vim')
@@ -239,7 +241,7 @@ call dein#add('lilydjwg/colorizer')
 call dein#add('pasela/unite-webcolorname')
 call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
-call dein#add('haya14busa/incsearch.vim')
+" call dein#add('haya14busa/incsearch.vim')
 call dein#add('eugen0329/vim-esearch')
 call dein#add('fuenor/qfixhowm')
 
@@ -404,6 +406,10 @@ endif
 augroup vimrc
   autocmd!
 augroup END
+
+" vim-leader-guide
+let g:lmap =  {}
+map <leader>. <Plug>leaderguide-global
 
 command!
 \ -bang -nargs=*
