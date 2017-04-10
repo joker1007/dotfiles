@@ -2,16 +2,16 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-2.4.0-dev}
+version=${1:-2.5.0-dev}
 
 trap 'exit 1' 2
 
 eval "$(rbenv init -)"
 
-# export CC=clang
-# export CXX=clang++
-# export CFLAGS="-O2 -march=corei7-avx -mtune=corei7-avx"
-# export CXXLAGS="${CFLAGS}"
+export CC=clang
+export CXX=clang++
+export CFLAGS="-O2 -march=native"
+export CXXLAGS="${CFLAGS}"
 
 export RUBY_CONFIGURE_OPTS="--enable-shared"
 
