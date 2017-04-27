@@ -241,7 +241,7 @@ call dein#add('lilydjwg/colorizer')
 call dein#add('pasela/unite-webcolorname')
 call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
-" call dein#add('haya14busa/incsearch.vim')
+call dein#add('haya14busa/incsearch.vim')
 call dein#add('eugen0329/vim-esearch')
 call dein#add('fuenor/qfixhowm')
 
