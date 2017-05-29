@@ -393,6 +393,7 @@ call dein#add('mattn/vim-sonots')
 " neovim {{{
 if has('nvim')
   call dein#add('kassio/neoterm')
+  call dein#add('janko-m/vim-test')
   call dein#add('brettanomyces/nvim-editcommand')
   call dein#add('euclio/vim-markdown-composer', {'build': 'cargo build --release'})
 endif
@@ -972,7 +973,30 @@ command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/
 command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 " }}}
 
+" vim-test
+if dein#tap('vim-test')
+  nnoremap [space]tn :TestNearest<cr>
+  nnoremap [space]tf :TestFile<cr>
 
+  let test#strategy = 'neoterm'
+
+  let test#ruby#rspec#executable = 'rspec'
+  let test#ruby#rspec#options = {
+    \ 'nearest': '--backtrace',
+  \}
+
+  function! DockerTransformer(cmd) abort
+    if $APP_CONTAINER_NAME != ''
+      let container_id = system('docker ps --filter name=$APP_CONTAINER_NAME -q')
+      return 'docker exec -t ' . container_id . ' spring ' . a:cmd
+    else
+      return 'bundle exec ' . a:cmd
+    endif
+  endfunction
+
+  let g:test#custom_transformations = {'docker': function('DockerTransformer')}
+  let g:test#transformation = 'docker'
+endif
 
 " libruby load
 if filereadable(expand("~/.rbenv/shims/ruby"))
