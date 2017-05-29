@@ -390,6 +390,14 @@ call dein#add('mattn/vim-sonots')
 
 " }}}
 
+" neovim {{{
+if has('nvim')
+  call dein#add('kassio/neoterm')
+  call dein#add('brettanomyces/nvim-editcommand')
+  call dein#add('euclio/vim-markdown-composer', {'build': 'cargo build --release'})
+endif
+" }}}
+
 call dein#end()
 call dein#save_state()
 " endif
@@ -1629,7 +1637,7 @@ if dein#tap('tagbar')
   let g:tagbar_updateonsave_maxlines = 10000
   let g:tagbar_sort = 0
 
-  nnoremap <silent> ,t :TagbarToggle<CR>
+  nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 
 " Tabular
@@ -1832,6 +1840,40 @@ let g:markdown_quote_syntax_filetypes = {
         \},
   \}
 " }}}
+
+" neoterm
+if has('nvim')
+  tnoremap <Esc><Esc> <C-\><C-n>
+  tnoremap <A-h> <C-\><C-N><C-w>h
+  tnoremap <A-j> <C-\><C-N><C-w>j
+  tnoremap <A-k> <C-\><C-N><C-w>k
+  tnoremap <A-l> <C-\><C-N><C-w>l
+endif
+if dein#tap('neoterm')
+  let g:neoterm_position = 'horizontal'
+  let g:neoterm_automap_keys = ',tt'
+  let g:neoterm_repl_ruby = 'pry'
+
+  nnoremap <silent> <f10> :TREPLSendFile<cr>
+  nnoremap <silent> <f9> :TREPLSendLine<cr>
+  vnoremap <silent> <f9> :TREPLSendSelection<cr>
+
+" nvim-editcommand
+if dein#tap('nvim-editcommand')
+  let g:editcommand_prompt = '%'
+endif
+
+  " Useful maps
+  " hide/close terminal
+  nnoremap <silent> ,th :call neoterm#toggle()<cr>
+  " clear terminal
+  nnoremap <silent> ,tl :call neoterm#clear()<cr>
+  " kills the current job (send a <c-c>)
+  nnoremap <silent> ,tc :call neoterm#kill()<cr>
+
+  " Git commands
+  command! -nargs=+ Tg :T git <args>
+endif
 
 " incsearch.vim
 if dein#tap('incsearch.vim')
