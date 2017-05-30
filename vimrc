@@ -1122,9 +1122,9 @@ nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file
 nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -mode=insert file_mru<CR>
 nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -mode=insert directory_mru<CR>
 nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file_rec<CR>
-nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -mode=insert  buffer<CR>
-nnoremap <silent> [denite]o   :<C-u>Denite -mode=insert -buffer-name=outline unite:outline<CR>
-nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register unite:register<CR>
+nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -mode=insert buffer<CR>
+nnoremap <silent> [denite]o   :<C-u>Denite -mode=insert -buffer-name=outline outline<CR>
+nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register register<CR>
 nnoremap <silent> [denite]c   :<C-u>Denite -buffer-name=commands command<CR>
 nnoremap <silent> [denite]s   :<C-u>Denite -buffer-name=snippets unite:snippet<CR>
 " nnoremap <silent> [denite]u   :<C-u>Denite -mode=insert source<CR>
