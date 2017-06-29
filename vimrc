@@ -981,9 +981,6 @@ if dein#tap('vim-test')
   let test#strategy = 'neoterm'
 
   let test#ruby#rspec#executable = 'rspec'
-  let test#ruby#rspec#options = {
-    \ 'nearest': '--backtrace',
-  \}
 
   function! DockerTransformer(cmd) abort
     if $APP_CONTAINER_NAME != ''
