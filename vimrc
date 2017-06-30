@@ -392,6 +392,7 @@ call dein#add('mattn/vim-sonots')
 
 " neovim {{{
 if has('nvim')
+  call dein#add('equalsraf/neovim-gui-shim')
   call dein#add('kassio/neoterm')
   call dein#add('janko-m/vim-test')
   call dein#add('brettanomyces/nvim-editcommand')
