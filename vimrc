@@ -1936,6 +1936,10 @@ let g:github_user = "joker1007"
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
+" markdown-composer
+let g:markdown_composer_autostart = 0
+let g:markdown_composer_refresh_rate = 10000
+
 syntax enable
 
 if filereadable(expand('~/.vimrc.local.after'))
