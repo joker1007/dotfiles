@@ -1229,6 +1229,7 @@ let g:gitgutter_sign_modified_removed = '*-'
 "}}}
 
 " vim-airline {{{
+let g:airline#extensions#tagbar#enabled = 0
 let g:airline_powerline_fonts = 0
 let g:airline_theme = "onedark"
 let g:airline#extensions#hunks#hunk_symbols = [
