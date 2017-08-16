@@ -3,6 +3,10 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/repos/github.com/Shougo/dein.vim/
 endif
 
+if filereadable(expand('~/.vimrc.local.before'))
+  execute 'source' expand('~/.vimrc.local.before')
+endif
+
 " charset {{{
 set encoding=utf-8
 scriptencoding utf-8
@@ -55,8 +59,8 @@ else
     unlet s:enc_euc
     unlet s:enc_jis
   endif
-" }}}
 endif
+" }}}
 
 " NeoBundle {{{
 " if dein#load_state(expand('~/.vim/bundle/'))
@@ -346,7 +350,6 @@ call dein#add('Shougo/unite.vim', {
 
 call dein#add('Shougo/denite.nvim', {
 \   'name' : 'denite',
-\   'on_cmd' : [ "Denite", "DeniteBufferDir" ]
 \})
 " }}}
 
