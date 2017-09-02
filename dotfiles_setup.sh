@@ -8,6 +8,9 @@ echo "Gen Simbolic Link .vim => ~/.vim"
 ln -sf ${PWD}/vim ~/.vim
 echo "Gen Simbolic Link .vimrc => ~/.vimrc"
 ln -sf ${PWD}/vimrc ~/.vimrc
+echo "Gen Simbolic Link .vimrc => ~/.config/nvim/init.vim"
+mkdir -p ~/.config/nvim
+ln -sf ${PWD}/vimrc ~/.config/nvim/init.vim
 echo "Gen Simbolic Link .gvimrc => ~/.vimrc"
 ln -sf ${PWD}/gvimrc ~/.gvimrc
 echo "Gen Simbolic Link .vimperatorrc => ~/.vimperatorrc"
