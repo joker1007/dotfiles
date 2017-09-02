@@ -45,16 +45,65 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
--- theme.wallpaper = "/home/joker/wallpapers/art_stars_moon_planet_space_74034_3840x2160.jpg"
--- theme.font = "sans 16"
--- theme.menu_height = 24
--- theme.menu_width  = 180
--- theme.border_focus = "#33EEEE"
--- theme.border_width = 2
+beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
+beautiful.get().wallpaper = "/home/joker/wallpapers/IMG_55910.jpg"
+beautiful.get().font = "sans 16"
+beautiful.get().menu_height = 24
+beautiful.get().menu_width  = 180
+beautiful.get().border_focus = "#33EEEE"
+beautiful.get().border_width = 2
+
+
+-- scan directory, and optionally filter outputs
+function scandir(directory, filter)
+    local i, t, popen = 0, {}, io.popen
+    if not filter then
+        filter = function(s) return true end
+    end
+    print(filter)
+    for filename in popen('ls -a "'..directory..'"'):lines() do
+        if filter(filename) then
+            i = i + 1
+            t[i] = filename
+        end
+    end
+    return t
+end
+
+-- }}}
+
+-- configuration - edit to your liking
+wp_index = 1
+wp_timeout  = 600
+wp_path = "/home/joker/wallpapers/"
+wp_filter = function(s) return string.match(s,"%.png$") or string.match(s,"%.jpg$") end
+wp_files = scandir(wp_path, wp_filter)
+ 
+-- setup the timer
+wp_timer = timer { timeout = wp_timeout }
+wp_timer:connect_signal("timeout", function()
+ 
+  -- set wallpaper to current index for all screens
+  for s = 1, screen.count() do
+    gears.wallpaper.maximized(wp_path .. wp_files[wp_index], s, true)
+  end
+ 
+  -- stop the timer (we don't need multiple instances running at the same time)
+  wp_timer:stop()
+ 
+  -- get next random index
+  wp_index = math.random( 1, #wp_files)
+ 
+  --restart the timer
+  wp_timer.timeout = wp_timeout
+  wp_timer:start()
+end)
+ 
+-- initial start when rc.lua is first run
+wp_timer:start()
 
 -- This is used later as the default terminal and editor to run.
-terminal = "mlterm"
+terminal = "st"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -195,16 +244,45 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 -- {{{ cpu widget
-cpuwidget = wibox.widget.textbox()
-cpuwidget:set_font("sans 16")
-vicious.register(cpuwidget, vicious.widgets.cpu, " CPU: $1% ")
+local cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu, "CPU: $1%")
+
+local cputempwidget = wibox.widget.textbox()
+vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon0", "hwmon", "temp2_input"})
 -- }}}
 
 -- {{{ mem widget
-memwidget = wibox.widget.textbox()
-memwidget:set_font("sans 16")
-vicious.register(memwidget, vicious.widgets.mem, " MEM: $2 MB / $3 MB ")
+local memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, "MEM: $2 MB / $3 MB")
 -- }}}
+
+local tempwidget = wibox.widget.textbox()
+vicious.register(tempwidget, vicious.widgets.thermal, "SYSTEMP: $1 C", 5, {"hwmon0", "hwmon"})
+
+local fsinfo = wibox.widget.textbox()
+vicious.register(fsinfo, vicious.widgets.fs, "root: ${/ used_p}% home: ${/home used_p}%", 32)
+
+local fs_notification = nil
+fsinfo:connect_signal("mouse::enter", function(w)
+  local fs = vicious.widgets.fs(nil)
+  local root_size = fs["{/ size_gb}"]
+  local root_used_size = fs["{/ used_gb}"]
+  local root_avail_p = fs["{/ avail_p}"]
+  local home_size = fs["{/home size_gb}"]
+  local home_used_size = fs["{/home used_gb}"]
+  local home_avail_p = fs["{/home avail_p}"]
+  fs_notification = naughty.notify({
+    title = "FileSystem Info",
+    timeout = 0,
+    text = string.format("/: %sGB / %sGB (Avail %s%%)\n/home: %sGB / %sGB (Avail %s%%)", root_used_size, root_size, root_avail_p, home_used_size, home_size, home_avail_p)
+  })
+end)
+fsinfo:connect_signal("mouse::leave", function(w)
+  if fs_notification ~= nil then
+    naughty.destroy(fs_notification)
+    fs_notification = nil
+  end
+end)
 
 -- {{{ Battery widget
 --[[
@@ -270,10 +348,11 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            net_wired,
-            net_wireless,
-            cpuwidget,
-            memwidget,
+            {wibox.container.margin(fsinfo, 10, 10), bg = "#595B4F", widget = wibox.container.background},
+            {wibox.container.margin(tempwidget, 10, 10), bg = "#694B4F", widget = wibox.container.background},
+            {wibox.container.margin(cpuwidget, 10, 2), bg = "#496B5F", widget = wibox.container.background},
+            {wibox.container.margin(cputempwidget, 2, 10), bg = "#496B5F", widget = wibox.container.background},
+            {wibox.container.margin(memwidget, 10, 10), bg = "#494B8F", widget = wibox.container.background},
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
