@@ -265,3 +265,6 @@ fi
 
 # The next line enables shell command completion for gcloud.
 [[ -s /home/joker/google-cloud-sdk/completion.zsh.inc ]] && source '/home/joker/google-cloud-sdk/completion.zsh.inc'
+
+# OPAM configuration
+[[ -s /home/joker/.opam/opam-init/init.zsh ]] && source /home/joker/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
