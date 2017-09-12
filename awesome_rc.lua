@@ -618,3 +618,8 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+
+if os.execute("test -f ~/.config/awesome/autorun.sh ") == 0 then
+  awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+end
