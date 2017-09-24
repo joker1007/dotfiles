@@ -114,6 +114,8 @@ call dein#add('jonathanfilip/vim-lucius')
 call dein#add('jpo/vim-railscasts-theme')
 call dein#add('29decibel/codeschool-vim-theme')
 call dein#add('joshdick/onedark.vim')
+call dein#add('rakr/vim-one')
+call dein#add('jacoborus/tender.vim')
 call dein#add('MaxSt/FlatColor')
 " }}}
 
@@ -600,7 +602,8 @@ MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
 if stridx($TERM, "256color") >= 0
-  colorscheme onedark
+  colorscheme tender
+  MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#605070
 else
   colorscheme desert
 endif
@@ -1234,7 +1237,7 @@ let g:gitgutter_sign_modified_removed = '*-'
 " vim-airline {{{
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline_powerline_fonts = 0
-let g:airline_theme = "onedark"
+let g:airline_theme = "tender"
 let g:airline#extensions#hunks#hunk_symbols = [
         \ g:gitgutter_sign_added . ' ',
         \ g:gitgutter_sign_modified . ' ',
