@@ -83,6 +83,7 @@ mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
 alias vi='vim'
+alias nq='nvim-qt'
 
 # enable color support of ls and also add handy aliases
 case "${OSTYPE}" in
