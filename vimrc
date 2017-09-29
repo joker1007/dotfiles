@@ -407,6 +407,7 @@ endif
 
 call dein#end()
 call dein#save_state()
+call dein#call_hook('source')
 " endif
 autocmd VimEnter * call dein#call_hook('post_source')
 " }}}
@@ -1074,21 +1075,18 @@ if dein#tap('unite')
   " unite-ruby-require
   let g:unite_source_ruby_require_ruby_command = expand("~/.rbenv/shims/ruby")
 
-  function! s:unite_config()
-    " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
-    call unite#custom#default_action('source/bookmark/directory', 'vimfiler')
+  " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
+  call unite#custom#default_action('source/bookmark/directory', 'vimfiler')
 
-    call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
+  call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
 
-    call unite#custom#source('file_rec,file_rec/async', 'converters',
-          \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
-    call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
+  call unite#custom#source('file_rec,file_rec/async', 'converters',
+        \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
+  call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
 
-    call unite#custom#source(
-          \ 'file_mru', 'converters',
-          \ ['converter_file_directory'])
-  endfunction
-  call dein#config(g:dein#name, {'hook_source': function("s:unite_config")})
+  call unite#custom#source(
+        \ 'file_mru', 'converters',
+        \ ['converter_file_directory'])
 
   function! s:unite_my_settings()
     " Overwrite settings.
@@ -1122,10 +1120,11 @@ endif
 " denite {{{
 nnoremap [denite] <Nop>
 nmap     ,d [denite]
-nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file_rec<CR>
+nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file<CR>
+nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -mode=insert file_rec<CR>
 nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -mode=insert file_mru<CR>
 nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -mode=insert directory_mru<CR>
-nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file_rec<CR>
+nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file<CR>
 nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -mode=insert buffer<CR>
 nnoremap <silent> [denite]o   :<C-u>Denite -mode=insert -buffer-name=outline outline<CR>
 nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register register<CR>
@@ -1143,13 +1142,33 @@ nnoremap [denite]pr  :<C-u>Denite unite:pull_request:
 nnoremap [denite]pf  :<C-u>Denite unite:pull_request_file:
 
 if dein#tap("denite")
-  function! s:denite_config()
-    call denite#custom#var('file_rec', 'command',
-          \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>')
-    call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>')
-  endfunction
-  call dein#config(g:dein#name, {"hook_source": function("s:denite_config")})
+  call denite#custom#var('file_rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
+  call denite#custom#source(
+  \ 'file', 'converters', ['converter_relative_abbr'])
+
+  call denite#custom#source(
+  \ 'file_rec', 'matchers', ['matcher_substring'])
+
+  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+  call denite#custom#var('file_rec/git', 'command',
+        \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts',
+      \ ['-i', '--vimgrep'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+
+  call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<C-d>', '<denite:scroll_window_downwards>', 'noremap')
+  call denite#custom#map('insert', '<PageDown>', '<denite:scroll_page_forwards>', 'noremap')
+  call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<C-u>', '<denite:scroll_window_upwards>', 'noremap')
+  call denite#custom#map('insert', '<PageUp>', '<denite:scroll_page_backwards>', 'noremap')
 endif
 " }}}
 
