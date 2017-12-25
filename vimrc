@@ -693,9 +693,8 @@ command! -bang -nargs=? Euc
 " YAMLファイル用タブストップ設定
 au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8
 
-" actionscript mxml用のファイルタイプ設定
-MyAutocmd BufNewFile,BufRead *.as set filetype=actionscript
-MyAutocmd BufNewFile,BufRead *.mxml set filetype=mxml
+" For avsc
+MyAutocmd BufNewFile,BufRead *.avsc set filetype=json
 
 " バッファ切り替え {{{
 nnoremap [space]n :<C-U>bnext<CR>
