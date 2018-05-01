@@ -6,6 +6,8 @@
         "C-a": "peco.BeginningOfLine",
         "C-e": "peco.EndOfLine",
         "C-x": "peco.ToggleSelection",
+        "C-z": "peco.ToggleSelectionAndSelectNext",
+        "C-s": "peco.ToggleSelectionAndSelectNext",
         "Pgdn": "peco.ScrollPageUp",
         "Pgup": "peco.ScrollPageDown",
         "ArrowLeft": "peco.BackwardChar",

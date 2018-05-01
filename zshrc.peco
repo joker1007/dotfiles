@@ -125,3 +125,14 @@ function peco-ssh() {
 }
 zle -N peco-ssh
 bindkey '\es' peco-ssh
+
+function peco-ssh-xpanes() {
+  local res
+  res=$(grep "Host " ~/.ssh/config | cut -b 6- | peco | tr '\n' ' ')
+  if [ -n "$res" ]; then
+    BUFFER="xpanes --log=~/log --ssh ${res}"
+    zle end-of-line
+  fi
+}
+zle -N peco-ssh-xpanes
+bindkey '\ex' peco-ssh-xpanes
