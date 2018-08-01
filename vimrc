@@ -3,6 +3,8 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/repos/github.com/Shougo/dein.vim/
 endif
 
+let g:python3_host_prog = "/home/joker/.pyenv/shims/python3"
+
 if filereadable(expand('~/.vimrc.local.before'))
   execute 'source' expand('~/.vimrc.local.before')
 endif
@@ -992,7 +994,7 @@ if dein#tap('vim-test')
   function! DockerTransformer(cmd) abort
     if $APP_CONTAINER_NAME != ''
       let container_id = system('docker ps --filter name=$APP_CONTAINER_NAME -q')
-      return 'docker exec -t ' . container_id . ' spring ' . a:cmd
+      return 'docker exec -t ' . container_id . ' bundle exec ' . a:cmd
     else
       return 'bundle exec ' . a:cmd
     endif
@@ -1897,7 +1899,7 @@ if has('nvim')
   tnoremap <A-l> <C-\><C-N><C-w>l
 endif
 if dein#tap('neoterm')
-  let g:neoterm_position = 'horizontal'
+  let g:neoterm_default_mod = 'botright'
   let g:neoterm_automap_keys = ',tt'
   let g:neoterm_repl_ruby = 'pry'
 
