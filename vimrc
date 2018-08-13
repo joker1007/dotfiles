@@ -130,7 +130,7 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('carlosvillu/coffeScript-VIM-Snippets')
 
 call dein#add('leafgarland/typescript-vim')
-call dein#add('clausreinke/typescript-tools.vim')
+call dein#add('Quramy/tsuquyomi')
 " }}}
 
 " ref {{{
@@ -386,6 +386,10 @@ call dein#add('Shougo/vimfiler', {
 \   'on_cmd' : [ "VimFilerTab", "VimFiler", "VimFilerExplorer", "VimFilerBufferDir" ],
 \   'on_map' : ['<Plug>(vimfiler_switch)'],
 \})
+
+if has('nvim')
+  call dein#add('Shougo/defx.nvim')
+endif
 
 call dein#add('Shougo/vimshell', {
       \ 'depends' : 'vimproc',
