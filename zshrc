@@ -271,3 +271,5 @@ fi
 [[ -s /home/joker/.opam/opam-init/init.zsh ]] && source /home/joker/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
 
 alias all-ruby="docker run --rm -t rubylang/all-ruby /all-ruby/all-ruby"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
