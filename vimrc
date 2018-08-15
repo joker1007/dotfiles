@@ -1918,11 +1918,11 @@ endif
 
   " Useful maps
   " hide/close terminal
-  nnoremap <silent> ,th :call neoterm#toggle()<cr>
+  nnoremap <silent> ,th :<C-U>TtoggleAll<cr>
   " clear terminal
-  nnoremap <silent> ,tl :call neoterm#clear()<cr>
+  nnoremap <silent> ,tl :<C-U>Tclear<cr>
   " kills the current job (send a <c-c>)
-  nnoremap <silent> ,tc :call neoterm#kill()<cr>
+  nnoremap <silent> ,tc :<C-U>Tkill<cr>
 
   " Git commands
   command! -nargs=+ Tg :T git <args>
