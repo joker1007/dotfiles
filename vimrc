@@ -196,6 +196,7 @@ call dein#add('kannokanno/previm', {'on_cmd' : ['PrevimOpen']})
 call dein#add('godlygeek/tabular')
 call dein#add('scrooloose/syntastic')
 call dein#add('rhysd/github-complete.vim')
+call dein#add('rhysd/ghpr-blame.vim')
 call dein#add('hashivim/vim-terraform')
 call dein#add('Shougo/vinarise.vim')
 
@@ -573,7 +574,7 @@ endif
 set formatoptions+=mM
 
 " matchitスクリプトの読み込み
-source $VIMRUNTIME/macros/matchit.vim
+" source $VIMRUNTIME/macros/matchit.vim
 
 " jkを直感的に
 nnoremap <silent> j gj
@@ -1896,7 +1897,7 @@ let g:markdown_quote_syntax_filetypes = {
 
 " neoterm
 if has('nvim')
-  tnoremap <Esc><Esc> <C-\><C-n>
+  tnoremap <C-j> <C-\><C-n>
   tnoremap <A-h> <C-\><C-N><C-w>h
   tnoremap <A-j> <C-\><C-N><C-w>j
   tnoremap <A-k> <C-\><C-N><C-w>k
