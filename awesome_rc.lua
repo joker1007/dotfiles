@@ -8,6 +8,14 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+naughty.config.notify_callback = function(args)
+  if args.icon then
+    args.icon_size = 64
+  end
+  args.width = 400
+  return args
+end
+
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable hotkeys help widget for VIM and other apps
