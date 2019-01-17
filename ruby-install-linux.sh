@@ -2,7 +2,7 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-2.5.0-dev}
+version=${1:-2.7.0-dev}
 
 trap 'exit 1' 2
 
@@ -15,13 +15,13 @@ export CXXLAGS="${CFLAGS}"
 
 export RUBY_CONFIGURE_OPTS="--enable-shared"
 
-export MAKE_OPTS="-j 2"
+export MAKE_OPTS="-j 4"
 
 [ -d ~/.rbenv/sources/$version ] && rm -rf ~/.rbenv/sources/$version
 
 rbenv install -k -f $version
 
 export RBENV_VERSION=$version
-rbenv exec gem update --system
+# rbenv exec gem update --system
 rbenv exec gem install bundler --no-document
 rbenv rehash
