@@ -1972,6 +1972,9 @@ let g:vim_json_syntax_conceal = 0
 let g:markdown_composer_autostart = 0
 let g:markdown_composer_refresh_rate = 10000
 
+" vim-terraform
+let g:terraform_fmt_on_save = 1
+
 syntax enable
 
 if filereadable(expand('~/.vimrc.local.after'))

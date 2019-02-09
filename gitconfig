@@ -58,3 +58,5 @@
 	diff = diff-highlight | less
 [diff]
 	compactionHeuristic = true
+[merge]
+	conflictStyle = diff3
