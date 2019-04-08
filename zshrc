@@ -136,6 +136,7 @@ alias bo="bundle open"
 alias sp='spring'
 alias sprk='spring rake'
 alias sprs='spring rspec'
+alias dbuild='docker build -t $(basename $(pwd)) .'
 
 # Global aliases
 alias -g L="| lv"
