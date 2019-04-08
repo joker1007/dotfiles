@@ -90,6 +90,7 @@ call dein#add('scrooloose/nerdcommenter', {
 call dein#add('thinca/vim-prettyprint')
 call dein#add('mhinz/vim-startify')
 call dein#add('hecal3/vim-leader-guide')
+call dein#add('ryanoasis/vim-devicons')
 
 call dein#add('moro/vim-review')
 call dein#add('cespare/vim-toml')
@@ -124,6 +125,7 @@ call dein#add('MaxSt/FlatColor')
 " ruby rails develop {{{
 call dein#add('tpope/vim-rails')
 call dein#add('vim-ruby/vim-ruby')
+"call dein#add('noprompt/vim-yardoc')
 call dein#add('tpope/vim-cucumber')
 call dein#add('thinca/vim-quickrun', {'depends' : 'vimproc'})
 call dein#add('kchmck/vim-coffee-script')
@@ -194,11 +196,15 @@ call dein#add('kannokanno/previm', {'on_cmd' : ['PrevimOpen']})
 
 " other programinng {{{
 call dein#add('godlygeek/tabular')
-call dein#add('scrooloose/syntastic')
+call dein#add('vim-syntastic/syntastic')
 call dein#add('rhysd/github-complete.vim')
 call dein#add('rhysd/ghpr-blame.vim')
 call dein#add('hashivim/vim-terraform')
 call dein#add('Shougo/vinarise.vim')
+call dein#add('autozimu/LanguageClient-neovim', {
+    \ 'rev': 'next',
+    \ 'build': 'bash install.sh',
+    \ })
 
 call dein#add('rking/ag.vim', {
       \ 'on_cmd' : [
@@ -452,7 +458,7 @@ endif
 set history=10000           " keep 10000 lines of command line history
 set ruler                   " show the cursor position all the time
 set nu                      " show line number
-set ambiwidth=double
+set ambiwidth=single
 set display=uhex            " 表示できない文字を16進数で表示
 set scrolloff=5             " 常にカーソル位置から5行余裕を取る
 set virtualedit=block       " 矩形選択でカーソル位置の制限を解除
@@ -460,6 +466,7 @@ set autoread                " 他でファイルが編集された時に自動�
 set background=dark
 set ttimeout
 set ttimeoutlen=100
+set signcolumn=yes
 
 " Space prefix
 nnoremap [space] <Nop>
@@ -1743,9 +1750,8 @@ function! OpenBrowserLine()
 endfunction
 
 " syntastic
-if executable('rubocop')
-  let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-endif
+let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_ruby_rubocop_exe = 'bundle exec rubocop'
 
 function! s:toggle_rubocop() abort
   if index(g:syntastic_ruby_checkers, 'rubocop') >= 0
@@ -1774,11 +1780,17 @@ endif
 let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_elixir_checkers = ['elixir']
 
-let g:syntastic_auto_loc_list = 2
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee', 'elixir'],
                            \ 'passive_filetypes': [] }
+
+
+let g:syntastic_error_symbol = "\u2717"
+let g:syntastic_warning_symbol = "\u26A0"
 
 " ft hamstache
 MyAutocmd BufReadPost *.hamstache set filetype=haml
@@ -1974,6 +1986,17 @@ let g:markdown_composer_refresh_rate = 10000
 
 " vim-terraform
 let g:terraform_fmt_on_save = 1
+
+" LanguageClient
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'ruby': ['bundle', 'exec', 'solargraph', 'stdio'],
+    \ }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> <leader>d :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F6> :call LanguageClient#textDocument_rename()<CR>
 
 syntax enable
 
