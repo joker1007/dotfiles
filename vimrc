@@ -1016,22 +1016,6 @@ if dein#tap('vim-test')
   let g:test#transformation = 'docker'
 endif
 
-" libruby load
-if filereadable(expand("~/.rbenv/shims/ruby"))
-  let s:ruby_exec = expand("~/.rbenv/shims/ruby")
-else
-  let s:ruby_exec = "ruby"
-endif
-let s:ruby_libdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"libdir\"]'")
-let s:ruby_headerdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"rubyhdrdir\"]'")
-let s:ruby_archheaderdir = system(s:ruby_exec . " -rrbconfig -e 'print RbConfig::CONFIG[\"rubyarchhdrdir\"]'")
-let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
-if filereadable(s:ruby_libruby)
-  if has('gui_macvim') && has('kaoriya')
-    let &rubydll=s:ruby_libruby
-  endif
-endif
-
 " liblua load
 " if has('gui_macvim') && has('kaoriya')
   " if filereadable(expand("/usr/local/lib/libluajit-5.1.2.dylib"))
@@ -1452,7 +1436,7 @@ if dein#tap('vim-clang')
   let g:clang_use_library = 1
   let g:clang_check_syntax_auto = 1
 
-  let g:clang_c_options = '-I' . s:ruby_headerdir . ' -I' . s:ruby_archheaderdir
+  let g:clang_c_options = '-std=c99'
   let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
   " let g:clang_debug = 1
   if has('mac')
