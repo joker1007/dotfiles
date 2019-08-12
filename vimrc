@@ -827,12 +827,10 @@ endif
 
 
 " ポップアップメニューのカラーを設定
-MyAutocmd Syntax * hi Pmenu ctermfg=15 ctermbg=18 guibg=#666666
-MyAutocmd Syntax * hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
+MyAutocmd Syntax * hi Pmenu ctermfg=0 ctermbg=116 guifg=#FFFFFF guibg=#3c4083
+MyAutocmd Syntax * hi PmenuSel cterm=bold ctermfg=235 ctermbg=81 gui=bold guifg=#282828 guibg=#63cef4
 MyAutocmd Syntax * hi PmenuSbar guibg=#333333
-
-MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#444444
-
+MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#555555
 
 " TOhtml
 let g:html_number_lines = 0
@@ -1121,23 +1119,23 @@ endif
 " denite {{{
 nnoremap [denite] <Nop>
 nmap     ,d [denite]
-nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file<CR>
-nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -mode=insert file/rec<CR>
-nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -mode=insert file_mru<CR>
-nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -mode=insert directory_mru<CR>
-nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file<CR>
-nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -mode=insert buffer<CR>
-nnoremap <silent> [denite]o   :<C-u>Denite -mode=insert -buffer-name=outline outline<CR>
+nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -start-filter file<CR>
+nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -start-filter file/rec<CR>
+nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -start-filter file_mru<CR>
+nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -start-filter directory_mru<CR>
+nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -start-filter file<CR>
+nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -start-filter buffer<CR>
+nnoremap <silent> [denite]o   :<C-u>Denite -buffer-name=outline -start-filter -split=vertical outline<CR>
 nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register register<CR>
 nnoremap <silent> [denite]c   :<C-u>Denite -buffer-name=commands command<CR>
 nnoremap <silent> [denite]s   :<C-u>Denite -buffer-name=snippets unite:snippet<CR>
 " nnoremap <silent> [denite]u   :<C-u>Denite -mode=insert source<CR>
 nnoremap <silent> [denite]l   :<C-u>Denite -buffer-name=lines line<CR>
 nnoremap <silent> [denite]m   :<C-u>Denite -buffer-name=bookmark unite:bookmark<CR>
-nnoremap <silent> [denite]rm   :<C-u>Denite -buffer-name=ref -mode=insert unite:ref/man<CR>
-nnoremap <silent> [denite]rr   :<C-u>Denite -buffer-name=ref -mode=insert unite:ref/refe<CR>
+nnoremap <silent> [denite]rm   :<C-u>Denite -buffer-name=ref -start-filter unite:ref/man<CR>
+nnoremap <silent> [denite]rr   :<C-u>Denite -buffer-name=ref -start-filter unite:ref/refe<CR>
 nnoremap <silent> [denite]g   :<C-u>Denite -buffer-name=grep grep<CR>
-nnoremap <silent> [denite]hd   :<C-u>Denite -mode=insert unite:haddock<CR>
+nnoremap <silent> [denite]hd   :<C-u>Denite -start-filter unite:haddock<CR>
 nnoremap <silent> [denite]y   :<C-u>Denite -buffer-name=yankround unite:yankround<CR>
 nnoremap [denite]pr  :<C-u>Denite unite:pull_request:
 nnoremap [denite]pf  :<C-u>Denite unite:pull_request_file:
@@ -1146,6 +1144,8 @@ autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
         \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> <Tab>
+        \ denite#do_map('choose_action')
   nnoremap <silent><buffer><expr> d
         \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
@@ -1157,10 +1157,31 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <Space>
         \ denite#do_map('toggle_select').'j'
   nnoremap <silent><buffer><expr> mf
-        \ denite#do_map('toggle_matchers:fuzzy')
+        \ denite#do_map('toggle_matchers', 'fuzzy')
+  nnoremap <silent><buffer> <C-O> <Nop>
+endfunction
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
 endfunction
 
 if dein#tap("denite")
+  call denite#custom#option('_', 'statusline', v:false)
+  call denite#custom#option('_', 'prompt', '>')
+  call denite#custom#option('_', 'split', 'floating')
+
+  let s:denite_win_width_percent = 0.85
+  let s:denite_win_height_percent = 0.7
+
+  " Change denite default options
+  call denite#custom#option('_', {
+        \ 'split': 'floating',
+        \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+        \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+        \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+        \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+        \ })
+
   call denite#custom#var('file/rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
@@ -1276,6 +1297,7 @@ let g:gitgutter_sign_modified_removed = '*-'
 "}}}
 
 " vim-airline {{{
+let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline_powerline_fonts = 0
 let g:airline_theme = "tender"
