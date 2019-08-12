@@ -91,6 +91,7 @@ call dein#add('thinca/vim-prettyprint')
 call dein#add('mhinz/vim-startify')
 call dein#add('hecal3/vim-leader-guide')
 call dein#add('ryanoasis/vim-devicons')
+call dein#add('junegunn/vim-emoji')
 
 call dein#add('moro/vim-review')
 call dein#add('cespare/vim-toml')
@@ -830,6 +831,9 @@ MyAutocmd Syntax * hi Pmenu ctermfg=15 ctermbg=18 guibg=#666666
 MyAutocmd Syntax * hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 MyAutocmd Syntax * hi PmenuSbar guibg=#333333
 
+MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#444444
+
+
 " TOhtml
 let g:html_number_lines = 0
 let g:html_use_css = 1
@@ -1118,7 +1122,7 @@ endif
 nnoremap [denite] <Nop>
 nmap     ,d [denite]
 nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -mode=insert file<CR>
-nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -mode=insert file_rec<CR>
+nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -mode=insert file/rec<CR>
 nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -mode=insert file_mru<CR>
 nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -mode=insert directory_mru<CR>
 nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -mode=insert file<CR>
@@ -1138,17 +1142,38 @@ nnoremap <silent> [denite]y   :<C-u>Denite -buffer-name=yankround unite:yankroun
 nnoremap [denite]pr  :<C-u>Denite unite:pull_request:
 nnoremap [denite]pf  :<C-u>Denite unite:pull_request_file:
 
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+        \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+        \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+        \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+        \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+        \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+        \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> mf
+        \ denite#do_map('toggle_matchers:fuzzy')
+endfunction
+
 if dein#tap("denite")
-  call denite#custom#var('file_rec', 'command',
+  call denite#custom#var('file/rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
   call denite#custom#source(
   \ 'file', 'converters', ['converter_relative_abbr'])
 
   call denite#custom#source(
-  \ 'file_rec', 'matchers', ['matcher_substring'])
+  \ 'file', 'matchers', ['matcher_substring'])
 
-  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+  call denite#custom#source(
+  \ 'file/rec', 'matchers', ['matcher_substring'])
+
+  call denite#custom#alias('source', 'file_rec/git', 'file/rec')
   call denite#custom#var('file_rec/git', 'command',
         \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
@@ -1436,8 +1461,8 @@ if dein#tap('vim-clang')
   let g:clang_use_library = 1
   let g:clang_check_syntax_auto = 1
 
-  let g:clang_c_options = '-std=c99'
-  let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
+  let g:clang_c_options = '-std=c99 -I' . getcwd() . ' -I' . getcwd() . '/include'
+  let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ -I' . getcwd()
   " let g:clang_debug = 1
   if has('mac')
     let g:clang_library_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
