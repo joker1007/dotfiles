@@ -256,7 +256,7 @@ local cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "CPU: $1%")
 
 local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon0", "hwmon", "temp2_input"})
+vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon1", "hwmon", "temp2_input"})
 -- }}}
 
 -- {{{ mem widget
@@ -265,7 +265,7 @@ vicious.register(memwidget, vicious.widgets.mem, "MEM: $2 MB / $3 MB")
 -- }}}
 
 local tempwidget = wibox.widget.textbox()
-vicious.register(tempwidget, vicious.widgets.thermal, "SYSTEMP: $1 C", 5, {"hwmon0", "hwmon"})
+vicious.register(tempwidget, vicious.widgets.thermal, "SYSTEMP: $1 C", 5, {"hwmon1", "hwmon"})
 
 local fsinfo = wibox.widget.textbox()
 vicious.register(fsinfo, vicious.widgets.fs, "root: ${/ used_p}% home: ${/home used_p}%", 32)
