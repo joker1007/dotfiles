@@ -1120,6 +1120,7 @@ endif
 nnoremap [denite] <Nop>
 nmap     ,d [denite]
 nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -start-filter file<CR>
+nnoremap <silent> [denite]fn   :<C-u>Denite -buffer-name=files -start-filter file:new<CR>
 nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -start-filter file/rec<CR>
 nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -start-filter file_mru<CR>
 nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -start-filter directory_mru<CR>
