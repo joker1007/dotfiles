@@ -468,6 +468,7 @@ set background=dark
 set ttimeout
 set ttimeoutlen=100
 set signcolumn=yes
+set updatetime=1000
 
 " Space prefix
 nnoremap [space] <Nop>
@@ -1171,7 +1172,7 @@ if dein#tap("denite")
   call denite#custom#option('_', 'prompt', '>')
   call denite#custom#option('_', 'split', 'floating')
 
-  let s:denite_win_width_percent = 0.85
+  let s:denite_win_width_percent = 0.75
   let s:denite_win_height_percent = 0.7
 
   " Change denite default options
@@ -1179,7 +1180,7 @@ if dein#tap("denite")
         \ 'split': 'floating',
         \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
         \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-        \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+        \ 'winheight': min([float2nr(&lines * s:denite_win_height_percent), 35]),
         \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
         \ })
 
@@ -1683,10 +1684,12 @@ let g:switch_custom_definitions = [
 " }}}
 
 if dein#tap('github-complete.vim')
+  " Disable overwriting 'omnifunc'
+  let g:github_complete_enable_omni_completion = 0
   augroup ConfigGithubComplete
-    autocmd!
-    autocmd FileType gitcommit setl omnifunc=github_complete#complete
-    autocmd FileType markdown setl omnifunc=github_complete#complete
+    " <C-x><C-x> invokes completions of github-complete.vim
+    autocmd! FileType markdown,gitcommit
+          \ imap <C-x><C-x> <Plug>(github-complete-manual-completion)
   augroup END
 endif
 
