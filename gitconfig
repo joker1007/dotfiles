@@ -1,6 +1,7 @@
 [user]
 	name = joker1007
 	email = kakyoin.hierophant@gmail.com
+	signingkey = 69BAF8CC17ECB7B3
 [include]
 	path = .gitconfig.local
 [core]
@@ -60,3 +61,5 @@
 	compactionHeuristic = true
 [merge]
 	conflictStyle = diff3
+[commit]
+	gpgsign = true
