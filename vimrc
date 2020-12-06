@@ -1,9 +1,10 @@
 if has('vim_starting')
   set nocompatible
   set runtimepath+=~/.vim/bundle/repos/github.com/Shougo/dein.vim/
+  set runtimepath+=/usr/share/vim/vimfiles
 endif
 
-let g:python3_host_prog = "/home/joker/.pyenv/shims/python3"
+"let g:python3_host_prog = "/usr/bin/python3.8"
 
 if filereadable(expand('~/.vimrc.local.before'))
   execute 'source' expand('~/.vimrc.local.before')
@@ -98,7 +99,7 @@ call dein#add('cespare/vim-toml')
 
 call dein#add('kana/vim-submode')
 
-call dein#add('tpope/vim-markdown')
+call dein#add('plasticboy/vim-markdown')
 call dein#add('mattn/vim-maketable', {'on_ft' : ['markdown']})
 
 call dein#add('joker1007/vim-ruby-heredoc-syntax', {'on_ft' : ['ruby', 'eruby']})
@@ -327,6 +328,8 @@ call dein#add('Lokaltog/vim-easymotion', {
       \'\\B'
 \   ],
 \})
+
+call dein#add('t9md/vim-choosewin')
 " }}}
 
 " git {{{
@@ -1657,6 +1660,13 @@ if dein#tap('vim-altr')
 endif
 " }}}
 
+" vim-choosewin {{{
+if dein#tap('vim-choosewin')
+  nmap _ <Plug>(choosewin)
+  let g:choosewin_overlay_enable = 1
+endif
+" }}}
+
 " switch.vim {{{
 let g:variable_style_switch_definitions = [
       \   {
@@ -1692,6 +1702,9 @@ if dein#tap('github-complete.vim')
           \ imap <C-x><C-x> <Plug>(github-complete-manual-completion)
   augroup END
 endif
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
 
 " RSpec syntax {{{
 function! RSpecSyntax()
