@@ -256,7 +256,7 @@ local cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "CPU: $1%")
 
 local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon1", "hwmon", "temp2_input"})
+vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon0", "hwmon", "temp1_input"})
 -- }}}
 
 -- {{{ mem widget
@@ -551,6 +551,8 @@ awful.rules.rules = {
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
+      properties = { floating = true } },
+    { rule = { class = "noita.exe" },
       properties = { floating = true } },
     { rule = { class = "Google-chrome" },
       properties = { floating = false, maximized = false } },
