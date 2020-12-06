@@ -137,6 +137,7 @@ alias sp='spring'
 alias sprk='spring rake'
 alias sprs='spring rspec'
 alias dbuild='docker build -t $(basename $(pwd)) .'
+alias yd="youtube-dl"
 
 # Global aliases
 alias -g L="| lv"
@@ -152,7 +153,7 @@ alias -g ST="amanogawa -f '%f%t%d' | column -t -s '	' | peco | awk '{print \$1}'
 
 # Pager
 
-export LESS="-RXF"
+export LESS="-MRXF"
 export PAGER="less"
 
 if [ "$PAGER" = "lv" ]; then
@@ -274,3 +275,7 @@ fi
 alias all-ruby="docker run --rm -t rubylang/all-ruby /all-ruby/all-ruby"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/joker/.sdkman"
+[[ -s "/home/joker/.sdkman/bin/sdkman-init.sh" ]] && source "/home/joker/.sdkman/bin/sdkman-init.sh"
