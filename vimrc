@@ -122,6 +122,7 @@ call dein#add('joshdick/onedark.vim')
 call dein#add('rakr/vim-one')
 call dein#add('jacoborus/tender.vim')
 call dein#add('MaxSt/FlatColor')
+call dein#add('cocopon/iceberg.vim')
 " }}}
 
 " ruby rails develop {{{
@@ -296,7 +297,6 @@ call dein#add("osyo-manga/vim-gyazo", {
 
 " tweetvim {{{
 call dein#add('basyura/bitly.vim')
-call dein#add('mattn/favstar-vim')
 call dein#add('basyura/twibill.vim')
 call dein#add('basyura/TweetVim', {
 \   'rev': 'dev',
@@ -442,7 +442,8 @@ augroup END
 
 " vim-leader-guide
 let g:lmap =  {}
-map <leader>. <Plug>leaderguide-global
+map <leader><leader> <Plug>leaderguide-global
+let g:leaderGuide_default_group_name = "+group"
 
 command!
 \ -bang -nargs=*
@@ -622,8 +623,8 @@ MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
 if stridx($TERM, "256color") >= 0
-  colorscheme tender
-  MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#605070
+  colorscheme onedark
+  MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#30505d
 else
   colorscheme desert
 endif
@@ -834,7 +835,8 @@ endif
 MyAutocmd Syntax * hi Pmenu ctermfg=0 ctermbg=116 guifg=#FFFFFF guibg=#3c4083
 MyAutocmd Syntax * hi PmenuSel cterm=bold ctermfg=235 ctermbg=81 gui=bold guifg=#282828 guibg=#63cef4
 MyAutocmd Syntax * hi PmenuSbar guibg=#333333
-MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#555555
+MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#3A3A2A
+
 
 " TOhtml
 let g:html_number_lines = 0
@@ -1608,7 +1610,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_color_change_percent = 35
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey   ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#333373   ctermbg=darkgrey
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 " }}}
 
@@ -1936,6 +1938,7 @@ nnoremap <silent> [unite]t   :<C-u>Unite tweetvim<CR>
 nnoremap <silent> [space]ts   :<C-u>TweetVimUserStream<CR>
 nnoremap <silent> [space]tt   :<C-u>TweetVimHomeTimeline<CR>
 if dein#tap('TweetVim')
+  let g:tweetvim_tweet_per_page = 50
   let g:tweetvim_include_rts = 1
   let g:tweetvim_display_icon = 1
 endif
@@ -1964,9 +1967,12 @@ if has('nvim')
   tnoremap <A-l> <C-\><C-N><C-w>l
 endif
 if dein#tap('neoterm')
+  let g:neoterm_autoinsert = 1
+  let g:neoterm_autoscroll = 1
   let g:neoterm_default_mod = 'botright'
   let g:neoterm_automap_keys = ',tt'
   let g:neoterm_repl_ruby = 'pry'
+  let g:neoterm_term_per_tab = 1
 
   nnoremap <silent> <f10> :TREPLSendFile<cr>
   nnoremap <silent> <f9> :TREPLSendLine<cr>
@@ -1982,8 +1988,16 @@ endif
   nnoremap <silent> ,th :<C-U>TtoggleAll<cr>
   " clear terminal
   nnoremap <silent> ,tl :<C-U>Tclear<cr>
+  nnoremap <silent> ,tL :<C-U>Tclear<cr>
   " kills the current job (send a <c-c>)
   nnoremap <silent> ,tc :<C-U>Tkill<cr>
+
+  nnoremap <silent> ,to :<C-U>Topen<cr>
+  nnoremap <silent> ,tq :<C-U>Tclose!<cr>
+
+  nnoremap <silent> ,te :<C-U>Tnew<cr>
+  nnoremap <silent> ,tn :<C-U>Tnext<cr>
+  nnoremap <silent> ,tp :<C-U>Tprevious<cr>
 
   " Git commands
   command! -nargs=+ Tg :T git <args>
