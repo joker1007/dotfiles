@@ -13,12 +13,13 @@ typeset -U path PATH
 path=(
   $HOME/.rbenv/bin(N-/)
   $HOME/.rbenv/shims(N-/)
-  $HOME/.pyenv/bin(N-/)
-  $HOME/.pyenv/shims(N-/)
+  # $HOME/.pyenv/bin(N-/)
+  # $HOME/.pyenv/shims(N-/)
   $HOME/.nodebrew/current/bin(N-/)
   $HOME/.cargo/bin(N-/)
   # $HOME/.nodenv/bin(N-/)
   # $HOME/.nodenv/shims(N-/)
+  $HOME/.sdkman/bin(N-/)
   $HOME/.local/bin(N-/)
   $HOME/.embulk/bin(N-/)
   $HOME/bin
@@ -69,11 +70,11 @@ if type rbenv > /dev/null 2>&1; then
 fi
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-if type pyenv > /dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  source ~/.pyenv/completions/pyenv.zsh
-fi
+# export PYENV_ROOT="$HOME/.pyenv"
+# if type pyenv > /dev/null 2>&1; then
+  # eval "$(pyenv init -)"
+  # source ~/.pyenv/completions/pyenv.zsh
+# fi
 
 # # nodenv
 # if type nodenv > /dev/null 2>&1; then
