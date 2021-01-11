@@ -13,7 +13,7 @@ export CXX=c++
 export CFLAGS="-O3 -march=native"
 export CXXLAGS="${CFLAGS}"
 
-export RUBY_CONFIGURE_OPTS="--enable-shared"
+export RUBY_CONFIGURE_OPTS=""
 
 export MAKE_OPTS="-j 4"
 
@@ -21,7 +21,7 @@ export MAKE_OPTS="-j 4"
 
 rbenv install -k -f $version
 
-export RBENV_VERSION=$version
+# export RBENV_VERSION=$version
 # rbenv exec gem update --system
-rbenv exec gem install bundler --no-document
-rbenv rehash
+# rbenv exec gem install bundler --no-document
+# rbenv rehash
