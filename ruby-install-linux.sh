@@ -2,7 +2,7 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-3.0.0-dev}
+version=${1:-3.0.0}
 
 trap 'exit 1' 2
 
