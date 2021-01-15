@@ -1129,6 +1129,7 @@ nnoremap <silent> [denite]ff   :<C-u>Denite -buffer-name=files -start-filter fil
 nnoremap <silent> [denite]fn   :<C-u>Denite -buffer-name=files -start-filter file:new<CR>
 nnoremap <silent> [denite]fa   :<C-u>Denite -buffer-name=files -start-filter file/rec<CR>
 nnoremap <silent> [denite]fr   :<C-u>Denite -buffer-name=files -start-filter file_mru<CR>
+nnoremap <silent> [denite]fg   :<C-u>Denite -buffer-name=files -start-filter file_rec/git<CR>
 nnoremap <silent> [denite]d   :<C-u>Denite -buffer-name=files -start-filter directory_mru<CR>
 nnoremap <silent> [denite]F   :<C-u>DeniteBufferDir -buffer-name=files -start-filter file<CR>
 nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -start-filter buffer<CR>
@@ -1665,7 +1666,6 @@ endif
 " vim-choosewin {{{
 if dein#tap('vim-choosewin')
   nmap _ <Plug>(choosewin)
-  let g:choosewin_overlay_enable = 1
 endif
 " }}}
 
@@ -1969,6 +1969,7 @@ endif
 if dein#tap('neoterm')
   let g:neoterm_autoinsert = 1
   let g:neoterm_autoscroll = 1
+  let g:neoterm_term_per_tab = 1
   let g:neoterm_default_mod = 'botright'
   let g:neoterm_automap_keys = ',tt'
   let g:neoterm_repl_ruby = 'pry'
@@ -1984,20 +1985,26 @@ if dein#tap('nvim-editcommand')
 endif
 
   " Useful maps
-  " hide/close terminal
-  nnoremap <silent> ,th :<C-U>TtoggleAll<cr>
   " clear terminal
   nnoremap <silent> ,tl :<C-U>Tclear<cr>
-  nnoremap <silent> ,tL :<C-U>Tclear<cr>
+  nnoremap <silent> ,tL :<C-U>Tclear!<cr>
   " kills the current job (send a <c-c>)
-  nnoremap <silent> ,tc :<C-U>Tkill<cr>
+  nnoremap <silent> ,tk :<C-U>Tkill<cr>
 
+  " hide/close terminal
   nnoremap <silent> ,to :<C-U>Topen<cr>
-  nnoremap <silent> ,tq :<C-U>Tclose!<cr>
+  nnoremap <silent> ,tc :<C-U>Tclose<cr>
+  nnoremap <silent> ,tC :<C-U>Tclose!<cr>
+  nnoremap <silent> ,tac :<C-U>TcloseAll<cr>
+  nnoremap <silent> ,taC :<C-U>TcloseAll!<cr>
 
   nnoremap <silent> ,te :<C-U>Tnew<cr>
+  nnoremap <silent> ,tE :<C-U>tab Tnew<cr>
   nnoremap <silent> ,tn :<C-U>Tnext<cr>
   nnoremap <silent> ,tp :<C-U>Tprevious<cr>
+
+  nnoremap <silent> ,tt :<C-U>Ttoggle<cr>
+  nnoremap <silent> ,tat :<C-U>TtoggleAll<cr>
 
   " Git commands
   command! -nargs=+ Tg :T git <args>
