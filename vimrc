@@ -256,7 +256,6 @@ call dein#add('kana/vim-metarw')
 call dein#add('joker1007/vim-metarw-qiita')
 call dein#add('joker1007/vim-metarw-github-issues')
 call dein#add('lilydjwg/colorizer')
-call dein#add('pasela/unite-webcolorname')
 call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
 call dein#add('haya14busa/incsearch.vim')
@@ -346,22 +345,8 @@ call dein#add('lambdalisue/vim-gista', {
 \})
 " }}}
 
-" unite {{{
-call dein#add('tsukkee/unite-help')
-call dein#add('ujihisa/unite-gem')
-call dein#add('thinca/vim-unite-history')
-call dein#add('Shougo/unite-outline')
-call dein#add('eagletmt/unite-haddock')
-call dein#add('ujihisa/unite-haskellimport')
-call dein#add('tsukkee/unite-tag')
-call dein#add('rhysd/unite-ruby-require.vim')
-call dein#add('joker1007/unite-pull-request')
-call dein#add('osyo-manga/unite-quickrun_config')
+" denite {{{
 call dein#add('Shougo/neomru.vim')
-
-call dein#add('Shougo/unite.vim', {
-\   'name' : 'unite',
-\})
 
 call dein#add('Shougo/denite.nvim', {
 \   'name' : 'denite',
@@ -391,23 +376,11 @@ else
 endif
 " }}}
 
-" vimshell, vimfiler {{{
-call dein#add('Shougo/vimfiler', {
-\   'depends' : ["unite"],
-\   'on_cmd' : [ "VimFilerTab", "VimFiler", "VimFilerExplorer", "VimFilerBufferDir" ],
-\   'on_map' : ['<Plug>(vimfiler_switch)'],
-\})
-
+" defx {{{
 if has('nvim')
   call dein#add('Shougo/defx.nvim')
 endif
 
-call dein#add('Shougo/vimshell', {
-      \ 'depends' : 'vimproc',
-      \ 'on_cmd' : ['VimShell', 'VimShellExecute', 'VimShellInteractive',
-      \            'VimShellTerminal', 'VimShellPop'],
-      \ 'on_map' : ['<Plug>(vimshell_switch)']
-      \ })
 call dein#add('mattn/vim-sonots')
 
 " }}}
@@ -1038,90 +1011,6 @@ endif
 " webapi-vim
 let g:webapi#system_function = "vimproc#system"
 
-" Unite.vim {{{
-nnoremap [unite] <Nop>
-nmap     ,u [unite]
-nnoremap <silent> [unite]ff   :<C-u>Unite -buffer-name=files -start-insert file file/new<CR>
-nnoremap <silent> [unite]fr   :<C-u>Unite -buffer-name=files -start-insert file_mru<CR>
-nnoremap <silent> [unite]fg   :<C-u>Unite -buffer-name=files -start-insert file_rec/git<CR>
-nnoremap <silent> [unite]fa   :<C-u>Unite -buffer-name=files -start-insert file_rec/async<CR>
-nnoremap <silent> [unite]d   :<C-u>Unite -buffer-name=files -start-insert directory_mru<CR>
-nnoremap <silent> [unite]vff  :<C-u>Unite -vertical -buffer-name=files -start-insert file/new<CR>
-nnoremap <silent> [unite]vfr  :<C-u>Unite -vertical -buffer-name=files -start-insert file_mru <CR>
-nnoremap <silent> [unite]vp  :<C-u>Unite -vertical -winwidth=45 -no-quit -buffer-name=files -start-insert buffer file<CR>
-nnoremap <silent> [unite]F   :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file file/new<CR>
-nnoremap <silent> [unite]vF  :<C-u>UniteWithBufferDir -vertical -winwidth=45 -buffer-name=files -start-insert file file/new<CR>
-nnoremap <silent> [unite]b   :<C-u>Unite -buffer-name=buffers -start-insert -prompt=Buffer>\  buffer<CR>
-nnoremap <silent> [unite]vb  :<C-u>Unite -vertical -buffer-name=buffers -start-insert -prompt=Buffer>\  buffer<CR>
-nnoremap <silent> [unite]vB  :<C-u>Unite -vertical -buffer-name=buffers -start-insert -prompt=Buffer>\  -winwidth=45 -no-quit buffer<CR>
-nnoremap <silent> [unite]o   :<C-u>Unite -vertical -winwidth=45 -start-insert -wrap -no-quit -toggle -buffer-name=outline outline<CR>
-nnoremap <silent> [unite]"   :<C-u>Unite -buffer-name=register -prompt=">\  register<CR>
-nnoremap <silent> [unite]c   :<C-u>Unite -buffer-name=commands history/command<CR>
-nnoremap <silent> [unite]C   :<C-u>Unite -buffer-name=commands command<CR>
-nnoremap <silent> [unite]s   :<C-u>Unite -buffer-name=snippets snippet<CR>
-nnoremap <silent> [unite]u   :<C-u>Unite -start-insert source<CR>
-nnoremap <silent> [unite]l   :<C-u>Unite -buffer-name=lines line<CR>
-nnoremap <silent> [unite]m   :<C-u>Unite -buffer-name=bookmark -prompt=bookmark> bookmark<CR>
-nnoremap <silent> [unite]rm   :<C-u>Unite -buffer-name=ref -start-insert -prompt=ref> ref/man<CR>
-nnoremap <silent> [unite]rr   :<C-u>Unite -buffer-name=ref -start-insert -prompt=ref> ref/refe<CR>
-nnoremap <silent> [unite]g   :<C-u>Unite -buffer-name=grep grep<CR>
-nnoremap <silent> [unite]hd   :<C-u>Unite haddock -start-insert<CR>
-nnoremap <silent> [unite]y   :<C-u>Unite -buffer-name=yankround yankround<CR>
-nnoremap [unite]pr  :<C-u>Unite pull_request:
-nnoremap [unite]pf  :<C-u>Unite pull_request_file:
-
-if dein#tap('unite')
-  let g:unite_enable_start_insert = 1
-
-  let g:unite_winheight = 15
-  let g:unite_winwidth = 45
-  let g:unite_source_grep_max_candidates = 500
-
-  " unite-ruby-require
-  let g:unite_source_ruby_require_ruby_command = expand("~/.rbenv/shims/ruby")
-
-  " ディレクトリに対するブックマークはvimfilerをデフォルトアクションにする
-  call unite#custom#default_action('source/bookmark/directory', 'vimfiler')
-
-  call unite#custom#source('buffer,file,file_mru,file_rec,file_rec/async', 'sorters', 'sorter_rank')
-
-  call unite#custom#source('file_rec,file_rec/async', 'converters',
-        \ ['converter_relative_word', 'converter_relative_abbr', 'converter_file_directory'])
-  call unite#custom#source('file_rec,file_rec/async', 'matcher', 'matcher_default')
-
-  call unite#custom#source(
-        \ 'file_mru', 'converters',
-        \ ['converter_file_directory'])
-
-  function! s:unite_my_settings()
-    " Overwrite settings.
-    nmap <buffer> l     <Plug>(unite_choose_action)
-    nmap <buffer> <C-c>     <Plug>(unite_choose_action)
-
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-
-    nmap <silent><buffer><expr> f unite#do_action('vimfiler')
-
-    " grep bufferの時はrをreplaceアクションにマップする
-    let unite = unite#get_current_unite()
-    if unite.buffer_name =~# '^grep'
-      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-    else
-      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-    endif
-
-    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-            \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
-  endfunction
-  MyAutocmd FileType unite call s:unite_my_settings()
-endif
-" }}}
-
 " denite {{{
 nnoremap [denite] <Nop>
 nmap     ,d [denite]
@@ -1136,17 +1025,9 @@ nnoremap <silent> [denite]b   :<C-u>Denite -buffer-name=buffers -start-filter bu
 nnoremap <silent> [denite]o   :<C-u>Denite -buffer-name=outline -start-filter -split=vertical outline<CR>
 nnoremap <silent> [denite]"   :<C-u>Denite -buffer-name=register register<CR>
 nnoremap <silent> [denite]c   :<C-u>Denite -buffer-name=commands command<CR>
-nnoremap <silent> [denite]s   :<C-u>Denite -buffer-name=snippets unite:snippet<CR>
 " nnoremap <silent> [denite]u   :<C-u>Denite -mode=insert source<CR>
 nnoremap <silent> [denite]l   :<C-u>Denite -buffer-name=lines line<CR>
-nnoremap <silent> [denite]m   :<C-u>Denite -buffer-name=bookmark unite:bookmark<CR>
-nnoremap <silent> [denite]rm   :<C-u>Denite -buffer-name=ref -start-filter unite:ref/man<CR>
-nnoremap <silent> [denite]rr   :<C-u>Denite -buffer-name=ref -start-filter unite:ref/refe<CR>
 nnoremap <silent> [denite]g   :<C-u>Denite -buffer-name=grep grep<CR>
-nnoremap <silent> [denite]hd   :<C-u>Denite -start-filter unite:haddock<CR>
-nnoremap <silent> [denite]y   :<C-u>Denite -buffer-name=yankround unite:yankround<CR>
-nnoremap [denite]pr  :<C-u>Denite unite:pull_request:
-nnoremap [denite]pf  :<C-u>Denite unite:pull_request_file:
 
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
@@ -1194,13 +1075,16 @@ if dein#tap("denite")
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
   call denite#custom#source(
-  \ 'file', 'converters', ['converter_relative_abbr'])
+  \ 'file', 'converters', ['converter/relative_abbr'])
 
   call denite#custom#source(
-  \ 'file', 'matchers', ['matcher_substring'])
+  \ 'file', 'matchers', ['matcher/substring'])
 
   call denite#custom#source(
-  \ 'file/rec', 'matchers', ['matcher_substring'])
+  \ 'file', 'sorters', ['sorter/path'])
+
+  call denite#custom#source(
+  \ 'file/rec', 'matchers', ['matcher/substring'])
 
   call denite#custom#alias('source', 'file_rec/git', 'file/rec')
   call denite#custom#var('file_rec/git', 'command',
@@ -1934,7 +1818,6 @@ endif
 
 " TweetVim {{{
 nnoremap <silent> S :<C-u>TweetVimSay<CR>
-nnoremap <silent> [unite]t   :<C-u>Unite tweetvim<CR>
 nnoremap <silent> [space]ts   :<C-u>TweetVimUserStream<CR>
 nnoremap <silent> [space]tt   :<C-u>TweetVimHomeTimeline<CR>
 if dein#tap('TweetVim')
@@ -2003,8 +1886,8 @@ endif
   nnoremap <silent> ,tn :<C-U>Tnext<cr>
   nnoremap <silent> ,tp :<C-U>Tprevious<cr>
 
-  nnoremap <silent> ,tt :<C-U>Ttoggle<cr>
-  nnoremap <silent> ,tat :<C-U>TtoggleAll<cr>
+  nnoremap <silent> ,tg :<C-U>Ttoggle<cr>
+  nnoremap <silent> ,tag :<C-U>TtoggleAll<cr>
 
   " Git commands
   command! -nargs=+ Tg :T git <args>
