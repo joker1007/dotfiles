@@ -8,13 +8,12 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-naughty.config.notify_callback = function(args)
-  if args.icon then
-    args.icon_size = 64
-  end
-  args.width = 400
-  return args
-end
+naughty.config.defaults.timeout = 5
+naughty.config.defaults.position = "bottom_right"
+naughty.config.defaults.margin = "20"
+naughty.config.defaults.ignore_suspend = true
+naughty.config.defaults.icon_size = 64
+naughty.config.defaults.width = 400
 
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -256,7 +255,7 @@ local cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "CPU: $1%")
 
 local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon0", "hwmon", "temp1_input"})
+vicious.register(cputempwidget, vicious.widgets.thermal, "TEMP: $1 C", 5, {"hwmon3", "hwmon", "temp2_input"})
 -- }}}
 
 -- {{{ mem widget
@@ -265,7 +264,10 @@ vicious.register(memwidget, vicious.widgets.mem, "MEM: $2 MB / $3 MB")
 -- }}}
 
 local tempwidget = wibox.widget.textbox()
-vicious.register(tempwidget, vicious.widgets.thermal, "SYSTEMP: $1 C", 5, {"hwmon1", "hwmon"})
+vicious.register(tempwidget, vicious.widgets.thermal, "SYSTEMP: $1 C", 5, {"hwmon4", "hwmon", "temp1_input"})
+
+local gputempwidget = wibox.widget.textbox()
+vicious.register(gputempwidget, vicious.widgets.thermal, "GPUTEMP: $1 C", 5, {"hwmon0", "hwmon", "temp1_input"})
 
 local fsinfo = wibox.widget.textbox()
 vicious.register(fsinfo, vicious.widgets.fs, "root: ${/ used_p}% home: ${/home used_p}%", 32)
@@ -314,7 +316,7 @@ end)
 -- }}}
 
 -- {{{ net widget
-net_wired = net_widgets.indicator({interfaces={"enp30s0"}, font="sans 16"})
+net_wired = net_widgets.indicator({interfaces={"enp5s0"}, font="sans 16"})
 net_wireless = net_widgets.wireless({interface="wlp4s0", font="sans 16"})
 -- }}}
 
@@ -360,6 +362,7 @@ awful.screen.connect_for_each_screen(function(s)
             {wibox.container.margin(tempwidget, 10, 10), bg = "#694B4F", widget = wibox.container.background},
             {wibox.container.margin(cpuwidget, 10, 2), bg = "#496B5F", widget = wibox.container.background},
             {wibox.container.margin(cputempwidget, 2, 10), bg = "#496B5F", widget = wibox.container.background},
+            {wibox.container.margin(gputempwidget, 10, 10), bg = "#498B8F", widget = wibox.container.background},
             {wibox.container.margin(memwidget, 10, 10), bg = "#494B8F", widget = wibox.container.background},
             mykeyboardlayout,
             wibox.widget.systray(),
@@ -425,6 +428,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc( 1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1) end),
+    awful.key({ "Mod1",   },  "space", function () awful.spawn.with_shell("~/bin/run_j4-dmemu-desktop") end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
