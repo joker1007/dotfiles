@@ -8,9 +8,13 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+
+naughty.config.padding = 20
+naughty.config.spacing = 8
+
 naughty.config.defaults.timeout = 5
 naughty.config.defaults.position = "bottom_right"
-naughty.config.defaults.margin = "20"
+naughty.config.defaults.margin = 8
 naughty.config.defaults.ignore_suspend = true
 naughty.config.defaults.icon_size = 64
 naughty.config.defaults.width = 400
