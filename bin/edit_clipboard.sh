@@ -16,7 +16,7 @@ do
   case $OPT in
     e) empty=true
       ;;
-    t) TERMINAL_CMD=$OPTARG
+    t) TERMCMD=$OPTARG
       ;;
     h) usage
       ;;
@@ -35,12 +35,16 @@ if [[ -z "$empty" ]]; then
   xclip -selection clipboard -o >$tmpfile
 fi
 
-eval "$TERMINAL_CMD $EDITOR $tmpfile"
+if [[ -z "${TERMCMD}" ]]; then
+  eval "$EDITOR $tmpfile"
+else
+  eval "$TERMCMD $EDITOR $tmpfile"
+fi
 
 result=$(< $tmpfile)
 ctime2=$(stat -c "%Y" $tmpfile)
 
 if [[ -n "$result" ]] && [[ $ctime2 -gt $ctime1 ]]; then
-  echo -n $result | xclip -selection clipboard -i
-  echo -n $result | xclip -selection primary -i
+  echo -n "$result" | xclip -selection clipboard -i
+  echo -n "$result" | xclip -selection primary -i
 fi
