@@ -1939,9 +1939,12 @@ let g:markdown_composer_refresh_rate = 10000
 " vim-terraform
 let g:terraform_fmt_on_save = 1
 
+" rust.vim
+let g:rustfmt_autosave = 1
+
 " LanguageClient
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['~/.local/bin/rust-analyzer'],
     \ 'ruby': ['bundle', 'exec', 'solargraph', 'stdio'],
     \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
