@@ -150,7 +150,6 @@ call dein#add('LeafCage/yankround.vim')
 " call dein#add('vim-scripts/grep.vim'
 call dein#add('vim-scripts/sudo.vim')
 call dein#add('vim-scripts/errormarker.vim')
-call dein#add('powerman/vim-plugin-AnsiEsc')
 "}}}
 
 " smartchr textobj {{{
@@ -351,6 +350,8 @@ call dein#add('Shougo/neomru.vim')
 call dein#add('Shougo/denite.nvim', {
 \   'name' : 'denite',
 \})
+
+call dein#add('liuchengxu/vim-clap', {'build': 'cargo build --release'})
 " }}}
 
 " neocon {{{
@@ -825,9 +826,6 @@ let g:html_use_encoding = 'utf-8'
 
 " quickrun{{{
 
-" エスケープカラーを表示する。
-" MyAutocmd FileType quickrun AnsiEsc
-nnoremap ,a :<C-U>AnsiEsc<CR>
 " ヤンクを取りやすいようにconcealcursorを無効にする。
 MyAutocmd FileType quickrun setlocal concealcursor=""
 
@@ -836,23 +834,6 @@ call quickrun#module#register(shabadou#make_quickrun_hook_anim(
       \['||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', '||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', ],
       \2,
       \), 1)
-
-let s:ansiesc_hook = {
-      \ 'kind' : 'hook',
-      \ 'name' : 'ansiesc',
-      \ 'config' : {},
-      \ }
-
-function! s:ansiesc_hook.on_exit(session, context)
-  let l:winnr = winnr("$")
-  execute l:winnr 'wincmd w'
-  let ft = &filetype
-  if ft == 'quickrun'
-    AnsiEsc
-  endif
-endfunction
-
-call quickrun#module#register(s:ansiesc_hook, 1)
 
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
@@ -1077,6 +1058,9 @@ if dein#tap("denite")
         \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
         \ })
 
+  call denite#custom#filter('matcher/clap',
+        \ 'clap_path', expand('~/.vim/bundle/repos/github.com/liuchengxu/vim-clap'))
+
   call denite#custom#var('file/rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
@@ -1084,13 +1068,13 @@ if dein#tap("denite")
   \ 'file', 'converters', ['converter/relative_abbr'])
 
   call denite#custom#source(
-  \ 'file', 'matchers', ['matcher/substring'])
+  \ 'file', 'matchers', ['matcher/clap'])
 
   call denite#custom#source(
   \ 'file', 'sorters', ['sorter/path'])
 
   call denite#custom#source(
-  \ 'file/rec', 'matchers', ['matcher/substring'])
+  \ 'file/rec', 'matchers', ['matcher/clap'])
 
   call denite#custom#alias('source', 'file_rec/git', 'file/rec')
   call denite#custom#var('file_rec/git', 'command',
@@ -1113,6 +1097,21 @@ if dein#tap("denite")
 endif
 " }}}
 
+" vim-clap {{{
+nnoremap <silent> ,aff :<C-u>Clap files<CR>
+nnoremap <silent> ,afl :<C-u>Clap filer<CR>
+nnoremap <silent> ,aF :<C-u>Clap files %:h<CR>
+nnoremap <silent> ,afg :<C-u>Clap git_files<CR>
+nnoremap <silent> ,ag :<C-u>Clap grep<CR>
+nnoremap <silent> ,a" :<C-u>Clap registers<CR>
+nnoremap <silent> ,al :<C-u>Clap blines<CR>
+nnoremap <silent> ,am :<C-u>Clap marks<CR>
+nnoremap <silent> ,ao :<C-u>Clap proj_tags<CR>
+nnoremap <silent> ,ac :<C-u>Clap bcommits<CR>
+nnoremap <silent> ,ab :<C-u>Clap buffers<CR>
+
+MyAutocmd FileType clap_input nnoremap <silent> <buffer> q :<C-U>call clap#handler#exit()<CR>
+" }}}
 
 " Gist.vim {{{
 nnoremap [gist] <Nop>
