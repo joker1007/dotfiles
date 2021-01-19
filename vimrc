@@ -402,6 +402,11 @@ call dein#call_hook('source')
 autocmd VimEnter * call dein#call_hook('post_source')
 " }}}
 
+packadd termdebug
+
+let g:termdebug_useFloatingHover = 1
+let g:termdebug_wide = 160
+
 filetype plugin indent on
 
 if filereadable(expand('~/.vimrc.local'))
@@ -446,6 +451,7 @@ set ttimeout
 set ttimeoutlen=100
 set signcolumn=yes
 set updatetime=1000
+set mouse=a
 
 " Space prefix
 nnoremap [space] <Nop>
@@ -1941,6 +1947,8 @@ let g:terraform_fmt_on_save = 1
 
 " rust.vim
 let g:rustfmt_autosave = 1
+
+MyAutocmd FileType rust let termdebugger = "rust-gdb"
 
 " LanguageClient
 let g:LanguageClient_serverCommands = {
