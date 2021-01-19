@@ -15,7 +15,7 @@ export CXXLAGS="${CFLAGS}"
 
 export RUBY_CONFIGURE_OPTS=""
 
-export MAKE_OPTS="-j 4"
+export MAKE_OPTS="-j 16"
 
 [ -d ~/.rbenv/sources/$version ] && rm -rf ~/.rbenv/sources/$version
 
