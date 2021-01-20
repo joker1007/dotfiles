@@ -222,17 +222,6 @@ call dein#add('rking/ag.vim', {
         \ 'LAgHelp',
       \ ]
 \})
-call dein#add('majutsushi/tagbar', {
-      \ 'on_cmd' : [
-        \ 'TagbarOpen',
-        \ 'TagbarToggle',
-        \ 'TagbarOpenAutoClose',
-        \ 'TagbarTogglePause',
-        \ 'TagbarCurrentTag',
-        \ 'TagbarShowTag',
-        \ 'TagbarGetTypeConfig',
-      \ ]
-\})
 call dein#add('thinca/vim-qfreplace', { 'on_cmd' : ['Qfreplace'] })
 call dein#add('octol/vim-cpp-enhanced-highlight')
 call dein#add('derekwyatt/vim-scala')
@@ -352,6 +341,7 @@ call dein#add('Shougo/denite.nvim', {
 \})
 
 call dein#add('liuchengxu/vim-clap', {'build': 'cargo build --release'})
+call dein#add('liuchengxu/vista.vim')
 " }}}
 
 " neocon {{{
@@ -515,7 +505,6 @@ map # <Plug>(visualstar-#)N
 
 " ステータスライン表示
 set laststatus=2
-" set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%{tagbar#currenttag('[%s]','')}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%{eskk#statusline()}%=%l/%L,%c%V%8P\
 set noshowmode
 set wildmenu
 set cmdheight=2
@@ -883,24 +872,6 @@ let g:quickrun_config['rspec/spring'] =
     \ 'exec': 'spring rspec %o --color --tty %s%a'
   \})
 
-let s:cucumber_quickrun_config = {
-  \ 'command': 'cucumber',
-  \ 'outputter': 'buffer',
-  \ 'outputter/buffer/split': ':botright 8sp',
-  \}
-
-let g:quickrun_config['cucumber/bundle'] =
-  \ extend(copy(s:cucumber_quickrun_config), {
-    \ 'type': 'cucumber/bundle',
-    \ 'exec': 'bundle exec %c %o --color %s'
-  \})
-
-let g:quickrun_config['cucumber/spring'] =
-  \ extend(copy(s:cucumber_quickrun_config), {
-    \ 'type': 'cucumber/spring',
-    \ 'exec': 'spring cucumber %o --color %s'
-  \})
-
 let g:quickrun_config['markdown'] = {
  \ 'type': 'markdown/gfm',
  \ 'outputter': 'browser'
@@ -919,46 +890,18 @@ function! s:RSpecQuickrun()
 endfunction
 MyAutocmd BufReadPost *_spec.rb call s:RSpecQuickrun()
 
-function! s:CucumberQuickrun()
-  if exists('g:use_spring_cucumber') && g:use_spring_cucumber == 1
-    let b:quickrun_config = {'type' : 'cucumber/spring'}
-  elseif exists('g:use_zeus_cucumber') && g:use_zeus_cucumber == 1
-    let b:quickrun_config = {'type' : 'cucumber/zeus'}
-  else
-    let b:quickrun_config = {'type' : 'cucumber/bundle'}
-  endif
-
-  nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -cmdopt \"-l " . line(".") . "\"<CR>"
-endfunction
-MyAutocmd BufReadPost *.feature call s:CucumberQuickrun()
-
 function! s:SetUseSpring()
   let g:use_spring_rspec = 1
-  let g:use_zeus_rspec = 0
   let g:use_spring_cucumber = 1
-  let g:use_zeus_cucumber = 0
-endfunction
-
-function! s:SetUseZeus()
-  let g:use_zeus_rspec = 1
-  let g:use_spring_rspec = 0
-  let g:use_zeus_cucumber = 1
-  let g:use_spring_cucumber = 0
 endfunction
 
 function! s:SetUseBundle()
-  let g:use_zeus_rspec = 0
   let g:use_spring_rspec = 0
-  let g:use_zeus_cucumber = 0
   let g:use_spring_cucumber = 0
 endfunction
 
 command! -nargs=0 UseSpringRSpec let b:quickrun_config = {'type' : 'rspec/spring'} | call s:SetUseSpring()
-command! -nargs=0 UseZeusRSpec   let b:quickrun_config = {'type' : 'rspec/zeus'}   | call s:SetUseZeus()
 command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'} | call s:SetUseBundle()
-command! -nargs=0 UseSpringCucumber let b:quickrun_config = {'type' : 'cucumber/spring'} | call s:SetUseSpring()
-command! -nargs=0 UseZeusCucumber   let b:quickrun_config = {'type' : 'cucumber/zeus'}   | call s:SetUseZeus()
-command! -nargs=0 UseBundleCucumber let b:quickrun_config = {'type' : 'cucumber/bundle'} | call s:SetUseBundle()
 command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 " }}}
 
@@ -1102,7 +1045,7 @@ nnoremap <silent> ,aff :<C-u>Clap files<CR>
 nnoremap <silent> ,afl :<C-u>Clap filer<CR>
 nnoremap <silent> ,aF :<C-u>Clap files %:h<CR>
 nnoremap <silent> ,afg :<C-u>Clap git_files<CR>
-nnoremap <silent> ,ag :<C-u>Clap grep<CR>
+nnoremap <silent> ,ag :<C-u>Clap grep2<CR>
 nnoremap <silent> ,a" :<C-u>Clap registers<CR>
 nnoremap <silent> ,al :<C-u>Clap blines<CR>
 nnoremap <silent> ,am :<C-u>Clap marks<CR>
@@ -1110,7 +1053,17 @@ nnoremap <silent> ,ao :<C-u>Clap proj_tags<CR>
 nnoremap <silent> ,ac :<C-u>Clap bcommits<CR>
 nnoremap <silent> ,ab :<C-u>Clap buffers<CR>
 
+MyAutocmd FileType clap_input inoremap <silent> <buffer> <C-O> <ESC>
 MyAutocmd FileType clap_input nnoremap <silent> <buffer> q :<C-U>call clap#handler#exit()<CR>
+" }}}
+
+" vista.vim {{{
+let g:vista_default_executive = 'ctags'
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_executive_for = {
+  \ 'rust': 'lcn',
+  \ }
+nnoremap <silent> <leader>v :<C-U>Vista!!<CR>
 " }}}
 
 " Gist.vim {{{
@@ -1628,16 +1581,6 @@ if &diff
   nmap <buffer> <leader>1 :diffget LOCAL<CR>
   nmap <buffer> <leader>2 :diffget BASE<CR>
   nmap <buffer> <leader>3 :diffget REMOTE<CR>
-endif
-
-" TagBar
-if dein#tap('tagbar')
-  let g:tagbar_left = 1
-  let g:tagbar_width = 30
-  let g:tagbar_updateonsave_maxlines = 10000
-  let g:tagbar_sort = 0
-
-  nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 
 " Tabular
