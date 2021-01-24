@@ -1005,10 +1005,10 @@ if dein#tap("denite")
         \ 'clap_path', expand('~/.vim/bundle/repos/github.com/liuchengxu/vim-clap'))
 
   call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+        \ ['rg', '--files', '--glob', '!.git', '--color', 'never'])
 
-  call denite#custom#source(
-  \ 'file', 'converters', ['converter/relative_abbr'])
+  " call denite#custom#source(
+  " \ 'file', 'converters', ['converter/relative_abbr'])
 
   call denite#custom#source(
   \ 'file', 'matchers', ['matcher/clap'])
