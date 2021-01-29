@@ -92,7 +92,6 @@ function peco-history() {
 }
 zle -N peco-history
 bindkey '^r' peco-history
-bindkey '^h' peco-history
 
 function peco-file() {
   local res
