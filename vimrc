@@ -977,11 +977,12 @@ function! s:denite_my_settings() abort
         \ denite#do_map('toggle_select').'j'
   nnoremap <silent><buffer><expr> mf
         \ denite#do_map('toggle_matchers', 'fuzzy')
-  nnoremap <silent><buffer> <C-O> <Nop>
 endfunction
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
+  call deoplete#custom#buffer_option('auto_complete', v:false)
   imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  imap <silent><buffer> <Esc>       <Plug>(denite_filter_quit)
 endfunction
 
 if dein#tap("denite")
@@ -1001,7 +1002,7 @@ if dein#tap("denite")
         \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
         \ })
 
-  call denite#custom#filter('matcher/clap',
+  call denite#custom#filter('matcher/substring',
         \ 'clap_path', expand('~/.vim/bundle/repos/github.com/liuchengxu/vim-clap'))
 
   call denite#custom#var('file/rec', 'command',
@@ -1011,13 +1012,13 @@ if dein#tap("denite")
   " \ 'file', 'converters', ['converter/relative_abbr'])
 
   call denite#custom#source(
-  \ 'file', 'matchers', ['matcher/clap'])
+  \ 'file', 'matchers', ['matcher/substring'])
 
   call denite#custom#source(
   \ 'file', 'sorters', ['sorter/path'])
 
   call denite#custom#source(
-  \ 'file/rec', 'matchers', ['matcher/clap'])
+  \ 'file/rec', 'matchers', ['matcher/substring'])
 
   call denite#custom#alias('source', 'file_rec/git', 'file/rec')
   call denite#custom#var('file_rec/git', 'command',
