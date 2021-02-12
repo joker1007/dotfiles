@@ -63,3 +63,5 @@
 	conflictStyle = diff3
 [commit]
 	gpgsign = true
+[pull]
+	rebase = false
