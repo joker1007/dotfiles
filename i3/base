@@ -57,6 +57,8 @@ set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l
 # finds out, if available)
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
+exec_always --no-startup-id feh -x --bg-max --randomize ~/wallpapers/*
+
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
 # keysym-based config which used their favorite modifier (alt or windows)

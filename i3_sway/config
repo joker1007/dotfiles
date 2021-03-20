@@ -151,3 +151,4 @@ for_window [class="jetbrains-(.*)" title="Open Project"] floating enable
 for_window [class="jetbrains-(.*)" title="win0"] floating enable
 
 for_window [title="TweetDeck"] floating disable
+for_window [title="YouTube"] floating disable
