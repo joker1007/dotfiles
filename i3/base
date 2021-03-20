@@ -55,9 +55,7 @@ set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
