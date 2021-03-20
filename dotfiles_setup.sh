@@ -30,3 +30,5 @@ mkdir -p ~/.config/peco
 ln -sf ${PWD}/peco_config.json ~/.config/peco/config.json
 mkdir -p ~/.tmux/plugins
 ln -sf ${PWD}/tpm ~/.tmux/plugins/tpm
+ln -sf ${PWD}/i3 ~/.config/i3
+ln -sf ${PWD}/i3_sway ~/.config/i3_sway

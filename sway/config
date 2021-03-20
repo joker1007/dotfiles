@@ -1,13 +1,24 @@
-set $mod Mod4
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
 
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
-
+# Your preferred terminal emulator
 set $term alacritty
-
-font pango:Noto Sans CJK JP 14
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+# set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all' --term='alacritty'
 set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all | xargs swaymsg exec --
@@ -74,6 +85,25 @@ input "1133:16483:Logitech_MX_Anywhere_2" {
   pointer_accel 1.0
 }
 
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+# Reload the configuration file
+bindsym $mod+Shift+r reload
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+include ~/.config/i3_sway/config
+
+for_window [app_id="Wine"] floating enable
+for_window [app_id="(pavucontrol|psensor)"] floating enable
+
 #
 # Status Bar:
 #
@@ -94,11 +124,6 @@ bar {
     }
 }
 
-for_window [class="jetbrains-(.*)" title="Go to Line/Column"] floating enable
-for_window [class="jetbrains-(.*)" title="Rename"] floating enable
-for_window [class="jetbrains-(.*)" title="Open Project"] floating enable
-for_window [class="jetbrains-(.*)" title="win0"] floating enable
-
 # ibus-config
 bindsym Ctrl+Space exec ibus-toggle
 exec_always ibus-daemon -drx
@@ -112,4 +137,3 @@ bindsym $mod+Ctrl+e exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh 
 bindsym $mod+Ctrl+c exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh
 
 include /etc/sway/config.d/*
-include ~/.config/sway/config.d/*
