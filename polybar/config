@@ -18,7 +18,7 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #22222220
+background = #22222270
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
@@ -171,14 +171,14 @@ label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
 ; Separator in between workspaces
-; label-separator = |
+label-separator = |
 
 
 [module/mpd]
 type = internal/mpd
 format-online =  <label-song> (<label-time>) | <icon-prev> <icon-stop> <toggle> <icon-next> <icon-random>
-format-paused = Paused
-format-stopped = Stopped
+format-paused = <label-song> (Paused) | <icon-prev> <icon-stop> <toggle> <icon-next> <icon-random>
+format-stopped = Stopped | <icon-prev> <icon-stop> <toggle> <icon-next> <icon-random>
 
 bar-progress-width = 40
 bar-progress-indicator = |
@@ -269,8 +269,8 @@ interface = enp5s0
 interval = 3.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
+format-connected-prefix = ""
+format-connected-prefix-foreground = ${colors.foreground}
 label-connected = %local_ip%
 
 label-disconnected = %ifname% disconnected
@@ -459,8 +459,8 @@ inherit = bar/main
 monitor = DisplayPort-1
 modules-left = i3
 modules-center = mpd
-modules-right =
+modules-right = date
 bottom = true
-tray-position =
+tray-position = none
 
 ; vim:ft=dosini

@@ -26,10 +26,16 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+workspace 1 output primary
+workspace 3 output primary
+workspace 5 output primary
+workspace 7 output primary
+workspace 9 output primary
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -57,7 +63,20 @@ set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l
 # finds out, if available)
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
+exec_always --no-startup-id $HOME/.config/dunst/launch.sh
+
 exec_always --no-startup-id feh -x --bg-max --randomize ~/wallpapers/*
+
+exec --no-startup-id pasystray
+exec --no-startup-id parcellite
+exec --no-startup-id redshift-gtk
+exec --no-startup-id carla $HOME/noise-cancel.carxp
+assign [class="^carla$"] 9
+
+bindsym $mod+Control+Return exec i3-instant-layout mainRight
+bindsym $mod+Escape exec "i3-instant-layout --list | bemenu -i --nb '#3f3f3f' --nf '#dcdccc' --fn 'pango:Cica 12' -l 10 --scrollbar=autohide -p '>' -m all | i3-instant-layout -"
+
+bindsym $mod+i exec i3-input -F "exec %s"
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a

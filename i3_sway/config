@@ -12,7 +12,7 @@ default_border normal 2
 
     # Start your launcher
     bindsym $mod+d exec $menu
-    bindsym Mod1+Space exec $menu
+    bindsym Mod1+space exec $menu
     bindsym $mod+r exec $runmenu
 #
 # Moving around:
@@ -132,6 +132,7 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+equal mode "resize"
+bindsym $mod+w resize set width 2560
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
