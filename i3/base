@@ -36,6 +36,8 @@ workspace 3 output primary
 workspace 5 output primary
 workspace 7 output primary
 workspace 9 output primary
+workspace 2 output DisplayPort-1
+workspace 10:carla output DisplayPort-1
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -58,6 +60,7 @@ bindsym $mod+Shift+r exec cat ~/.config/i3/base ~/.config/i3_sway/config > ~/.co
 set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all' --term='alacritty'
 set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all | xargs i3-msg exec --
 
+assign [class="(?i)carla"] 10:carla
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -71,21 +74,8 @@ exec --no-startup-id pasystray
 exec --no-startup-id parcellite
 exec --no-startup-id redshift-gtk
 exec --no-startup-id carla $HOME/noise-cancel.carxp
-assign [class="^carla$"] 9
 
 bindsym $mod+Control+Return exec i3-instant-layout mainRight
 bindsym $mod+Escape exec "i3-instant-layout --list | bemenu -i --nb '#3f3f3f' --nf '#dcdccc' --fn 'pango:Cica 12' -l 10 --scrollbar=autohide -p '>' -m all | i3-instant-layout -"
 
 bindsym $mod+i exec i3-input -F "exec %s"
-
-#######################################################################
-# automatically start i3-config-wizard to offer the user to create a
-# keysym-based config which used their favorite modifier (alt or windows)
-#
-# i3-config-wizard will not launch if there already is a config file
-# in ~/.config/i3/config (or $XDG_CONFIG_HOME/i3/config if set) or
-# ~/.i3/config.
-#
-# Please remove the following exec line:
-#######################################################################
-exec i3-config-wizard

@@ -5,13 +5,12 @@ default_border normal 2
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+Return exec --no-startup-id $term
 
     # Kill focused window
     bindsym $mod+Shift+c kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
     bindsym Mod1+space exec $menu
     bindsym $mod+r exec $runmenu
 #
@@ -57,6 +56,10 @@ default_border normal 2
     bindsym $mod+8 workspace number 8
     bindsym $mod+9 workspace number 9
     bindsym $mod+0 workspace number 10
+
+    bindsym $mod+n workspace next_on_output
+    bindsym $mod+p workspace prev_on_output
+
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
@@ -80,7 +83,7 @@ default_border normal 2
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+n layout default
+    bindsym $mod+d layout default
     bindsym $mod+s layout stacking
     bindsym $mod+t layout tabbed
     bindsym $mod+e layout toggle split
@@ -143,8 +146,9 @@ for_window [window_type="menu"] floating enable
 for_window [window_role="About"] floating enable
 #for_window [app_id="Alacritty"] layout tabbed
 for_window [class="^steam_app.*$"] floating enable
-for_window [class="^pavucontrol.*$"] floating enable
+for_window [class="^Pavucontrol"] floating enable
 for_window [title="^Open File$"] floating enable
+for_window [class="^Yad"] floating enable
 
 for_window [class="jetbrains-(.*)" title="Go to Line/Column"] floating enable
 for_window [class="jetbrains-(.*)" title="Rename"] floating enable
