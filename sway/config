@@ -14,14 +14,14 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term alacritty
+set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all' --term='alacritty'
-set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all | xargs swaymsg exec --
+set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 14" -l 10 --scrollbar=autohide -p "application >" -m all -n' --term='alacritty'
+set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 14" -l 10 --scrollbar=autohide -p "command >" -m all -n | xargs swaymsg exec --
 
 ### Output configuration
 #
@@ -39,7 +39,12 @@ output DP-2 mode 3840x2160 position 3840,0 adaptive_sync on
 output DP-2 transform 90
 
 workspace 1 output DP-1
+workspace 3 output DP-1
+workspace 5 output DP-1
+workspace 7 output DP-1
+
 workspace 2 output DP-2
+workspace 4 output DP-2
 
 font pango:Noto Sans CJK JP 14
 
@@ -76,6 +81,12 @@ exec swayidle -w \
 # Read `man 5 sway-input` for more information about this section.
 
 input "2131:256:Topre_Corporation_HHKB_Professional" {
+  xkb_layout "us"
+  repeat_delay 250
+  repeat_rate 60
+}
+
+input "1278:33:HHKB-Hybrid_1_Keyboard" {
   xkb_layout "us"
   repeat_delay 250
   repeat_rate 60
@@ -128,12 +139,19 @@ bar {
 bindsym Ctrl+Space exec ibus-toggle
 exec_always ibus-daemon -drx
 
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
+
 exec mako
 
 exec wl-paste -p -t text --watch clipman store -P --notify
-bindsym Ctrl+Shift+h exec clipman pick -t bemenu -T='-i -m all --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p "Clip:"'
+bindsym Ctrl+Mod1+h exec clipman pick -t bemenu -T='-i -m all --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p "Clip:"'
 
 bindsym $mod+Ctrl+e exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh -e
 bindsym $mod+Ctrl+c exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh
 
+bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+
+bindsym $mod+Tab exec sway-select-window
+
 include /etc/sway/config.d/*
+include ~/.config/sway/config.d/*

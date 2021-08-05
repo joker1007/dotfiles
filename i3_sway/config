@@ -7,12 +7,18 @@ default_border normal 2
     # Start a terminal
     bindsym $mod+Return exec --no-startup-id $term
 
+    # Start filer
+    bindsym Mod1+Shift+Return exec --no-startup-id $term -e ranger
+
     # Kill focused window
     bindsym $mod+Shift+c kill
 
     # Start your launcher
     bindsym Mod1+space exec $menu
     bindsym $mod+r exec $runmenu
+
+
+    bindsym Mod1+a exec authy
 #
 # Moving around:
 #

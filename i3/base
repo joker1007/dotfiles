@@ -66,7 +66,7 @@ assign [class="(?i)carla"] 10:carla
 # finds out, if available)
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-exec_always --no-startup-id $HOME/.config/dunst/launch.sh
+exec --no-startup-id $HOME/.config/dunst/launch.sh
 
 exec_always --no-startup-id feh -x --bg-max --randomize ~/wallpapers/*
 
@@ -79,3 +79,4 @@ bindsym $mod+Control+Return exec i3-instant-layout mainRight
 bindsym $mod+Escape exec "i3-instant-layout --list | bemenu -i --nb '#3f3f3f' --nf '#dcdccc' --fn 'pango:Cica 12' -l 10 --scrollbar=autohide -p '>' -m all | i3-instant-layout -"
 
 bindsym $mod+i exec i3-input -F "exec %s"
+bindsym Print exec flameshot gui

@@ -129,7 +129,6 @@ call dein#add('cocopon/iceberg.vim')
 call dein#add('tpope/vim-rails')
 call dein#add('vim-ruby/vim-ruby')
 "call dein#add('noprompt/vim-yardoc')
-call dein#add('tpope/vim-cucumber')
 call dein#add('thinca/vim-quickrun', {'depends' : 'vimproc'})
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('carlosvillu/coffeScript-VIM-Snippets')
@@ -141,7 +140,6 @@ call dein#add('Quramy/tsuquyomi')
 " ref {{{
 call dein#add('thinca/vim-ref')
 call dein#add('taka84u9/vim-ref-ri')
-call dein#add('ujihisa/ref-hoogle')
 " }}}
 
 " vim-scripts {{{
@@ -186,8 +184,6 @@ call dein#add('dag/vim2hs')
 call dein#add('pbrisbin/html-template-syntax')
 
 call dein#add('eagletmt/ghcmod-vim', {'on_ft' : [ "haskell" ]})
-
-call dein#add('ujihisa/neco-ghc', {'on_ft' : [ "haskell" ]})
 " }}}
 
 " web browse, api {{{
@@ -197,6 +193,8 @@ call dein#add('kannokanno/previm', {'on_cmd' : ['PrevimOpen']})
 " }}}
 
 " other programinng {{{
+call dein#add('nvim-treesitter/nvim-treesitter')
+call dein#add('andymass/vim-matchup')
 call dein#add('godlygeek/tabular')
 call dein#add('vim-syntastic/syntastic')
 call dein#add('rhysd/github-complete.vim')
@@ -288,7 +286,6 @@ call dein#add('basyura/twibill.vim')
 call dein#add('basyura/TweetVim', {
 \   'rev': 'dev',
 \   'depends' : ['twibill.vim', 'open-browser.vim' ],
-\   'on_cmd' : [ "TweetVimHomeTimeline", "TweetVimSay", "TweetVimUserStream", "TweetVimUserTimeline" ]
 \})
 " }}}
 
@@ -383,6 +380,7 @@ if has('nvim')
   call dein#add('janko-m/vim-test')
   call dein#add('brettanomyces/nvim-editcommand')
   call dein#add('euclio/vim-markdown-composer', {'build': 'cargo build --release'})
+  call dein#add('subnut/nvim-ghost.nvim')
 endif
 " }}}
 
@@ -555,9 +553,6 @@ endif
 " 自動折り返しを日本語に対応させるスクリプト用の設定
 set formatoptions+=mM
 
-" matchitスクリプトの読み込み
-" source $VIMRUNTIME/macros/matchit.vim
-
 " jkを直感的に
 nnoremap <silent> j gj
 nnoremap <silent> gj j
@@ -591,13 +586,9 @@ MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "no
 MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
-if stridx($TERM, "256color") >= 0
-  colorscheme onedark
-  MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#30505d
-else
-  colorscheme desert
-endif
-
+colorscheme hybrid
+" colorscheme onedark
+MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#30505d
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -806,6 +797,29 @@ MyAutocmd Syntax * hi PmenuSel cterm=bold ctermfg=235 ctermbg=81 gui=bold guifg=
 MyAutocmd Syntax * hi PmenuSbar guibg=#333333
 MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#3A3A2A
 
+" treesitter
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "ruby", "markdown" },
+  },
+  incremental_selection = {
+    enable = true,
+    disable = { "ruby", "markdown" },
+  },
+  indent = {
+    enable = true,
+    disable = { "ruby", "markdown" },
+  },
+  matchup = {
+    enable = true,
+    disable = { "ruby", "markdown" },
+  },
+}
+EOF
 
 " TOhtml
 let g:html_number_lines = 0
@@ -1885,6 +1899,11 @@ let g:vim_json_syntax_conceal = 0
 " markdown-composer
 let g:markdown_composer_autostart = 0
 let g:markdown_composer_refresh_rate = 10000
+
+" ghost_text
+augroup nvim_ghost_user_autocommands
+  au User *github.com set filetype=markdown
+augroup END
 
 " vim-terraform
 let g:terraform_fmt_on_save = 1
