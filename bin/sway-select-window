@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+
+# Copyright (C) 2008-2021 Bob Hepple <bob.hepple@gmail.com>
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at
+# your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# http://bhepple.freeshell.org
+
+PROG=$( basename $0 )
+
+if [ -n "${WAYLAND_DISPLAY}" ]; then
+  MSGCMD="swaymsg"
+else
+  MSGCMD="i3-msg"
+fi
+
+case "$1" in
+    -h|--help)
+        echo "Usage: $PROG"
+        echo
+        echo "show running programs and select one to display (uses bemenu)"
+        exit 0
+        ;;
+esac
+
+jq_get_windows='
+     # descend to workspace or scratchpad
+     .nodes[].nodes[]
+     # save workspace name as .w
+     | {"w": .name} + (
+       if (.nodes|length) > 0 then # workspace
+         [recurse(.nodes[])]
+       else # scratchpad
+         []
+       end
+       + .floating_nodes
+       | .[]
+       # select nodes with no children (windows)
+       | select(.nodes==[])
+     )'
+
+jq_windows_to_tsv='
+    [
+      (.id | tostring),
+      # remove markup and index from workspace name, replace scratch with "[S]"
+      (.w | gsub("<[^>]*>|:$"; "") | sub("__i3_scratch"; "[S]")),
+      # get app name (or window class if xwayland)
+      (.app_id // .window_properties.class),
+      (.name)
+    ]
+    | @tsv'
+
+get_fs_win_in_ws() {
+    id="${1:?}"
+
+    ${MSGCMD} -t get_tree |
+    jq -e -r --argjson id "$id" "
+    [ $jq_get_windows  ]
+    | (.[]|select(.id == \$id)) as \$selected_workspace
+    | .[]
+    | select( .w == \$selected_workspace.w and .fullscreen_mode == 1 )
+    | $jq_windows_to_tsv
+    "
+}
+
+get_desktop() {
+    app="$1"
+    p="/usr/share/applications"
+
+    # fast and easy cases first:
+    for prefix in "" org.kde. org.gnome. org.freedesktop.; do
+        d="$p/$prefix$app.desktop"
+        [[ -r "$d" ]] && echo "$d" && return
+    done
+    
+    # maybe lowercase
+    for prefix in "" org.kde. org.gnome. org.freedesktop.; do
+        d="$p/$prefix${app,,}.desktop"
+        [[ -r "$d" ]] && echo "$d" && return
+    done
+    
+    # maybe Capitalised eg
+    # gnome-connections => org.gnome.Connections.desktop!
+    a=${app/gnome-}
+    a=${a^}
+    for prefix in "" org.kde. org.gnome. org.freedesktop.; do
+        d="$p/$prefix$a.desktop"
+        [[ -r "$d" ]] && echo "$d" && return
+    done
+
+    # this is fairly reliable but slow:
+    # look for a .desktop file with Exec=$app eg
+    # gnome-disks (but exclude gnome-disk-image-writer.desktop)
+    # gnome-font-viewer
+    d=$( find $p -name \*.desktop -exec grep -il "^exec=$app\\( %u\\)*" {} \; | head -n 1 )
+    [[ -r "$d" ]] && echo "$d" && return
+
+    # desperation - weird apps like com.github.wwmm.pulseeffects.desktop!!
+    d=$( ls "$p/"*".$app.desktop" | head -n 1 )
+    [[ -r "$d" ]] && echo "$d" && return
+}
+
+focus_window() {
+    id="${1:?}"
+    ws_name="${2:?}"
+    app_name="${3:?}"
+    win_title="${4:?}"
+
+    printf 'focusing window (in workspace %s): [%s] (%s) `%s`\n' "$ws_name" "$win_id" "$app_name" "$win_title" >&2
+
+    # look for fullscreen among other windows in selected window's workspace
+    if fs_win_tsv="$( get_fs_win_in_ws "$id" )" ; then
+        read -r win_id ws_name app_name win_title <<<"$fs_win_tsv"
+        if [ "$win_id" != "$id" ] ; then
+            printf 'found fullscreen window in target workspace (%s): [%s] (%s) "%s"\n' "$ws_name" "$win_id" "$app_name" "$win_title" >&2
+            ${MSGCMD} "[con_id=$win_id] fullscreen disable"
+        fi
+    fi
+
+    ${MSGCMD} "[con_id=$id]" focus
+}
+
+unset markup # set markup, if you want this:
+
+if [[ "$markup" ]]; then
+    id_fmt='<span stretch="ultracondensed" size="xx-small">%s</span>'
+    ws_fmt='<span size="small">%s</span>'
+    app_fmt='<span weight="bold">%s</span>'
+    title_fmt='<span style="italic">%s</span>'
+else
+    id_fmt='%s'
+    ws_fmt='%s'
+    app_fmt='%s'
+    title_fmt='%s'
+fi
+
+${MSGCMD} -t get_tree |
+# get list of windows as tab-separated columns
+jq -r "$jq_get_windows | $jq_windows_to_tsv" |
+# align columns w/ spaces (keep tab as separator)
+column -s $'\t' -o $'\t' -t |
+# pango format the window list
+while IFS=$'\t' read -r win_id ws_name app_name win_title pid; do
+    set -x
+    set +x
+    printf \
+        "${app_fmt}\t${ws_fmt}\t${title_fmt}\t${id_fmt}\n" \
+        "$app_name" \
+        "$ws_name" \
+        "$win_title" \
+        "$win_id"
+done |
+# sort by workspace name and then app_name:
+sort -k3 -k2 |
+bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 16" -l 20 --scrollbar=autohide -p "select-window >" -m all -n |
+{
+  IFS=$'\t' read -r ws_name app_name win_title win_id
+  focus_window "$win_id" "$ws_name" "$app_name" "$win_title"
+}
+
+exit 0

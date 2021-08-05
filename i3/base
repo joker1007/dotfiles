@@ -35,8 +35,10 @@ workspace 1 output primary
 workspace 3 output primary
 workspace 5 output primary
 workspace 7 output primary
-workspace 9 output primary
 workspace 2 output DisplayPort-1
+workspace 4 output DisplayPort-1
+workspace 6 output DisplayPort-1
+workspace 8 output DisplayPort-1
 workspace 10:carla output DisplayPort-1
 
 # use these keys for focus, movement, and resize directions when reaching for
@@ -75,6 +77,7 @@ exec --no-startup-id parcellite
 exec --no-startup-id redshift-gtk
 exec --no-startup-id carla $HOME/noise-cancel.carxp
 
+bindsym $mod+Tab exec sway-select-window
 bindsym $mod+Control+Return exec i3-instant-layout mainRight
 bindsym $mod+Escape exec "i3-instant-layout --list | bemenu -i --nb '#3f3f3f' --nf '#dcdccc' --fn 'pango:Cica 12' -l 10 --scrollbar=autohide -p '>' -m all | i3-instant-layout -"
 
