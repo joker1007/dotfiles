@@ -146,8 +146,8 @@ exec mako
 exec wl-paste -p -t text --watch clipman store -P --notify
 bindsym Ctrl+Mod1+h exec clipman pick -t bemenu -T='-i -m all --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p "Clip:"'
 
-bindsym $mod+Ctrl+e exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh -e
-bindsym $mod+Ctrl+c exec EDITOR="nvim-gtk --no-fork" ~/bin/edit_clipboard_wl.sh
+bindsym $mod+Ctrl+e exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard_wl.sh -e
+bindsym $mod+Ctrl+c exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard_wl.sh
 
 bindsym Print exec grim -g "$(slurp)" - | swappy -f -
 

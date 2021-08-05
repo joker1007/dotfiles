@@ -10,6 +10,12 @@ if filereadable(expand('~/.vimrc.local.before'))
   execute 'source' expand('~/.vimrc.local.before')
 endif
 
+" gui configs
+if exists("g:neovide")
+  set guifont=Monospace:h12
+  let g:neovide_cursor_vfx_mode="wireframe"
+endif
+
 " charset {{{
 set encoding=utf-8
 scriptencoding utf-8
