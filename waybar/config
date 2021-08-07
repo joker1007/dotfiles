@@ -1,0 +1,178 @@
+[
+  {
+    "layer": "top",
+    "position": "top",
+    "output": "DP-1",
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "idle_inhibitor", "tray"],
+
+    "sway/workspaces": {
+      "numeric-first": true
+    },
+    "sway/mode": {
+      "format": "{}"
+    },
+    "disk#root": {
+      "interval": 30,
+      "format": "{path} {percentage_used}% ({used})",
+      "path": "/"
+    },
+    "disk#home": {
+      "interval": 30,
+      "format": "{path} {percentage_used}% ({used})",
+      "path": "/home"
+    },
+    "temperature#cpu": {
+      "hwmon-path": "/sys/class/hwmon/hwmon3/temp2_input",
+      "critical-threshold": 80,
+      "format": "<span color='#e88939'>{icon}</span> {temperatureC}°C",
+      "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
+      "format-icons": [""]
+    },
+    "temperature#gpu": {
+      "hwmon-path": "/sys/class/hwmon/hwmon0/temp1_input",
+      "critical-threshold": 80,
+      "format": "GPU: <span color='#e88939'>{icon}</span> {temperatureC}°C",
+      "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
+      "format-icons": [""]
+    },
+    "cpu": {
+      "format": "CPU: {usage}%",
+      "tooltip": false
+    },
+    "memory": {
+      "format": "MEM: {used:0.1f}G/{total:0.1f}G"
+    },
+    "network": {
+      "family": "ipv4",
+      "interface": "enp*",
+      "format-wifi": "<span color='#589df6'></span> <span color='gray'>{essid}</span> {frequency} <span color='#589df6'>{signaldBm} dB</span> <span color='#589df6'>⇵</span> {bandwidthUpBits}/{bandwidthDownBits}",
+      "format-ethernet": "{ifname}: {ipaddr}",
+      "format-linked": "{ifname} (No IP)",
+      "format-disconnected": "Disconnected ⚠",
+      "format-alt": "{ifname}: {ipaddr}/{cidr}",
+      "interval": 5
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}% {format_source}",
+      "format-muted": "🔇 {format_source}",
+      "format-bluetooth": "{icon} {volume}% {format_source}",
+      "format-bluetooth-muted": "🔇 {format_source}",
+
+      "format-source": " {volume}%",
+      "format-source-muted": "",
+
+      "format-icons": {
+        "headphones": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["🔈", "🔉", "🔊"]
+      },
+      "on-click": "pactl set-sink-mute jack_out toggle"
+    },
+    "clock": {
+      "interval": 2,
+      "format": "⏰ {:%Y-%m-%d %H:%M:%S}"
+    },
+    "idle_inhibitor": {
+      "format": "<span color='#589df6'>{icon}</span>",
+      "format-icons": {
+        "activated": "",
+        "deactivated": ""
+      },
+      "on-click-right": "swaylock -eFfk -c 000000"
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    },
+    "mpd": {
+      "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+      "format-disconnected": "Disconnected ",
+      "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+      "unknown-tag": "N/A",
+      "interval": 2,
+      "consume-icons": {
+        "on": " "
+      },
+      "random-icons": {
+        "off": "<span color=\"#f53c3c\"></span> ",
+        "on": " "
+      },
+      "repeat-icons": {
+        "on": " "
+      },
+      "single-icons": {
+        "on": "1 "
+      },
+      "state-icons": {
+        "paused": "",
+        "playing": ""
+      },
+      "tooltip-format": "MPD (connected)",
+      "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "custom/weather": {
+      "exec": "curl 'https://wttr.in/asakusa?format=1'",
+      "interval": 3600
+    }
+  },
+  {
+    "layer": "top",
+    "position": "bottom",
+    "output": "DP-1",
+
+    "modules-center": ["mpd"],
+    "modules-right": [],
+
+    "mpd": {
+      "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+      "format-disconnected": "Disconnected ",
+      "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+      "unknown-tag": "N/A",
+      "interval": 2,
+      "consume-icons": {
+        "on": " "
+      },
+      "random-icons": {
+        "off": "<span color=\"#f53c3c\"></span> ",
+        "on": " "
+      },
+      "repeat-icons": {
+        "on": " "
+      },
+      "single-icons": {
+        "on": "1 "
+      },
+      "state-icons": {
+        "paused": "",
+        "playing": ""
+      },
+      "tooltip-format": "MPD (connected)",
+      "tooltip-format-disconnected": "MPD (disconnected)"
+    }
+  },
+  {
+    "layer": "top",
+    "position": "bottom",
+    "output": "DP-2",
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["clock"],
+
+    "sway/workspaces": {
+      "numeric-first": true
+    },
+    "sway/mode": {
+      "format": "{}"
+    },
+    "clock": {
+      "interval": 2,
+      "format": "⏰ {:%Y-%m-%d %H:%M:%S}"
+    },
+  }
+]
+
+// vim:ft=json
