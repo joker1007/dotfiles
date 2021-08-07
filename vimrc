@@ -1113,7 +1113,7 @@ endif
 nnoremap [git] <Nop>
 nmap ,g [git]
 nnoremap [git]d :<C-u>Gdiff HEAD<CR>
-nnoremap [git]s :<C-u>Gstatus<CR>
+nnoremap [git]s :<C-u>Git<CR>
 nnoremap [git]l :<C-u>Glog<CR>
 nnoremap [git]a :<C-u>Gwrite<CR>
 nnoremap [git]c :<C-u>Gcommit<CR>
