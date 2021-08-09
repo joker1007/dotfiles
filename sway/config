@@ -146,12 +146,18 @@ exec mako
 exec wl-paste -p -t text --watch clipman store -P --notify
 bindsym Ctrl+Mod1+h exec clipman pick -t bemenu -T='-i -m all --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p "Clip:"'
 
-bindsym $mod+Ctrl+e exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard_wl.sh -e
-bindsym $mod+Ctrl+c exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard_wl.sh
+bindsym $mod+Ctrl+e exec EDITOR="neovide --nofork --multiGrid -- -c startinsert" ~/bin/edit_clipboard_wl.sh -e
+bindsym $mod+Ctrl+c exec EDITOR="neovide --nofork --multiGrid -- -c startinsert" ~/bin/edit_clipboard_wl.sh
 
 bindsym Print exec grim -g "$(slurp)" - | swappy -f -
 
 bindsym $mod+Tab exec sway-select-window
+
+for_window [app_id="foot"] opacity 0.9
+for_window [app_id="neovide"] opacity 0.9
+for_window [app_id="firefox-wayland" title="^$"] floating enable, move position 82ppt 90ppt
+no_focus [app_id="firefox-wayland" title="^$"]
+for_window [class="stellaris"] floating enable
 
 include /etc/sway/config.d/*
 include ~/.config/sway/config.d/*

@@ -136,8 +136,6 @@ call dein#add('tpope/vim-rails')
 call dein#add('vim-ruby/vim-ruby')
 "call dein#add('noprompt/vim-yardoc')
 call dein#add('thinca/vim-quickrun', {'depends' : 'vimproc'})
-call dein#add('kchmck/vim-coffee-script')
-call dein#add('carlosvillu/coffeScript-VIM-Snippets')
 
 call dein#add('leafgarland/typescript-vim')
 call dein#add('Quramy/tsuquyomi')
@@ -152,7 +150,6 @@ call dein#add('taka84u9/vim-ref-ri')
 call dein#add('vim-scripts/surround.vim')
 call dein#add('LeafCage/yankround.vim')
 " call dein#add('vim-scripts/grep.vim'
-call dein#add('vim-scripts/sudo.vim')
 call dein#add('vim-scripts/errormarker.vim')
 "}}}
 
@@ -257,7 +254,6 @@ call dein#add('fuenor/qfixhowm')
 call dein#add('vim-scripts/SQLUtilities')
 call dein#add('vim-scripts/dbext.vim')
 call dein#add('exu/pgsql.vim')
-call dein#add('ternjs/tern_for_vim', {'build': 'npm install'})
 
 call dein#add('AndrewRadev/switch.vim', {
 \   'on_cmd' : [ "Switch" ],
@@ -290,16 +286,13 @@ call dein#add("osyo-manga/vim-gyazo", {
 call dein#add('basyura/bitly.vim')
 call dein#add('basyura/twibill.vim')
 call dein#add('basyura/TweetVim', {
-\   'rev': 'dev',
+\   'rev': 'master',
 \   'depends' : ['twibill.vim', 'open-browser.vim' ],
 \})
 " }}}
 
 " cursor move {{{
-" call dein#add('osyo-manga/vim-milfeulle'
 call dein#add('thinca/vim-visualstar')
-" call dein#add('rhysd/accelerated-jk')
-" call dein#add('yonchu/accelerated-smooth-scroll')
 
 call dein#add('Lokaltog/vim-easymotion', {
 \   'on_map' : [
@@ -362,11 +355,6 @@ if has('lua')
   \})
 elseif has('nvim')
   call dein#add('Shougo/deoplete.nvim')
-else
-  call dein#add('Shougo/neocomplcache', {
-  \   'depends' : ["neosnippet"],
-  \   'on_i' : 1,
-  \})
 endif
 " }}}
 
@@ -387,6 +375,8 @@ if has('nvim')
   call dein#add('brettanomyces/nvim-editcommand')
   call dein#add('euclio/vim-markdown-composer', {'build': 'cargo build --release'})
   call dein#add('subnut/nvim-ghost.nvim')
+  call dein#add('akinsho/nvim-bufferline.lua')
+  call dein#add('kyazdani42/nvim-tree.lua')
 endif
 " }}}
 
@@ -608,6 +598,11 @@ endif
 " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if has("termguicolors")
   set termguicolors
+
+  " nvim-bufferline
+  lua << EOF
+  require("bufferline").setup{}
+EOF
 endif
 
 " 256色モード
@@ -701,6 +696,26 @@ nmap ,b :buffers<CR>
 " NERDCommenter
 let NERDSpaceDelims = 1
 
+if has('nvim')
+  " nvim-tree {{{
+  let g:nvim_tree_git_hl = 1
+  let g:nvim_tree_update_cwd = 1
+  let g:nvim_tree_symlink_arrow = ' >> '
+  let g:nvim_tree_hijack_netrw = 1
+
+  nnoremap <leader>tt :NvimTreeToggle<CR>
+  nnoremap <leader>tr :NvimTreeRefresh<CR>
+  nnoremap <leader>tf :NvimTreeFindFile<CR>
+  " }}}
+
+  " nvim-bufferline {{{
+  nnoremap <silent> gb :BufferLinePick<CR>
+  nnoremap <silent> gD :BufferlinePickClose<CR>
+  nnoremap <silent>[b :BufferLineCycleNext<CR>
+  nnoremap <silent>]b :BufferLineCyclePrev<CR>
+  " }}}
+endif
+
 " smartchr {{{
 function! s:EnableSmartchrBasic()
   inoremap <buffer><expr> + smartchr#one_of(' + ', '+', '++')
@@ -724,16 +739,11 @@ function! s:EnableSmartchrHaml()
   inoremap <buffer> { {}<Esc>i
 endfunction
 
-function! s:EnableSmartchrCoffeeFunction()
-  inoremap <buffer><expr> > smartchr#one_of('>', ' ->')
-endfunction
-
-MyAutocmd FileType c,cpp,php,python,javascript,ruby,coffee,vim call s:EnableSmartchrBasic()
-MyAutocmd FileType python,ruby,coffee,vim call s:EnableSmartchrRegExp()
+MyAutocmd FileType c,cpp,php,python,javascript,ruby,vim call s:EnableSmartchrBasic()
+MyAutocmd FileType python,ruby,vim call s:EnableSmartchrRegExp()
 MyAutocmd FileType ruby call s:EnableSmartchrRubyHash()
 MyAutocmd FileType ruby,eruby setlocal tags+=gems.tags,./gems.tags,~/rtags
 MyAutocmd FileType haml call s:EnableSmartchrHaml()
-MyAutocmd FileType coffee call s:EnableSmartchrCoffeeFunction()
 " }}}
 
 " shファイルの保存時にはファイルのパーミッションを755にする {{{
@@ -947,13 +957,6 @@ if dein#tap('vim-test')
   let g:test#transformation = 'docker'
 endif
 
-" liblua load
-" if has('gui_macvim') && has('kaoriya')
-  " if filereadable(expand("/usr/local/lib/libluajit-5.1.2.dylib"))
-    " let $LUA_DLL = "/usr/local/lib/libluajit-5.1.2.dylib"
-  " endif
-" endif
-
 " vim-milfeulle
 " nmap <C-O> <Plug>(milfeulle-prev)
 " nmap <C-I> <Plug>(milfeulle-next)
@@ -1112,15 +1115,17 @@ endif
 " Fugitive {{{
 nnoremap [git] <Nop>
 nmap ,g [git]
-nnoremap [git]d :<C-u>Gdiff HEAD<CR>
+nnoremap [git]d :<C-u>Gdiffsplit HEAD<CR>
 nnoremap [git]s :<C-u>Git<CR>
-nnoremap [git]l :<C-u>Glog<CR>
+nnoremap [git]l :<C-u>Gclog HEAD~20..HEAD<CR>
+nnoremap [git]L :<C-u>0Gclog<CR>
 nnoremap [git]a :<C-u>Gwrite<CR>
-nnoremap [git]c :<C-u>Gcommit<CR>
+nnoremap [git]c :<C-u>Git commit<CR>
 nnoremap [git]C :<C-u>Git commit --amend<CR>
-nnoremap [git]b :<C-u>Gblame<CR>
+nnoremap [git]b :<C-u>Git blame<CR>
 nnoremap [git]n :<C-u>Git now<CR>
 nnoremap [git]N :<C-u>Git now --all<CR>
+nnoremap [git]p :<C-u>GHPRBlame<CR>
 
 " ftdetect is often failed
 MyAutocmd BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif
@@ -1177,115 +1182,6 @@ let g:airline#extensions#hunks#hunk_symbols = [
         \ g:gitgutter_sign_modified . ' ',
         \ g:gitgutter_sign_removed . ' '
   \ ]
-" }}}
-
-" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim {{{
-function! GetCharCode()
-  if winwidth('.') <= 70
-    return ''
-  endif
-
-  " Get the output of :ascii
-  redir => ascii
-  silent! ascii
-  redir END
-
-  if match(ascii, 'NUL') != -1
-    return 'NUL'
-  endif
-
-  " Zero pad hex values
-  let nrformat = '0x%02x'
-
-  let encoding = (&fenc == '' ? &enc : &fenc)
-
-  if encoding == 'utf-8'
-    " Zero pad with 4 zeroes in unicode files
-    let nrformat = '0x%04x'
-  endif
-
-  " Get the character and the numeric value from the return value of :ascii
-  " This matches the two first pieces of the return value, e.g.
-  " "<F> 70" => char: 'F', nr: '70'
-  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
-
-  " Format the numeric value
-  let nr = printf(nrformat, nr)
-
-  return "'". char ."' ". nr
-endfunction
-" }}}
-
-" vimfiler {{{
-nnoremap <silent> ,vf :<C-U>VimFiler<CR>
-
-if dein#tap('vimfiler')
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_max_directory_histories = 100
-
-  function s:ChangeVimfilerKeymap()
-    nmap <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
-
-    " j k 移動でループしないように
-    nmap <buffer> j j
-    nmap <buffer> k k
-    nmap <buffer> <Enter> <Plug>(vimfiler_execute_vimfiler_associated)
-
-    nmap <buffer> s <Plug>(vimfiler_select_sort_type)
-    nmap <End> <Plug>(vimfiler_clear_mark_all_lines)
-    nmap <buffer> @ <Plug>(vimfiler_set_current_mask)
-    nmap <buffer> V <Plug>(vimfiler_quick_look)
-  endfunction
-  MyAutocmd FileType vimfiler call s:ChangeVimfilerKeymap()
-
-  function! s:vimfiler_config()
-    if filereadable(expand('~/.vimfiler.local'))
-      execute 'source' expand('~/.vimfiler.local')
-    endif
-  endfunction
-  call dein#config(dein#name, {'hook_source': function("s:vimfiler_config")})
-endif
-" }}}
-
-" vimshell {{{
-nnoremap <silent> ,vs :<C-U>VimShell<CR>
-
-function! g:MyChpwd(args, context)
-  call vimshell#execute('ls')
-endfunction
-
-if dein#tap('vimshell')
-  if has('win32') || has('win64')
-    " Display user name on Windows.
-    let g:vimshell_prompt = $USERNAME."% "
-  else
-    let g:vimshell_prompt = $USER . "@" . hostname() . "% "
-  endif
-  "let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b] ", "(%s)-[%b|%a] ") . "[" . getcwd() . "]"'
-  let g:vimshell_right_prompt = '"[" . getcwd() . "]"'
-  let g:vimshell_max_command_history = 3000
-
-  function! s:vimshell_config()
-    if has('mac')
-      call vimshell#set_execute_file('html', 'gexe open -a /Applications/Firefox.app/Contents/MacOS/firefox')
-      call vimshell#set_execute_file('avi,mp4,mpg,ogm,mkv,wmv,mov', 'gexe open -a /Applications/MPlayerX.app/Contents/MacOS/MPlayerX')
-    endif
-  endfunction
-  call dein#config(dein#name, {'hook_source': function("s:vimshell_config")})
-
-  MyAutocmd FileType vimshell
-    \ call vimshell#altercmd#define('g', 'git')
-    \| call vimshell#altercmd#define('l', 'll')
-    \| call vimshell#altercmd#define('ll', 'ls -l')
-    \| call vimshell#altercmd#define('be', 'bundle exec')
-    \| call vimshell#altercmd#define('ra', 'rails')
-    \| call vimshell#hook#add('chpwd', 'MyChpwd', 'g:MyChpwd')
-
-  function! s:EarthquakeKeyMap()
-    nnoremap <buffer><expr> o OpenBrowserLine()
-  endfunction
-  MyAutocmd FileType int-earthquake call s:EarthquakeKeyMap()
-endif
 " }}}
 
 " rubycomplete.vim {{{
@@ -1637,10 +1533,6 @@ nnoremap U :<C-U>GundoToggle<CR>
 " qfreplace
 MyAutocmd FileType qf nnoremap <buffer> r :<C-U>Qfreplace<CR>
 
-" sudo.vim
-command! ES :e sudo:%
-command! WS :w sudo:%
-
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nnoremap gx <Plug>(openbrowser-smart-search)
@@ -1666,10 +1558,6 @@ function! s:toggle_rubocop() abort
 endfunction
 
 command! ToggleRubocop :call s:toggle_rubocop()
-
-if executable('coffeelint')
-  let g:syntastic_coffee_checkers = ['coffeelint']
-endif
 
 let g:syntastic_javascript_checkers = []
 
@@ -1887,10 +1775,6 @@ let dbext_default_profile = 'redshift'
 let dbext_default_profile_redshift = 'type=PGSQL'
 let dbext_default_profile_mysql = 'type=MYSQL'
 let g:rails_no_dbext = 1
-
-" accelerated-smooth-scroll
-" let g:ac_smooth_scroll_du_sleep_time_msec = 5
-" let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 
 " vim-metarw-qiita
 let g:qiita_user = "joker1007"
