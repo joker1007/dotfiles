@@ -20,7 +20,7 @@ default_border normal 2
 
     bindsym Mod1+a exec authy
 
-    bindsym $mod+Ctrl+v exec neovide --multiGrid --remote-tcp=localhost:6666
+    bindsym $mod+Ctrl+v exec neovide --multiGrid
 #
 # Moving around:
 #
@@ -138,12 +138,21 @@ mode "resize" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
+    bindsym 1 resize set width 50 ppt
+    bindsym 2 resize set width 60 ppt
+    bindsym 3 resize set width 70 ppt
+    bindsym 4 resize set width 80 ppt
+
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+equal mode "resize"
-bindsym $mod+w resize set width 2560
+
+bindsym $mod+Ctrl+1 resize set width 50 ppt
+bindsym $mod+Ctrl+2 resize set width 60 ppt
+bindsym $mod+Ctrl+3 resize set width 70 ppt
+bindsym $mod+Ctrl+4 resize set width 80 ppt
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable

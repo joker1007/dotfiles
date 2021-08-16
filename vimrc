@@ -572,7 +572,8 @@ noremap [space]h  ^
 noremap [space]l  $
 
 " 編集中のファイルのディレクトリに移動
-command! CdCurrent execute ":lcd" . expand("%:p:h")
+command! CdCurrent execute ":cd" . expand("%:p:h")
+nnoremap <silent> ,c :<C-U>CdCurrent<CR>:pwd<CR>
 
 " 最後に編集した場所にカーソルを移動する
 MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif

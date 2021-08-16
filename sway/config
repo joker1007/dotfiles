@@ -46,7 +46,7 @@ workspace 7 output DP-1
 workspace 2 output DP-2
 workspace 4 output DP-2
 
-font pango:Noto Sans CJK JP 14
+font pango:Noto Sans CJK JP 12
 
 ### Idle configuration
 #
@@ -155,7 +155,7 @@ bindsym $mod+Tab exec sway-select-window
 
 for_window [app_id="foot"] opacity 0.9
 for_window [app_id="neovide"] opacity 0.9
-for_window [app_id="firefox-wayland" title="^$"] floating enable, move position 82ppt 90ppt
+for_window [app_id="firefox-wayland" title="^$"] floating enable, move position 82ppt 90ppt, border pixel 1
 no_focus [app_id="firefox-wayland" title="^$"]
 for_window [class="stellaris"] floating enable
 
