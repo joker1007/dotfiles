@@ -1078,6 +1078,8 @@ nnoremap <silent> ,ao :<C-u>Clap proj_tags<CR>
 nnoremap <silent> ,ac :<C-u>Clap bcommits<CR>
 nnoremap <silent> ,ab :<C-u>Clap buffers<CR>
 
+let g:clap_layout = { 'relative': 'editor' }
+let g:clap_enable_background_shadow = v:false
 MyAutocmd FileType clap_input inoremap <silent> <buffer> <C-O> <ESC>
 MyAutocmd FileType clap_input nnoremap <silent> <buffer> q :<C-U>call clap#handler#exit()<CR>
 " }}}
