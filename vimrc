@@ -1067,6 +1067,7 @@ endif
 
 " vim-clap {{{
 nnoremap <silent> ,aff :<C-u>Clap files<CR>
+nnoremap ,afp :<C-u>Clap files %:h:h
 nnoremap <silent> ,afl :<C-u>Clap filer<CR>
 nnoremap <silent> ,aF :<C-u>Clap files %:h<CR>
 nnoremap <silent> ,afg :<C-u>Clap git_files<CR>
@@ -1580,7 +1581,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'coffee', 'elixir'],
+                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'elixir'],
                            \ 'passive_filetypes': [] }
 
 
@@ -1690,9 +1691,6 @@ endif
 
 " code snippet highlight {{{
 let g:markdown_quote_syntax_filetypes = {
-        \ "coffee" : {
-        \   "start" : "coffee",
-        \},
         \ "mustache" : {
         \   "start" : "mustache",
         \},

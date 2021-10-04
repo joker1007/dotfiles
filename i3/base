@@ -81,8 +81,10 @@ bindsym $mod+Tab exec sway-select-window
 bindsym $mod+Control+Return exec i3-instant-layout mainRight
 bindsym $mod+Escape exec "i3-instant-layout --list | bemenu -i --nb '#3f3f3f' --nf '#dcdccc' --fn 'pango:Cica 12' -l 10 --scrollbar=autohide -p '>' -m all | i3-instant-layout -"
 
-bindsym $mod+Ctrl+e exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard.sh -e
-bindsym $mod+Ctrl+c exec EDITOR="neovide --nofork --multiGrid" ~/bin/edit_clipboard.sh
+bindsym $mod+Ctrl+e exec EDITOR="neovide --nofork --multigrid" ~/bin/edit_clipboard.sh -e
+bindsym $mod+Ctrl+c exec EDITOR="neovide --nofork --multigrid" ~/bin/edit_clipboard.sh
+
+bindsym $mod+Shift+v [class="neovide"] focus
 
 bindsym $mod+i exec i3-input -F "exec %s"
 bindsym Print exec flameshot gui

@@ -20,7 +20,7 @@ default_border normal 2
 
     bindsym Mod1+a exec authy
 
-    bindsym $mod+Ctrl+v exec neovide --multiGrid
+    bindsym $mod+Ctrl+v exec neovide --multigrid
 #
 # Moving around:
 #
