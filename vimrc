@@ -699,10 +699,54 @@ let NERDSpaceDelims = 1
 
 if has('nvim')
   " nvim-tree {{{
-  let g:nvim_tree_git_hl = 1
-  let g:nvim_tree_update_cwd = 1
-  let g:nvim_tree_symlink_arrow = ' >> '
-  let g:nvim_tree_hijack_netrw = 1
+  lua <<EOF
+    require'nvim-tree'.setup {
+      disable_netrw       = true,
+      hijack_netrw        = true,
+      open_on_setup       = false,
+      ignore_ft_on_setup  = {},
+      update_to_buf_dir   = {
+        enable = true,
+        auto_open = true,
+      },
+      auto_close          = false,
+      open_on_tab         = false,
+      hijack_cursor       = false,
+      update_cwd          = true,
+      diagnostics         = {
+        enable = false,
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        }
+      },
+      update_focused_file = {
+        enable      = false,
+        update_cwd  = false,
+        ignore_list = {}
+      },
+      system_open = {
+        cmd  = nil,
+        args = {}
+      },
+      view = {
+        width = 36,
+        height = 30,
+        side = 'left',
+        auto_resize = false,
+        mappings = {
+          custom_only = false,
+          list = {}
+        }
+      },
+      filters = {
+        dotfiles = false,
+        custom = {}
+      }
+    }
+EOF
 
   nnoremap <leader>tt :NvimTreeToggle<CR>
   nnoremap <leader>tr :NvimTreeRefresh<CR>
