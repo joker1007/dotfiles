@@ -266,12 +266,6 @@ fi
 # added by travis gem
 [ -f /Users/joker/.travis/travis.sh ] && source /Users/joker/.travis/travis.sh
 
-# The next line updates PATH for the Google Cloud SDK.
-[[ -s /home/joker/google-cloud-sdk/path.zsh.inc ]] && source '/home/joker/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-[[ -s /home/joker/google-cloud-sdk/completion.zsh.inc ]] && source '/home/joker/google-cloud-sdk/completion.zsh.inc'
-
 # OPAM configuration
 [[ -s /home/joker/.opam/opam-init/init.zsh ]] && source /home/joker/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
 
@@ -282,3 +276,9 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/joker/.sdkman"
 [[ -s "/home/joker/.sdkman/bin/sdkman-init.sh" ]] && source "/home/joker/.sdkman/bin/sdkman-init.sh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/joker/google-cloud-sdk/path.zsh.inc' ]; then . '/home/joker/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/joker/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/joker/google-cloud-sdk/completion.zsh.inc'; fi
