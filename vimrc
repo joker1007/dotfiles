@@ -199,7 +199,7 @@ call dein#add('kannokanno/previm', {'on_cmd' : ['PrevimOpen']})
 call dein#add('nvim-treesitter/nvim-treesitter')
 call dein#add('andymass/vim-matchup')
 call dein#add('godlygeek/tabular')
-call dein#add('vim-syntastic/syntastic')
+call dein#add('dense-analysis/ale')
 call dein#add('rhysd/github-complete.vim')
 call dein#add('rhysd/ghpr-blame.vim')
 call dein#add('hashivim/vim-terraform')
@@ -1593,50 +1593,11 @@ function! OpenBrowserLine()
   execute "OpenBrowser " . matched[0]
 endfunction
 
-" syntastic
-let g:syntastic_ruby_checkers = ['mri']
-let g:syntastic_ruby_rubocop_exe = 'bundle exec rubocop'
-
-function! s:toggle_rubocop() abort
-  if index(g:syntastic_ruby_checkers, 'rubocop') >= 0
-    let g:syntastic_ruby_checkers = ['mri']
-  else
-    let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-  endif
-endfunction
-
-command! ToggleRubocop :call s:toggle_rubocop()
-
-let g:syntastic_javascript_checkers = []
-
-if executable('eslint')
-  let g:syntastic_javascript_checkers += ['eslint']
+" ale {{{
+if dein#tap('ale')
+  let g:ale_cache_executable_check_failures = 1
 endif
-
-if executable('flow')
-  let g:syntastic_javascript_checkers += ['flow']
-endif
-
-let g:syntastic_enable_elixir_checker = 1
-let g:syntastic_elixir_checkers = ['elixir']
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['ruby', 'javascript', 'typescript', 'elixir'],
-                           \ 'passive_filetypes': [] }
-
-
-let g:syntastic_error_symbol = "\u2717"
-let g:syntastic_warning_symbol = "\u26A0"
-
-" ft hamstache
-MyAutocmd BufReadPost *.hamstache set filetype=haml
-
-" ft ejs
-MyAutocmd BufReadPost *.ejs set filetype=html
+" }}}
 
 " ag.vim
 let g:ag_prg="ag --vimgrep --smart-case"
