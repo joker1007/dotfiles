@@ -14,6 +14,24 @@ endif
 if exists("g:neovide")
   set guifont=Monospace:h12
   let g:neovide_cursor_vfx_mode="wireframe"
+  function! FontSizePlus()
+    let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
+    let l:gf_size_whole = l:gf_size_whole + 1
+    let l:new_font_size = l:gf_size_whole
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h' . l:new_font_size, '')
+  endfunction
+  function! FontSizeMinus()
+    let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
+    let l:gf_size_whole = l:gf_size_whole - 1
+    let l:new_font_size = l:gf_size_whole
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h' . l:new_font_size, '')
+  endfunction
+  function! FontSizeReset()
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h12', '')
+  endfunction
+  nnoremap <C-=> :call FontSizePlus()<CR>
+  nnoremap <C--> :call FontSizeMinus()<CR>
+  nnoremap <C-0> :call FontSizeReset()<CR>
 endif
 
 " charset {{{
@@ -21,54 +39,7 @@ set encoding=utf-8
 scriptencoding utf-8
 set fileformats=unix,dos,mac
 
-if has('guess_encode')
-  set fileencodings=guess
-else
-  set fileencodings=ucs_bom,utf8,ucs-2le,ucs-2
-
-  " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
-  " 文字コードの自動認識
-  if &encoding !=# 'utf-8'
-    set encoding=japan
-    set fileencoding=japan
-  endif
-  if has('iconv')
-    let s:enc_euc = 'euc-jp'
-    let s:enc_jis = 'iso-2022-jp'
-    " iconvがeucJP-msに対応しているかをチェック
-    if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
-      let s:enc_euc = 'eucjp-ms'
-      let s:enc_jis = 'iso-2022-jp-3'
-      " iconvがJISX0213に対応しているかをチェック
-    elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-      let s:enc_euc = 'euc-jisx0213'
-      let s:enc_jis = 'iso-2022-jp-3'
-    endif
-    " fileencodingsを構築
-    if &encoding ==# 'utf-8'
-      let s:fileencodings_default = &fileencodings
-      let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-      let &fileencodings = s:fileencodings_default .','. &fileencodings
-      unlet s:fileencodings_default
-    else
-      let &fileencodings = &fileencodings .','. s:enc_jis
-      set fileencodings+=utf-8,ucs-2le,ucs-2
-      if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
-        set fileencodings+=cp932
-        set fileencodings-=euc-jp
-        set fileencodings-=euc-jisx0213
-        set fileencodings-=eucjp-ms
-        let &encoding = s:enc_euc
-        let &fileencoding = s:enc_euc
-      else
-        let &fileencodings = &fileencodings .','. s:enc_euc
-      endif
-    endif
-    " 定数を処分
-    unlet s:enc_euc
-    unlet s:enc_jis
-  endif
-endif
+set fileencodings=ucs_bom,utf8,ucs-2le,ucs-2,iso-2022-jp-3,euc-jp,cp932
 " }}}
 
 " NeoBundle {{{
@@ -105,6 +76,8 @@ call dein#add('cespare/vim-toml')
 
 call dein#add('kana/vim-submode')
 
+call dein#add('simeji/winresizer')
+
 call dein#add('plasticboy/vim-markdown')
 call dein#add('mattn/vim-maketable', {'on_ft' : ['markdown']})
 
@@ -138,7 +111,6 @@ call dein#add('vim-ruby/vim-ruby')
 call dein#add('thinca/vim-quickrun', {'depends' : 'vimproc'})
 
 call dein#add('leafgarland/typescript-vim')
-call dein#add('Quramy/tsuquyomi')
 " }}}
 
 " ref {{{
@@ -164,7 +136,6 @@ call dein#add('kana/vim-textobj-indent')
 
 " html template {{{
 call dein#add('mattn/emmet-vim', {'on_i' : 1})
-call dein#add('claco/jasmine.vim')
 call dein#add('digitaltoad/vim-jade')
 call dein#add('slim-template/vim-slim')
 call dein#add('tpope/vim-haml')
@@ -235,9 +206,6 @@ call dein#add('othree/html5.vim')
 call dein#add('JulesWang/css.vim')
 call dein#add('moskytw/nginx-contrib-vim')
 call dein#add('supermomonga/shiraseru.vim', {'depends' : 'vimproc'})
-if has('mac')
-  call dein#add('rhysd/quickrun-mac_notifier-outputter', {'depends' : 'vim-quickrun'})
-endif
 call dein#add('osyo-manga/shabadou.vim')
 call dein#add('joker1007/quickrun-rspec-notifier', {'depends' : 'vim-quickrun'})
 call dein#add('superbrothers/vim-quickrun-markdown-gfm', {'on_ft': 'markdown'})
@@ -277,11 +245,6 @@ call dein#add('osyo-manga/vim-anzu', {
 \   ],
 \})
 
-call dein#add("osyo-manga/vim-gyazo", {
-\   'on_cmd' : [ "GyazoPost", "GyazoOpenBrowser", "GyazoTweetVim", "GyazoOpenBrowserCurrentWindow", "GyazoTweetVimCurrentWindow" ]
-\})
-" }}}
-
 " tweetvim {{{
 call dein#add('basyura/bitly.vim')
 call dein#add('basyura/twibill.vim')
@@ -317,7 +280,7 @@ call dein#add('t9md/vim-choosewin')
 
 " git {{{
 call dein#add('tpope/vim-fugitive', {'augroup' : 'fugitive'})
-call dein#add('gregsexton/gitv', {'on_cmd' : ['Gitv']})
+call dein#add('rbong/vim-flog')
 call dein#add('airblade/vim-gitgutter')
 
 call dein#add('mattn/gist-vim', {
@@ -341,27 +304,14 @@ call dein#add('liuchengxu/vista.vim')
 " }}}
 
 " neocon {{{
-call dein#add('justmao945/vim-clang')
-
-call dein#add('Shougo/context_filetype.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/neosnippet', {
   \   'depends' : ["neosnippet-snippets"]
 \})
-if has('lua')
-  call dein#add('Shougo/neocomplete', {
-  \   'depends' : ['neosnippet', 'context_filetype.vim'],
-  \   'on_i' : 1,
-  \})
-elseif has('nvim')
+if has('nvim')
   call dein#add('Shougo/deoplete.nvim')
 endif
 " }}}
-
-" defx {{{
-if has('nvim')
-  call dein#add('Shougo/defx.nvim')
-endif
 
 call dein#add('mattn/vim-sonots')
 
@@ -615,6 +565,13 @@ if !has("nvim") && !has("termguicolors")
   endif
 endif
 
+" neovim provider
+
+if has("nvim")
+  let g:loaded_node_provider = 0
+  let g:loaded_perl_provider = 0
+endif
+
 " mark, register確認
 " nnoremap ,m  :<C-u>marks<CR>
 nnoremap ,r  :<C-u>registers<CR>
@@ -709,7 +666,6 @@ if has('nvim')
         enable = true,
         auto_open = true,
       },
-      auto_close          = false,
       open_on_tab         = false,
       hijack_cursor       = false,
       update_cwd          = true,
@@ -858,11 +814,10 @@ MyAutocmd Syntax * hi PmenuSel cterm=bold ctermfg=235 ctermbg=81 gui=bold guifg=
 MyAutocmd Syntax * hi PmenuSbar guibg=#333333
 MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#3A3A2A
 
-" treesitter
-
+" treesitter {{{
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"c", "lua", "rust", "java", "scala", "json", "typescript", "bash", "css", "html", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { "ruby", "markdown" },
@@ -881,6 +836,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+" }}}
 
 " TOhtml
 let g:html_number_lines = 0
@@ -1181,38 +1137,6 @@ MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | 
 MyAutocmd BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif
 " }}}
 
-" gitv {{{
-if dein#tap("gitv")
-  nnoremap [git]vn :<C-u>Gitv<CR>
-  nnoremap [git]va :<C-u>Gitv --all<CR>
-  nnoremap [git]vf :<C-u>Gitv!<CR>
-endif
-
-" http://d.hatena.ne.jp/cohama/20130517/1368806202
-function! GitvGetCurrentHash()
-  return matchstr(getline('.'), '\[\zs.\{7\}\ze\]$')
-endfunction
-
-function! s:my_gitv_settings()
-  setlocal foldlevel=99
-
-  setlocal iskeyword+=/,-,.
-  " カーソル下のブランチ名で checkout
-  " ブランチ間移動 r/R
-  nnoremap <silent><buffer> C :<C-u>Git checkout <C-r><C-w><CR>
-
-  " カーソル位置のコミットに対する操作
-  nnoremap <buffer> <Space>rb :<C-u>Git rebase <C-r>=GitvGetCurrentHash()<CR><Space>
-  nnoremap <buffer> <Space>ri :<C-u>Git rebase -i <C-r>=GitvGetCurrentHash()<CR><Space>
-  nnoremap <buffer> <Space>R :<C-u>Git revert <C-r>=GitvGetCurrentHash()<CR><CR>
-  nnoremap <buffer> <Space>p :<C-u>Git cherry-pick <C-r>=GitvGetCurrentHash()<CR><CR>
-  nnoremap <buffer> <Space>rh :<C-u>Git reset --hard <C-r>=GitvGetCurrentHash()<CR>
-endfunction
-
-MyAutocmd FileType gitv call s:my_gitv_settings()
-
-" }}}
-
 " vim-gitgitter {{{
 let g:gitgutter_sign_added = '++'
 let g:gitgutter_sign_modified = '**'
@@ -1277,120 +1201,6 @@ if dein#tap('neosnippet')
 endif
 " }}}
 
-" neocomplcache or neocomplete {{{
-if has("autocmd") && exists("+omnifunc")
-  autocmd Filetype *
-      \ if &omnifunc == "" |
-      \   setlocal omnifunc=syntaxcomplete#Complete |
-      \ endif
-endif
-
-" Enable omni completion.
-MyAutocmd FileType css,scss setlocal omnifunc=csscomplete#CompleteCSS
-MyAutocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-MyAutocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-MyAutocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-MyAutocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
-
-" clang_complete
-if dein#tap('vim-clang')
-  let g:clang_auto = 0
-  let g:clang_use_library = 1
-  let g:clang_check_syntax_auto = 1
-
-  let g:clang_c_options = '-std=c99 -I' . getcwd() . ' -I' . getcwd() . '/include'
-  let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ -I' . getcwd()
-  " let g:clang_debug = 1
-  if has('mac')
-    let g:clang_library_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
-  endif
-  " let g:clang_user_options = '-std=c++11'
-endif
-
-if dein#tap('neocomplete')
-  " Disable AutoComplPop.
-  let g:acp_enableAtStartup = 0
-  " Use neocomplete.
-  let g:neocomplete#enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplete#enable_smart_case = 1
-
-  " Set minimum syntax keyword length.
-  let g:neocomplete#auto_completion_start_length = 2
-  let g:neocomplete#manual_completion_start_length = 0
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#min_keyword_length = 2
-
-  let g:neocomplete#enable_prefetch = 1
-
-  " Define dictionary.
-  let g:neocomplete#sources#dictionary#dictionaries = {
-  \ 'default' : '',
-  \ 'vimshell' : $HOME . '/.vimshell/command-history',
-  \ }
-
-  " キャッシュしないファイル名
-  let g:neocomplete#sources#buffer#disabled_pattern = '\.log\|\.log\.\|\.jax'
-  " 自動補完を行わないバッファ名
-  let g:neocomplete#lock_buffer_name_pattern = '\.log\|\.log\.\|.*quickrun.*\|.jax'
-
-  " Define keyword.
-  if !exists('g:neocomplete#keyword_patterns')
-      let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-
-  " Plugin key-mappings.
-  inoremap <expr><C-l> neocomplete#complete_common_string()
-
-  " SuperTab like snippets behavior.
-  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>"
-
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-y> neocomplete#close_popup()
-
-  " AutoComplPop like behavior.
-  "let g:neocomplete#enable_auto_select = 1
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  " let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-  let g:neocomplete#sources#omni#input_patterns.c = '\%(\.\|->\)\h\w*'
-  let g:neocomplete#sources#omni#input_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-  " for TweetVim スクリーン名のキャッシュを利用して、neocomplcache で補完する
-  if !exists('g:neocomplete#sources#dictionary#dictionaries')
-    let g:neocomplete#sources#dictionary#dictionaries = {}
-  endif
-  let neco_dic = g:neocomplete#sources#dictionary#dictionaries
-  let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
-
-  " use clang_complete
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-  endif
-  let g:neocomplete#force_overwrite_completefunc = 1
-  let g:neocomplete#force_omni_input_patterns.c =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-  let g:neocomplete#force_omni_input_patterns.cpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:neocomplete#force_omni_input_patterns.objc =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-  let g:neocomplete#force_omni_input_patterns.objcpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-endif
-
 if dein#tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
 
@@ -1425,25 +1235,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
 
 " submode.vim {{{
 let g:submode_timeout = 0
-call submode#enter_with('window/manip', 'n', '', '<Leader>w')
-call submode#enter_with('window/manip', 'n', '', '<C-W>-', '<C-W>-')
-call submode#enter_with('window/manip', 'n', '', '<C-W>+', '<C-W>+')
-call submode#enter_with('window/manip', 'n', '', '<C-W>>', '<C-W>>')
-call submode#enter_with('window/manip', 'n', '', '<C-W><', '<C-W><')
-call submode#leave_with('window/manip', 'n', '', '<Esc>')
-call submode#map('window/manip', 'n', '', '-', '<C-W>-')
-call submode#map('window/manip', 'n', '', '+', '<C-W>+')
-call submode#map('window/manip', 'n', '', '<', '<C-W><')
-call submode#map('window/manip', 'n', '', '>', '<C-W>>')
-call submode#map('window/manip', 'n', '', '=', '<C-W>=')
-call submode#map('window/manip', 'n', '', 'r', '<C-W>r')
-call submode#map('window/manip', 'n', '', 'R', '<C-W>R')
-call submode#map('window/manip', 'n', '', 'x', '<C-W>x')
-call submode#map('window/manip', 'n', '', 'j', '<C-W>j')
-call submode#map('window/manip', 'n', '', 'k', '<C-W>k')
-call submode#map('window/manip', 'n', '', 'l', '<C-W>l')
-call submode#map('window/manip', 'n', '', 'h', '<C-W>h')
-
 call submode#enter_with('tab/move', 'n', '', '<Leader>t')
 call submode#map('tab/move', 'n', 'r', 'h', 'H')
 call submode#map('tab/move', 'n', 'r', 'l', 'L')
@@ -1515,6 +1306,7 @@ endif
 
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conveal = 0
 
 " RSpec syntax {{{
 function! RSpecSyntax()
@@ -1722,7 +1514,6 @@ if dein#tap('neoterm')
   let g:neoterm_repl_ruby = 'pry'
   let g:neoterm_term_per_tab = 1
 
-  nnoremap <silent> <f10> :TREPLSendFile<cr>
   nnoremap <silent> <f9> :TREPLSendLine<cr>
   vnoremap <silent> <f9> :TREPLSendSelection<cr>
 
