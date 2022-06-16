@@ -87,4 +87,6 @@ export GOPATH=~/gocode
 
 export GITHUB_API_ENDPOINT="https://api.github.com"
 
+[ -s ~/dotfiles/nnn.env.sh ] && source ~/dotfiles/nnn.env.sh
+
 [ -s ~/.zshenv.local ] && source ~/.zshenv.local
