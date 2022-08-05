@@ -8,6 +8,7 @@
 	excludesfile = ~/.gitignore
 	mergeoptions = --no-ff --no-commit
 	quotepath = false
+	pager = delta
 [color]
 	ui = auto
 [alias]
@@ -53,15 +54,23 @@
 	user = joker1007
 [push]
 	default = simple
-[pager]
-	log = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
 [diff]
 	compactionHeuristic = true
+	colorMoved = default
 [merge]
 	conflictStyle = diff3
 [commit]
 	gpgsign = true
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
+
+[interactive]
+	diffFilter = delta --color-only
+[add.interactive]
+	useBuiltin = false
+
+[delta]
+	navigate = true
+	side-by-side = true
