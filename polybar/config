@@ -439,7 +439,7 @@ menu-2-1-exec = menu-open-0
 
 [module/weather]
 type = custom/script
-exec = curl -s 'http://wttr.in/Asakusa?format=%c+%t+%P'
+exec = curl -s 'http://wttr.in/35.717528,139.797635?format=%c+%t+%P'
 interval = 600
 
 [settings]
@@ -459,7 +459,7 @@ inherit = bar/main
 monitor = DisplayPort-1
 modules-left = i3
 modules-center = mpd
-modules-right = date
+modules-right = cpu memory date weather
 bottom = true
 tray-position = none
 
