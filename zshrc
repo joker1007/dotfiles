@@ -156,7 +156,7 @@ alias -g ST="amanogawa -f '%f%t%d' | column -t -s '	' | peco | awk '{print \$1}'
 
 # Pager
 
-export LESS="-MRXF"
+export LESS="-MRXF --mouse"
 export PAGER="less"
 
 if [ "$PAGER" = "lv" ]; then
