@@ -5,6 +5,7 @@ ZSH_CUSTOM=$HOME/.zsh/custom
 HISTFILE=~/.zhistory
 
 fpath+=~/.zfunc
+fpath+=~/.zsh/completion
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
