@@ -167,7 +167,9 @@ call dein#add('kannokanno/previm', {'on_cmd' : ['PrevimOpen']})
 " }}}
 
 " other programinng {{{
-call dein#add('nvim-treesitter/nvim-treesitter')
+if has("nvim")
+  call dein#add('nvim-treesitter/nvim-treesitter')
+endif
 call dein#add('andymass/vim-matchup')
 call dein#add('godlygeek/tabular')
 call dein#add('dense-analysis/ale')
@@ -282,6 +284,11 @@ call dein#add('t9md/vim-choosewin')
 call dein#add('tpope/vim-fugitive', {'augroup' : 'fugitive'})
 call dein#add('rbong/vim-flog')
 call dein#add('airblade/vim-gitgutter')
+
+if has('nvim')
+  call dein#add('ldelossa/litee.nvim')
+  call dein#add('ldelossa/gh.nvim')
+endif
 
 call dein#add('mattn/gist-vim', {
 \     'on_cmd' : [ "Gist" ]
@@ -549,12 +556,8 @@ endif
 " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if has("termguicolors")
   set termguicolors
-
-  " nvim-bufferline
-  lua << EOF
-  require("bufferline").setup{}
-EOF
 endif
+
 
 " 256色モード
 if !has("nvim") && !has("termguicolors")
@@ -662,7 +665,7 @@ if has('nvim')
       hijack_netrw        = true,
       open_on_setup       = false,
       ignore_ft_on_setup  = {},
-      update_to_buf_dir   = {
+      hijack_directories  = {
         enable = true,
         auto_open = true,
       },
@@ -691,11 +694,37 @@ if has('nvim')
         width = 36,
         height = 30,
         side = 'left',
-        auto_resize = false,
         mappings = {
           custom_only = false,
           list = {}
         }
+      },
+      actions = {
+        use_system_clipboard = true,
+        change_dir = {
+          enable = true,
+          global = false,
+          restrict_above_cwd = false,
+        },
+        expand_all = {
+          max_folder_discovery = 300,
+          exclude = {},
+        },
+        open_file = {
+          quit_on_open = false,
+          resize_window = false,
+          window_picker = {
+            enable = true,
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            exclude = {
+              filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+              buftype = { "nofile", "terminal", "help" },
+            },
+          },
+        },
+        remove_file = {
+          close_window = true,
+        },
       },
       filters = {
         dotfiles = false,
@@ -710,10 +739,15 @@ EOF
   " }}}
 
   " nvim-bufferline {{{
-  nnoremap <silent> gb :BufferLinePick<CR>
-  nnoremap <silent> gD :BufferlinePickClose<CR>
-  nnoremap <silent>[b :BufferLineCycleNext<CR>
-  nnoremap <silent>]b :BufferLineCyclePrev<CR>
+  if dein#tap('nvim-bufferline.lua')
+  lua << EOF
+    require("bufferline").setup{}
+EOF
+  endif
+  nnoremap <silent> gb :<C-U>BufferLinePick<CR>
+  nnoremap <silent> gD :<C-U>BufferLinePickClose<CR>
+  nnoremap <silent>[b :<C-U>BufferLineCycleNext<CR>
+  nnoremap <silent>]b :<C-U>BufferLineCyclePrev<CR>
   " }}}
 endif
 
@@ -815,6 +849,7 @@ MyAutocmd Syntax * hi PmenuSbar guibg=#333333
 MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#3A3A2A
 
 " treesitter {{{
+if dein#tap('nvim-treesitter')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {"c", "lua", "rust", "java", "scala", "json", "typescript", "bash", "css", "html", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -836,6 +871,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+endif
 " }}}
 
 " TOhtml
@@ -1135,6 +1171,19 @@ nnoremap [git]p :<C-u>GHPRBlame<CR>
 MyAutocmd BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif
 MyAutocmd BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif
 MyAutocmd BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif
+" }}}
+
+" gh.nvim {{{
+if dein#tap('gh.nvim')
+lua <<EOF
+require('litee.lib').setup({
+})
+EOF
+lua <<EOF
+require('litee.gh').setup({
+})
+EOF
+endif
 " }}}
 
 " vim-gitgitter {{{
