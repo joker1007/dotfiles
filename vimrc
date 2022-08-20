@@ -14,6 +14,8 @@ endif
 if exists("g:neovide")
   set guifont=Monospace:h12
   let g:neovide_cursor_vfx_mode="wireframe"
+  let g:neovide_transparency=0.9
+  let g:neovide_cursor_vfx_mode = "railgun"
   function! FontSizePlus()
     let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
     let l:gf_size_whole = l:gf_size_whole + 1
@@ -68,7 +70,7 @@ call dein#add('scrooloose/nerdcommenter', {
 call dein#add('thinca/vim-prettyprint')
 call dein#add('mhinz/vim-startify')
 call dein#add('hecal3/vim-leader-guide')
-call dein#add('ryanoasis/vim-devicons')
+call dein#add('kyazdani42/nvim-web-devicons')
 call dein#add('junegunn/vim-emoji')
 
 call dein#add('moro/vim-review')
@@ -85,23 +87,10 @@ call dein#add('joker1007/vim-ruby-heredoc-syntax', {'on_ft' : ['ruby', 'eruby']}
 
 call dein#add('joker1007/vim-markdown-quote-syntax', {'on_ft' : ['markdown']})
 
-call dein#add('pangloss/vim-javascript')
-call dein#add('elzr/vim-json')
-call dein#add('mxw/vim-jsx')
-
 " colorschemes plugin {{{
-call dein#add('baskerville/bubblegum')
-call dein#add('nanotech/jellybeans.vim')
-call dein#add('w0ng/vim-hybrid')
-call dein#add('vim-scripts/twilight')
-call dein#add('jonathanfilip/vim-lucius')
-call dein#add('jpo/vim-railscasts-theme')
-call dein#add('29decibel/codeschool-vim-theme')
-call dein#add('joshdick/onedark.vim')
-call dein#add('rakr/vim-one')
-call dein#add('jacoborus/tender.vim')
-call dein#add('MaxSt/FlatColor')
-call dein#add('cocopon/iceberg.vim')
+call dein#add('glepnir/zephyr-nvim')
+call dein#add('projekt0n/github-nvim-theme')
+call dein#add('shaunsingh/nord.nvim')
 " }}}
 
 " ruby rails develop {{{
@@ -144,10 +133,10 @@ call dein#add('juvenn/mustache.vim')
 " }}}
 
 " visibility {{{
-call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('lukas-reineke/indent-blankline.nvim')
 call dein#add('LeafCage/foldCC')
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
+call dein#add('nvim-lualine/lualine.nvim')
+call dein#add('nanozuki/tabby.nvim')
 call dein#add('osyo-manga/vim-over', {
       \ 'on_cmd' : ['OverCommandLine', 'OverCommandLineNoremap', 'OverCommandLineMap', 'OverCommandLineUnmap']
 \})
@@ -214,7 +203,7 @@ call dein#add('superbrothers/vim-quickrun-markdown-gfm', {'on_ft': 'markdown'})
 call dein#add('kana/vim-metarw')
 call dein#add('joker1007/vim-metarw-qiita')
 call dein#add('joker1007/vim-metarw-github-issues')
-call dein#add('lilydjwg/colorizer')
+call dein#add('NvChad/nvim-colorizer.lua')
 call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
 call dein#add('haya14busa/incsearch.vim')
@@ -278,12 +267,13 @@ call dein#add('Lokaltog/vim-easymotion', {
 \})
 
 call dein#add('t9md/vim-choosewin')
+call dein#add('sunjon/shade.nvim')
 " }}}
 
 " git {{{
 call dein#add('tpope/vim-fugitive', {'augroup' : 'fugitive'})
 call dein#add('rbong/vim-flog')
-call dein#add('airblade/vim-gitgutter')
+call dein#add('lewis6991/gitsigns.nvim')
 
 if has('nvim')
   call dein#add('ldelossa/litee.nvim')
@@ -332,7 +322,6 @@ if has('nvim')
   call dein#add('brettanomyces/nvim-editcommand')
   call dein#add('euclio/vim-markdown-composer', {'build': 'cargo build --release'})
   call dein#add('subnut/nvim-ghost.nvim')
-  call dein#add('akinsho/nvim-bufferline.lua')
   call dein#add('kyazdani42/nvim-tree.lua')
 endif
 " }}}
@@ -540,7 +529,7 @@ MyAutocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "no
 MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
 
-colorscheme hybrid
+colorscheme zephyr
 " colorscheme onedark
 MyAutocmd ColorScheme * highlight Visual ctermbg=239 guibg=#30505d
 
@@ -737,18 +726,6 @@ EOF
   nnoremap <leader>tr :NvimTreeRefresh<CR>
   nnoremap <leader>tf :NvimTreeFindFile<CR>
   " }}}
-
-  " nvim-bufferline {{{
-  if dein#tap('nvim-bufferline.lua')
-  lua << EOF
-    require("bufferline").setup{}
-EOF
-  endif
-  nnoremap <silent> gb :<C-U>BufferLinePick<CR>
-  nnoremap <silent> gD :<C-U>BufferLinePickClose<CR>
-  nnoremap <silent>[b :<C-U>BufferLineCycleNext<CR>
-  nnoremap <silent>]b :<C-U>BufferLineCyclePrev<CR>
-  " }}}
 endif
 
 " smartchr {{{
@@ -852,27 +829,62 @@ MyAutocmd Syntax * hi CursorLine ctermbg=238 guibg=#3A3A2A
 if dein#tap('nvim-treesitter')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"c", "lua", "rust", "java", "scala", "json", "typescript", "bash", "css", "html", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {
+    "c",
+    "lua",
+    "rust",
+    "java",
+    "scala",
+    "json",
+    "typescript",
+    "tsx",
+    "bash",
+    "css",
+    "html",
+    "javascript",
+    "ruby",
+    "yaml",
+    "vim",
+  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "ruby", "markdown" },
+    disable = { "markdown" },
   },
   incremental_selection = {
     enable = true,
-    disable = { "ruby", "markdown" },
+    disable = { "markdown" },
   },
   indent = {
     enable = true,
-    disable = { "ruby", "markdown" },
+    disable = { "markdown" },
   },
   matchup = {
     enable = true,
-    disable = { "ruby", "markdown" },
+    disable = { "markdown" },
   },
 }
 EOF
 endif
 " }}}
+
+" colorizer
+lua <<EOF
+require'colorizer'.setup(
+  {}, 
+  {
+    RGB      = true;         -- #RGB hex codes
+    RRGGBB   = true;         -- #RRGGBB hex codes
+    names    = true;         -- "Name" codes like Blue oe blue
+    RRGGBBAA = false;        -- #RRGGBBAA hex codes
+    rgb_fn   = true;        -- CSS rgb() and rgba() functions
+    hsl_fn   = false;        -- CSS hsl() and hsla() functions
+    css      = false;        -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+    css_fn   = false;        -- Enable all CSS *functions*: rgb_fn, hsl_fn
+    -- Available modes: foreground, background, virtualtext
+    mode     = 'background'; -- Set the display mode.
+  }
+)
+EOF
 
 " TOhtml
 let g:html_number_lines = 0
@@ -1186,23 +1198,46 @@ EOF
 endif
 " }}}
 
-" vim-gitgitter {{{
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '**'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_modified_removed = '*-'
-"}}}
+" gitsignes.nvim
+lua <<EOF
+require('gitsigns').setup({
+  numhl = true,
 
-" vim-airline {{{
-let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline_powerline_fonts = 0
-let g:airline_theme = "tender"
-let g:airline#extensions#hunks#hunk_symbols = [
-        \ g:gitgutter_sign_added . ' ',
-        \ g:gitgutter_sign_modified . ' ',
-        \ g:gitgutter_sign_removed . ' '
-  \ ]
+})
+EOF
+
+" lualine.nvim
+lua <<EOF
+require('lualine').setup {
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {
+      'branch',
+      {'diff', colored = true, diff_color = {added = 'DiffAdd', modified = 'DiffChange', removed = 'DiffDelete'}},
+      {'diagnostics', sources = {'ale'}, colored = true, diagnostics_color = {error = 'DiagnosticError', warn = 'DiagnosticWarn', info = 'DiagnosticInfo', hint = 'DiagnosticHint'}, symbols = {error = 'E:', warn = 'W:', info = 'I:', hint = 'H:'}}},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  extensions = {'quickfix', 'nvim-tree', 'fugitive'}
+}
+EOF
+
+" tabby {{{
+lua <<EOF
+require("tabby").setup({
+    tabline = require("tabby.presets").active_wins_at_end,
+})
+EOF
 " }}}
 
 " rubycomplete.vim {{{
@@ -1273,13 +1308,24 @@ let g:ref_source_webdict_sites = {
 
 nmap ,rr :<C-U>Ref refe<Space>
 
-" indent-guides {{{
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_color_change_percent = 35
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#333373   ctermbg=darkgrey
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=DarkCyan ctermbg=12
+" indent-blankline {{{
+lua <<EOF
+require("indent_blankline").setup({
+    char_highlight_list = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+    },
+    show_current_context = true,
+})
+EOF
+
+hi IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine
+hi IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine
+hi IndentBlanklineIndent3 guifg=#98C379 gui=nocombine
+hi IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine
+hi IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine
+hi IndentBlanklineIndent6 guifg=#C678DD gui=nocombine
 " }}}
 
 " submode.vim {{{
@@ -1316,6 +1362,13 @@ if dein#tap('vim-choosewin')
   nmap _ <Plug>(choosewin)
 endif
 " }}}
+
+" shade.nvim
+lua <<EOF
+require'shade'.setup({
+  overlay_opacity = 60,
+})
+EOF
 
 " switch.vim {{{
 let g:variable_style_switch_definitions = [
