@@ -30,10 +30,6 @@ return require('packer').startup(function(use)
 
   use {'mattn/vim-maketable', ft = 'markdown'}
 
-  use {'joker1007/vim-ruby-heredoc-syntax', ft = {'ruby', 'eruby'}}
-
-  use {'joker1007/vim-markdown-quote-syntax', ft = 'markdown'}
-
   -- colorschemes plugin {{{
   use 'glepnir/zephyr-nvim'
   use 'projekt0n/github-nvim-theme'
@@ -154,7 +150,6 @@ return require('packer').startup(function(use)
   use 'haya14busa/incsearch.vim'
   use 'eugen0329/vim-esearch'
 
-  use 'vim-scripts/SQLUtilities'
   use 'exu/pgsql.vim'
 
   use 'AndrewRadev/switch.vim'
@@ -199,7 +194,10 @@ return require('packer').startup(function(use)
   -- finder {{{
   use {
     'nvim-telescope/telescope.nvim',  branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { {'nvim-lua/plenary.nvim'} },
+    config = function()
+      require'my-telescope-setup'
+    end
   }
   -- }}}
 
