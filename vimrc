@@ -96,21 +96,13 @@ call dein#add('shaunsingh/nord.nvim')
 " ruby rails develop {{{
 call dein#add('tpope/vim-rails')
 call dein#add('vim-ruby/vim-ruby')
-"call dein#add('noprompt/vim-yardoc')
 call dein#add('thinca/vim-quickrun', {'depends' : 'vimproc'})
 
 call dein#add('leafgarland/typescript-vim')
 " }}}
 
-" ref {{{
-call dein#add('thinca/vim-ref')
-call dein#add('taka84u9/vim-ref-ri')
-" }}}
-
 " vim-scripts {{{
 call dein#add('vim-scripts/surround.vim')
-call dein#add('LeafCage/yankround.vim')
-" call dein#add('vim-scripts/grep.vim'
 call dein#add('vim-scripts/errormarker.vim')
 "}}}
 
@@ -125,7 +117,6 @@ call dein#add('kana/vim-textobj-indent')
 
 " html template {{{
 call dein#add('mattn/emmet-vim', {'on_i' : 1})
-call dein#add('digitaltoad/vim-jade')
 call dein#add('slim-template/vim-slim')
 call dein#add('tpope/vim-haml')
 call dein#add('nono/vim-handlebars')
@@ -137,6 +128,7 @@ call dein#add('lukas-reineke/indent-blankline.nvim')
 call dein#add('LeafCage/foldCC')
 call dein#add('nvim-lualine/lualine.nvim')
 call dein#add('nanozuki/tabby.nvim')
+call dein#add('NvChad/nvim-colorizer.lua')
 call dein#add('osyo-manga/vim-over', {
       \ 'on_cmd' : ['OverCommandLine', 'OverCommandLineNoremap', 'OverCommandLineMap', 'OverCommandLineUnmap']
 \})
@@ -144,9 +136,6 @@ call dein#add('osyo-manga/vim-over', {
 
 " haskell develop {{{
 call dein#add('dag/vim2hs')
-call dein#add('pbrisbin/html-template-syntax')
-
-call dein#add('eagletmt/ghcmod-vim', {'on_ft' : [ "haskell" ]})
 " }}}
 
 " web browse, api {{{
@@ -194,16 +183,10 @@ call dein#add('elixir-lang/vim-elixir')
 call dein#add('fatih/vim-go')
 call dein#add('rhysd/devdocs.vim')
 call dein#add('othree/html5.vim')
-call dein#add('JulesWang/css.vim')
 call dein#add('moskytw/nginx-contrib-vim')
-call dein#add('supermomonga/shiraseru.vim', {'depends' : 'vimproc'})
 call dein#add('osyo-manga/shabadou.vim')
 call dein#add('joker1007/quickrun-rspec-notifier', {'depends' : 'vim-quickrun'})
 call dein#add('superbrothers/vim-quickrun-markdown-gfm', {'on_ft': 'markdown'})
-call dein#add('kana/vim-metarw')
-call dein#add('joker1007/vim-metarw-qiita')
-call dein#add('joker1007/vim-metarw-github-issues')
-call dein#add('NvChad/nvim-colorizer.lua')
 call dein#add('mattn/httpstatus-vim')
 call dein#add('tmux-plugins/vim-tmux')
 call dein#add('haya14busa/incsearch.vim')
@@ -217,10 +200,6 @@ call dein#add('exu/pgsql.vim')
 call dein#add('AndrewRadev/switch.vim', {
 \   'on_cmd' : [ "Switch" ],
 \   'on_func' : [ "switch#Switch" ],
-\})
-
-call dein#add('sjl/gundo.vim', {
-\   'on_cmd' : [ "GundoShow", "GundoToggle" ]
 \})
 
 call dein#add('kana/vim-altr', {
@@ -279,10 +258,6 @@ if has('nvim')
   call dein#add('ldelossa/litee.nvim')
   call dein#add('ldelossa/gh.nvim')
 endif
-
-call dein#add('mattn/gist-vim', {
-\     'on_cmd' : [ "Gist" ]
-\})
 
 call dein#add('lambdalisue/vim-gista', {
 \     'on_cmd' : [ "Gista" ]
@@ -830,21 +805,30 @@ if dein#tap('nvim-treesitter')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "c",
-    "lua",
-    "rust",
-    "java",
-    "scala",
-    "json",
-    "typescript",
-    "tsx",
     "bash",
+    "c",
+    "cmake",
+    "cpp",
     "css",
+    "dockerfile",
     "html",
+    "java",
     "javascript",
+    "json",
+    "lua",
+    "make",
+    "perl",
+    "php",
+    "proto",
+    "rst",
     "ruby",
-    "yaml",
+    "rust",
+    "scala",
+    "sql",
+    "tsx",
+    "typescript",
     "vim",
+    "yaml",
   }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
@@ -1142,28 +1126,6 @@ let g:vista_executive_for = {
 nnoremap <silent> <leader>v :<C-U>Vista!!<CR>
 " }}}
 
-" Gist.vim {{{
-nnoremap [gist] <Nop>
-nmap ,s [gist]
-nnoremap [gist]g :Gist<CR>
-nnoremap [gist]p :Gist -p<CR>
-nnoremap [gist]e :Gist -e<CR>
-nnoremap [gist]d :Gist -d<CR>
-nnoremap [gist]l :Gist -l<CR>
-
-if dein#tap('gist-vim')
-  if has("mac")
-    let g:gist_clip_command = 'pbcopy'
-  elseif has("unix")
-    let g:gist_clip_command = 'xclip -selection clipboard'
-  endif
-
-  let g:gist_detect_filetype = 1
-  let g:gist_open_browser_after_post = 1
-  let g:gist_show_privates = 1
-endif
-" }}}
-
 " Fugitive {{{
 nnoremap [git] <Nop>
 nmap ,g [git]
@@ -1259,7 +1221,7 @@ nnoremap ,rl :<C-u>Rlog<Space>
 
 " For snippet_complete marker.
 if has('conceal')
-  set conceallevel=2 concealcursor=i
+  set conceallevel=1
 endif
 
 " neosnippet {{{
@@ -1469,9 +1431,6 @@ function! s:align()
   endif
 endfunction
 
-" gundo
-nnoremap U :<C-U>GundoToggle<CR>
-
 " qfreplace
 MyAutocmd FileType qf nnoremap <buffer> r :<C-U>Qfreplace<CR>
 
@@ -1502,80 +1461,6 @@ nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 "}}}
-
-" ruby buffer
-if has('ruby')
-    nnoremap <silent> [space]r :set operatorfunc=Ruby<CR>g@
-    nnoremap <silent> [space]rr :call RubyLines()<CR>
-    nmap [space]R [space]r$
-    nnoremap <silent> [space]rp :<C-u>call RubyPaste()<CR>
-
-    xnoremap <silent> [space]r :<C-u>call Ruby(visualmode(), 1)<CR>
-    xnoremap <silent> [space]R :<C-u>call Ruby('V', 1)<CR>
-
-    command! -range Ruby :<line1>,<line2>call RubyLines()
-    command! -range RubyPaste :<line1>,<line2>call RubyPaste()
-
-    let s:ruby_buffer = ""
-
-    ruby <<RUBY
-class VimRuby
-    @@binding = binding
-
-    def VimRuby.evaluate(code)
-        result = eval(code, @@binding)
-
-        if result.instance_of?(String)
-            str = result.gsub(/"/, '\\"')
-            VIM.command(%(let s:ruby_buffer = "#{str}" . "\n"))
-        else
-            str = result.inspect.gsub(/"/, '\\"')
-            VIM.command(%(let s:ruby_buffer = '#{str}' . "\n"))
-        end
-
-        return result
-    end
-end
-RUBY
-
-    function! RubyEval(code)
-        ruby p VimRuby.evaluate(VIM.evaluate("a:code"))
-    endfunction
-
-    function! Ruby(type, ...)
-        let saved_sel = &selection
-        let &selection = "inclusive"
-        let saved_reg = @*
-
-        if a:0
-            silent exe "normal! `<" . a:type . "`>y"
-        elseif a:type == 'line'
-            silent exe "normal! '[V']y"
-        elseif a:type == 'block'
-            silent exe "normal! `[\<C-v>`]y"
-        else
-            silent exe "normal! `[v`]y"
-        endif
-
-        call RubyEval(@*)
-
-        let &selection = saved_sel
-        let @* = saved_reg
-    endfunction
-
-    function! RubyLines() range
-        let lines = getline(a:firstline, a:lastline)
-        let code = join(lines, "\n")
-        call RubyEval(code)
-    endfunction
-
-    function! RubyPaste()
-        let saved_reg = @*
-        let @* = s:ruby_buffer
-        normal! p
-        let @* = saved_reg
-    endfunction
-endif
 
 " TweetVim {{{
 nnoremap <silent> S :<C-u>TweetVimSay<CR>
@@ -1674,13 +1559,6 @@ let dbext_default_profile = 'redshift'
 let dbext_default_profile_redshift = 'type=PGSQL'
 let dbext_default_profile_mysql = 'type=MYSQL'
 let g:rails_no_dbext = 1
-
-" vim-metarw-qiita
-let g:qiita_user = "joker1007"
-let g:qiita_per_page = 50
-
-" vim-metarw-github-issues
-let g:github_user = "joker1007"
 
 " vim-json
 let g:vim_json_syntax_conceal = 0
