@@ -71,11 +71,46 @@ return require('packer').startup(function(use)
   -- }}}
 
   -- visibility {{{
-  use 'lukas-reineke/indent-blankline.nvim'
+  use {'lukas-reineke/indent-blankline.nvim', config = function()
+    require("indent_blankline").setup({
+      char_highlight_list = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+      },
+      show_current_context = true,
+    })
+  end}
+
   use 'LeafCage/foldCC'
-  use 'nvim-lualine/lualine.nvim'
-  use 'nanozuki/tabby.nvim'
-  use 'NvChad/nvim-colorizer.lua'
+
+  use {'nvim-lualine/lualine.nvim', config = function()
+    require'my-lualine-setup'
+  end}
+
+  use {'nanozuki/tabby.nvim', config = function()
+    require("tabby").setup({
+      tabline = require("tabby.presets").active_wins_at_end,
+    })
+  end}
+
+  use {'NvChad/nvim-colorizer.lua', config = function()
+    require'colorizer'.setup(
+      {}, 
+      {
+        RGB      = true;         -- #RGB hex codes
+        RRGGBB   = true;         -- #RRGGBB hex codes
+        names    = true;         -- "Name" codes like Blue oe blue
+        RRGGBBAA = false;        -- #RRGGBBAA hex codes
+        rgb_fn   = true;        -- CSS rgb() and rgba() functions
+        hsl_fn   = false;        -- CSS hsl() and hsla() functions
+        css      = false;        -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn   = false;        -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Available modes: foreground, background, virtualtext
+        mode     = 'background'; -- Set the display mode.
+      }
+    )
+  end}
   use 'osyo-manga/vim-over'
 -- }}}
 
@@ -90,7 +125,9 @@ return require('packer').startup(function(use)
   -- }}}
 
   -- other programinng {{{
-  use 'nvim-treesitter/nvim-treesitter'
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
+    require'my-treesitter-setup'
+  end}
   use 'andymass/vim-matchup'
   use 'godlygeek/tabular'
   use 'dense-analysis/ale'
@@ -143,7 +180,9 @@ return require('packer').startup(function(use)
   -- git {{{
   use 'tpope/vim-fugitive'
   use 'rbong/vim-flog'
-  use 'lewis6991/gitsigns.nvim'
+  use {'lewis6991/gitsigns.nvim', config = function()
+    require('gitsigns').setup({numhl = true})
+  end}
   use 'ldelossa/litee.nvim'
   use 'ldelossa/gh.nvim'
 
@@ -155,6 +194,13 @@ return require('packer').startup(function(use)
 
   use 'Shougo/denite.nvim'
   use 'liuchengxu/vista.vim'
+  -- }}}
+
+  -- finder {{{
+  use {
+    'nvim-telescope/telescope.nvim',  branch = '0.1.x',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   -- }}}
 
   -- completion {{{
@@ -172,5 +218,7 @@ return require('packer').startup(function(use)
   use 'brettanomyces/nvim-editcommand'
   use {'euclio/vim-markdown-composer', run = 'cargo build --release'}
   use 'subnut/nvim-ghost.nvim'
-  use 'kyazdani42/nvim-tree.lua'
+  use {'kyazdani42/nvim-tree.lua', config = function()
+    require'my-nvim-tree-setup'
+  end}
 end)

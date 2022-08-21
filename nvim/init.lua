@@ -52,13 +52,13 @@ vim.keymap.set('n', '<Space>', '[space]', {remap = true})
 vim.keymap.set('x', '<Space>', '[space]', {remap = true})
 
 -- Edit vimrc
-vim.keymap.set('n', '[space]v', function() vim.cmd("edit " .. vim.env.MYVIMRC) end)
+vim.keymap.set('n', '[space]v', function() vim.cmd[[edit ~/.config/nvim/init.lua]] end)
 
 -- Reload vimrc"{{{
 vim.api.nvim_create_user_command(
   'ReloadVimrc',
   function()
-    vim.fn.source(vim.env.MYVIMRC)
+    vim.fn.source('~/.config/nvim/init.lua')
     print "Reload vimrc"
   end,
   {}
@@ -228,85 +228,6 @@ vim.keymap.set('n', '[space]p', ':<C-U>bprevious<CR>')
 -- NERDCommenter
 vim.g.NERDSpaceDelims = 1
 
--- nvim-tree {{{
-require'nvim-tree'.setup {
-  disable_netrw       = true,
-  hijack_netrw        = true,
-  open_on_setup       = false,
-  ignore_ft_on_setup  = {},
-  hijack_directories  = {
-    enable = true,
-    auto_open = true,
-  },
-  open_on_tab         = false,
-  hijack_cursor       = false,
-  update_cwd          = true,
-  diagnostics         = {
-    enable = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    }
-  },
-  update_focused_file = {
-    enable      = false,
-    update_cwd  = false,
-    ignore_list = {}
-  },
-  system_open = {
-    cmd  = nil,
-    args = {}
-  },
-  view = {
-    width = 36,
-    height = 30,
-    side = 'left',
-    mappings = {
-      custom_only = false,
-      list = {}
-    }
-  },
-  actions = {
-    use_system_clipboard = true,
-    change_dir = {
-      enable = true,
-      global = false,
-      restrict_above_cwd = false,
-    },
-    expand_all = {
-      max_folder_discovery = 300,
-      exclude = {},
-    },
-    open_file = {
-      quit_on_open = false,
-      resize_window = false,
-      window_picker = {
-        enable = true,
-        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-        exclude = {
-          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-          buftype = { "nofile", "terminal", "help" },
-        },
-      },
-    },
-    remove_file = {
-      close_window = true,
-    },
-  },
-  filters = {
-    dotfiles = false,
-    custom = {}
-  }
-}
-
-vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>')
-vim.keymap.set('n', '<leader>tr', ':NvimTreeRefresh<CR>')
-vim.keymap.set('n', '<leader>tf', ':NvimTreeFindFile<CR>')
--- }}}
-
-
 -- smartchr {{{
 vim.cmd[[
 function! s:EnableSmartchrBasic()
@@ -352,70 +273,6 @@ endfunction
 autocmd vimrc BufWritePost * call s:ChangeShellScriptPermission()
 ]]
 -- }}}
-
--- treesitter {{{
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    "bash",
-    "c",
-    "cmake",
-    "cpp",
-    "css",
-    "dockerfile",
-    "html",
-    "java",
-    "javascript",
-    "json",
-    "lua",
-    "make",
-    "perl",
-    "php",
-    "proto",
-    "rst",
-    "ruby",
-    "rust",
-    "scala",
-    "sql",
-    "tsx",
-    "typescript",
-    "vim",
-    "yaml",
-  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { "markdown" },
-  },
-  incremental_selection = {
-    enable = true,
-    disable = { "markdown" },
-  },
-  indent = {
-    enable = true,
-    disable = { "markdown" },
-  },
-  matchup = {
-    enable = true,
-    disable = { "markdown" },
-  },
-}
--- }}}
-
--- colorizer
-require'colorizer'.setup(
-  {}, 
-  {
-    RGB      = true;         -- #RGB hex codes
-    RRGGBB   = true;         -- #RRGGBB hex codes
-    names    = true;         -- "Name" codes like Blue oe blue
-    RRGGBBAA = false;        -- #RRGGBBAA hex codes
-    rgb_fn   = true;        -- CSS rgb() and rgba() functions
-    hsl_fn   = false;        -- CSS hsl() and hsla() functions
-    css      = false;        -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-    css_fn   = false;        -- Enable all CSS *functions*: rgb_fn, hsl_fn
-    -- Available modes: foreground, background, virtualtext
-    mode     = 'background'; -- Set the display mode.
-  }
-)
 
 -- TOhtml
 vim.g.html_number_lines = 0
@@ -581,7 +438,7 @@ function! DeniteMySettings() abort
 endfunction
 autocmd FileType denite-filter call DeniteFilterSettings()
 function! DeniteFilterSettings() abort
-  call deoplete#custom#buffer_option('auto_complete', v:false)
+  " call deoplete#custom#buffer_option('auto_complete', v:false)
   imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
   imap <silent><buffer> <Esc>       <Plug>(denite_filter_quit)
 endfunction
@@ -676,53 +533,8 @@ require('litee.gh').setup({
 })
 -- }}}
 
--- gitsignes.nvim
-require('gitsigns').setup({
-  numhl = true,
-})
-
--- lualine.nvim
-require('lualine').setup {
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {
-      'branch',
-      {'diff', colored = true, diff_color = {added = 'DiffAdd', modified = 'DiffChange', removed = 'DiffDelete'}},
-      {'diagnostics', sources = {'ale'}, colored = true, diagnostics_color = {error = 'DiagnosticError', warn = 'DiagnosticWarn', info = 'DiagnosticInfo', hint = 'DiagnosticHint'}, symbols = {error = 'E:', warn = 'W:', info = 'I:', hint = 'H:'}}},
-    lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  extensions = {'quickfix', 'nvim-tree', 'fugitive'}
-}
--- }}}
-
--- tabby {{{
-require("tabby").setup({
-    tabline = require("tabby.presets").active_wins_at_end,
-})
--- }}}
-
 
 -- indent-blankline {{{
-require("indent_blankline").setup({
-    char_highlight_list = {
-        "IndentBlanklineIndent1",
-        "IndentBlanklineIndent2",
-        "IndentBlanklineIndent3",
-    },
-    show_current_context = true,
-})
-
 vim.cmd[[hi IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
 vim.cmd[[hi IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
 vim.cmd[[hi IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
