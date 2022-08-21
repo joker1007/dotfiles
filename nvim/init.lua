@@ -184,12 +184,6 @@ vim.keymap.set('n', ",'", "csw'", {remap = true})
 vim.keymap.set('n', ',"', 'csw"', {remap = true})
 --}}}
 
--- Insert Mode Mapping {{{
-vim.keymap.set('i', '<C-E>', '<END>')
-vim.keymap.set('i', '<C-A>', '<HOME>')
-
--- }}}
-
 -- from http://vim-users.jp/2011/04/hack214/ {{{
 vim.keymap.set('v', '(', 't(', {remap = true})
 vim.keymap.set('v', ')', 't)', {remap = true})

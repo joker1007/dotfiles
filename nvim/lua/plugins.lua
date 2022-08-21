@@ -175,7 +175,7 @@ return require('packer').startup(function(use)
   -- git {{{
   use 'tpope/vim-fugitive'
   use 'rbong/vim-flog'
-  use {'lewis6991/gitsigns.nvim', config = function()
+ use {'lewis6991/gitsigns.nvim', config = function()
     require('gitsigns').setup({numhl = true})
   end}
   use 'ldelossa/litee.nvim'
@@ -194,14 +194,43 @@ return require('packer').startup(function(use)
   -- finder {{{
   use {
     'nvim-telescope/telescope.nvim',  branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} },
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-project.nvim',
+      'cljoly/telescope-repo.nvim',
+      'xiyaowong/telescope-emoji.nvim',
+      'benfowler/telescope-luasnip.nvim',
+    },
     config = function()
       require'my-telescope-setup'
+      require'telescope'.load_extension('project')
+      require'telescope'.load_extension('repo')
+      require'telescope'.load_extension('emoji')
+      require'telescope'.load_extension('luasnip')
     end
   }
   -- }}}
 
   -- completion {{{
+  use {
+    'L3MON4D3/LuaSnip',
+    requires = {
+      'rafamadriz/friendly-snippets'
+    },
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+      vim.cmd[[
+        " press <Tab> to expand or jump in a snippet. These can also be mapped separately
+        " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+        imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+        " -1 for jumping backwards.
+        inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+        snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+        snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+      ]]
+    end
+  }
   -- use 'Shougo/deoplete.nvim'
   -- }}}
 

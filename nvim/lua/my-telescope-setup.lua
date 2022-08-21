@@ -5,7 +5,16 @@ vim.keymap.set('n', ',sb', function() require('telescope.builtin').buffers() end
 vim.keymap.set('n', ',sh', function() require('telescope.builtin').help_tags() end)
 vim.keymap.set('n', ',sz', function() require('telescope.builtin').current_buffer_fuzzy_find() end)
 vim.keymap.set('n', ',sc', function() require('telescope.builtin').git_commits() end)
-vim.keymap.set('n', ',sl', function() require('telescope.builtin').git_commits() end)
+vim.keymap.set('n', ',sl', function() require('telescope.builtin').git_bcommits() end)
+
+vim.keymap.set('n', ',st', function() require('telescope.builtin').treesitter() end)
+
+vim.keymap.set('n', '<C-p>', function() require'telescope'.extensions.project.project{} end, {silent = true})
+vim.keymap.set('n', ',sr', function() require'telescope'.extensions.repo.list{} end)
+vim.keymap.set('n', ',se', function() require'telescope'.extensions.emoji.emoji{} end)
+
+vim.keymap.set('n', ',ss', function() require'telescope'.extensions.luasnip.luasnip{} end)
+vim.keymap.set('i', '<C-E>', function() require'telescope'.extensions.luasnip.luasnip{} end, {silent = true})
 
 require('telescope').setup{
   defaults = {
