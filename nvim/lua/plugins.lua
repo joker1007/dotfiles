@@ -15,7 +15,6 @@ return require('packer').startup(function(use)
 
   use 'thinca/vim-prettyprint'
   use 'mhinz/vim-startify'
-  use 'hecal3/vim-leader-guide'
   use 'kyazdani42/nvim-web-devicons'
   use 'junegunn/vim-emoji'
 
@@ -77,6 +76,36 @@ return require('packer').startup(function(use)
       },
       show_current_context = true,
     })
+  end}
+
+  use {'kevinhwang91/nvim-hlslens', config = function()
+    local kopts = {noremap = true, silent = true}
+
+    vim.api.nvim_set_keymap('n', 'n',
+      [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+      kopts)
+    vim.api.nvim_set_keymap('n', 'N',
+      [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+      kopts)
+    vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+    require("hlslens").setup({
+      build_position_cb = function(plist, _, _, _)
+        require("scrollbar.handlers.search").handler.show(plist.start_pos)
+      end,
+    })
+    vim.cmd([[
+      augroup scrollbar_search_hide
+      autocmd!
+      autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
+      augroup END
+    ]])
+  end}
+  use {'petertriho/nvim-scrollbar', config = function()
+    require("scrollbar").setup()
   end}
 
   use 'LeafCage/foldCC'
@@ -147,16 +176,25 @@ return require('packer').startup(function(use)
   use 'osyo-manga/shabadou.vim'
   use 'mattn/httpstatus-vim'
   use 'tmux-plugins/vim-tmux'
-  use 'haya14busa/incsearch.vim'
-  use 'eugen0329/vim-esearch'
+  use {'windwp/nvim-spectre', requires = {'nvim-lua/plenary.nvim'}, config = function()
+    vim.keymap.set('n', '<leader>S', function() require('spectre').open() end)
+
+    -- search current word
+    vim.keymap.set('n', '<leader>sw', function() require('spectre').open_visual({select_word=true}) end)
+    vim.keymap.set('v', '<leader>s', function() require('spectre').open_visual() end)
+    -- search in current file
+    vim.keymap.set('n', '<leader>sp', function() require('spectre').open_file_search() end)
+
+    require('spectre').setup({
+      live_update = true,
+    })
+  end}
 
   use 'exu/pgsql.vim'
 
   use 'AndrewRadev/switch.vim'
 
   use 'kana/vim-altr'
-
-  use 'osyo-manga/vim-anzu'
 
   -- tweetvim {{{
   use 'basyura/bitly.vim'
@@ -167,7 +205,19 @@ return require('packer').startup(function(use)
   -- cursor move {{{
   use 'thinca/vim-visualstar'
 
-  use 'Lokaltog/vim-easymotion'
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2',
+    config = function()
+      vim.keymap.set('', '<leader><leader>f', function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true }) end)
+      vim.keymap.set('', '<leader><leader>F', function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true }) end)
+      vim.keymap.set('', '<leader><leader>w', function() require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end)
+      vim.keymap.set('', '<leader><leader>W', function() require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end)
+      vim.keymap.set('', '<leader><leader>/', function() require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end)
+      vim.keymap.set('', '<leader><leader>?', function() require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end)
+      require'hop'.setup {}
+    end
+  }
   use 't9md/vim-choosewin'
   use 'sunjon/shade.nvim'
   -- }}}

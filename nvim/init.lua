@@ -7,11 +7,6 @@ vim.cmd[[packadd termdebug]]
 vim.g.termdebug_useFloatingHover = 1
 vim.g.termdebug_wide = 160
 
--- vim-leader-guide
-vim.g.lmap =  {}
-vim.keymap.set('', '<leader><leader>', '<Plug>leaderguide-global')
-vim.g.leaderGuide_default_group_name = "+group"
-
 vim.cmd[[
 augroup vimrc
 augroup END
@@ -659,12 +654,6 @@ vim.g.ale_cache_executable_check_failures = 1
 -- ag.vim
 vim.g.ag_prg="ag --vimgrep --smart-case"
 
--- vim-anzu {{{
-vim.keymap.set('n', 'n', '<Plug>(anzu-n-with-echo)', {remap = true})
-vim.keymap.set('n', 'N', '<Plug>(anzu-N-with-echo)', {remap = true})
-vim.keymap.set('n', '*', '<Plug>(anzu-star-with-echo)', {remap = true})
-vim.keymap.set('n', '#', '<Plug>(anzu-sharp-with-echo)', {remap = true})
---}}}
 
 -- TweetVim {{{
 vim.keymap.set('n', 'S', ':<C-u>TweetVimSay<CR>', {silent = true})
@@ -736,10 +725,6 @@ vim.keymap.set('n', ',tag', ':<C-U>TtoggleAll<cr>')
 vim.cmd[[command! -nargs=+ Tg :T git <args>]]
 -- }}}
 
--- incsearch.vim
-vim.keymap.set('n', '/',  '<Plug>(incsearch-forward)', {remap = true})
-vim.keymap.set('n', '?',  '<Plug>(incsearch-backward)', {remap = true})
-vim.keymap.set('n', 'g/', '<Plug>(incsearch-stay)', {remap = true})
 
 -- markdown-composer
 vim.g.markdown_composer_autostart = 0
