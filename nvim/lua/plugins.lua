@@ -34,6 +34,7 @@ return require('packer').startup(function(use)
   use 'glepnir/zephyr-nvim'
   use 'projekt0n/github-nvim-theme'
   use 'shaunsingh/nord.nvim'
+  use {"EdenEast/nightfox.nvim", run = ":NightfoxCompile",}
   -- }}}
 
   -- ruby rails develop {{{
@@ -120,7 +121,6 @@ return require('packer').startup(function(use)
   use {'kannokanno/previm', ft = 'markdown'}
   -- }}}
 
-  -- other programinng {{{
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
     require'my-treesitter-setup'
   end}
@@ -231,12 +231,42 @@ return require('packer').startup(function(use)
       ]]
     end
   }
-  -- use 'Shougo/deoplete.nvim'
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lua',
+    },
+    config = function ()
+      require'cmp'.setup {
+        snippet = {
+          expand = function(args)
+            require'luasnip'.lsp_expand(args.body)
+          end
+        },
+
+        sources = {
+          {name = 'path'},
+          {name = 'buffer', option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end
+          }},
+          {name = 'nvim_lua'},
+          {name = 'luasnip'},
+        },
+      }
+    end
+  }
   -- }}}
 
   use 'mattn/vim-sonots'
-
-  -- }}}
 
   -- neovim {{{
   use 'equalsraf/neovim-gui-shim'
