@@ -34,6 +34,7 @@ vim.opt.updatetime=1000
 vim.opt.mouse='a'
 vim.opt.cursorline=true
 vim.opt.conceallevel=1
+vim.opt.undofile=true
 
 -- swap ; and :
 vim.keymap.set('n', ';', ':')
@@ -494,10 +495,10 @@ vim.keymap.set('n', '<leader>v', ':<C-U>Vista!!<CR>', {silent = true})
 -- Fugitive {{{
 vim.keymap.set('n', '[git]', '<Nop>')
 vim.keymap.set('n', ',g', '[git]', {remap = true})
-vim.keymap.set('n', '[git]d', ':<C-u>Gdiffsplit HEAD<CR>')
+vim.keymap.set('n', '[git]d', ':<C-u>DiffviewOpen<CR>')
 vim.keymap.set('n', '[git]s', ':<C-u>Git<CR>')
 vim.keymap.set('n', '[git]l', ':<C-u>Gclog HEAD~20..HEAD<CR>')
-vim.keymap.set('n', '[git]L', ':<C-u>0Gclog<CR>')
+vim.keymap.set('n', '[git]h', ':<C-u>DiffviewFileHistory %<CR>')
 vim.keymap.set('n', '[git]a', ':<C-u>Gwrite<CR>')
 vim.keymap.set('n', '[git]c', ':<C-u>Git commit<CR>')
 vim.keymap.set('n', '[git]C', ':<C-u>Git commit --amend<CR>')
@@ -678,7 +679,7 @@ vim.keymap.set('n', '<F9>', ':TREPLSendLine<cr>')
 vim.keymap.set('v', '<F9>', ':TREPLSendSelection<cr>')
 --- }}}
 
--- nvim-editcommand {{{
+-- nvim-editcommand
 vim.g.editcommand_prompt = '%'
 
 -- Useful maps

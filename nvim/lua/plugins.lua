@@ -7,7 +7,7 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  use 'tyru/eskk.vim'
+  use {'tyru/eskk.vim', event = {'InsertEnter'}}
   use 'tyru/skkdict.vim'
 
   use 'kyazdani42/nvim-web-devicons'
@@ -28,7 +28,13 @@ return require('packer').startup(function(use)
     end
   }
 
-  use 'mhinz/vim-startify'
+  use {
+    'goolord/alpha-nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function ()
+      require'alpha'.setup(require'alpha.themes.startify'.config)
+    end
+  }
 
   -- filetype plugins {{{
   use 'moro/vim-review'
@@ -144,7 +150,12 @@ return require('packer').startup(function(use)
   use {
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
-    setup = function()
+    config = function()
+      require("trouble").setup({
+        auto_open = true,
+        auto_close = true,
+      })
+
       vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>",
         {silent = true, noremap = true}
       )
@@ -163,12 +174,6 @@ return require('packer').startup(function(use)
       vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
         {silent = true, noremap = true}
       )
-    end,
-    config = function()
-      require("trouble").setup({
-        auto_open = true,
-        auto_close = true,
-      })
     end
   }
 
@@ -228,6 +233,9 @@ return require('packer').startup(function(use)
   use 'ldelossa/gh.nvim'
 
   use {'lambdalisue/vim-gista', cmd = {"Gista"}}
+  use {'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function()
+    require'diffview'.setup()
+  end}
   -- }}}
 
   -- denite {{{
@@ -264,6 +272,7 @@ return require('packer').startup(function(use)
       'cljoly/telescope-repo.nvim',
       'xiyaowong/telescope-emoji.nvim',
       'benfowler/telescope-luasnip.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
     },
     config = function()
       require'my-telescope-setup'
@@ -271,6 +280,7 @@ return require('packer').startup(function(use)
       require'telescope'.load_extension('repo')
       require'telescope'.load_extension('emoji')
       require'telescope'.load_extension('luasnip')
+      require'telescope'.load_extension('file_browser')
     end
   }
 
@@ -321,6 +331,7 @@ return require('packer').startup(function(use)
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-emoji',
       'nvim-lua/plenary.nvim', -- required by cmp-git
       'petertriho/cmp-git',
     },
@@ -348,6 +359,7 @@ return require('packer').startup(function(use)
           {name = 'luasnip'},
           {name = 'cmdline'},
           {name = 'git'},
+          {name = 'emoji'},
         }),
 
         mapping = cmp.mapping.preset.insert({
@@ -386,11 +398,24 @@ return require('packer').startup(function(use)
 
   use 'kassio/neoterm'
   use 'janko-m/vim-test'
+
+  use {'nikvdp/neomux', cmd = "Neomux", keys = '\\sh'}
   -- }}}
 
-  use 'mattn/vim-sonots'
+  use {'mattn/vim-sonots', cmd = "Sonots"}
 
   -- other utils {{{
+  use {
+    "danymat/neogen",
+    config = function()
+      require('neogen').setup {
+        snippet_engine = "luasnip",
+      }
+      vim.keymap.set("n", "<Leader>nf", function() require('neogen').generate() end, {silent = true})
+    end,
+    requires = "nvim-treesitter/nvim-treesitter",
+    tag = "*",
+  }
   use 'kana/vim-submode'
   use 'simeji/winresizer'
 
@@ -400,7 +425,7 @@ return require('packer').startup(function(use)
   use 'Shougo/vinarise.vim'
 
   use {'thinca/vim-qfreplace', ft = {'qf'}}
-  use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+  use {'kevinhwang91/nvim-bqf', ft = {'qf'}}
   use 'rhysd/devdocs.vim'
   use 'osyo-manga/shabadou.vim'
   use 'mattn/httpstatus-vim'
