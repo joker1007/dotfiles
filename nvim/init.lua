@@ -42,12 +42,9 @@ vim.keymap.set('n', ';', ':')
 vim.keymap.set('n', ':', ';')
 
 -- Space prefix
-vim.keymap.set('n', '[space]', '<Nop>')
-vim.keymap.set('n', '<Space>', '[space]', {remap = true})
-vim.keymap.set('x', '<Space>', '[space]', {remap = true})
 
 -- Edit vimrc
-vim.keymap.set('n', '[space]v', function() vim.cmd[[edit ~/.config/nvim/init.lua]] end)
+vim.keymap.set('n', '<space>v', function() vim.cmd[[edit ~/.config/nvim/init.lua]] end)
 
 -- Reload vimrc"{{{
 vim.api.nvim_create_user_command(
@@ -81,7 +78,7 @@ vim.opt.ignorecase=true
 vim.opt.smartcase=true
 vim.opt.wrapscan=true
 vim.cmd[[nohlsearch]] -- reset highlight
-vim.keymap.set('n', '[space]/', ':noh<CR>', {silent = true})
+vim.keymap.set('n', '<space>/', ':noh<CR>', {silent = true})
 vim.keymap.set('n', '*', '<Plug>(visualstar-*)N', {remap = true})
 vim.keymap.set('n', '#', '<Plug>(visualstar-#)N', {remap = true})
 
@@ -211,8 +208,8 @@ vim.cmd[[au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8]]
 vim.cmd[[autocmd! vimrc BufNewFile,BufRead *.avsc set filetype=json]]
 
 -- バッファ切り替え {{{
-vim.keymap.set('n', '[space]n', ':<C-U>bnext<CR>')
-vim.keymap.set('n', '[space]p', ':<C-U>bprevious<CR>')
+vim.keymap.set('n', '<space>n', ':<C-U>bnext<CR>')
+vim.keymap.set('n', '<space>p', ':<C-U>bprevious<CR>')
 -- }}}
 
 
@@ -362,8 +359,8 @@ command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 -- }}}
 
 -- vim-test
-vim.keymap.set('n', '[space]tn', ':TestNearest<cr>')
-vim.keymap.set('n', '[space]tf', ':TestFile<cr>')
+vim.keymap.set('n', '<space>tn', ':TestNearest<cr>')
+vim.keymap.set('n', '<space>tf', ':TestFile<cr>')
 
 vim.cmd[[let test#strategy = 'neoterm']]
 
@@ -642,7 +639,7 @@ vim.g.ag_prg="ag --vimgrep --smart-case"
 
 -- TweetVim {{{
 vim.keymap.set('n', 'S', ':<C-u>TweetVimSay<CR>', {silent = true})
-vim.keymap.set('n', '[space]tt', ':<C-u>TweetVimHomeTimeline<CR>', {silent = true})
+vim.keymap.set('n', '<space>tt', ':<C-u>TweetVimHomeTimeline<CR>', {silent = true})
 vim.g.tweetvim_tweet_per_page = 50
 vim.g.tweetvim_include_rts = 1
 vim.g.tweetvim_display_icon = 1

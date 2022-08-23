@@ -7,9 +7,10 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  use {'Shougo/vimproc', run = 'make'}
   use 'tyru/eskk.vim'
   use 'tyru/skkdict.vim'
+
+  use 'kyazdani42/nvim-web-devicons'
 
   use {
     'numToStr/Comment.nvim',
@@ -27,21 +28,29 @@ return require('packer').startup(function(use)
     end
   }
 
-  use 'thinca/vim-prettyprint'
   use 'mhinz/vim-startify'
-  use 'kyazdani42/nvim-web-devicons'
-  use 'junegunn/vim-emoji'
 
+  -- filetype plugins {{{
   use 'moro/vim-review'
   use 'cespare/vim-toml'
 
-  use 'kana/vim-submode'
+  use 'vim-ruby/vim-ruby'
+  use 'leafgarland/typescript-vim'
+  use 'rust-lang/rust.vim'
+  use 'elixir-editors/vim-elixir'
+  use 'fatih/vim-go'
+  use 'hashivim/vim-terraform'
+  use 'tmux-plugins/vim-tmux'
+  use 'moskytw/nginx-contrib-vim'
+  use 'exu/pgsql.vim'
+  -- }}}
 
-  use 'simeji/winresizer'
-
-  use 'plasticboy/vim-markdown'
-
+  -- markdown {{{
   use {'mattn/vim-maketable', ft = 'markdown'}
+  use 'plasticboy/vim-markdown'
+  use {'kannokanno/previm', ft = 'markdown'}
+  use {'euclio/vim-markdown-composer', run = 'cargo build --release'}
+  -- }}}
 
   -- colorschemes plugin {{{
   use 'glepnir/zephyr-nvim'
@@ -50,27 +59,14 @@ return require('packer').startup(function(use)
   use {"EdenEast/nightfox.nvim", run = ":NightfoxCompile",}
   -- }}}
 
-  -- ruby rails develop {{{
-  use 'tpope/vim-rails'
-  use 'vim-ruby/vim-ruby'
-  use 'thinca/vim-quickrun'
-
-  use 'leafgarland/typescript-vim'
-  -- }}}
-
-  -- vim-scripts {{{
-  use 'vim-scripts/surround.vim'
-  use 'vim-scripts/errormarker.vim'
-  -- }}}
-
   -- smartchr textobj {{{
+  use 'vim-scripts/surround.vim'
   use 'kana/vim-smartchr'
   use 'kana/vim-textobj-user'
   use 'kana/vim-niceblock'
   use {'nelstrom/vim-textobj-rubyblock', ft = 'ruby'}
   use 'kana/vim-textobj-indent'
   -- }}}
-
 
   -- html template {{{
   use 'mattn/emmet-vim'
@@ -80,7 +76,11 @@ return require('packer').startup(function(use)
   use 'juvenn/mustache.vim'
   -- }}}
 
-  -- visibility {{{
+  -- syntax, visibility {{{
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
+    require'my-treesitter-setup'
+  end}
+
   use {'lukas-reineke/indent-blankline.nvim',
     setup = function()
       vim.cmd[[hi IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
@@ -131,9 +131,46 @@ return require('packer').startup(function(use)
       augroup END
     ]])
   end}
+
   use {'petertriho/nvim-scrollbar', config = function()
-    require("scrollbar").setup()
+    require("scrollbar").setup({
+      handle = {
+        color = '#41AFEF',
+      },
+    })
+    require("scrollbar.handlers.search").setup()
   end}
+
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    setup = function()
+      vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+        {silent = true, noremap = true}
+      )
+    end,
+    config = function()
+      require("trouble").setup({
+        auto_open = true,
+        auto_close = true,
+      })
+    end
+  }
 
   use 'LeafCage/foldCC'
 
@@ -164,64 +201,16 @@ return require('packer').startup(function(use)
       }
     )
   end}
+
+  use 'octol/vim-cpp-enhanced-highlight'
+
   use 'osyo-manga/vim-over'
 -- }}}
-
-  -- haskell develop {{{
-  use 'dag/vim2hs'
-  -- }}}
 
   -- web browse, api {{{
   use 'tyru/open-browser.vim'
   use 'mattn/webapi-vim'
-  use {'kannokanno/previm', ft = 'markdown'}
   -- }}}
-
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require'my-treesitter-setup'
-  end}
-  use 'andymass/vim-matchup'
-  use 'godlygeek/tabular'
-  use 'dense-analysis/ale'
-  use 'rhysd/github-complete.vim'
-  use 'rhysd/ghpr-blame.vim'
-  use 'hashivim/vim-terraform'
-  use 'Shougo/vinarise.vim'
-  use {'autozimu/LanguageClient-neovim', branch = 'next', run = 'bash install.sh'}
-
-  use 'rking/ag.vim'
-  use {'thinca/vim-qfreplace', cmd = {'Qfreplace'}}
-  use 'octol/vim-cpp-enhanced-highlight'
-  use 'derekwyatt/vim-scala'
-  use 'rust-lang/rust.vim'
-  use 'derekwyatt/vim-sbt'
-  use 'elixir-lang/vim-elixir'
-  use 'fatih/vim-go'
-  use 'rhysd/devdocs.vim'
-  use 'othree/html5.vim'
-  use 'moskytw/nginx-contrib-vim'
-  use 'osyo-manga/shabadou.vim'
-  use 'mattn/httpstatus-vim'
-  use 'tmux-plugins/vim-tmux'
-  use {'windwp/nvim-spectre', requires = {'nvim-lua/plenary.nvim'}, config = function()
-    vim.keymap.set('n', '<leader>S', function() require('spectre').open() end)
-
-    -- search current word
-    vim.keymap.set('n', '<leader>sw', function() require('spectre').open_visual({select_word=true}) end)
-    vim.keymap.set('v', '<leader>s', function() require('spectre').open_visual() end)
-    -- search in current file
-    vim.keymap.set('n', '<leader>sp', function() require('spectre').open_file_search() end)
-
-    require('spectre').setup({
-      live_update = true,
-    })
-  end}
-
-  use 'exu/pgsql.vim'
-
-  use 'AndrewRadev/switch.vim'
-
-  use 'kana/vim-altr'
 
   -- tweetvim {{{
   use 'basyura/bitly.vim'
@@ -229,7 +218,25 @@ return require('packer').startup(function(use)
   use 'basyura/TweetVim'
   -- }}}
 
-  -- cursor move {{{
+  -- git {{{
+  use 'tpope/vim-fugitive'
+  use 'rbong/vim-flog'
+  use {'lewis6991/gitsigns.nvim', config = function()
+    require('gitsigns').setup({numhl = true})
+  end}
+  use 'ldelossa/litee.nvim'
+  use 'ldelossa/gh.nvim'
+
+  use {'lambdalisue/vim-gista', cmd = {"Gista"}}
+  -- }}}
+
+  -- denite {{{
+  use 'Shougo/neomru.vim'
+  use 'Shougo/denite.nvim'
+  -- }}}
+
+  -- search, finder {{{
+  use 'rking/ag.vim'
   use 'thinca/vim-visualstar'
 
   use {
@@ -246,28 +253,9 @@ return require('packer').startup(function(use)
     end
   }
   use 't9md/vim-choosewin'
-  -- }}}
 
-  -- git {{{
-  use 'tpope/vim-fugitive'
-  use 'rbong/vim-flog'
- use {'lewis6991/gitsigns.nvim', config = function()
-    require('gitsigns').setup({numhl = true})
-  end}
-  use 'ldelossa/litee.nvim'
-  use 'ldelossa/gh.nvim'
-
-  use {'lambdalisue/vim-gista', cmd = {"Gista"}}
-  -- }}}
-
-  -- denite {{{
-  use 'Shougo/neomru.vim'
-
-  use 'Shougo/denite.nvim'
   use 'liuchengxu/vista.vim'
-  -- }}}
 
-  -- finder {{{
   use {
     'nvim-telescope/telescope.nvim',  branch = '0.1.x',
     requires = {
@@ -285,9 +273,26 @@ return require('packer').startup(function(use)
       require'telescope'.load_extension('luasnip')
     end
   }
+
+  use {'windwp/nvim-spectre', requires = {'nvim-lua/plenary.nvim'}, config = function()
+    vim.keymap.set('n', '<leader>S', function() require('spectre').open() end)
+
+    -- search current word
+    vim.keymap.set('n', '<leader>sw', function() require('spectre').open_visual({select_word=true}) end)
+    vim.keymap.set('v', '<leader>s', function() require('spectre').open_visual() end)
+    -- search in current file
+    vim.keymap.set('n', '<leader>sp', function() require('spectre').open_file_search() end)
+
+    require('spectre').setup({
+      live_update = true,
+    })
+  end}
   -- }}}
 
-  -- completion {{{
+  -- completion, diagnostics {{{
+  use {'autozimu/LanguageClient-neovim', branch = 'next', run = 'bash install.sh'}
+  use 'dense-analysis/ale'
+
   use {
     'L3MON4D3/LuaSnip',
     requires = {
@@ -307,6 +312,7 @@ return require('packer').startup(function(use)
       ]]
     end
   }
+
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -315,6 +321,8 @@ return require('packer').startup(function(use)
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-cmdline',
+      'nvim-lua/plenary.nvim', -- required by cmp-git
+      'petertriho/cmp-git',
     },
     config = function ()
       local cmp = require'cmp'
@@ -339,6 +347,7 @@ return require('packer').startup(function(use)
           {name = 'nvim_lua'},
           {name = 'luasnip'},
           {name = 'cmdline'},
+          {name = 'git'},
         }),
 
         mapping = cmp.mapping.preset.insert({
@@ -365,20 +374,46 @@ return require('packer').startup(function(use)
             { name = 'cmdline' }
           })
       })
+
+      require'cmp_git'.setup()
     end
   }
   -- }}}
 
-  use 'mattn/vim-sonots'
+  -- terminal, execution {{{
+  use {'Shougo/vimproc', run = 'make'}
+  use 'thinca/vim-quickrun'
 
-  -- neovim {{{
-  use 'equalsraf/neovim-gui-shim'
   use 'kassio/neoterm'
   use 'janko-m/vim-test'
+  -- }}}
+
+  use 'mattn/vim-sonots'
+
+  -- other utils {{{
+  use 'kana/vim-submode'
+  use 'simeji/winresizer'
+
+  use 'andymass/vim-matchup'
+  use 'godlygeek/tabular'
+  use 'rhysd/ghpr-blame.vim'
+  use 'Shougo/vinarise.vim'
+
+  use {'thinca/vim-qfreplace', ft = {'qf'}}
+  use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+  use 'rhysd/devdocs.vim'
+  use 'osyo-manga/shabadou.vim'
+  use 'mattn/httpstatus-vim'
+
+  use 'AndrewRadev/switch.vim'
+
+  use 'kana/vim-altr'
+
+  use 'equalsraf/neovim-gui-shim'
   use 'brettanomyces/nvim-editcommand'
-  use {'euclio/vim-markdown-composer', run = 'cargo build --release'}
   use 'subnut/nvim-ghost.nvim'
   use {'kyazdani42/nvim-tree.lua', config = function()
     require'my-nvim-tree-setup'
   end}
+  -- }}}
 end)
