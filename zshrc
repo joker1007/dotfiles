@@ -115,8 +115,7 @@ alias egrep='egrep --color=auto'
 
 alias ra='rails'
 alias ralis='rails'
-alias s='screen -xR'
-alias t='tmux -q has-session && tmux attach-session -d || tmux new-session'
+alias tx='tmux -q has-session && tmux attach-session -d || tmux new-session'
 alias g='git'
 alias st='git status -sb'
 alias ad='git add'
@@ -199,13 +198,6 @@ add-zsh-hook chpwd _autols
   source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-# hub
-if type hub > /dev/null 2>&1; then
-  function git() {
-    hub "$@"
-  }
-fi
-
 # git rebase -i
 function grbi() {
   if [ "$1" -gt 0 ]; then
@@ -261,6 +253,7 @@ fi
 
 if type zoxide > /dev/null 2>&1; then
   eval "$(zoxide init zsh)"
+  export _ZO_ECHO=1
 fi
 
 # added by travis gem
