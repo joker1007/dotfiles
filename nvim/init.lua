@@ -72,6 +72,7 @@ vim.opt.foldmethod='marker'
 vim.keymap.set('n', ',fc', ':<C-U>%foldclose<CR>', {silent = true})
 vim.keymap.set('n', ',fo', ':<C-U>%foldopen<CR>', {silent = true})
 vim.cmd[[set foldtext=FoldCCtext()]]
+vim.opt.foldcolumn='auto:2'
 
 -- 検索設定
 vim.opt.incsearch=true
@@ -214,8 +215,6 @@ vim.keymap.set('n', '[space]n', ':<C-U>bnext<CR>')
 vim.keymap.set('n', '[space]p', ':<C-U>bprevious<CR>')
 -- }}}
 
--- NERDCommenter
-vim.g.NERDSpaceDelims = 1
 
 -- smartchr {{{
 vim.cmd[[
@@ -523,15 +522,6 @@ require('litee.gh').setup({
 -- }}}
 
 
--- indent-blankline {{{
-vim.cmd[[hi IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-vim.cmd[[hi IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-vim.cmd[[hi IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-vim.cmd[[hi IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-vim.cmd[[hi IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-vim.cmd[[hi IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
--- }}}
-
 -- submode.vim {{{
 vim.g.submode_timeout = 0
 vim.fn['submode#enter_with']('tab/move', 'n', '', '<Leader>t')
@@ -558,11 +548,6 @@ vim.fn['altr#define']('app/%.rb', 'spec/%_spec.rb')
 -- vim-choosewin {{{
 vim.keymap.set('n', '_', '<Plug>(choosewin)', {remap = true})
 -- }}}
-
--- shade.nvim
-require'shade'.setup({
-  overlay_opacity = 60,
-})
 
 
 -- switch.vim {{{

@@ -1453,7 +1453,7 @@ endif
 " }}}
 
 " ag.vim
-let g:ag_prg="ag --vimgrep --smart-case"
+let g:ag_prg="rg --vimgrep --smart-case"
 
 " vim-anzu {{{
 nmap n <Plug>(anzu-n-with-echo)

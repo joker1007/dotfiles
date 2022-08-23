@@ -11,7 +11,21 @@ return require('packer').startup(function(use)
   use 'tyru/eskk.vim'
   use 'tyru/skkdict.vim'
 
-  use 'scrooloose/nerdcommenter'
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({
+        toggler = {
+          line = '\\cc',
+          block = '\\cb',
+        },
+        opleader = {
+          line = '\\cc',
+          block = '\\cb',
+        },
+      })
+    end
+  }
 
   use 'thinca/vim-prettyprint'
   use 'mhinz/vim-startify'
@@ -67,16 +81,29 @@ return require('packer').startup(function(use)
   -- }}}
 
   -- visibility {{{
-  use {'lukas-reineke/indent-blankline.nvim', config = function()
-    require("indent_blankline").setup({
-      char_highlight_list = {
-        "IndentBlanklineIndent1",
-        "IndentBlanklineIndent2",
-        "IndentBlanklineIndent3",
-      },
-      show_current_context = true,
-    })
-  end}
+  use {'lukas-reineke/indent-blankline.nvim',
+    setup = function()
+      vim.cmd[[hi IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
+      vim.cmd[[hi IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
+      vim.cmd[[hi IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
+      vim.cmd[[hi IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
+      vim.cmd[[hi IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
+      vim.cmd[[hi IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
+    end,
+    config = function()
+      require("indent_blankline").setup({
+        char_highlight_list = {
+          "IndentBlanklineIndent1",
+          "IndentBlanklineIndent2",
+          "IndentBlanklineIndent3",
+          "IndentBlanklineIndent4",
+          "IndentBlanklineIndent5",
+          "IndentBlanklineIndent6",
+        },
+        show_current_context = true,
+      })
+    end
+  }
 
   use {'kevinhwang91/nvim-hlslens', config = function()
     local kopts = {noremap = true, silent = true}
@@ -219,7 +246,6 @@ return require('packer').startup(function(use)
     end
   }
   use 't9md/vim-choosewin'
-  use 'sunjon/shade.nvim'
   -- }}}
 
   -- git {{{
@@ -272,7 +298,7 @@ return require('packer').startup(function(use)
       vim.cmd[[
         " press <Tab> to expand or jump in a snippet. These can also be mapped separately
         " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-        imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+        imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
         " -1 for jumping backwards.
         inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
@@ -288,16 +314,18 @@ return require('packer').startup(function(use)
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-cmdline',
     },
     config = function ()
-      require'cmp'.setup {
+      local cmp = require'cmp'
+      cmp.setup {
         snippet = {
           expand = function(args)
             require'luasnip'.lsp_expand(args.body)
           end
         },
 
-        sources = {
+        sources = cmp.config.sources({
           {name = 'path'},
           {name = 'buffer', option = {
             get_bufnrs = function()
@@ -310,8 +338,33 @@ return require('packer').startup(function(use)
           }},
           {name = 'nvim_lua'},
           {name = 'luasnip'},
-        },
+          {name = 'cmdline'},
+        }),
+
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        }),
+
       }
+
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+            { name = 'cmdline' }
+          })
+      })
     end
   }
   -- }}}
