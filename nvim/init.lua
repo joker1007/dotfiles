@@ -512,13 +512,6 @@ vim.cmd[[autocmd vimrc BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft
 vim.cmd[[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif]]
 -- }}}
 
--- gh.nvim {{{
-require('litee.lib').setup({
-})
-require('litee.gh').setup({
-})
--- }}}
-
 
 -- submode.vim {{{
 vim.g.submode_timeout = 0

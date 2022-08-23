@@ -229,8 +229,18 @@ return require('packer').startup(function(use)
   use {'lewis6991/gitsigns.nvim', config = function()
     require('gitsigns').setup({numhl = true})
   end}
-  use 'ldelossa/litee.nvim'
-  use 'ldelossa/gh.nvim'
+
+  use {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function ()
+      require"octo".setup()
+    end
+  }
 
   use {'lambdalisue/vim-gista', cmd = {"Gista"}}
   use {'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function()
