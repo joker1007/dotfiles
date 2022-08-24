@@ -279,11 +279,6 @@ return require('packer').startup(function(use)
   end}
   -- }}}
 
-  -- denite {{{
-  use 'Shougo/neomru.vim'
-  use 'Shougo/denite.nvim'
-  -- }}}
-
   -- search, finder {{{
   use 'rking/ag.vim'
   use 'thinca/vim-visualstar'
