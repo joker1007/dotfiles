@@ -7,6 +7,21 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  use 'neovim/nvim-lspconfig'
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+    end
+  }
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    requires = {'williamboman/mason.nvim'},
+    config = function()
+      require('mason-lspconfig').setup()
+    end
+  }
+
   use {'tyru/eskk.vim', event = {'InsertEnter'}}
   use 'tyru/skkdict.vim'
 
@@ -364,7 +379,6 @@ return require('packer').startup(function(use)
   -- }}}
 
   -- completion, diagnostics {{{
-  use {'autozimu/LanguageClient-neovim', branch = 'next', run = 'bash install.sh'}
   use 'dense-analysis/ale'
 
   use {
@@ -391,6 +405,8 @@ return require('packer').startup(function(use)
     'hrsh7th/nvim-cmp',
     requires = {
       'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lua',
@@ -409,6 +425,7 @@ return require('packer').startup(function(use)
         },
 
         sources = cmp.config.sources({
+          {name = 'nvim_lsp'},
           {name = 'path'},
           {name = 'buffer', option = {
             get_bufnrs = function()
@@ -450,7 +467,6 @@ return require('packer').startup(function(use)
             { name = 'cmdline' }
           })
       })
-
       require'cmp_git'.setup()
     end
   }

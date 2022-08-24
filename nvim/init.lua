@@ -624,15 +624,78 @@ vim.g.rustfmt_autosave = 1
 
 vim.cmd[[autocmd vimrc FileType rust let termdebugger = "rust-gdb"]]
 
--- LanguageClient
-vim.cmd[[
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.local/bin/rust-analyzer'],
-    \ 'ruby': ['bundle', 'exec', 'solargraph', 'stdio'],
-    \ }
-]]
-vim.keymap.set('n', '<F5>', function() vim.fn.LanguageClient_contextMenu() end, {silent = true})
--- Or map each action separately
-vim.keymap.set('n', '<leader>d', function() vim.fn['LanguageClient#textDocument_hover']() end, {silent = true})
-vim.keymap.set('n', 'gd', function() vim.fn['LanguageClient#textDocument_definition']() end, {silent = true})
-vim.keymap.set('n', '<F6>', function() vim.fn['LanguageClient#textDocument_rename']() end, {silent = true})
+-- LSP configs {{{
+
+local noremap_silent = {noremap = true, silent = true}
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, noremap_silent)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, noremap_silent)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, noremap_silent)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, noremap_silent)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gh', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+end
+
+-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+require('mason-lspconfig').setup_handlers {
+  function(server_name)
+    require("lspconfig")[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach
+    }
+  end,
+  ['sumneko_lua'] = function()
+    require("lspconfig").sumneko_lua.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        Lua = {
+          completion = {
+            keywordSnippet = "Disable",
+          },
+          diagnostics = {
+            globals = {"vim", "use"},
+            disable = {"lowercase-global"}
+          },
+          runtime = {
+            version = "LuaJIT",
+            path = vim.split(package.path, ";"),
+          },
+          workspace = {
+            library = {
+              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+            },
+          },
+        },
+      }
+    }
+  end
+}
+-- }}}
+
