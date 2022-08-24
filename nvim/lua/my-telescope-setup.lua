@@ -1,6 +1,6 @@
 local wk = require('which-key')
-wk.register({
-  [',s'] = {
+
+local telescope_mappings = {
     name = '+Telescope',
     f = {
       name = '+Telescope (file+pwd)',
@@ -26,7 +26,11 @@ wk.register({
     r = {function() require'telescope'.extensions.repo.list() end, 'Repos'},
     e = {function() require'telescope'.extensions.emoji.emoji() end, 'Emoji'},
     s = {function() require'telescope'.extensions.luasnip.luasnip() end, 'Luasnip'},
-  }
+}
+
+wk.register({
+  ['<leader>f'] = telescope_mappings,
+  [',s'] = telescope_mappings,
 })
 
 -- vim.keymap.set('n', ',sff', function() require('telescope.builtin').find_files() end)

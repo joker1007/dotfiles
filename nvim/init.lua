@@ -37,6 +37,7 @@ vim.opt.mouse='a'
 vim.opt.cursorline=true
 vim.opt.conceallevel=1
 vim.opt.undofile=true
+vim.opt.timeoutlen=500
 
 -- swap ; and :
 vim.keymap.set('n', ';', ':')
@@ -69,8 +70,6 @@ vim.opt.smarttab=true
 
 -- 折り畳み設定
 vim.opt.foldmethod='marker'
-vim.keymap.set('n', ',fc', 'zM', {silent = true})
-vim.keymap.set('n', ',fo', 'zR', {silent = true})
 vim.cmd[[set foldtext=FoldCCtext()]]
 vim.opt.foldcolumn='auto:3'
 
