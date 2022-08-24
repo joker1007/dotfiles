@@ -524,7 +524,10 @@ vim.cmd[[autocmd vimrc FileType qf nnoremap <buffer> r :<C-U>Qfreplace<CR>]]
 
 
 -- ale {{{
+vim.g.ale_linters = {ruby = {'ruby'}}
+vim.g.ale_linters_explicit = 1
 vim.g.ale_cache_executable_check_failures = 1
+vim.g.ale_lua_luacheck_options = '--globals vim'
 -- }}}
 
 -- ag.vim
@@ -679,7 +682,7 @@ require('mason-lspconfig').setup_handlers {
             keywordSnippet = "Disable",
           },
           diagnostics = {
-            globals = {"vim", "use"},
+            globals = {"vim", "use", "awesome"},
             disable = {"lowercase-global"}
           },
           runtime = {
@@ -697,5 +700,26 @@ require('mason-lspconfig').setup_handlers {
     }
   end
 }
+
+require('null-ls').setup({
+  capabilities = capabilities,
+  sources = {
+    require('null-ls').builtins.formatting.stylua,
+    require('null-ls').builtins.diagnostics.rubocop.with({
+      prefer_local = "bundle_bin"
+    }),
+    require('null-ls').builtins.diagnostics.eslint,
+    require('null-ls').builtins.diagnostics.luacheck.with({
+      extra_args = {"--globals", "vim", "--globals", "awesome"},
+    }),
+    require('null-ls').builtins.diagnostics.yamllint,
+    require('null-ls').builtins.formatting.gofmt,
+    require('null-ls').builtins.formatting.rustfmt,
+    require('null-ls').builtins.formatting.rubocop.with({
+      prefer_local = "bundle_bin"
+    }),
+    require('null-ls').builtins.completion.spell,
+  },
+})
 -- }}}
 

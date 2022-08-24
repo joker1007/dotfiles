@@ -7,6 +7,7 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  -- LSP {{{
   use 'neovim/nvim-lspconfig'
   use {
     'williamboman/mason.nvim',
@@ -21,6 +22,14 @@ return require('packer').startup(function(use)
       require('mason-lspconfig').setup()
     end
   }
+
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+    end
+  }
+  -- }}}
 
   use {'tyru/eskk.vim', event = {'InsertEnter'}}
   use 'tyru/skkdict.vim'
@@ -87,6 +96,8 @@ return require('packer').startup(function(use)
   use 'projekt0n/github-nvim-theme'
   use 'shaunsingh/nord.nvim'
   use {"EdenEast/nightfox.nvim", run = ":NightfoxCompile",}
+  use 'folke/tokyonight.nvim'
+  use 'olimorris/onedarkpro.nvim'
   -- }}}
 
   -- smartchr textobj {{{
@@ -194,7 +205,6 @@ return require('packer').startup(function(use)
     requires = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup({
-        auto_open = true,
         auto_close = true,
       })
 
@@ -239,7 +249,7 @@ return require('packer').startup(function(use)
 
   use {'NvChad/nvim-colorizer.lua', config = function()
     require'colorizer'.setup(
-      {}, 
+      {},
       {
         RGB      = true;         -- #RGB hex codes
         RRGGBB   = true;         -- #RRGGBB hex codes
