@@ -70,6 +70,10 @@ require'nvim-tree'.setup {
   }
 }
 
+local wk = require('which-key')
+wk.register({
+  ['<leader>t'] = {name = '+NvimTree'},
+})
 vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>')
 vim.keymap.set('n', '<leader>tr', ':NvimTreeRefresh<CR>')
 vim.keymap.set('n', '<leader>tf', ':NvimTreeFindFile<CR>')

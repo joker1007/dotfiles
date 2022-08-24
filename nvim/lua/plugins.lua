@@ -13,6 +13,13 @@ return require('packer').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
 
   use {
+    'folke/which-key.nvim',
+    config = function()
+      require("which-key").setup()
+    end
+  }
+
+  use {
     'numToStr/Comment.nvim',
     config = function()
       require('Comment').setup({
@@ -24,6 +31,7 @@ return require('packer').startup(function(use)
           line = '\\cc',
           block = '\\cb',
         },
+        ignore = '^$',
       })
     end
   }
@@ -82,9 +90,27 @@ return require('packer').startup(function(use)
   -- }}}
 
   -- syntax, visibility {{{
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require'my-treesitter-setup'
-  end}
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    requires = {
+      'p00f/nvim-ts-rainbow',
+      'andymass/vim-matchup',
+    },
+    run = ':TSUpdate',
+    config = function()
+      require'my-treesitter-setup'
+    end
+  }
+
+  use {
+    'm-demare/hlargs.nvim',
+    requires = {
+      'nvim-treesitter/nvim-treesitter'
+    },
+    config = function()
+      require'hlargs'.setup()
+    end
+  }
 
   use {'lukas-reineke/indent-blankline.nvim',
     setup = function()
@@ -155,6 +181,12 @@ return require('packer').startup(function(use)
         auto_close = true,
       })
 
+      local wk = require('which-key')
+      wk.register({
+        ["<leader>x"] = {
+          name = "+Trouble",
+        }
+      })
       vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>",
         {silent = true, noremap = true}
       )
@@ -260,13 +292,35 @@ return require('packer').startup(function(use)
     'phaazon/hop.nvim',
     branch = 'v2',
     config = function()
-      vim.keymap.set('', '<leader><leader>f', function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true }) end)
-      vim.keymap.set('', '<leader><leader>F', function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true }) end)
-      vim.keymap.set('', '<leader><leader>w', function() require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end)
-      vim.keymap.set('', '<leader><leader>W', function() require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end)
-      vim.keymap.set('', '<leader><leader>/', function() require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end)
-      vim.keymap.set('', '<leader><leader>?', function() require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end)
-      require'hop'.setup {}
+      local hop = require('hop')
+      local hint = require('hop.hint')
+      local wk = require('which-key')
+
+      wk.register({
+        ['<leader><leader>'] = {
+          f = {function() hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true }) end, 'Hint char (forward)'},
+          F = {function() hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true }) end, 'Hint char (backward)'},
+          t = {function() hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }) end, 'Hint char (forward)'},
+          T = {function() hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 }) end, 'Hint char (backward)'},
+          w = {function() hop.hint_words({ direction = hint.HintDirection.AFTER_CURSOR }) end, 'Hint words (forward)'},
+          W = {function() hop.hint_words({ direction = hint.HintDirection.BEFORE_CURSOR }) end, 'Hint words (backward)'},
+          ['/'] = {function() hop.hint_patterns({ direction = hint.HintDirection.AFTER_CURSOR }) end, 'Hint patterns (forward)'},
+          ['?'] = {function() hop.hint_patterns({ direction = hint.HintDirection.BEFORE_CURSOR }) end, 'Hint patterns (forward)'},
+        }
+      })
+      wk.register({
+        ['<leader><leader>'] = {
+          f = {function() hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true }) end, 'Hint char (forward)'},
+          F = {function() hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true }) end, 'Hint char (backward)'},
+          t = {function() hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }) end, 'Hint char (forward)'},
+          T = {function() hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 }) end, 'Hint char (backward)'},
+          w = {function() hop.hint_words({ direction = hint.HintDirection.AFTER_CURSOR }) end, 'Hint words (forward)'},
+          W = {function() hop.hint_words({ direction = hint.HintDirection.BEFORE_CURSOR }) end, 'Hint words (backward)'},
+          ['/'] = {function() hop.hint_patterns({ direction = hint.HintDirection.AFTER_CURSOR }) end, 'Hint patterns (forward)'},
+          ['?'] = {function() hop.hint_patterns({ direction = hint.HintDirection.BEFORE_CURSOR }) end, 'Hint patterns (forward)'},
+        }
+      }, {mode = 'v'})
+      hop.setup {}
     end
   }
   use 't9md/vim-choosewin'
@@ -293,19 +347,23 @@ return require('packer').startup(function(use)
     end
   }
 
-  use {'windwp/nvim-spectre', requires = {'nvim-lua/plenary.nvim'}, config = function()
-    vim.keymap.set('n', '<leader>S', function() require('spectre').open() end)
+  use {
+    'windwp/nvim-spectre',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      vim.keymap.set('n', '<leader>S', function() require('spectre').open() end)
 
-    -- search current word
-    vim.keymap.set('n', '<leader>sw', function() require('spectre').open_visual({select_word=true}) end)
-    vim.keymap.set('v', '<leader>s', function() require('spectre').open_visual() end)
-    -- search in current file
-    vim.keymap.set('n', '<leader>sp', function() require('spectre').open_file_search() end)
+      -- search current word
+      vim.keymap.set('n', '<leader>sw', function() require('spectre').open_visual({select_word=true}) end)
+      vim.keymap.set('v', '<leader>s', function() require('spectre').open_visual() end)
+      -- search in current file
+      vim.keymap.set('n', '<leader>sp', function() require('spectre').open_file_search() end)
 
-    require('spectre').setup({
-      live_update = true,
-    })
-  end}
+      require('spectre').setup({
+        live_update = true,
+      })
+    end
+  }
   -- }}}
 
   -- completion, diagnostics {{{
@@ -420,7 +478,13 @@ return require('packer').startup(function(use)
       require('neogen').setup {
         snippet_engine = "luasnip",
       }
-      vim.keymap.set("n", "<Leader>nf", function() require('neogen').generate() end, {silent = true})
+      local wk = require('which-key')
+      wk.register({
+        ['<leader>n'] = {
+          name = '+Neogen',
+          f = {function() require('neogen').generate() end, "Neogen", silent = true}
+        }
+      })
     end,
     requires = "nvim-treesitter/nvim-treesitter",
     tag = "*",

@@ -1,5 +1,7 @@
 require'plugins'
 
+local wk = require('which-key')
+
 vim.opt.fileencodings = 'ucs_bom,utf8,ucs-2le,ucs-2,iso-2022-jp-3,euc-jp,cp932'
 
 vim.cmd[[packadd termdebug]]
@@ -67,10 +69,10 @@ vim.opt.smarttab=true
 
 -- 折り畳み設定
 vim.opt.foldmethod='marker'
-vim.keymap.set('n', ',fc', ':<C-U>%foldclose<CR>', {silent = true})
-vim.keymap.set('n', ',fo', ':<C-U>%foldopen<CR>', {silent = true})
+vim.keymap.set('n', ',fc', 'zM', {silent = true})
+vim.keymap.set('n', ',fo', 'zR', {silent = true})
 vim.cmd[[set foldtext=FoldCCtext()]]
-vim.opt.foldcolumn='auto:2'
+vim.opt.foldcolumn='auto:3'
 
 -- 検索設定
 vim.opt.incsearch=true
@@ -493,34 +495,28 @@ vim.keymap.set('n', '<leader>v', ':<C-U>Vista!!<CR>', {silent = true})
 
 
 -- Fugitive {{{
-vim.keymap.set('n', '[git]', '<Nop>')
-vim.keymap.set('n', ',g', '[git]', {remap = true})
-vim.keymap.set('n', '[git]d', ':<C-u>DiffviewOpen<CR>')
-vim.keymap.set('n', '[git]s', ':<C-u>Git<CR>')
-vim.keymap.set('n', '[git]l', ':<C-u>Gclog HEAD~20..HEAD<CR>')
-vim.keymap.set('n', '[git]h', ':<C-u>DiffviewFileHistory %<CR>')
-vim.keymap.set('n', '[git]a', ':<C-u>Gwrite<CR>')
-vim.keymap.set('n', '[git]c', ':<C-u>Git commit<CR>')
-vim.keymap.set('n', '[git]C', ':<C-u>Git commit --amend<CR>')
-vim.keymap.set('n', '[git]b', ':<C-u>Git blame<CR>')
-vim.keymap.set('n', '[git]n', ':<C-u>Git now<CR>')
-vim.keymap.set('n', '[git]N', ':<C-u>Git now --all<CR>')
-vim.keymap.set('n', '[git]p', ':<C-u>GHPRBlame<CR>')
+wk.register({
+  [',g'] = {
+    name = "+git",
+  }
+})
+vim.keymap.set('n', ',gd', ':<C-u>DiffviewOpen<CR>')
+vim.keymap.set('n', ',gs', ':<C-u>Git<CR>')
+vim.keymap.set('n', ',gl', ':<C-u>Gclog HEAD~20..HEAD<CR>')
+vim.keymap.set('n', ',gh', ':<C-u>DiffviewFileHistory %<CR>')
+vim.keymap.set('n', ',ga', ':<C-u>Gwrite<CR>')
+vim.keymap.set('n', ',gc', ':<C-u>Git commit<CR>')
+vim.keymap.set('n', ',gC', ':<C-u>Git commit --amend<CR>')
+vim.keymap.set('n', ',gb', ':<C-u>Git blame<CR>')
+vim.keymap.set('n', ',gn', ':<C-u>Git now<CR>')
+vim.keymap.set('n', ',gN', ':<C-u>Git now --all<CR>')
+vim.keymap.set('n', ',gp', ':<C-u>GHPRBlame<CR>')
 
 vim.cmd[[autocmd vimrc BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif]]
 vim.cmd[[autocmd vimrc BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif]]
 vim.cmd[[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif]]
 -- }}}
 
-
--- submode.vim {{{
-vim.g.submode_timeout = 0
-vim.fn['submode#enter_with']('tab/move', 'n', '', '<Leader>t')
-vim.fn['submode#map']('tab/move', 'n', 'r', 'h', 'H')
-vim.fn['submode#map']('tab/move', 'n', 'r', 'l', 'L')
-vim.fn['submode#map']('tab/move', 'n', 'r', '+', '<C-L>')
-vim.fn['submode#map']('tab/move', 'n', 'r', '-', '<C-H>')
--- }}}
 
 -- vim-altr {{{
 vim.keymap.set('n', '<F3>', '<Plug>(altr-forward)', {remap = true})
@@ -608,6 +604,9 @@ endif
 ]]
 
 -- Tabular {{{
+wk.register({
+  ['<leader>a'] = {name = '+Tabularize'}
+})
 vim.keymap.set('n', '<Leader>a,', ':Tabularize /,<CR>')
 vim.keymap.set('n', '<Leader>a=', ':Tabularize /=<CR>')
 vim.keymap.set('n', '<Leader>a>', ':Tabularize /=><CR>')
@@ -678,6 +677,9 @@ vim.keymap.set('v', '<F9>', ':TREPLSendSelection<cr>')
 vim.g.editcommand_prompt = '%'
 
 -- Useful maps
+wk.register({
+  [',t'] = {name = '+Terminal'}
+})
 -- clear terminal
 vim.keymap.set('n', ',tl', ':<C-U>Tclear<cr>')
 vim.keymap.set('n', ',tL', ':<C-U>Tclear!<cr>')
