@@ -53,7 +53,6 @@ return require('packer').startup(function(use)
 
   -- markdown {{{
   use {'mattn/vim-maketable', ft = 'markdown'}
-  use 'plasticboy/vim-markdown'
   use {'kannokanno/previm', ft = 'markdown'}
   use {'euclio/vim-markdown-composer', run = 'cargo build --release'}
   -- }}}
