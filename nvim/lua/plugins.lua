@@ -6,8 +6,18 @@ local packer = require('packer')
 vim.cmd [[packadd packer.nvim]]
 
 local sfile = debug.getinfo(1, 'S').short_src
+
+
 vim.api.nvim_create_user_command('PackerReloadI', function()
   vim.cmd("luafile " .. sfile)
+  vim.api.nvim_create_augroup('packer_reload', {})
+  vim.api.nvim_create_autocmd({'User PackerComplete'}, {
+    group = 'packer_reload',
+    callback = function()
+      packer.compile()
+      vim.api.nvim_clear_autocmds({group = 'packer_reload'})
+    end,
+  })
   packer.install()
 end, {})
 
