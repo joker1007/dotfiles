@@ -151,7 +151,6 @@ return packer.startup(function(use)
   use 'kana/vim-textobj-user'
   use 'kana/vim-niceblock'
   use {'nelstrom/vim-textobj-rubyblock', ft = 'ruby'}
-  use 'kana/vim-textobj-indent'
   -- }}}
 
   -- html template {{{
@@ -179,11 +178,7 @@ return packer.startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter-context',
     config = function()
-      require'treesitter-context'.setup({
-        ruby = {
-          'let',
-        }
-      })
+      require'treesitter-context'.setup({})
     end
   }
 
@@ -330,7 +325,7 @@ return packer.startup(function(use)
   use 'octol/vim-cpp-enhanced-highlight'
 
   use 'osyo-manga/vim-over'
--- }}}
+  -- }}}
 
   -- web browse, api {{{
   use 'tyru/open-browser.vim'
