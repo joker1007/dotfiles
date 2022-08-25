@@ -329,6 +329,7 @@ return packer.startup(function(use)
 
   -- web browse, api {{{
   use 'tyru/open-browser.vim'
+  use 'tyru/open-browser-github.vim'
   use 'mattn/webapi-vim'
   -- }}}
 
