@@ -70,7 +70,6 @@ vim.opt.smarttab=true
 
 -- 折り畳み設定
 vim.opt.foldmethod='marker'
-vim.cmd[[set foldtext=FoldCCtext()]]
 vim.opt.foldcolumn='auto:3'
 
 -- 検索設定
@@ -417,20 +416,6 @@ vim.cmd[[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft
 -- }}}
 
 
--- vim-altr {{{
-vim.keymap.set('n', '<F3>', '<Plug>(altr-forward)', {remap = true})
-vim.keymap.set('n', '<F2>', '<Plug>(altr-back)', {remap = true})
--- For ruby tdd
-vim.fn['altr#define']('%.rb', 'spec/%_spec.rb')
--- For ruby tdd
-vim.fn['altr#define']('lib/%.rb', 'spec/lib/%_spec.rb', 'spec/%_spec.rb')
--- For rails tdd
-vim.fn['altr#define']('app/models/%.rb', 'spec/models/%_spec.rb', 'spec/factories/%s.rb')
-vim.fn['altr#define']('app/controllers/%.rb', 'spec/controllers/%_spec.rb')
-vim.fn['altr#define']('app/helpers/%.rb', 'spec/helpers/%_spec.rb')
-vim.fn['altr#define']('app/%.rb', 'spec/%_spec.rb')
--- }}}
-
 -- vim-choosewin {{{
 vim.keymap.set('n', '_', '<Plug>(choosewin)', {remap = true})
 -- }}}
@@ -646,7 +631,8 @@ local on_attach = function(client, bufnr)
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gh', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gh', "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+  vim.keymap.set('n', 'gs', "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
@@ -655,9 +641,19 @@ local on_attach = function(client, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
   vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set("n", "<space>rn", "<cmd>Lspsaga rename<CR>", { silent = true })
+  vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
+  vim.keymap.set("n", "<space>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
+  vim.keymap.set("v", "<space>ca", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })
+  vim.keymap.set("n", "<space>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
+  vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+  vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
+  vim.keymap.set("n", "[E", function()
+    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true })
+  vim.keymap.set("n", "]E", function()
+    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true })
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
@@ -673,6 +669,9 @@ require('mason-lspconfig').setup_handlers {
     }
   end,
   ['sumneko_lua'] = function()
+    local runtime_path = vim.split(package.path, ";")
+    table.insert(runtime_path, "lua/?.lua")
+    table.insert(runtime_path, "lua/?/init.lua")
     require("lspconfig").sumneko_lua.setup {
       capabilities = capabilities,
       on_attach = on_attach,
@@ -687,13 +686,10 @@ require('mason-lspconfig').setup_handlers {
           },
           runtime = {
             version = "LuaJIT",
-            path = vim.split(package.path, ";"),
+            path = runtime_path,
           },
           workspace = {
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-            },
+            library = vim.api.nvim_get_runtime_file("", true),
           },
         },
       }

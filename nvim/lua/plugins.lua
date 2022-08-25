@@ -1,9 +1,27 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
+local packer = require('packer')
+
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function(use)
+local sfile = debug.getinfo(1, 'S').short_src
+vim.api.nvim_create_user_command('PackerReloadI', function()
+  vim.cmd("luafile " .. sfile)
+  packer.install()
+end, {})
+
+vim.api.nvim_create_user_command('PackerReloadS', function()
+  vim.cmd("luafile " .. sfile)
+  packer.sync()
+end, {})
+
+vim.api.nvim_create_user_command('PackerReloadC', function()
+  vim.cmd("luafile " .. sfile)
+  packer.compile()
+end, {})
+
+return packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -27,6 +45,23 @@ return require('packer').startup(function(use)
     'jose-elias-alvarez/null-ls.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function()
+    end
+  }
+
+  use({
+    'glepnir/lspsaga.nvim',
+    branch = 'main',
+    config = function()
+      local saga = require('lspsaga')
+
+      saga.init_lsp_saga()
+    end,
+  })
+
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require'fidget'.setup()
     end
   }
   -- }}}
@@ -123,10 +158,29 @@ return require('packer').startup(function(use)
     requires = {
       'p00f/nvim-ts-rainbow',
       'andymass/vim-matchup',
+      'RRethy/nvim-treesitter-endwise',
     },
     run = ':TSUpdate',
     config = function()
       require'my-treesitter-setup'
+    end
+  }
+
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require'treesitter-context'.setup({
+        ruby = {
+          'let',
+        }
+      })
+    end
+  }
+
+  use {
+    'haringsrob/nvim_context_vt',
+    config = function()
+      require('nvim_context_vt').setup()
     end
   }
 
@@ -235,8 +289,6 @@ return require('packer').startup(function(use)
     end
   }
 
-  use 'LeafCage/foldCC'
-
   use {'nvim-lualine/lualine.nvim', config = function()
     require'my-lualine-setup'
   end}
@@ -287,6 +339,7 @@ return require('packer').startup(function(use)
   use {'lewis6991/gitsigns.nvim', config = function()
     require('gitsigns').setup({numhl = true})
   end}
+  use 'rhysd/committia.vim'
 
   use {
     'pwntester/octo.nvim',
@@ -424,6 +477,7 @@ return require('packer').startup(function(use)
       'hrsh7th/cmp-emoji',
       'nvim-lua/plenary.nvim', -- required by cmp-git
       'petertriho/cmp-git',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     config = function ()
       local cmp = require'cmp'
@@ -436,6 +490,7 @@ return require('packer').startup(function(use)
 
         sources = cmp.config.sources({
           {name = 'nvim_lsp'},
+          {name = 'nvim_lsp_signature_help'},
           {name = 'path'},
           {name = 'buffer', option = {
             get_bufnrs = function()
@@ -512,6 +567,28 @@ return require('packer').startup(function(use)
     requires = "nvim-treesitter/nvim-treesitter",
     tag = "*",
   }
+
+  use {
+    'kwkarlwang/bufresize.nvim',
+    config = function()
+      require('bufresize').setup()
+    end
+  }
+
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup()
+    end
+  }
+
+  use{ 'anuvyklack/pretty-fold.nvim',
+    config = function()
+      require('pretty-fold').setup()
+    end
+  }
+
   use 'kana/vim-submode'
   use 'simeji/winresizer'
 
@@ -528,7 +605,85 @@ return require('packer').startup(function(use)
 
   use 'AndrewRadev/switch.vim'
 
-  use 'kana/vim-altr'
+  use {
+    'rgroli/other.nvim',
+    config = function()
+      local rails_controller_patterns = {
+        { target = "/spec/controllers/%1_spec.rb", context = "spec" },
+        { target = "/spec/requests/%1_spec.rb", context = "spec" },
+        { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
+        { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+        { target = "/app/views/%1/**/*.html.*", context = "view" },
+      }
+      require("other-nvim").setup({
+        mappings = {
+          {
+            pattern = "/app/models/(.*).rb",
+            target = {
+              { target = "/spec/models/%1_spec.rb", context = "spec" },
+              { target = "/spec/factories/%1.rb", context = "factories", transformer = "pluralize" },
+              { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
+              { target = "/app/views/%1/**/*.html.*", context = "view", transformer = "pluralize" },
+            },
+          },
+          {
+            pattern = "/spec/models/(.*)_spec.rb",
+            target = {
+              { target = "/app/models/%1.rb", context = "models" },
+            },
+          },
+          {
+            pattern = "/spec/factories/(.*).rb",
+            target = {
+              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+              { target = "/spec/models/%1_spec.rb", context = "spec", transformer = "singularize" },
+            },
+          },
+          {
+            pattern = "/app/services/(.*).rb",
+            target = {
+              { target = "/spec/services/%1_spec.rb", context = "spec" },
+            },
+          },
+          {
+            pattern = "/spec/services/(.*)_spec.rb",
+            target = {
+              { target = "/app/services/%1.rb", context = "services" },
+            },
+          },
+          {
+            pattern = "/app/controllers/.*/(.*)_controller.rb",
+            target = rails_controller_patterns,
+          },
+          {
+            pattern = "/app/controllers/(.*)_controller.rb",
+            target = rails_controller_patterns,
+          },
+          {
+            pattern = "/app/views/(.*)/.*.html.*",
+            target = {
+              { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
+              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+              { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
+            },
+          }
+        },
+      })
+
+      local wk = require('which-key')
+      wk.register({
+        ["<leader>o"] = {
+          name = "+Other",
+        }
+      })
+      vim.keymap.set('n', '<F2>', '<cmd>:Other<CR>')
+      vim.keymap.set('n', '<F3>', '<cmd>:Other<CR>')
+      vim.keymap.set('n', '<leader>oo', '<cmd>:Other<CR>')
+      vim.keymap.set('n', '<leader>os', '<cmd>:OtherSplit<CR>')
+      vim.keymap.set('n', '<leader>ov', '<cmd>:OtherVSplit<CR>')
+      vim.keymap.set('n', '<leader>oc', '<cmd>:OtherClear<CR>')
+    end
+  }
 
   use 'equalsraf/neovim-gui-shim'
   use 'brettanomyces/nvim-editcommand'
