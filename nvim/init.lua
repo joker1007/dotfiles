@@ -661,9 +661,10 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+local lspconfig = require('lspconfig')
 require('mason-lspconfig').setup_handlers {
   function(server_name)
-    require("lspconfig")[server_name].setup {
+    lspconfig[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach
     }
@@ -672,7 +673,7 @@ require('mason-lspconfig').setup_handlers {
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
-    require("lspconfig").sumneko_lua.setup {
+    lspconfig.sumneko_lua.setup {
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
@@ -693,6 +694,22 @@ require('mason-lspconfig').setup_handlers {
           },
         },
       }
+    }
+  end,
+  ['solargraph'] = function()
+    -- local solargraph_cmd = function()
+    --   local ret_code = nil
+    --   local jid = vim.fn.jobstart("bundle info solargraph", { on_exit = function(_, data) ret_code = data end })
+    --   vim.fn.jobwait({ jid }, 5000)
+    --   if ret_code == 0 then
+    --     return { "bundle", "exec", "solargraph", "stdio" }
+    --   end
+    --   return { "solargraph", "stdio" }
+    -- end
+    lspconfig.solargraph.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      -- cmd = solargraph_cmd(),
     }
   end
 }

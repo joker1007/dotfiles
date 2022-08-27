@@ -10,14 +10,6 @@ local sfile = debug.getinfo(1, 'S').short_src
 
 vim.api.nvim_create_user_command('PackerReloadI', function()
   vim.cmd("luafile " .. sfile)
-  vim.api.nvim_create_augroup('packer_reload', {})
-  vim.api.nvim_create_autocmd({'User PackerComplete'}, {
-    group = 'packer_reload',
-    callback = function()
-      packer.compile()
-      vim.api.nvim_clear_autocmds({group = 'packer_reload'})
-    end,
-  })
   packer.install()
 end, {})
 
@@ -54,8 +46,6 @@ return packer.startup(function(use)
   use {
     'jose-elias-alvarez/null-ls.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
-    config = function()
-    end
   }
 
   use({
@@ -72,6 +62,13 @@ return packer.startup(function(use)
     'j-hui/fidget.nvim',
     config = function()
       require'fidget'.setup()
+    end
+  }
+
+  use {
+    'RRethy/vim-illuminate',
+    config = function()
+      require('illuminate').configure()
     end
   }
   -- }}}
@@ -146,7 +143,14 @@ return packer.startup(function(use)
   -- }}}
 
   -- smartchr textobj {{{
-  use 'vim-scripts/surround.vim'
+  use({
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  })
   use 'kana/vim-smartchr'
   use 'kana/vim-textobj-user'
   use 'kana/vim-niceblock'
@@ -168,6 +172,7 @@ return packer.startup(function(use)
       'p00f/nvim-ts-rainbow',
       'andymass/vim-matchup',
       'RRethy/nvim-treesitter-endwise',
+      'nvim-treesitter/nvim-treesitter-textobjects',
     },
     run = ':TSUpdate',
     config = function()

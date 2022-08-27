@@ -5,6 +5,7 @@ local telescope_mappings = {
     f = {
       name = '+Telescope (file+pwd)',
       f = {function() require('telescope.builtin').find_files() end, 'Find File'},
+      r = {function() require('telescope.builtin').oldfiles() end, 'MRU'},
       b = {function() require('telescope').extensions.file_browser.file_browser() end, 'File Browser'},
     },
     F = {
