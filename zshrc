@@ -145,6 +145,7 @@ alias nv="neovide --multigrid"
 # Global aliases
 alias -g L="| lv"
 alias -g LE="| less"
+alias -g BA="| bat"
 alias -g G="| grep"
 alias -g A="| ag"
 alias -g C="| cut"
