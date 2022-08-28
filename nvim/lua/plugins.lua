@@ -7,6 +7,9 @@ vim.cmd [[packadd packer.nvim]]
 
 local sfile = debug.getinfo(1, 'S').short_src
 
+vim.api.nvim_create_user_command('PackerReload', function()
+  vim.cmd("luafile " .. sfile)
+end, {})
 
 vim.api.nvim_create_user_command('PackerReloadI', function()
   vim.cmd("luafile " .. sfile)
@@ -546,6 +549,19 @@ return packer.startup(function(use)
       require'cmp_git'.setup()
     end
   }
+
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup {}
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end
+  }
   -- }}}
 
   -- terminal, execution {{{
@@ -587,11 +603,17 @@ return packer.startup(function(use)
   }
 
   use {
+    'famiu/bufdelete.nvim',
+    cmd = {'Bdelete', 'Bdelete!', 'Bwipeout', 'Bwipeout!'},
+    setup = function()
+      vim.keymap.set('n', ',bd', '<cmd>Bdelete<cr>')
+      vim.keymap.set('n', ',bD', '<cmd>Bdelete!<cr>')
+    end
+  }
+
+  use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
-    config = function()
-      require("todo-comments").setup()
-    end
   }
 
   use{ 'anuvyklack/pretty-fold.nvim',
@@ -611,7 +633,6 @@ return packer.startup(function(use)
   use {'thinca/vim-qfreplace', ft = {'qf'}}
   use {'kevinhwang91/nvim-bqf', ft = {'qf'}}
   use 'rhysd/devdocs.vim'
-  use 'osyo-manga/shabadou.vim'
   use 'mattn/httpstatus-vim'
 
   use 'AndrewRadev/switch.vim'

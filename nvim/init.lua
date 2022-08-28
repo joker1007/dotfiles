@@ -232,12 +232,6 @@ function! s:EnableSmartchrRubyHash()
   inoremap <buffer><expr> > smartchr#one_of('>', '>>', ' => ')
 endfunction
 
-function! s:EnableSmartchrHaml()
-  call s:EnableSmartchrRubyHash()
-  inoremap <buffer> [ []<Esc>i
-  inoremap <buffer> { {}<Esc>i
-endfunction
-
 autocmd vimrc FileType c,cpp,php,python,javascript,ruby,vim call s:EnableSmartchrBasic()
 autocmd vimrc FileType python,ruby,vim call s:EnableSmartchrRegExp()
 autocmd vimrc FileType ruby call s:EnableSmartchrRubyHash()
@@ -270,12 +264,6 @@ vim.g.html_use_encoding = 'utf-8'
 -- quickrun{{{
 vim.cmd[[
 autocmd vimrc FileType quickrun setlocal concealcursor=""
-
-call quickrun#module#register(shabadou#make_quickrun_hook_anim(
-      \"now_running",
-      \['||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', '||| Now Running |||', '/// Now Running ///', '--- Now Running ---', '\\\ Now Running \\\', ],
-      \2,
-      \), 1)
 
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
@@ -611,6 +599,9 @@ vim.g.terraform_fmt_on_save = 1
 vim.g.rustfmt_autosave = 1
 
 vim.cmd[[autocmd vimrc FileType rust let termdebugger = "rust-gdb"]]
+
+-- todo-comments.nvim
+require("todo-comments").setup()
 
 -- LSP configs {{{
 
