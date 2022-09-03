@@ -74,6 +74,8 @@ return packer.startup(function(use)
       require('illuminate').configure()
     end
   }
+
+  use "folke/lua-dev.nvim"
   -- }}}
 
   use {'tyru/eskk.vim', event = {'InsertEnter'}}
@@ -568,8 +570,23 @@ return packer.startup(function(use)
   use {'Shougo/vimproc', run = 'make'}
   use 'thinca/vim-quickrun'
 
-  use 'kassio/neoterm'
   use 'janko-m/vim-test'
+
+  use {
+    'akinsho/toggleterm.nvim', tag = 'v2.*',
+    config = function()
+      require('toggleterm').setup({
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 30
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        open_mapping = "<F12>",
+      })
+    end
+  }
 
   use {'nikvdp/neomux', cmd = "Neomux", keys = '\\sh'}
   -- }}}

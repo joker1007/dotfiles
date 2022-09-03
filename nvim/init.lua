@@ -39,6 +39,35 @@ vim.opt.conceallevel=1
 vim.opt.undofile=true
 vim.opt.timeoutlen=500
 
+
+-- gui configs
+vim.cmd[[
+if exists("g:neovide")
+  set guifont=Monospace:h12
+  let g:neovide_cursor_vfx_mode="wireframe"
+  let g:neovide_transparency=0.9
+  let g:neovide_cursor_vfx_mode = "railgun"
+  function! FontSizePlus()
+    let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
+    let l:gf_size_whole = l:gf_size_whole + 1
+    let l:new_font_size = l:gf_size_whole
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h' . l:new_font_size, '')
+  endfunction
+  function! FontSizeMinus()
+    let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
+    let l:gf_size_whole = l:gf_size_whole - 1
+    let l:new_font_size = l:gf_size_whole
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h' . l:new_font_size, '')
+  endfunction
+  function! FontSizeReset()
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h12', '')
+  endfunction
+  nnoremap <C-=> :call FontSizePlus()<CR>
+  nnoremap <C--> :call FontSizeMinus()<CR>
+  nnoremap <C-0> :call FontSizeReset()<CR>
+endif
+]]
+
 -- swap ; and :
 vim.keymap.set('n', ';', ':')
 vim.keymap.set('n', ':', ';')
@@ -351,14 +380,14 @@ command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 vim.keymap.set('n', '<space>tn', ':TestNearest<cr>')
 vim.keymap.set('n', '<space>tf', ':TestFile<cr>')
 
-vim.cmd[[let test#strategy = 'neoterm']]
+vim.cmd[[let test#strategy = 'toggleterm']]
 
 vim.cmd[[let test#ruby#rspec#executable = 'rspec']]
 
 vim.cmd[[
 function! DockerTransformer(cmd) abort
   if $APP_CONTAINER_NAME != ''
-    let container_id = system('docker ps --filter name=$APP_CONTAINER_NAME -q')
+    let container_id = trim(system('docker ps --filter name=$APP_CONTAINER_NAME -q'))
     return 'docker exec -t ' . container_id . ' bundle exec ' . a:cmd
   else
     return 'bundle exec ' . a:cmd
@@ -529,52 +558,19 @@ let g:markdown_quote_syntax_filetypes = {
 -- }}}
 
 
--- neoterm {{{
-vim.keymap.set('t', '<C-j>', '<C-\\><C-n>')
+-- toggleterm {{{
+vim.keymap.set('t', '<C-i>', '<C-\\><C-n>')
 vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h')
 vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j')
 vim.keymap.set('t', '<A-k>', '<C-\\><C-N><C-w>k')
 vim.keymap.set('t', '<A-l>', '<C-\\><C-N><C-w>l')
 
-vim.g.neoterm_autoinsert = 1
-vim.g.neoterm_autoscroll = 1
-vim.g.neoterm_term_per_tab = 1
-vim.g.neoterm_default_mod = 'botright'
-vim.g.neoterm_automap_keys = ',tt'
-vim.g.neoterm_repl_ruby = 'pry'
-vim.g.neoterm_term_per_tab = 1
-
-vim.keymap.set('n', '<F9>', ':TREPLSendLine<cr>')
-vim.keymap.set('v', '<F9>', ':TREPLSendSelection<cr>')
+vim.keymap.set('n', '<F9>', '<cmd>ToggleTermSendCurrentLine<cr>')
+vim.keymap.set('v', '<F9>', '<cmd>ToggleTermSendVisualSelection<cr>')
 --- }}}
 
 -- nvim-editcommand
 vim.g.editcommand_prompt = '%'
-
--- Useful maps
-wk.register({
-  [',t'] = {name = '+Terminal'}
-})
--- clear terminal
-vim.keymap.set('n', ',tl', ':<C-U>Tclear<cr>')
-vim.keymap.set('n', ',tL', ':<C-U>Tclear!<cr>')
--- kills the current job (send a <c-c>)
-vim.keymap.set('n', ',tk', ':<C-U>Tkill<cr>')
-
--- hide/close terminal
-vim.keymap.set('n', ',to', ':<C-U>Topen<cr>')
-vim.keymap.set('n', ',tc', ':<C-U>Tclose<cr>')
-vim.keymap.set('n', ',tC', ':<C-U>Tclose!<cr>')
-vim.keymap.set('n', ',tac', ':<C-U>TcloseAll<cr>')
-vim.keymap.set('n', ',taC', ':<C-U>TcloseAll!<cr>')
-
-vim.keymap.set('n', ',te', ':<C-U>Tnew<cr>')
-vim.keymap.set('n', ',tE', ':<C-U>tab Tnew<cr>')
-vim.keymap.set('n', ',tn', ':<C-U>Tnext<cr>')
-vim.keymap.set('n', ',tp', ':<C-U>Tprevious<cr>')
-
-vim.keymap.set('n', ',tg', ':<C-U>Ttoggle<cr>')
-vim.keymap.set('n', ',tag', ':<C-U>TtoggleAll<cr>')
 
 -- Git commands
 vim.cmd[[command! -nargs=+ Tg :T git <args>]]
@@ -613,6 +609,7 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, noremap_silent)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
+---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -621,19 +618,20 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gd',  "<cmd>Lspsaga preview_definition<CR>", bufopts)
   vim.keymap.set('n', 'gh', "<cmd>Lspsaga hover_doc<CR>", { silent = true })
   vim.keymap.set('n', 'gs', "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
   vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
   vim.keymap.set('n', '<space>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set("n", "<space>rn", "<cmd>Lspsaga rename<CR>", { silent = true })
-  vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
+  vim.keymap.set("n", "<F6>", "<cmd>Lspsaga rename<CR>", { silent = true })
   vim.keymap.set("n", "<space>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
   vim.keymap.set("v", "<space>ca", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })
   vim.keymap.set("n", "<space>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
@@ -645,12 +643,14 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "]E", function()
     require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
   end, { silent = true })
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<space>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local luadev = require('lua-dev').setup()
 
 local lspconfig = require('lspconfig')
 require('mason-lspconfig').setup_handlers {
@@ -664,28 +664,9 @@ require('mason-lspconfig').setup_handlers {
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
-    lspconfig.sumneko_lua.setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          completion = {
-            keywordSnippet = "Disable",
-          },
-          diagnostics = {
-            globals = {"vim", "use", "awesome"},
-            disable = {"lowercase-global"}
-          },
-          runtime = {
-            version = "LuaJIT",
-            path = runtime_path,
-          },
-          workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
-          },
-        },
-      }
-    }
+    lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", luadev, {
+      on_attach = on_attach
+    }))
   end,
   ['solargraph'] = function()
     -- local solargraph_cmd = function()

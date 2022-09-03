@@ -5,12 +5,14 @@ local telescope_mappings = {
     f = {
       name = '+Telescope (file+pwd)',
       f = {function() require('telescope.builtin').find_files() end, 'Find File'},
+      n = {function() require('telescope.builtin').find_files({no_ignore = true, no_ignore_parent = true}) end, 'Find File'},
       r = {function() require('telescope.builtin').oldfiles() end, 'MRU'},
       b = {function() require('telescope').extensions.file_browser.file_browser() end, 'File Browser'},
     },
     F = {
       name = '+Telescope (file+filepath)',
       F = {function() require('telescope.builtin').find_files({cwd = vim.fn.expand("%:p:h")}) end, 'Find File (filepath)'},
+      I = {function() require('telescope.builtin').find_files({cwd = vim.fn.expand("%:p:h"), no_ignore = true, no_ignore_parent = true}) end, 'Find File (filepath)'},
       B = {function() require('telescope').extensions.file_browser.file_browser({path = vim.fn.expand("%:p:h")}) end, 'File Browser (filepath)'},
     },
     g = {function() require('telescope.builtin').live_grep() end, 'Grep'},
@@ -26,7 +28,8 @@ local telescope_mappings = {
     t = {function() require('telescope.builtin').treesitter() end, 'Treesitter'},
     r = {function() require'telescope'.extensions.repo.list() end, 'Repos'},
     e = {function() require'telescope'.extensions.emoji.emoji() end, 'Emoji'},
-    s = {function() require'telescope'.extensions.luasnip.luasnip() end, 'Luasnip'},
+    p = {function() require'telescope'.extensions.luasnip.luasnip() end, 'Luasnip'},
+    s = {function() require('telescope.builtin').resume() end, 'Resume'},
 }
 
 wk.register({
@@ -77,6 +80,18 @@ require('telescope').setup{
     -- }
     -- Now the picker_config_key will be applied every time you call this
     -- builtin picker
+
+    buffers = {
+      theme = "dropdown",
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+        },
+        n = {
+          ["d"] = "delete_buffer",
+        },
+      }
+    }
   },
   extensions = {
     -- Your extension configuration goes here:
