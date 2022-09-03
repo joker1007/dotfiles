@@ -661,9 +661,6 @@ require('mason-lspconfig').setup_handlers {
     }
   end,
   ['sumneko_lua'] = function()
-    local runtime_path = vim.split(package.path, ";")
-    table.insert(runtime_path, "lua/?.lua")
-    table.insert(runtime_path, "lua/?/init.lua")
     lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", luadev, {
       on_attach = on_attach
     }))
@@ -691,7 +688,10 @@ require('null-ls').setup({
   sources = {
     require('null-ls').builtins.formatting.stylua,
     require('null-ls').builtins.diagnostics.rubocop.with({
-      prefer_local = "bundle_bin"
+      prefer_local = "bundle_bin",
+      condition = function(utils)
+        return utils.root_has_file({".rubocop.yml"})
+      end
     }),
     require('null-ls').builtins.diagnostics.eslint,
     require('null-ls').builtins.diagnostics.luacheck.with({
@@ -701,7 +701,10 @@ require('null-ls').setup({
     require('null-ls').builtins.formatting.gofmt,
     require('null-ls').builtins.formatting.rustfmt,
     require('null-ls').builtins.formatting.rubocop.with({
-      prefer_local = "bundle_bin"
+      prefer_local = "bundle_bin",
+      condition = function(utils)
+        return utils.root_has_file({".rubocop.yml"})
+      end
     }),
     require('null-ls').builtins.completion.spell,
   },
