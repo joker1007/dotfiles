@@ -599,6 +599,8 @@ vim.cmd[[autocmd vimrc FileType rust let termdebugger = "rust-gdb"]]
 -- todo-comments.nvim
 require("todo-comments").setup()
 
+vim.g.cursorhold_updatetime = 100
+
 -- LSP configs {{{
 
 local noremap_silent = {noremap = true, silent = true}

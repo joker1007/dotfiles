@@ -739,5 +739,6 @@ return packer.startup(function(use)
   use {'kyazdani42/nvim-tree.lua', config = function()
     require'my-nvim-tree-setup'
   end}
+  use 'antoinemadec/FixCursorHold.nvim'
   -- }}}
 end)
