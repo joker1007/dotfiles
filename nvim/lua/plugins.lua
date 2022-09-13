@@ -120,6 +120,7 @@ return packer.startup(function(use)
   -- filetype plugins {{{
   use 'moro/vim-review'
   use 'cespare/vim-toml'
+  use 'jlcrochet/vim-rbs'
 
   use 'vim-ruby/vim-ruby'
   use 'leafgarland/typescript-vim'

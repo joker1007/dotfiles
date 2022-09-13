@@ -195,6 +195,13 @@ vim.g.loaded_perl_provider = 0
 
 -----------------------------------------------------------}}}
 
+-- filetype setter {{{
+vim.api.nvim_create_augroup("FileTypeSetter", {})
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+  pattern = {"Steepfile"},
+  command = "set ft=ruby"
+})
+-- }}}
 
 -- surround.vim {{{
 vim.keymap.set('n', ',(', 'csw(', {remap = true})
@@ -533,7 +540,7 @@ vim.g.ale_lua_luacheck_options = '--globals vim'
 -- }}}
 
 -- ag.vim
-vim.g.ag_prg="ag --vimgrep --smart-case"
+vim.g.ag_prg="rg --vimgrep --smart-case"
 
 
 -- TweetVim {{{
@@ -543,20 +550,6 @@ vim.g.tweetvim_tweet_per_page = 50
 vim.g.tweetvim_include_rts = 1
 vim.g.tweetvim_display_icon = 1
 -- }}}
-
--- code snippet highlight {{{
-vim.cmd[[
-let g:markdown_quote_syntax_filetypes = {
-        \ "mustache" : {
-        \   "start" : "mustache",
-        \},
-        \ "haml" : {
-        \   "start" : "haml",
-        \},
-  \}
-]]
--- }}}
-
 
 -- toggleterm {{{
 vim.keymap.set('t', '<C-i>', '<C-\\><C-n>')
@@ -654,6 +647,16 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local luadev = require('lua-dev').setup()
 
+local add_bundle_exec = function(config, gem, dir)
+  local ret_code = nil
+  local jid = vim.fn.jobstart("bundle info " .. gem, {cwd = dir, on_exit = function(_, data) ret_code = data end})
+  vim.fn.jobwait({ jid }, 5000)
+  if ret_code == 0 then
+    table.insert(config.cmd, 1, "exec")
+    table.insert(config.cmd, 1, "bundle")
+  end
+end
+
 local lspconfig = require('lspconfig')
 require('mason-lspconfig').setup_handlers {
   function(server_name)
@@ -668,20 +671,23 @@ require('mason-lspconfig').setup_handlers {
     }))
   end,
   ['solargraph'] = function()
-    -- local solargraph_cmd = function()
-    --   local ret_code = nil
-    --   local jid = vim.fn.jobstart("bundle info solargraph", { on_exit = function(_, data) ret_code = data end })
-    --   vim.fn.jobwait({ jid }, 5000)
-    --   if ret_code == 0 then
-    --     return { "bundle", "exec", "solargraph", "stdio" }
-    --   end
-    --   return { "solargraph", "stdio" }
-    -- end
     lspconfig.solargraph.setup {
       capabilities = capabilities,
       on_attach = on_attach,
-      -- cmd = solargraph_cmd(),
+      on_new_config = function(config, root_dir)
+        add_bundle_exec(config, "solargraph", root_dir)
+        return config
+      end
     }
+  end
+}
+
+lspconfig.steep.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  on_new_config = function(config, root_dir)
+    add_bundle_exec(config, "steep", root_dir)
+    return config
   end
 }
 
