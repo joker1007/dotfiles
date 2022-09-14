@@ -227,7 +227,7 @@ vim.keymap.set('o', '[', 't[', {remap = true})
 vim.cmd[[nnoremap <silent> ,p :<C-U>set paste!<CR>:<C-U>echo("Toggle PasteMode => " . (&paste == 0 ? "Off" : "On"))<CR>]]
 
 -- eskk {{{
-vim.g["eskk#large_dictionary"] = { path = vim.env.HOME .. "/.vim/dict/skk/SKK-JISYO.L", sorted = 1, encoding = 'euc-jp'}
+vim.g["eskk#large_dictionary"] = { path = "/usr/share/skk/SKK-JISYO.L", sorted = 1, encoding = 'euc-jp'}
 -- }}}
 
 -- UTF8、SJIS(CP932)、EUCJPで開き直す {{{

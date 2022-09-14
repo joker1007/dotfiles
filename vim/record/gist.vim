@@ -1,1 +1,0 @@
-{"generated_by":"Vimana-2010.0421","install_type":"text","version":0.2,"files":[{"checksum":"31e462f81a8bcf1b1f3dc48f10701c5c","file":"test/plugin/gist.vim"}],"package":"gist.vim"}
