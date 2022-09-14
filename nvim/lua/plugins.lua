@@ -626,6 +626,7 @@ return packer.startup(function(use)
     cmd = {'Bdelete', 'Bdelete!', 'Bwipeout', 'Bwipeout!'},
     setup = function()
       vim.keymap.set('n', ',bd', '<cmd>Bdelete<cr>')
+      vim.keymap.set('n', '<A-w>', '<cmd>Bdelete<cr>')
       vim.keymap.set('n', ',bD', '<cmd>Bdelete!<cr>')
     end
   }
