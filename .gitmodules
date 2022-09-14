@@ -7,9 +7,6 @@
 [submodule "tpm"]
 	path = tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "vim/bundle/repos/github.com/Shougo/dein.vim"]
-	path = vim/bundle/repos/github.com/Shougo/dein.vim
-	url = https://github.com/Shougo/dein.vim.git
 [submodule "ranger/plugins/devicons2"]
 	path = ranger/plugins/devicons2
 	url = https://github.com/cdump/ranger-devicons2.git
