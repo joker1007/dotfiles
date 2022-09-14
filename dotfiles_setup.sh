@@ -1,19 +1,11 @@
 #!/bin/sh
 
-PWD=`pwd`
+PWD=$(pwd)
 
 set -x
 
 ln -sf ${PWD}/gitconfig ~/.gitconfig
-ln -sf ${PWD}/vim ~/.vim
-ln -sf ${PWD}/vimrc ~/.vimrc
-mkdir -p ~/.config/nvim
-ln -sf ${PWD}/vimrc ~/.config/nvim/init.vim
-ln -sf ${PWD}/gvimrc ~/.gvimrc
-ln -sf ${PWD}/gvimrc ~/.config/nvim/ginit.vim
-ln -sf ${PWD}/vimperatorrc ~/.vimperatorrc
-ln -sf ${PWD}/vimperator ~/.vimperator
-ln -sf ${PWD}/screenrc ~/.screenrc
+ln -sf ${PWD}/nvim ~/.config/nvim
 ln -sf ${PWD}/tmux.conf ~/.tmux.conf
 ln -sf ${PWD}/zshrc ~/.zshrc
 ln -sf ${PWD}/zshrc.github ~/.zshrc.github
@@ -21,8 +13,6 @@ ln -sf ${PWD}/zshrc.peco ~/.zshrc.peco
 ln -sf ${PWD}/zsh ~/.zsh
 ln -sf ${PWD}/zshenv ~/.zshenv
 ln -sf ${PWD}/zlogin ~/.zlogin
-ln -sf ${PWD}/oh-my-zsh ~/.oh-my-zsh
-ln -sf ${PWD}/zaw ~/.zaw
 ln -sf ${PWD}/irbrc ~/.irbrc
 ln -sf ${PWD}/gitconfig ~/.gitconfig
 ln -sf ${PWD}/tigrc ~/.tigrc

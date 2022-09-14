@@ -1,7 +1,3 @@
-.vim/.netrwhist
-.vimperator/info
-.vim/.VimballRecord
-.vim/backup/*
 vim/backup/*
 vim/undo/*
 vim/.VimballRecord
@@ -13,7 +9,8 @@ vim/bundle/*
 vim/bundle/*/doc/tags
 vim/bundle/*/doc/tags-ja
 *.zwc
-.svn
+
+nvim/plugin
 
 mlterm/*.log
 mlterm/*.six
