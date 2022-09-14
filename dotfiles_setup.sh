@@ -7,12 +7,10 @@ set -x
 ln -sf ${PWD}/gitconfig ~/.gitconfig
 ln -sf ${PWD}/nvim ~/.config/nvim
 ln -sf ${PWD}/tmux.conf ~/.tmux.conf
+ln -sf ${PWD}/sheldon ~/.config/sheldon
 ln -sf ${PWD}/zshrc ~/.zshrc
-ln -sf ${PWD}/zshrc.github ~/.zshrc.github
-ln -sf ${PWD}/zshrc.peco ~/.zshrc.peco
 ln -sf ${PWD}/zsh ~/.zsh
 ln -sf ${PWD}/zshenv ~/.zshenv
-ln -sf ${PWD}/zlogin ~/.zlogin
 ln -sf ${PWD}/irbrc ~/.irbrc
 ln -sf ${PWD}/gitconfig ~/.gitconfig
 ln -sf ${PWD}/tigrc ~/.tigrc

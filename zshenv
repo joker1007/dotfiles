@@ -53,6 +53,9 @@ fi
 # MANPATH
 typeset -U manpath
 manpath=(
+  /usr/*/man(N-/)
+  /usr/local/*/man(N-/)
+  /var/*/man(N-/)
   # Solaris用
   /opt/csw/share/man(N-/)
   /usr/sfw/share/man(N-/)
