@@ -9,10 +9,7 @@ vim.cmd[[packadd termdebug]]
 vim.g.termdebug_useFloatingHover = 1
 vim.g.termdebug_wide = 160
 
-vim.cmd[[
-augroup vimrc
-augroup END
-]]
+vim.api.nvim_create_augroup('vimrc', {})
 
 -- Basic Setting {{{
 vim.opt.bs='indent,eol,start'   -- allow backspacing over everything in insert mode
@@ -69,21 +66,22 @@ endif
 ]]
 
 -- swap ; and :
-vim.keymap.set('n', ';', ':')
-vim.keymap.set('n', ':', ';')
-vim.keymap.set('v', ';', ':')
-vim.keymap.set('v', ':', ';')
+vim.keymap.set('n', ';', ':', {})
+vim.keymap.set('n', ':', ';', {})
+vim.keymap.set('v', ';', ':', {})
+vim.keymap.set('v', ':', ';', {})
 
 -- Space prefix
 
 -- Edit vimrc
-vim.keymap.set('n', '<space>v', function() vim.cmd[[edit ~/.config/nvim/init.lua]] end)
+local sfile = debug.getinfo(1, 'S').short_src
+vim.keymap.set('n', '<space>v', function() vim.cmd("edit " .. sfile) end, {})
 
 -- Reload vimrc"{{{
 vim.api.nvim_create_user_command(
   'ReloadVimrc',
   function()
-    vim.fn.source('~/.config/nvim/init.lua')
+    vim.fn.source(sfile)
     print "Reload vimrc"
   end,
   {}
@@ -122,8 +120,8 @@ vim.opt.showcmd=true
 
 -- tabline
 vim.opt.showtabline=2
-vim.cmd[[command! -nargs=+ -complete=file Te tabedit <args>]]
-vim.cmd[[command! -nargs=* -complete=file Tn tabnew <args>]]
+vim.api.nvim_create_user_command('Te', 'tabedit <args>', {nargs = '*', complete = 'file'})
+vim.api.nvim_create_user_command('Tn', 'tabnew <args>', {nargs = '*', complete = 'file'})
 vim.keymap.set('n', '<S-Right>', ':<C-U>tabnext<CR>', {silent = true})
 vim.keymap.set('n', '<S-Left>', ':<C-U>tabprevious<CR>', {silent = true})
 vim.keymap.set('n', 'L', ':<C-U>tabnext<CR>', {silent = true})
@@ -552,7 +550,7 @@ vim.g.tweetvim_display_icon = 1
 -- }}}
 
 -- toggleterm {{{
-vim.keymap.set('t', '<C-i>', '<C-\\><C-n>')
+vim.keymap.set('t', '<A-n>', '<C-\\><C-n>')
 vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h')
 vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j')
 vim.keymap.set('t', '<A-k>', '<C-\\><C-N><C-w>k')
