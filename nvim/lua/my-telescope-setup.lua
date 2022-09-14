@@ -104,6 +104,9 @@ require('telescope').setup{
         vim.fn.setreg("+", emoji.value)
         print([[Press p or "+p to paste this emoji]] .. emoji.value)
       end,
+    },
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {}
     }
   }
 }

@@ -428,6 +428,7 @@ return packer.startup(function(use)
       'xiyaowong/telescope-emoji.nvim',
       'benfowler/telescope-luasnip.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
     },
     config = function()
       require'my-telescope-setup'
@@ -436,6 +437,7 @@ return packer.startup(function(use)
       require'telescope'.load_extension('emoji')
       require'telescope'.load_extension('luasnip')
       require'telescope'.load_extension('file_browser')
+      require'telescope'.load_extension('ui-select')
     end
   }
 
