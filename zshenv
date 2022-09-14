@@ -53,8 +53,6 @@ fi
 # MANPATH
 typeset -U manpath
 manpath=(
-  # MacPorts用
-  /opt/local/share/man(N-/)
   # Solaris用
   /opt/csw/share/man(N-/)
   /usr/sfw/share/man(N-/)

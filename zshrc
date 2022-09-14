@@ -1,33 +1,20 @@
-# Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.zsh/custom
 
+bindkey -e
+
 HISTFILE=~/.zhistory
+HISTSIZE=50000
+SAVEHIST=20000
 
 fpath+=~/.zfunc
 fpath+=~/.zsh/completion
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="nebirhos"
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
 # Uncomment this to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -51,29 +38,13 @@ DISABLE_CORRECTION="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump battery cp history-substring-search rsync rbenv)
+# plugins=(autojump battery cp history-substring-search rsync rbenv)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
 export PATH=$HOME/bin:$PATH
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-## custom
 
 bindkey '^p'	history-beginning-search-backward
 bindkey '^n'	history-beginning-search-forward
@@ -240,10 +211,6 @@ function bqj() {
 
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
-if [ -s ~/.zaw/zaw.zsh ]; then
-  source ~/.zaw/zaw.zsh
-fi
-
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/home/joker/.gvm/bin/gvm-init.sh" ]] && source "/home/joker/.gvm/bin/gvm-init.sh"
 
@@ -255,6 +222,12 @@ fi
 if type zoxide > /dev/null 2>&1; then
   eval "$(zoxide init zsh)"
   export _ZO_ECHO=1
+fi
+
+if type starship > /dev/null 2>&1; then
+  eval "$(starship init zsh)"
+else
+  echo "install starship `cargo install starship`"
 fi
 
 # added by travis gem

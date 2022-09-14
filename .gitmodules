@@ -1,9 +1,6 @@
 [submodule "zsh/zsh-syntax-highlighting"]
 	path = zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "zaw"]
-	path = zaw
-	url = https://github.com/zsh-users/zaw.git
 [submodule "tpm"]
 	path = tpm
 	url = https://github.com/tmux-plugins/tpm
