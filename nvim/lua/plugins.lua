@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-parameter
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
 local packer = require('packer')
@@ -601,6 +602,40 @@ return packer.startup(function(use)
   }
 
   use {'nikvdp/neomux', cmd = "Neomux", keys = '\\sh'}
+
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "olimorris/neotest-rspec",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-rspec")({
+            rspec_cmd = function()
+              return vim.tbl_flatten({
+                "bundle",
+                "exec",
+                "rspec",
+              })
+            end
+          })
+        }
+      })
+
+      vim.keymap.set('n', ',tf', function() require("neotest").run.run(vim.fn.expand("%")) end, {})
+      vim.keymap.set('n', ',tn', function() require("neotest").run.run() end, {})
+      vim.keymap.set('n', ',tdf', function() require("neotest").run.run({vim.fn.expand("%"), strategy = "dap"}) end, {})
+      vim.keymap.set('n', ',tdn', function() require("neotest").run.run({nil, strategy = "dap"}) end, {})
+      vim.keymap.set('n', ',tc', function() require("neotest").run.stop() end, {})
+      vim.keymap.set('n', ',ts', function() require("neotest").summary.toggle() end, {})
+      vim.keymap.set('n', ',to', function() require("neotest").output.open({enter = true}) end, {})
+      vim.keymap.set('n', ',ta', function() require("neotest").run.attach() end, {})
+    end
+  }
   -- }}}
 
   use {'mattn/vim-sonots', cmd = "Sonots"}
@@ -614,7 +649,7 @@ return packer.startup(function(use)
       }
       local wk = require('which-key')
       wk.register({
-        ['<leader>n'] = {
+        ['<leader>g'] = {
           name = '+Neogen',
           f = {function() require('neogen').generate() end, "Neogen", silent = true}
         }
