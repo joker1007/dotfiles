@@ -30,6 +30,12 @@ return packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  use 'kyazdani42/nvim-web-devicons'
+  use {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}
+  use {'rcarriga/nvim-notify', config = function()
+    vim.notify = require("notify")
+  end}
+
   -- LSP {{{
   use 'neovim/nvim-lspconfig'
   use {
@@ -76,12 +82,20 @@ return packer.startup(function(use)
   }
 
   use "folke/lua-dev.nvim"
+
+  use 'mfussenegger/nvim-dap'
+  use {'rcarriga/nvim-dap-ui', requires = {"mfussenegger/nvim-dap"}}
+  use {'theHamsta/nvim-dap-virtual-text', requires = {"mfussenegger/nvim-dap"}, config = function()
+    require('nvim-dap-virtual-text').setup()
+  end}
+  use {'ray-x/go.nvim', requires = {"ray-x/guihua.lua"}, config = function()
+    require('go').setup()
+    vim.api.nvim_create_autocmd({'BufWritePre'}, {pattern = {'*.go'}, callback = require('go.format').gofmt})
+  end}
   -- }}}
 
   use {'tyru/eskk.vim', event = {'InsertEnter'}}
   use 'tyru/skkdict.vim'
-
-  use 'kyazdani42/nvim-web-devicons'
 
   use {
     'folke/which-key.nvim',
@@ -126,7 +140,6 @@ return packer.startup(function(use)
   use 'leafgarland/typescript-vim'
   use 'rust-lang/rust.vim'
   use 'elixir-editors/vim-elixir'
-  use 'fatih/vim-go'
   use 'hashivim/vim-terraform'
   use 'tmux-plugins/vim-tmux'
   use 'moskytw/nginx-contrib-vim'
@@ -158,9 +171,7 @@ return packer.startup(function(use)
     end
   })
   use 'kana/vim-smartchr'
-  use 'kana/vim-textobj-user'
   use 'kana/vim-niceblock'
-  use {'nelstrom/vim-textobj-rubyblock', ft = 'ruby'}
   -- }}}
 
   -- html template {{{
@@ -317,7 +328,6 @@ return packer.startup(function(use)
 
   use {'NvChad/nvim-colorizer.lua', config = function()
     require'colorizer'.setup(
-      {},
       {
         RGB      = true;         -- #RGB hex codes
         RRGGBB   = true;         -- #RRGGBB hex codes
@@ -569,8 +579,8 @@ return packer.startup(function(use)
   -- }}}
 
   -- terminal, execution {{{
-  use {'Shougo/vimproc', run = 'make'}
-  use 'thinca/vim-quickrun'
+  -- use {'Shougo/vimproc', run = 'make'}
+  -- use 'thinca/vim-quickrun'
 
   use 'janko-m/vim-test'
 
@@ -718,7 +728,28 @@ return packer.startup(function(use)
               { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
               { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
             },
-          }
+          },
+          {
+            pattern = "/lib/(.*).rb",
+            target = {
+              { target = "/spec/%1_spec.rb", context = "spec"},
+              { target = "/sig/%1.rbs", context = "sig"},
+            }
+          },
+          {
+            pattern = "/sig/(.*).rbs",
+            target = {
+              { target = "/lib/%1.rb", context = "lib"},
+              { target = "/%1.rb"},
+            }
+          },
+          {
+            pattern = "/spec/(.*)_spec.rb",
+            target = {
+              { target = "/lib/%1.rb", context = "lib"},
+              { target = "/sig/%1.rbs", context = "sig"},
+            }
+          },
         },
       })
 
@@ -728,12 +759,12 @@ return packer.startup(function(use)
           name = "+Other",
         }
       })
-      vim.keymap.set('n', '<F2>', '<cmd>:Other<CR>')
-      vim.keymap.set('n', '<F3>', '<cmd>:Other<CR>')
-      vim.keymap.set('n', '<leader>oo', '<cmd>:Other<CR>')
-      vim.keymap.set('n', '<leader>os', '<cmd>:OtherSplit<CR>')
-      vim.keymap.set('n', '<leader>ov', '<cmd>:OtherVSplit<CR>')
-      vim.keymap.set('n', '<leader>oc', '<cmd>:OtherClear<CR>')
+      vim.keymap.set('n', '<F2>', '<cmd>OtherClear<CR><cmd>:Other<CR>')
+      vim.keymap.set('n', '<F3>', '<cmd>OtherClear<CR><cmd>:Other<CR>')
+      vim.keymap.set('n', '<leader>oo', '<cmd>OtherClear<CR><cmd>:Other<CR>')
+      vim.keymap.set('n', '<leader>os', '<cmd>OtherClear<CR><cmd>:OtherSplit<CR>')
+      vim.keymap.set('n', '<leader>ov', '<cmd>OtherClear<CR><cmd>:OtherVSplit<CR>')
+      vim.keymap.set('n', '<leader>oc', '<cmd>OtherClear<CR><cmd>:OtherClear<CR>')
     end
   }
 

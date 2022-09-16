@@ -611,7 +611,7 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd',  "<cmd>Lspsaga preview_definition<CR>", bufopts)
+  vim.keymap.set('n', 'gd',  "<cmd>Lspsaga peek_definition<CR>", bufopts)
   vim.keymap.set('n', 'gh', "<cmd>Lspsaga hover_doc<CR>", { silent = true })
   vim.keymap.set('n', 'gs', "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
@@ -699,7 +699,6 @@ require('null-ls').setup({
         return utils.root_has_file({".rubocop.yml"})
       end
     }),
-    require('null-ls').builtins.diagnostics.eslint,
     require('null-ls').builtins.diagnostics.luacheck.with({
       extra_args = {"--globals", "vim", "--globals", "awesome"},
     }),
