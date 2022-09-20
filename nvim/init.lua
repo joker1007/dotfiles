@@ -665,7 +665,14 @@ require('mason-lspconfig').setup_handlers {
   end,
   ['sumneko_lua'] = function()
     lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", luadev, {
-      on_attach = on_attach
+      on_attach = on_attach,
+      settings = {
+        Lua = {
+          workspace = {
+            checkThirdParty = false
+          }
+        }
+      }
     }))
   end,
   ['solargraph'] = function()
@@ -692,7 +699,11 @@ lspconfig.steep.setup {
 require('null-ls').setup({
   capabilities = capabilities,
   sources = {
-    require('null-ls').builtins.formatting.stylua,
+    require('null-ls').builtins.formatting.stylua.with({
+      condition = function(utils)
+        return utils.root_has_file({".stylua.toml"})
+      end,
+    }),
     require('null-ls').builtins.diagnostics.rubocop.with({
       prefer_local = "bundle_bin",
       condition = function(utils)
@@ -703,8 +714,6 @@ require('null-ls').setup({
       extra_args = {"--globals", "vim", "--globals", "awesome"},
     }),
     require('null-ls').builtins.diagnostics.yamllint,
-    require('null-ls').builtins.formatting.gofmt,
-    require('null-ls').builtins.formatting.rustfmt,
     require('null-ls').builtins.formatting.rubocop.with({
       prefer_local = "bundle_bin",
       condition = function(utils)
