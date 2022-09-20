@@ -1,40 +1,139 @@
-local wk = require('which-key')
+local wk = require "which-key"
 
 local telescope_mappings = {
-    name = '+Telescope',
+  name = "+Telescope",
+  f = {
+    name = "+Telescope (file+pwd)",
     f = {
-      name = '+Telescope (file+pwd)',
-      f = {function() require('telescope.builtin').find_files() end, 'Find File'},
-      n = {function() require('telescope.builtin').find_files({no_ignore = true, no_ignore_parent = true}) end, 'Find File'},
-      r = {function() require('telescope.builtin').oldfiles() end, 'MRU'},
-      b = {function() require('telescope').extensions.file_browser.file_browser() end, 'File Browser'},
+      function()
+        require("telescope.builtin").find_files()
+      end,
+      "Find File",
     },
+    n = {
+      function()
+        require("telescope.builtin").find_files({ no_ignore = true, no_ignore_parent = true })
+      end,
+      "Find File",
+    },
+    r = {
+      function()
+        require("telescope.builtin").oldfiles()
+      end,
+      "MRU",
+    },
+    b = {
+      function()
+        require("telescope").extensions.file_browser.file_browser()
+      end,
+      "File Browser",
+    },
+  },
+  F = {
+    name = "+Telescope (file+filepath)",
     F = {
-      name = '+Telescope (file+filepath)',
-      F = {function() require('telescope.builtin').find_files({cwd = vim.fn.expand("%:p:h")}) end, 'Find File (filepath)'},
-      I = {function() require('telescope.builtin').find_files({cwd = vim.fn.expand("%:p:h"), no_ignore = true, no_ignore_parent = true}) end, 'Find File (filepath)'},
-      B = {function() require('telescope').extensions.file_browser.file_browser({path = vim.fn.expand("%:p:h")}) end, 'File Browser (filepath)'},
+      function()
+        require("telescope.builtin").find_files({ cwd = vim.fn.expand "%:p:h" })
+      end,
+      "Find File (filepath)",
     },
-    g = {function() require('telescope.builtin').live_grep() end, 'Grep'},
-    G = {function() require('telescope.builtin').live_grep() end, 'Grep (filepath)'},
-    b = {function() require('telescope.builtin').buffers() end, 'Buffers'},
-    h = {function() require('telescope.builtin').help_tags() end, 'Help'},
-    l = {function() require('telescope.builtin').current_buffer_fuzzy_find() end, 'Line Finder'},
+    I = {
+      function()
+        require("telescope.builtin").find_files({
+          cwd = vim.fn.expand "%:p:h",
+          no_ignore = true,
+          no_ignore_parent = true,
+        })
+      end,
+      "Find File (filepath)",
+    },
+    B = {
+      function()
+        require("telescope").extensions.file_browser.file_browser({ path = vim.fn.expand "%:p:h" })
+      end,
+      "File Browser (filepath)",
+    },
+  },
+  g = {
+    function()
+      require("telescope.builtin").live_grep()
+    end,
+    "Grep",
+  },
+  G = {
+    function()
+      require("telescope.builtin").live_grep()
+    end,
+    "Grep (filepath)",
+  },
+  b = {
+    function()
+      require("telescope.builtin").buffers()
+    end,
+    "Buffers",
+  },
+  h = {
+    function()
+      require("telescope.builtin").help_tags()
+    end,
+    "Help",
+  },
+  l = {
+    function()
+      require("telescope.builtin").current_buffer_fuzzy_find()
+    end,
+    "Line Finder",
+  },
+  c = {
+    name = "+gitcommit",
     c = {
-      name = '+gitcommit',
-      c = {function() require('telescope.builtin').git_commits() end, 'Commits'},
-      b = {function() require('telescope.builtin').git_bcommits() end, 'Buffer Commits'},
+      function()
+        require("telescope.builtin").git_commits()
+      end,
+      "Commits",
     },
-    t = {function() require('telescope.builtin').treesitter() end, 'Treesitter'},
-    r = {function() require'telescope'.extensions.repo.list() end, 'Repos'},
-    e = {function() require'telescope'.extensions.emoji.emoji() end, 'Emoji'},
-    p = {function() require'telescope'.extensions.luasnip.luasnip() end, 'Luasnip'},
-    s = {function() require('telescope.builtin').resume() end, 'Resume'},
+    b = {
+      function()
+        require("telescope.builtin").git_bcommits()
+      end,
+      "Buffer Commits",
+    },
+  },
+  t = {
+    function()
+      require("telescope.builtin").treesitter()
+    end,
+    "Treesitter",
+  },
+  r = {
+    function()
+      require("telescope").extensions.repo.list()
+    end,
+    "Repos",
+  },
+  e = {
+    function()
+      require("telescope").extensions.emoji.emoji()
+    end,
+    "Emoji",
+  },
+  p = {
+    function()
+      require("telescope").extensions.luasnip.luasnip()
+    end,
+    "Luasnip",
+  },
+  s = {
+    function()
+      require("telescope.builtin").resume()
+    end,
+    "Resume",
+  },
 }
 
 wk.register({
-  ['<leader>f'] = telescope_mappings,
-  [',s'] = telescope_mappings,
+  ["<leader>f"] = telescope_mappings,
+  [",s"] = telescope_mappings,
 })
 
 -- vim.keymap.set('n', ',sff', function() require('telescope.builtin').find_files() end)
@@ -54,12 +153,20 @@ wk.register({
 -- vim.keymap.set('n', ',se', function() require'telescope'.extensions.emoji.emoji() end)
 -- vim.keymap.set('n', ',ss', function() require'telescope'.extensions.luasnip.luasnip() end)
 
-vim.keymap.set('n', '<C-p>', function() require'telescope'.extensions.project.project() end, {silent = true})
-vim.keymap.set('c', '<C-T>', function() require('telescope.builtin').commands() end)
-vim.keymap.set('c', '<C-H>', function() require('telescope.builtin').command_history() end)
-vim.keymap.set('i', '<C-E>', function() require'telescope'.extensions.luasnip.luasnip() end, {silent = true})
+vim.keymap.set("n", "<C-p>", function()
+  require("telescope").extensions.project.project()
+end, { silent = true })
+vim.keymap.set("c", "<C-T>", function()
+  require("telescope.builtin").commands()
+end)
+vim.keymap.set("c", "<C-H>", function()
+  require("telescope.builtin").command_history()
+end)
+vim.keymap.set("i", "<C-E>", function()
+  require("telescope").extensions.luasnip.luasnip()
+end, { silent = true })
 
-require('telescope').setup{
+require("telescope").setup({
   defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
@@ -68,9 +175,9 @@ require('telescope').setup{
         -- map actions.which_key to <C-h> (default: <C-/>)
         -- actions.which_key shows the mappings for your picker,
         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key"
-      }
-    }
+        ["<C-h>"] = "which_key",
+      },
+    },
   },
   pickers = {
     -- Default configuration for builtin pickers goes here:
@@ -90,8 +197,8 @@ require('telescope').setup{
         n = {
           ["d"] = "delete_buffer",
         },
-      }
-    }
+      },
+    },
   },
   extensions = {
     -- Your extension configuration goes here:
@@ -106,7 +213,7 @@ require('telescope').setup{
       end,
     },
     ["ui-select"] = {
-      require("telescope.themes").get_dropdown {}
-    }
-  }
-}
+      require("telescope.themes").get_dropdown({}),
+    },
+  },
+})

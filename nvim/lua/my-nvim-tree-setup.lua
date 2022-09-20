@@ -1,41 +1,41 @@
-require'nvim-tree'.setup {
-  disable_netrw       = true,
-  hijack_netrw        = true,
-  open_on_setup       = false,
-  ignore_ft_on_setup  = {},
-  hijack_directories  = {
+require("nvim-tree").setup({
+  disable_netrw = true,
+  hijack_netrw = true,
+  open_on_setup = false,
+  ignore_ft_on_setup = {},
+  hijack_directories = {
     enable = true,
     auto_open = true,
   },
-  open_on_tab         = false,
-  hijack_cursor       = false,
-  update_cwd          = true,
-  diagnostics         = {
+  open_on_tab = false,
+  hijack_cursor = false,
+  update_cwd = true,
+  diagnostics = {
     enable = false,
     icons = {
       hint = "",
       info = "",
       warning = "",
       error = "",
-    }
+    },
   },
   update_focused_file = {
-    enable      = false,
-    update_cwd  = false,
-    ignore_list = {}
+    enable = false,
+    update_cwd = false,
+    ignore_list = {},
   },
   system_open = {
-    cmd  = nil,
-    args = {}
+    cmd = nil,
+    args = {},
   },
   view = {
     width = 36,
     height = 30,
-    side = 'left',
+    side = "left",
     mappings = {
       custom_only = false,
-      list = {}
-    }
+      list = {},
+    },
   },
   actions = {
     use_system_clipboard = true,
@@ -66,14 +66,14 @@ require'nvim-tree'.setup {
   },
   filters = {
     dotfiles = false,
-    custom = {}
-  }
-}
-
-local wk = require('which-key')
-wk.register({
-  ['<leader>t'] = {name = '+NvimTree'},
+    custom = {},
+  },
 })
-vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>')
-vim.keymap.set('n', '<leader>tr', ':NvimTreeRefresh<CR>')
-vim.keymap.set('n', '<leader>tf', ':NvimTreeFindFile<CR>')
+
+local wk = require "which-key"
+wk.register({
+  ["<leader>t"] = { name = "+NvimTree" },
+})
+vim.keymap.set("n", "<leader>tt", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>tr", ":NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<leader>tf", ":NvimTreeFindFile<CR>")
