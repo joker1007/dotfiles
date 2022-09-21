@@ -104,6 +104,9 @@ return packer.startup(function(use)
       vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.go" }, callback = require("go.format").gofmt })
     end,
   })
+  use({
+    "mfussenegger/nvim-jdtls",
+  })
   -- }}}
 
   use({ "tyru/eskk.vim", event = { "InsertEnter" } })
@@ -320,22 +323,22 @@ return packer.startup(function(use)
           name = "+Trouble",
         },
       })
-      vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
       vim.api.nvim_set_keymap(
         "n",
         "<leader>xw",
-        "<cmd>Trouble workspace_diagnostics<cr>",
+        "<cmd>TroubleToggle workspace_diagnostics<cr>",
         { silent = true, noremap = true }
       )
       vim.api.nvim_set_keymap(
         "n",
         "<leader>xd",
-        "<cmd>Trouble document_diagnostics<cr>",
+        "<cmd>TroubleToggle document_diagnostics<cr>",
         { silent = true, noremap = true }
       )
-      vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>", { silent = true, noremap = true })
-      vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
-      vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>", { silent = true, noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+      vim.api.nvim_set_keymap("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
     end,
   })
 
