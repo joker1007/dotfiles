@@ -191,9 +191,10 @@ vim.g.loaded_perl_provider = 0
 -----------------------------------------------------------}}}
 
 -- filetype setter {{{
-vim.api.nvim_create_augroup("FileTypeSetter", {})
+local file_type_setter_group = vim.api.nvim_create_augroup("FileTypeSetter", {})
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "Steepfile" },
+  group = file_type_setter_group,
   command = "set ft=ruby",
 })
 -- }}}
@@ -309,70 +310,6 @@ let g:quickrun_config.ruby = {
   \ 'cmdopt': '-W2',
   \ 'exec': 'bundle exec %c %o %s %a',
   \ }
-
-let g:quickrun_config['ruby/plain'] =
-  \ extend(copy(g:quickrun_config.ruby), {
-    \ 'type': 'ruby/plain',
-    \ 'command': 'ruby',
-    \ 'exec': '%c %o %s %a',
-  \})
-
-let s:rspec_quickrun_config = {
-  \ 'command': 'rspec',
-  \ 'outputter': 'multi:error:rspec_notifier',
-  \ 'outputter/buffer/split': ':botright 8sp',
-  \ 'hook/close_buffer/enable_success' : 1,
-  \}
-
-let g:quickrun_config['rspec/bundle'] =
-  \ extend(copy(s:rspec_quickrun_config), {
-    \ 'type': 'rspec/bundle',
-    \ 'exec': 'bundle exec %c %o --color --tty %s%a'
-  \})
-
-let g:quickrun_config['rspec/normal'] =
-  \ extend(copy(s:rspec_quickrun_config), {
-    \ 'type': 'rspec/normal',
-    \ 'exec': '%c %o --color --tty %s%a'
-  \})
-
-let g:quickrun_config['rspec/spring'] =
-  \ extend(copy(s:rspec_quickrun_config), {
-    \ 'type': 'rspec/spring',
-    \ 'exec': 'spring rspec %o --color --tty %s%a'
-  \})
-
-let g:quickrun_config['markdown'] = {
- \ 'type': 'markdown/gfm',
- \ 'outputter': 'browser'
- \}
-
-function! s:RSpecQuickrun()
-  if exists('g:use_spring_rspec') && g:use_spring_rspec == 1
-    let b:quickrun_config = {'type' : 'rspec/spring'}
-  elseif exists('g:use_zeus_rspec') && g:use_zeus_rspec == 1
-    let b:quickrun_config = {'type' : 'rspec/zeus'}
-  else
-    let b:quickrun_config = {'type' : 'rspec/bundle'}
-  endif
-
-  nnoremap <expr><silent> <Leader>lr "<Esc>:QuickRun -args :" . line(".") . "<CR>"
-endfunction
-autocmd vimrc BufReadPost *_spec.rb call s:RSpecQuickrun()
-
-function! s:SetUseSpring()
-  let g:use_spring_rspec = 1
-  let g:use_spring_cucumber = 1
-endfunction
-
-function! s:SetUseBundle()
-  let g:use_spring_rspec = 0
-  let g:use_spring_cucumber = 0
-endfunction
-
-command! -nargs=0 UseSpringRSpec let b:quickrun_config = {'type' : 'rspec/spring'} | call s:SetUseSpring()
-command! -nargs=0 UseBundleRSpec let b:quickrun_config = {'type' : 'rspec/bundle'} | call s:SetUseBundle()
-command! -nargs=0 UsePlainRuby let b:quickrun_config = {'type' : 'ruby/plain'}
 ]]
 -- }}}
 
