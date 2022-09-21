@@ -652,10 +652,12 @@ end
 local lspconfig = require "lspconfig"
 require("mason-lspconfig").setup_handlers({
   function(server_name)
-    lspconfig[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+    if (server_name ~= "jdtls") then
+      lspconfig[server_name].setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+    end
   end,
   ["sumneko_lua"] = function()
     lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", luadev, {
@@ -689,6 +691,41 @@ lspconfig.steep.setup({
     return config
   end,
 })
+
+local lspconfig_configs = require "lspconfig.configs"
+local lspconfig_util = require "lspconfig.util"
+if not lspconfig_configs["ruby-lsp"] then
+  lspconfig_configs["ruby-lsp"] = {
+    default_config = {
+      cmd = { "bundle", "exec", "ruby-lsp" },
+      filetypes = { "ruby" },
+      root_dir = lspconfig_util.root_pattern("Gemfile", ".git"),
+      init_options = {
+        enabledFeatures = {
+          "documentHighlights",
+          "documentSymbols",
+          "foldingRanges",
+          "selectionRanges",
+          "semanticHighlighting",
+          "formatting",
+          "diagnostics",
+          "codeActions",
+        },
+      },
+    },
+    docs = {
+      description = [[https://github.com/Shopify/ruby-lsp]],
+      default_config = {
+        root_dir = [[root_pattern(".git")]],
+      },
+    },
+  }
+end
+
+-- lspconfig["ruby-lsp"].setup({
+--   capabilities = capabilities,
+--   on_attach = on_attach,
+-- })
 
 require("null-ls").setup({
   capabilities = capabilities,
