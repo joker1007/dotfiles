@@ -579,6 +579,13 @@ return packer.startup(function(use)
       require("telescope").load_extension "ui-select"
     end,
   })
+  use({
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require("telescope").load_extension "frecency"
+    end,
+    requires = { "kkharji/sqlite.lua", "nvim-telescope/telescope.nvim" },
+  })
 
   use({
     "windwp/nvim-spectre",

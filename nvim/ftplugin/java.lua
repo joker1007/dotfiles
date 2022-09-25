@@ -2,13 +2,12 @@ local util = require "lspconfig.util"
 local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
 local bin = util.path.join(jdtls_path, "bin", "jdtls")
 
-local home = vim.loop.os_homedir()
-local cache_dir = util.path.join(home, ".cache")
+local cache_dir = vim.env.XDG_CACHE_HOME or util.path.join(vim.env.HOME, ".cache")
 local jdtls_cache_dir = util.path.join(cache_dir, "jdtls")
 local jdtls_config_dir = util.path.join(jdtls_cache_dir, "config")
 local jdtls_workspace_dir = util.path.join(jdtls_cache_dir, "workspace")
 
-local lombok_path = util.path.join(home, ".config", "nvim", "dependencies", "lombok.jar")
+local lombok_path = util.path.join(vim.fn.stdpath("config"), "dependencies", "lombok.jar")
 
 local lsp_common = require("lsp_common")
 local on_attach = lsp_common.on_attach

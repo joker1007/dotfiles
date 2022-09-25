@@ -18,9 +18,9 @@ local telescope_mappings = {
     },
     r = {
       function()
-        require("telescope.builtin").oldfiles()
+        require("telescope").extensions.frecency.frecency()
       end,
-      "MRU",
+      "Frecency",
     },
     b = {
       function()

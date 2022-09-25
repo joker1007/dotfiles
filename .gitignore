@@ -1,16 +1,7 @@
-vim/backup/*
-vim/undo/*
-vim/.VimballRecord
-vimperator/info
-vim/.netrwhist
-vim/doc/tags
-vim/doc/tags-ja
-vim/bundle/*
-vim/bundle/*/doc/tags
-vim/bundle/*/doc/tags-ja
 *.zwc
 
 nvim/plugin
+nvim/dependencies
 
 mlterm/*.log
 mlterm/*.six
