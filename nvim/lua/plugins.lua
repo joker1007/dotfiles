@@ -208,7 +208,7 @@ return packer.startup(function(use)
     },
     run = ":TSUpdate",
     config = function()
-      require "my-treesitter-setup"
+      require "configs/treesitter"
     end,
   })
 
@@ -345,7 +345,7 @@ return packer.startup(function(use)
   use({
     "nvim-lualine/lualine.nvim",
     config = function()
-      require "my-lualine-setup"
+      require "configs/lualine"
     end,
   })
 
@@ -570,7 +570,7 @@ return packer.startup(function(use)
       "nvim-telescope/telescope-ui-select.nvim",
     },
     config = function()
-      require "my-telescope-setup"
+      require "configs/telescope"
       require("telescope").load_extension "project"
       require("telescope").load_extension "repo"
       require("telescope").load_extension "emoji"
@@ -975,7 +975,7 @@ return packer.startup(function(use)
   use({
     "kyazdani42/nvim-tree.lua",
     config = function()
-      require "my-nvim-tree-setup"
+      require "configs/nvim-tree"
     end,
   })
   use "antoinemadec/FixCursorHold.nvim"
