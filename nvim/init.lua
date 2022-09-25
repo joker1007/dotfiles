@@ -518,7 +518,7 @@ vim.g.cursorhold_updatetime = 100
 
 -- LSP configs {{{
 
-local lsp_common = require("lsp_common")
+local lsp_common = require "lsp_common"
 local on_attach = lsp_common.on_attach
 local capabilities = lsp_common.capabilities
 local add_bundle_exec = lsp_common.add_bundle_exec
@@ -534,7 +534,7 @@ local luadev = require("lua-dev").setup()
 local lspconfig = require "lspconfig"
 require("mason-lspconfig").setup_handlers({
   function(server_name)
-    if (server_name ~= "jdtls") then
+    if server_name ~= "jdtls" then
       lspconfig[server_name].setup({
         capabilities = capabilities,
         on_attach = on_attach,

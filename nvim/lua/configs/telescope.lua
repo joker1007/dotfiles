@@ -178,6 +178,23 @@ require("telescope").setup({
         ["<C-h>"] = "which_key",
       },
     },
+    prompt_prefix = "   ",
+    layout_strategy = "flex",
+    sorting_strategy = "ascending",
+    winblend = 10,
+    layout_config = {
+      horizontal = {
+        prompt_position = "top",
+        width = 0.87,
+      },
+      vertical = {
+        prompt_position = "top",
+        preview_cutoff = 1,
+        mirror = true,
+      },
+      width = 0.87,
+      height = 0.80,
+    },
   },
   pickers = {
     -- Default configuration for builtin pickers goes here:
@@ -214,6 +231,11 @@ require("telescope").setup({
     },
     ["ui-select"] = {
       require("telescope.themes").get_dropdown({}),
+    },
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
     },
   },
 })

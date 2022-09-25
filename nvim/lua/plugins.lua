@@ -586,6 +586,13 @@ return packer.startup(function(use)
     end,
     requires = { "kkharji/sqlite.lua", "nvim-telescope/telescope.nvim" },
   })
+  use({
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "make",
+    config = function()
+      require("telescope").load_extension "fzf"
+    end,
+  })
 
   use({
     "windwp/nvim-spectre",
