@@ -350,11 +350,11 @@ return packer.startup(function(use)
   })
 
   use({
-    "nanozuki/tabby.nvim",
+    "akinsho/bufferline.nvim",
+    tag = "v2.*",
+    requires = "kyazdani42/nvim-web-devicons",
     config = function()
-      require("tabby").setup({
-        tabline = require("tabby.presets").active_wins_at_end,
-      })
+      require "configs/bufferline"
     end,
   })
 
@@ -421,7 +421,19 @@ return packer.startup(function(use)
     "sindrets/diffview.nvim",
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("diffview").setup()
+      require("diffview").setup({
+        default_args = {
+          DiffviewOpen = { "--untracked-files=no" },
+        },
+        keymaps = {
+          view = {
+            ["gq"] = require("diffview.config").actions.close,
+          },
+          panel = {
+            ["gq"] = require("diffview.config").actions.close,
+          },
+        },
+      })
     end,
   })
   -- }}}

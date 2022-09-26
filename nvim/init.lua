@@ -240,11 +240,6 @@ vim.cmd [[au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8]]
 -- For avsc
 vim.cmd [[autocmd! vimrc BufNewFile,BufRead *.avsc set filetype=json]]
 
--- バッファ切り替え {{{
-vim.keymap.set("n", "<space>n", ":<C-U>bnext<CR>")
-vim.keymap.set("n", "<space>p", ":<C-U>bprevious<CR>")
--- }}}
-
 -- smartchr {{{
 vim.cmd [[
 function! s:EnableSmartchrBasic()
