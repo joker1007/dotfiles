@@ -165,6 +165,12 @@ return packer.startup(function(use)
   use({ "mattn/vim-maketable", ft = "markdown" })
   use({ "kannokanno/previm", ft = "markdown" })
   use({ "euclio/vim-markdown-composer", run = "cargo build --release" })
+  use({
+    "dhruvasagar/vim-table-mode",
+    setup = function()
+      vim.g.table_mode_disable_mappings = 1
+    end,
+  })
   -- }}}
 
   -- colorschemes plugin {{{
@@ -686,6 +692,7 @@ return packer.startup(function(use)
           {
             name = "buffer",
             option = {
+              keyword_length = 5,
               get_bufnrs = function()
                 local bufs = {}
                 for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -697,7 +704,6 @@ return packer.startup(function(use)
           },
           { name = "nvim_lua" },
           { name = "luasnip" },
-          { name = "cmdline" },
           { name = "git" },
           { name = "emoji" },
         }),
@@ -705,6 +711,7 @@ return packer.startup(function(use)
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ['<C-e>'] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
       })
@@ -712,7 +719,12 @@ return packer.startup(function(use)
       cmp.setup.cmdline("/", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = "buffer" },
+          {
+            name = "buffer",
+            option = {
+              keyword_length = 5,
+            }
+          },
         },
       })
 
@@ -995,6 +1007,20 @@ return packer.startup(function(use)
     "kyazdani42/nvim-tree.lua",
     config = function()
       require "configs/nvim-tree"
+    end,
+  })
+  use({
+    "axieax/urlview.nvim",
+    config = function()
+      require("urlview").setup()
+      local wk = require "which-key"
+      wk.register({
+        [",u"] = {
+          name = "+UrlView",
+        },
+      })
+      vim.keymap.set("n", ",uv", "<cmd>UrlView<CR>", { silent = true })
+      vim.keymap.set("n", ",up", "<cmd>UrlView packer<CR>", { silent = true })
     end,
   })
   use "antoinemadec/FixCursorHold.nvim"
