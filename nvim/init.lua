@@ -176,7 +176,7 @@ vim.cmd [[autocmd! vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line
 vim.cmd [[autocmd! vimrc ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060]]
 vim.cmd [[autocmd! vimrc VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')]]
 
-vim.cmd [[colorscheme zephyr]]
+vim.cmd [[colorscheme duskfox]]
 
 --Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 --If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
