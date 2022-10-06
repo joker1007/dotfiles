@@ -1,0 +1,26 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+continuation_prompt = ">> "
+
+[directory]
+truncation_length = 5
+truncate_to_repo = false
+
+[git_commit]
+only_detached = false
+tag_disabled = false
+
+[git_metrics]
+disabled = false
+
+[gcloud]
+disabled = true
+
+[hostname]
+ssh_only = false
+
+[terraform]
+format = "via [$symbol$version]($style) "
+
+[time]
+disabled = false
