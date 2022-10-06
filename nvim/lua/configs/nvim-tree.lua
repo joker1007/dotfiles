@@ -1,15 +1,9 @@
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
 require("nvim-tree").setup({
-  disable_netrw = true,
-  hijack_netrw = true,
-  open_on_setup = false,
-  ignore_ft_on_setup = {},
-  hijack_directories = {
-    enable = true,
-    auto_open = true,
-  },
-  open_on_tab = false,
-  hijack_cursor = false,
-  update_cwd = true,
+  sort_by = "case_sensitive",
+  sync_root_with_cwd = true,
   diagnostics = {
     enable = false,
     icons = {
@@ -20,52 +14,29 @@ require("nvim-tree").setup({
     },
   },
   update_focused_file = {
-    enable = false,
-    update_cwd = false,
-    ignore_list = {},
-  },
-  system_open = {
-    cmd = nil,
-    args = {},
+    enable = true,
+    update_root = true,
   },
   view = {
     width = 36,
     side = "left",
     mappings = {
       custom_only = false,
-      list = {},
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
     },
   },
   actions = {
     use_system_clipboard = true,
     change_dir = {
-      enable = true,
-      global = false,
-      restrict_above_cwd = false,
+      enable = false,
     },
-    expand_all = {
-      max_folder_discovery = 300,
-      exclude = {},
-    },
-    open_file = {
-      quit_on_open = false,
-      resize_window = false,
-      window_picker = {
-        enable = true,
-        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-        exclude = {
-          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-          buftype = { "nofile", "terminal", "help" },
-        },
-      },
-    },
-    remove_file = {
-      close_window = true,
-    },
-  },
-  filters = {
-    dotfiles = false,
-    custom = {},
   },
 })
 
