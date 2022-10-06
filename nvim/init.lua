@@ -562,7 +562,13 @@ require("mason-lspconfig").setup_handlers({
 
 lspconfig.steep.setup({
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+    vim.keymap.set("n", "<space>ct", function()
+      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function()
+      end, bufnr)
+    end, { silent = true, buffer = bufnr })
+  end,
   on_new_config = function(config, root_dir)
     add_bundle_exec(config, "steep", root_dir)
     return config

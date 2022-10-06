@@ -1,5 +1,15 @@
 local wk = require "which-key"
 
+vim.api.nvim_create_user_command(
+  'TelescopeWithBufferDir',
+  function(opts)
+    local dir = vim.fn.fnamemodify(vim.fn.expand("%:p:h") .. "/" .. opts.args, ":p")
+    local cwd = (vim.fn.fnamemodify(dir, ":p"))
+    require("telescope.builtin").find_files({cwd = cwd, prompt_prefix = cwd .. "   "})
+  end,
+  { nargs = 1 }
+)
+
 local telescope_mappings = {
   name = "+Telescope",
   f = {
@@ -10,9 +20,15 @@ local telescope_mappings = {
       end,
       "Find File",
     },
-    n = {
+    i = {
       function()
         require("telescope.builtin").find_files({ no_ignore = true, no_ignore_parent = true })
+      end,
+      "Find File",
+    },
+    o = {
+      function()
+        require("telescope.builtin").oldfiles()
       end,
       "Find File",
     },
@@ -28,6 +44,7 @@ local telescope_mappings = {
       end,
       "File Browser",
     },
+    d = {":TelescopeWithBufferDir ", "File Browser (change dir)"},
   },
   F = {
     name = "+Telescope (file+filepath)",

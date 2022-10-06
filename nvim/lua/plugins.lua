@@ -233,14 +233,15 @@ return packer.startup(function(use)
   })
 
   -- watch https://github.com/m-demare/hlargs.nvim/issues/43
-  -- use({
-  --   "m-demare/hlargs.nvim",
-  --   requires = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --   config = function()
-  --   end,
-  -- })
+  use({
+    "m-demare/hlargs.nvim",
+    requires = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("hlargs").setup()
+    end,
+  })
 
   use({
     "lukas-reineke/indent-blankline.nvim",
@@ -712,7 +713,7 @@ return packer.startup(function(use)
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
       })
 
