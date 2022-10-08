@@ -1,6 +1,4 @@
-pry
-pry-doc
-byebug
+debug
 awesome_print
 tapp
 neovim
