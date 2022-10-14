@@ -108,6 +108,7 @@ vim.keymap.set("n", "*", "<Plug>(visualstar-*)N", { remap = true })
 vim.keymap.set("n", "#", "<Plug>(visualstar-#)N", { remap = true })
 
 -- ステータスライン表示
+
 vim.opt.laststatus = 2
 vim.opt.showmode = false
 vim.opt.wildmenu = true
@@ -537,7 +538,7 @@ require("mason-lspconfig").setup_handlers({
     end
   end,
   ["sumneko_lua"] = function()
-    lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", luadev, {
+    lspconfig.sumneko_lua.setup({
       on_attach = on_attach,
       settings = {
         Lua = {
@@ -546,7 +547,7 @@ require("mason-lspconfig").setup_handlers({
           },
         },
       },
-    }))
+    })
   end,
   ["solargraph"] = function()
     lspconfig.solargraph.setup({
@@ -565,8 +566,7 @@ lspconfig.steep.setup({
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
-      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function()
-      end, bufnr)
+      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function() end, bufnr)
     end, { silent = true, buffer = bufnr })
   end,
   on_new_config = function(config, root_dir)
@@ -638,3 +638,21 @@ require("null-ls").setup({
   },
 })
 -- }}}
+
+vim.g.firenvim_config = {
+  localSettings = {
+    [".*"] = {
+      takeover = "never",
+    },
+  },
+}
+if vim.g.started_by_firenvim then
+  local firenvim_group = vim.api.nvim_create_augroup("Firenvim", {})
+  vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    group = firenvim_group,
+    callback = function()
+      vim.opt_local.laststatus = 0
+      vim.opt_local.showtabline = 0
+    end,
+  })
+end

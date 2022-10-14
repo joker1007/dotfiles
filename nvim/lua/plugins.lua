@@ -1005,6 +1005,12 @@ return packer.startup(function(use)
   use "brettanomyces/nvim-editcommand"
   use "subnut/nvim-ghost.nvim"
   use({
+    "glacambre/firenvim",
+    run = function()
+      vim.fn["firenvim#install"](0)
+    end,
+  })
+  use({
     "kyazdani42/nvim-tree.lua",
     config = function()
       require "configs/nvim-tree"
