@@ -10,6 +10,8 @@ vim.api.nvim_create_user_command(
   { nargs = 1 }
 )
 
+require("telescope").load_extension "gh_notifications"
+
 local telescope_mappings = {
   name = "+Telescope",
   f = {
@@ -146,6 +148,12 @@ local telescope_mappings = {
     end,
     "Resume",
   },
+  n = {
+    function()
+      require("telescope").extensions.gh_notifications.gh_notifications()
+    end,
+    "GH Notifications"
+  }
 }
 
 wk.register({
