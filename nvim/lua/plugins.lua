@@ -85,7 +85,7 @@ return packer.startup(function(use)
     end,
   })
 
-  use "folke/lua-dev.nvim"
+  use "folke/neodev.nvim"
 
   use "mfussenegger/nvim-dap"
   use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })

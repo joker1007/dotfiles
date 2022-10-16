@@ -525,7 +525,7 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, noremap_silent)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, noremap_silent)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, noremap_silent)
 
-local luadev = require("lua-dev").setup()
+local luadev = require("neodev").setup()
 
 local lspconfig = require "lspconfig"
 require("mason-lspconfig").setup_handlers({
