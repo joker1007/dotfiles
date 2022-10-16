@@ -44,7 +44,7 @@ local get_html_url = function(notification, opts)
   local result = ""
   Job:new({
     command = "gh",
-    args = { "api", url, "--jq", ".html_url" },
+    args = { "api", url, "--cache", "24h", "--jq", ".html_url" },
     on_exit = function(j, return_val)
       if return_val == 0 then
         result = j:result()[1]
@@ -98,6 +98,8 @@ local notifications_finder = finders.new_oneshot_job({
   "gh",
   "api",
   "notifications?all=true",
+  "--cache",
+  "5m",
   "--jq",
   ".[] | {updated_at, unread, reason, subject, url, repo: .repository.name}",
 }, {
