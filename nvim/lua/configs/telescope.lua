@@ -1,16 +1,13 @@
 local wk = require "which-key"
 
-vim.api.nvim_create_user_command(
-  'TelescopeWithBufferDir',
-  function(opts)
-    local dir = vim.fn.fnamemodify(vim.fn.expand("%:p:h") .. "/" .. opts.args, ":p")
-    local cwd = (vim.fn.fnamemodify(dir, ":p"))
-    require("telescope.builtin").find_files({cwd = cwd, prompt_prefix = cwd .. "   "})
-  end,
-  { nargs = 1 }
-)
+vim.api.nvim_create_user_command("TelescopeWithBufferDir", function(opts)
+  local dir = vim.fn.fnamemodify(vim.fn.expand "%:p:h" .. "/" .. opts.args, ":p")
+  local cwd = (vim.fn.fnamemodify(dir, ":p"))
+  require("telescope.builtin").find_files({ cwd = cwd, prompt_prefix = cwd .. "   " })
+end, { nargs = 1 })
 
 require("telescope").load_extension "gh_notifications"
+require("telescope").load_extension "gh_collaborators"
 
 local telescope_mappings = {
   name = "+Telescope",
@@ -46,7 +43,7 @@ local telescope_mappings = {
       end,
       "File Browser",
     },
-    d = {":TelescopeWithBufferDir ", "File Browser (change dir)"},
+    d = { ":TelescopeWithBufferDir ", "File Browser (change dir)" },
   },
   F = {
     name = "+Telescope (file+filepath)",
@@ -152,8 +149,23 @@ local telescope_mappings = {
     function()
       require("telescope").extensions.gh_notifications.gh_notifications()
     end,
-    "GH Notifications"
-  }
+    "GH Notifications",
+  },
+  m = {
+    function()
+      local buf = vim.api.nvim_get_current_buf()
+      local bufname = vim.api.nvim_buf_get_name(buf)
+      local result = vim.fn.matchlist(bufname, "octo://\\(.\\{-}\\)/\\(.\\{-}\\)/")
+      local owner = result[2]
+      local repo = result[3]
+      if owner ~= "" and repo ~= "" then
+        require("telescope").extensions.gh_collaborators.gh_collaborators({ owner = owner, repo = repo })
+      else
+        require("telescope").extensions.gh_collaborators.gh_collaborators()
+      end
+    end,
+    "GH Org Members",
+  },
 }
 
 wk.register({
