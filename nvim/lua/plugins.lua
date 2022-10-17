@@ -420,6 +420,24 @@ return packer.startup(function(use)
     },
     config = function()
       require("octo").setup()
+
+      local wk = require "which-key"
+      wk.register({
+        [",o"] = {
+          name = "+Octo",
+          p = {
+            name = "PullRequest",
+            l = {"<cmd>Octo pr list<cr>", "PullRequest (list)"},
+            r = {"<cmd>Octo search is:pr review-requested:@me is:open<cr>", "PullRequest (review-requested)"},
+            a = {"<cmd>Octo search is:pr author:@me is:open<cr>", "PullRequest (created)"},
+          },
+          i = {
+            name = "Issue",
+            l = {"<cmd>Octo issue list<cr>", "Issue (list)"},
+            a = {"<cmd>Octo search is:issue author:@me is:open<cr>", "Issue (created)"},
+          },
+        }
+      })
     end,
   })
 
