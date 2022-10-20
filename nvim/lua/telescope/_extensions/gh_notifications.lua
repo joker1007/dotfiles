@@ -99,7 +99,7 @@ local notifications_finder = finders.new_oneshot_job({
   "api",
   "notifications?all=true",
   "--cache",
-  "5m",
+  "1m",
   "--jq",
   ".[] | {updated_at, unread, reason, subject, url, repo: .repository.name}",
 }, {

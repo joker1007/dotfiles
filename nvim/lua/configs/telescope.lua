@@ -39,7 +39,7 @@ local telescope_mappings = {
     },
     b = {
       function()
-        require("telescope").extensions.file_browser.file_browser()
+        require("telescope").extensions.file_browser.file_browser({ depth = 5, collapse_dirs = true })
       end,
       "File Browser",
     },
