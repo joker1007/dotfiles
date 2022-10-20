@@ -24,3 +24,12 @@ format = "via [$symbol$version]($style) "
 
 [time]
 disabled = false
+
+[ruby]
+symbol = " "
+
+[golang]
+symbol = "ﳑ "
+
+[aws]
+symbol = " "
