@@ -232,7 +232,6 @@ return packer.startup(function(use)
     end,
   })
 
-  -- watch https://github.com/m-demare/hlargs.nvim/issues/43
   use({
     "m-demare/hlargs.nvim",
     requires = {
@@ -427,16 +426,25 @@ return packer.startup(function(use)
           name = "+Octo",
           p = {
             name = "PullRequest",
-            l = {"<cmd>Octo pr list<cr>", "PullRequest (list)"},
-            r = {"<cmd>Octo search is:pr review-requested:@me is:open<cr>", "PullRequest (review-requested)"},
-            a = {"<cmd>Octo search is:pr author:@me is:open<cr>", "PullRequest (created)"},
+            l = { "<cmd>Octo pr list<cr>", "List PullRequests" },
+            r = { "<cmd>Octo search is:pr review-requested:@me is:open<cr>", "Search PullRequests (review-requested)" },
+            a = { "<cmd>Octo search is:pr author:@me is:open<cr>", "Search PullRequests (created)" },
+            c = { "<cmd>Octo pr create<cr>", "Create PullRequest" },
           },
           i = {
             name = "Issue",
-            l = {"<cmd>Octo issue list<cr>", "Issue (list)"},
-            a = {"<cmd>Octo search is:issue author:@me is:open<cr>", "Issue (created)"},
+            l = { "<cmd>Octo issue list<cr>", "Issue (list)" },
+            a = { "<cmd>Octo search is:issue author:@me is:open<cr>", "Issue (created)" },
           },
-        }
+          r = {
+            name = "Review",
+            s = { "<cmd>Octo review start<cr>", "Start Review" },
+            u = { "<cmd>Octo review submit<cr>", "Submit Review" },
+            r = { "<cmd>Octo review resume<cr>", "Resume Review" },
+            c = { "<cmd>Octo review comments<cr>", "View Pending comments" },
+            d = { "<cmd>Octo review discard<cr>", "Discard Pending review" },
+          },
+        },
       })
     end,
   })
@@ -471,123 +479,7 @@ return packer.startup(function(use)
     "phaazon/hop.nvim",
     branch = "v2",
     config = function()
-      local hop = require "hop"
-      local hint = require "hop.hint"
-      local wk = require "which-key"
-
-      wk.register({
-        ["<leader><leader>"] = {
-          f = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true })
-            end,
-            "Hint char (forward)",
-          },
-          F = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true })
-            end,
-            "Hint char (backward)",
-          },
-          t = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
-            end,
-            "Hint char (forward)",
-          },
-          T = {
-            function()
-              hop.hint_char1({
-                direction = hint.HintDirection.BEFORE_CURSOR,
-                current_line_only = true,
-                hint_offset = -1,
-              })
-            end,
-            "Hint char (backward)",
-          },
-          w = {
-            function()
-              hop.hint_words({ direction = hint.HintDirection.AFTER_CURSOR })
-            end,
-            "Hint words (forward)",
-          },
-          W = {
-            function()
-              hop.hint_words({ direction = hint.HintDirection.BEFORE_CURSOR })
-            end,
-            "Hint words (backward)",
-          },
-          ["/"] = {
-            function()
-              hop.hint_patterns({ direction = hint.HintDirection.AFTER_CURSOR })
-            end,
-            "Hint patterns (forward)",
-          },
-          ["?"] = {
-            function()
-              hop.hint_patterns({ direction = hint.HintDirection.BEFORE_CURSOR })
-            end,
-            "Hint patterns (forward)",
-          },
-        },
-      })
-      wk.register({
-        ["<leader><leader>"] = {
-          f = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true })
-            end,
-            "Hint char (forward)",
-          },
-          F = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.BEFORE_CURSOR, current_line_only = true })
-            end,
-            "Hint char (backward)",
-          },
-          t = {
-            function()
-              hop.hint_char1({ direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
-            end,
-            "Hint char (forward)",
-          },
-          T = {
-            function()
-              hop.hint_char1({
-                direction = hint.HintDirection.BEFORE_CURSOR,
-                current_line_only = true,
-                hint_offset = -1,
-              })
-            end,
-            "Hint char (backward)",
-          },
-          w = {
-            function()
-              hop.hint_words({ direction = hint.HintDirection.AFTER_CURSOR })
-            end,
-            "Hint words (forward)",
-          },
-          W = {
-            function()
-              hop.hint_words({ direction = hint.HintDirection.BEFORE_CURSOR })
-            end,
-            "Hint words (backward)",
-          },
-          ["/"] = {
-            function()
-              hop.hint_patterns({ direction = hint.HintDirection.AFTER_CURSOR })
-            end,
-            "Hint patterns (forward)",
-          },
-          ["?"] = {
-            function()
-              hop.hint_patterns({ direction = hint.HintDirection.BEFORE_CURSOR })
-            end,
-            "Hint patterns (forward)",
-          },
-        },
-      }, { mode = "v" })
-      hop.setup({})
+      require "configs/hop"
     end,
   })
   use "t9md/vim-choosewin"
@@ -637,19 +529,19 @@ return packer.startup(function(use)
     config = function()
       vim.keymap.set("n", "<leader>S", function()
         require("spectre").open()
-      end)
+      end, { desc = "Spectre" })
 
       -- search current word
       vim.keymap.set("n", "<leader>sw", function()
         require("spectre").open_visual({ select_word = true })
-      end)
+      end, { desc = "Spectre (select word)" })
       vim.keymap.set("v", "<leader>s", function()
         require("spectre").open_visual()
-      end)
+      end, { desc = "Spectre" })
       -- search in current file
       vim.keymap.set("n", "<leader>sp", function()
         require("spectre").open_file_search()
-      end)
+      end, { desc = "Spectre (file search)" })
 
       require("spectre").setup({
         live_update = true,
@@ -911,7 +803,7 @@ return packer.startup(function(use)
   use "rhysd/ghpr-blame.vim"
   use "Shougo/vinarise.vim"
 
-  use({ "thinca/vim-qfreplace", ft = { "qf" } })
+  use({ "gabrielpoca/replacer.nvim", ft = { "qf" } })
   use({ "kevinhwang91/nvim-bqf", ft = { "qf" } })
   use "rhysd/devdocs.vim"
   use "mattn/httpstatus-vim"

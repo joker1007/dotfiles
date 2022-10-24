@@ -449,8 +449,16 @@ vim.keymap.set("v", "<Leader>a:", ":Tabularize /:\zs<CR>")
 vim.keymap.set("v", "<Leader>a<Bar>", ":Tabularize /<Bar><CR>")
 -- }}}
 
--- qfreplace
-vim.cmd [[autocmd vimrc FileType qf nnoremap <buffer> r :<C-U>Qfreplace<CR>]]
+-- replacer.nvim
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "qf" },
+  group = "vimrc",
+  callback = function()
+    vim.keymap.set("n", "r", function()
+      require("replacer").run()
+    end, { buffer = 0 })
+  end,
+})
 
 -- ale {{{
 vim.g.ale_linters = { ruby = { "ruby" } }
