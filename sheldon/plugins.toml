@@ -16,7 +16,7 @@ shell = "zsh"
 github = "romkatv/zsh-defer"
 
 [templates]
-defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 
 [plugins.local-zfunc]
 local = "~/.zfunc"
@@ -40,6 +40,9 @@ apply = ["defer"]
 
 [plugins.oh-my-zsh]
 github = "ohmyzsh/ohmyzsh"
+
+[plugins.asdf]
+github = "asdf-vm/asdf"
 
 [plugins.dotfiles-main]
 local = "~/dotfiles/zsh/conf.d"

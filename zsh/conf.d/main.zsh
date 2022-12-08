@@ -46,11 +46,11 @@ function json_post() {
 }
 
 # wine
-export WINEARCH=win32
-export WINEPREFIX="$HOME/.wineprefixes/base"
-function prefix() {
-  export WINEPREFIX="$HOME/.wineprefixes/$1"
-}
+# export WINEARCH=win32
+# export WINEPREFIX="$HOME/.wineprefixes/base"
+# function prefix() {
+#   export WINEPREFIX="$HOME/.wineprefixes/$1"
+# }
 
 # bq
 function bqj() {
