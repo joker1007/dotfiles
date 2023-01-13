@@ -86,6 +86,8 @@ fi
 # golang
 export GOPATH=~/gocode
 
+export NODE_PATH=~/.local/lib64/node_modules
+
 export GITHUB_API_ENDPOINT="https://api.github.com"
 
 [ -s ~/dotfiles/nnn.env.sh ] && source ~/dotfiles/nnn.env.sh
