@@ -26,8 +26,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=0
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
@@ -60,12 +60,13 @@ bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Shift+r exec cat ~/.config/i3/base ~/.config/i3_sway/config > ~/.config/i3/config && i3-msg restart
 
 set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all' --term='alacritty'
-set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all | xargs i3-msg exec --
+set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 12" -l 10 --scrollbar=autohide -p ">" -m all | xargs i3-msg "exec --no-startup-id" --
 
 assign [class="(?i)carla"] 10:carla
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+exec --no-startup-id jack_start.sh
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id $HOME/.config/dunst/launch.sh
