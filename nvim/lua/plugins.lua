@@ -65,9 +65,7 @@ return packer.startup(function(use)
     "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
-      local saga = require "lspsaga"
-
-      saga.init_lsp_saga()
+      require("lspsaga").setup({})
     end,
   })
 
@@ -162,6 +160,7 @@ return packer.startup(function(use)
   -- }}}
 
   -- markdown {{{
+  use "preservim/vim-markdown"
   use({ "mattn/vim-maketable", ft = "markdown" })
   use({ "kannokanno/previm", ft = "markdown" })
   use({ "euclio/vim-markdown-composer", run = "cargo build --release" })

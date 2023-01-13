@@ -571,6 +571,7 @@ require("mason-lspconfig").setup_handlers({
 
 lspconfig.steep.setup({
   capabilities = capabilities,
+  autostart = false,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
@@ -636,6 +637,7 @@ require("null-ls").setup({
       extra_args = { "--globals", "vim", "--globals", "awesome" },
     }),
     require("null-ls").builtins.diagnostics.yamllint,
+    require("null-ls").builtins.diagnostics.commitlint,
     require("null-ls").builtins.formatting.rubocop.with({
       prefer_local = "bundle_bin",
       condition = function(utils)
