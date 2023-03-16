@@ -8,8 +8,8 @@ trap 'exit 1' 2
 
 eval "$(rbenv init -)"
 
-export CC=cc
-export CXX=c++
+export CC=clang
+export CXX=clang-cpp
 export CFLAGS="-O3 -march=native"
 export CXXLAGS="${CFLAGS}"
 
