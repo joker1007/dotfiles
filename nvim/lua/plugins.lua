@@ -875,6 +875,7 @@ return packer.startup(function(use)
             pattern = "/lib/(.*).rb",
             target = {
               { target = "/spec/%1_spec.rb", context = "spec" },
+              { target = "/spec/lib/%1_spec.rb", context = "spec" },
               { target = "/sig/%1.rbs", context = "sig" },
             },
           },
@@ -883,6 +884,13 @@ return packer.startup(function(use)
             target = {
               { target = "/lib/%1.rb", context = "lib" },
               { target = "/%1.rb" },
+            },
+          },
+          {
+            pattern = "/spec/lib/(.*)_spec.rb",
+            target = {
+              { target = "/lib/%1.rb", context = "lib" },
+              { target = "/sig/%1.rbs", context = "sig" },
             },
           },
           {
