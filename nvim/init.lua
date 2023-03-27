@@ -540,7 +540,7 @@ require("mason-lspconfig").setup_handlers({
   function(server_name)
     if server_name ~= "jdtls" then
       lspconfig[server_name].setup({
-        capabilities = capabilities,
+        capabilities = lsp_common.make_lsp_capabilities(),
         on_attach = on_attach,
       })
     end
@@ -559,7 +559,7 @@ require("mason-lspconfig").setup_handlers({
   end,
   ["solargraph"] = function()
     lspconfig.solargraph.setup({
-      capabilities = capabilities,
+      capabilities = lsp_common.make_lsp_capabilities(),
       on_attach = on_attach,
       on_new_config = function(config, root_dir)
         add_bundle_exec(config, "solargraph", root_dir)
@@ -567,10 +567,19 @@ require("mason-lspconfig").setup_handlers({
       end,
     })
   end,
+  ["clangd"] = function()
+    local c = lsp_common.make_lsp_capabilities()
+    c.textDocument.completion.editsNearCursor = true
+    c.offsetEncoding = "utf-8"
+    lspconfig.clangd.setup({
+      capabilities = c,
+      on_attach = on_attach,
+    })
+  end,
 })
 
 lspconfig.steep.setup({
-  capabilities = capabilities,
+  capabilities = lsp_common.make_lsp_capabilities(),
   autostart = false,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)

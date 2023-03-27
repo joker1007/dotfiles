@@ -39,7 +39,11 @@ local telescope_mappings = {
     },
     b = {
       function()
-        require("telescope").extensions.file_browser.file_browser({ depth = 5, collapse_dirs = true, respect_gitignore = false })
+        require("telescope").extensions.file_browser.file_browser({
+          depth = 5,
+          collapse_dirs = true,
+          respect_gitignore = false,
+        })
       end,
       "File Browser",
     },
@@ -65,7 +69,12 @@ local telescope_mappings = {
     },
     B = {
       function()
-        require("telescope").extensions.file_browser.file_browser({ path = vim.fn.expand "%:p:h", depth = 5, collapse_dirs = true, respect_gitignore = false })
+        require("telescope").extensions.file_browser.file_browser({
+          path = vim.fn.expand "%:p:h",
+          depth = 5,
+          collapse_dirs = true,
+          respect_gitignore = false,
+        })
       end,
       "File Browser (filepath)",
     },
@@ -273,6 +282,9 @@ require("telescope").setup({
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
+    },
+    file_browser = {
+      prompt_path = true,
     },
   },
 })
