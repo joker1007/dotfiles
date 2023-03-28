@@ -217,6 +217,8 @@ return packer.startup(function(use)
     end,
   })
 
+  use "nvim-treesitter/playground"
+
   use({
     "nvim-treesitter/nvim-treesitter-context",
     config = function()
@@ -594,7 +596,6 @@ return packer.startup(function(use)
             require("luasnip").lsp_expand(args.body)
           end,
         },
-
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "nvim_lsp_signature_help" },
@@ -617,7 +618,6 @@ return packer.startup(function(use)
           { name = "git" },
           { name = "emoji" },
         }),
-
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
