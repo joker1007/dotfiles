@@ -20,3 +20,4 @@ mkdir -p ~/.tmux/plugins
 ln -sf ${PWD}/tpm ~/.tmux/plugins/tpm
 ln -sf ${PWD}/i3 ~/.config/i3
 ln -sf ${PWD}/i3_sway ~/.config/i3_sway
+ln -sf ${PWD}/zellij ~/.config/zellij
