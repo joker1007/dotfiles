@@ -13,7 +13,7 @@ vim.api.nvim_create_augroup("vimrc", {})
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true -- always set autoindenting on
+vim.opt.ai = true               -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -40,7 +40,6 @@ vim.opt.timeoutlen = 500
 vim.cmd [[
 if exists("g:neovide")
   set guifont=Monospace:h12
-  let g:neovide_cursor_vfx_mode="wireframe"
   let g:neovide_transparency=0.9
   let g:neovide_cursor_vfx_mode = "railgun"
   function! FontSizePlus()
@@ -533,9 +532,32 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, noremap_silent)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, noremap_silent)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, noremap_silent)
 
-local luadev = require("neodev").setup()
+require("neodev").setup()
 
 local lspconfig = require "lspconfig"
+
+lspconfig.util.on_setup = lspconfig.util.add_hook_before(lspconfig.util.on_setup, function(config)
+  local check_executable = function(cmd)
+    local _root_dir = config.root_dir
+    config.root_dir = function(startpath)
+      if lsp_common.bundle_installed(cmd, vim.loop.cwd()) then
+        return _root_dir(startpath)
+      else
+        return nil
+      end
+    end
+  end
+  if config.name == "solargraph" then
+    check_executable "solargraph"
+  elseif config.name == "steep" then
+    check_executable "steep"
+  elseif config.name == "ruby_ls" then
+    check_executable "ruby-lsp"
+  elseif config.name == "typeprof" then
+    check_executable "typeprof"
+  end
+end)
+
 require("mason-lspconfig").setup_handlers({
   function(server_name)
     if server_name ~= "jdtls" then
@@ -557,16 +579,6 @@ require("mason-lspconfig").setup_handlers({
       },
     })
   end,
-  ["solargraph"] = function()
-    lspconfig.solargraph.setup({
-      capabilities = lsp_common.make_lsp_capabilities(),
-      on_attach = on_attach,
-      on_new_config = function(config, root_dir)
-        add_bundle_exec(config, "solargraph", root_dir)
-        return config
-      end,
-    })
-  end,
   ["clangd"] = function()
     local c = lsp_common.make_lsp_capabilities()
     c.textDocument.completion.editsNearCursor = true
@@ -578,13 +590,22 @@ require("mason-lspconfig").setup_handlers({
   end,
 })
 
+lspconfig.solargraph.setup({
+  capabilities = lsp_common.make_lsp_capabilities(),
+  on_attach = on_attach,
+  on_new_config = function(config, root_dir)
+    add_bundle_exec(config, "solargraph", root_dir)
+    return config
+  end,
+})
+
 lspconfig.steep.setup({
   capabilities = lsp_common.make_lsp_capabilities(),
-  autostart = false,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
-      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function() end, bufnr)
+      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function()
+      end, bufnr)
     end, { silent = true, buffer = bufnr })
   end,
   on_new_config = function(config, root_dir)
@@ -593,67 +614,71 @@ lspconfig.steep.setup({
   end,
 })
 
-local lspconfig_configs = require "lspconfig.configs"
-local lspconfig_util = require "lspconfig.util"
-if not lspconfig_configs["ruby-lsp"] then
-  lspconfig_configs["ruby-lsp"] = {
-    default_config = {
-      cmd = { "bundle", "exec", "ruby-lsp" },
-      filetypes = { "ruby" },
-      root_dir = lspconfig_util.root_pattern("Gemfile", ".git"),
-      init_options = {
-        enabledFeatures = {
-          "documentHighlights",
-          "documentSymbols",
-          "foldingRanges",
-          "selectionRanges",
-          "semanticHighlighting",
-          "formatting",
-          "diagnostics",
-          "codeActions",
-        },
-      },
-    },
-    docs = {
-      description = [[https://github.com/Shopify/ruby-lsp]],
-      default_config = {
-        root_dir = [[root_pattern(".git")]],
-      },
-    },
-  }
-end
+lspconfig.typeprof.setup({
+  capabilities = lsp_common.make_lsp_capabilities(),
+  on_attach = on_attach,
+  on_new_config = function(config, root_dir)
+    add_bundle_exec(config, "typeprof", root_dir)
+    return config
+  end,
+})
 
--- lspconfig["ruby-lsp"].setup({
---   capabilities = capabilities,
---   on_attach = on_attach,
--- })
+lspconfig.ruby_ls.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  init_options = {
+    enabledFeatures = {
+      "documentSymbol",
+      "documentLink",
+      "hover",
+      "foldingRanges",
+      "selectionRanges",
+      "semanticHighlighting",
+      "formatting",
+      "onTypeFormatting",
+      "diagnostics",
+      "codeActions",
+      "codeActionResolve",
+      "documentHighlight",
+      "inlayHints",
+      "completion",
+      "codeLens",
+    },
+  },
+  on_new_config = function(config, root_dir)
+    add_bundle_exec(config, "ruby-lsp", root_dir)
+    return config
+  end,
+})
 
-require("null-ls").setup({
+local null_ls = require "null-ls"
+null_ls.setup({
   capabilities = capabilities,
   sources = {
-    require("null-ls").builtins.formatting.stylua.with({
+    null_ls.builtins.formatting.stylua.with({
       condition = function(utils)
         return utils.root_has_file({ ".stylua.toml" })
       end,
     }),
-    require("null-ls").builtins.diagnostics.rubocop.with({
+    null_ls.builtins.diagnostics.rubocop.with({
       prefer_local = "bundle_bin",
       condition = function(utils)
         return utils.root_has_file({ ".rubocop.yml" })
       end,
     }),
-    require("null-ls").builtins.diagnostics.luacheck.with({
+    null_ls.builtins.diagnostics.luacheck.with({
       extra_args = { "--globals", "vim", "--globals", "awesome" },
     }),
-    require("null-ls").builtins.diagnostics.yamllint,
-    require("null-ls").builtins.diagnostics.commitlint,
-    require("null-ls").builtins.formatting.rubocop.with({
+    null_ls.builtins.diagnostics.yamllint,
+    null_ls.builtins.diagnostics.commitlint,
+    null_ls.builtins.formatting.rubyfmt,
+    null_ls.builtins.formatting.rubocop.with({
       prefer_local = "bundle_bin",
       condition = function(utils)
         return utils.root_has_file({ ".rubocop.yml" })
       end,
     }),
-    require("null-ls").builtins.completion.spell,
+    null_ls.builtins.completion.spell,
   },
 })
 -- }}}
