@@ -59,7 +59,8 @@ alias sprk='spring rake'
 alias sprs='spring rspec'
 alias dbuild='docker build -t $(basename $(pwd)) .'
 alias yd="youtube-dl"
-alias nv="neovide --multigrid"
+alias n="neovide --multigrid"
+alias o="xdg-open"
 
 # Global aliases
 alias -g L="| lv"
