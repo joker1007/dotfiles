@@ -409,7 +409,6 @@ return packer.startup(function(use)
       require("gitsigns").setup({ numhl = true })
     end,
   })
-  use "rhysd/committia.vim"
 
   use({
     "pwntester/octo.nvim",
