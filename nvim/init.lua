@@ -13,7 +13,7 @@ vim.api.nvim_create_augroup("vimrc", {})
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true               -- always set autoindenting on
+vim.opt.ai = true -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -483,9 +483,6 @@ vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h")
 vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j")
 vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k")
 vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l")
-
-vim.keymap.set("n", "<F9>", "<cmd>ToggleTermSendCurrentLine<cr>")
-vim.keymap.set("v", "<F9>", "<cmd>ToggleTermSendVisualSelection<cr>")
 --- }}}
 
 -- nvim-editcommand
@@ -532,7 +529,9 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, noremap_silent)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, noremap_silent)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, noremap_silent)
 
-require("neodev").setup()
+require("neodev").setup({
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
 
 local lspconfig = require "lspconfig"
 
@@ -604,8 +603,7 @@ lspconfig.steep.setup({
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
-      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function()
-      end, bufnr)
+      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function() end, bufnr)
     end, { silent = true, buffer = bufnr })
   end,
   on_new_config = function(config, root_dir)
@@ -681,6 +679,52 @@ null_ls.setup({
     null_ls.builtins.completion.spell,
   },
 })
+
+local dap = require "dap"
+dap.adapters.ruby = function(callback, config)
+  callback({
+    type = "server",
+    host = "127.0.0.1",
+    port = "${port}",
+    executable = {
+      command = "bundle",
+      args = {
+        "exec",
+        "rdbg",
+        "-n",
+        "--open",
+        "--port",
+        "${port}",
+        "-c",
+        "--",
+        "bundle",
+        "exec",
+        config.command,
+        config.script,
+      },
+    },
+  })
+end
+
+dap.configurations.ruby = {
+  {
+    type = "ruby",
+    name = "debug current file",
+    request = "attach",
+    localfs = true,
+    command = "ruby",
+    script = "${file}",
+  },
+  {
+    type = "ruby",
+    name = "run current spec file",
+    request = "attach",
+    localfs = true,
+    command = "rspec",
+    script = "${file}",
+  },
+}
+
 -- }}}
 
 vim.g.firenvim_config = {

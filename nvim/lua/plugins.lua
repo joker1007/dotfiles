@@ -85,14 +85,85 @@ return packer.startup(function(use)
 
   use "folke/neodev.nvim"
 
-  use "mfussenegger/nvim-dap"
-  use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
+  use({
+    "mfussenegger/nvim-dap",
+    config = function()
+      vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        pattern = "dap-repl",
+        callback = function()
+          require("dap.ext.autocompl").attach()
+        end,
+      })
+      vim.keymap.set("n", "<F5>", function()
+        require("dap").continue()
+      end)
+      vim.keymap.set("n", "<F9>", function()
+        require("dap").step_over()
+      end)
+      vim.keymap.set("n", "<F10>", function()
+        require("dap").step_into()
+      end)
+      vim.keymap.set("n", "<F11>", function()
+        require("dap").step_out()
+      end)
+      vim.keymap.set("n", "<Leader>b", function()
+        require("dap").toggle_breakpoint()
+      end)
+      vim.keymap.set("n", "<Leader>B", function()
+        require("dap").set_breakpoint(vim.fn.input "condition: ")
+      end)
+
+      local wk = require "which-key"
+      wk.register({
+        ["<leader>d"] = {
+          name = "+Debug",
+        },
+      })
+      vim.keymap.set("n", "<Leader>du", function()
+        require("dapui").toggle()
+      end, { desc = "toggle UI" })
+      vim.keymap.set("n", "<Leader>dr", function()
+        require("dap").repl.open()
+      end, { desc = "open repl" })
+      vim.keymap.set("n", "<Leader>dl", function()
+        require("dap").run_last()
+      end, { desc = "re-run last debug adapter" })
+    end,
+  })
+  use({
+    "rcarriga/nvim-dap-ui",
+    requires = { "mfussenegger/nvim-dap" },
+    config = function()
+      require("dapui").setup({
+        controls = {
+          icons = {
+            disconnect = "",
+            play = "",
+            pause = "",
+            step_back = "",
+            step_into = "",
+            step_over = "",
+            step_out = "",
+            run_last = "",
+            terminate = "",
+          },
+        },
+        icons = { expanded = "", collapsed = "" },
+      })
+    end,
+  })
   use({
     "theHamsta/nvim-dap-virtual-text",
     requires = { "mfussenegger/nvim-dap" },
     config = function()
       require("nvim-dap-virtual-text").setup()
     end,
+  })
+  use({
+    "suketa/nvim-dap-ruby",
+    requires = { "mfussenegger/nvim-dap" },
+    config = function() end,
   })
   use({
     "ray-x/go.nvim",
@@ -711,28 +782,28 @@ return packer.startup(function(use)
 
       vim.keymap.set("n", ",tf", function()
         require("neotest").run.run(vim.fn.expand "%")
-      end, {})
+      end, { desc = "neotest run file" })
       vim.keymap.set("n", ",tn", function()
         require("neotest").run.run()
-      end, {})
+      end, { desc = "neotest run current line" })
       vim.keymap.set("n", ",tdf", function()
         require("neotest").run.run({ vim.fn.expand "%", strategy = "dap" })
-      end, {})
+      end, { desc = "neotest run file with dap" })
       vim.keymap.set("n", ",tdn", function()
         require("neotest").run.run({ nil, strategy = "dap" })
-      end, {})
+      end, { desc = "neotest run current line with dap" })
       vim.keymap.set("n", ",tc", function()
         require("neotest").run.stop()
-      end, {})
+      end, { desc = "neotest stop" })
       vim.keymap.set("n", ",ts", function()
         require("neotest").summary.toggle()
-      end, {})
+      end, { desc = "neotest summary" })
       vim.keymap.set("n", ",to", function()
         require("neotest").output.open({ enter = true })
-      end, {})
+      end, { desc = "neotest output" })
       vim.keymap.set("n", ",ta", function()
         require("neotest").run.attach()
-      end, {})
+      end, { desc = "neotest attach" })
     end,
   })
   -- }}}
