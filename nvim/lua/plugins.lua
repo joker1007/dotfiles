@@ -89,12 +89,7 @@ return packer.startup(function(use)
     "mfussenegger/nvim-dap",
     config = function()
       vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
-      vim.api.nvim_create_autocmd({ "FileType" }, {
-        pattern = "dap-repl",
-        callback = function()
-          require("dap.ext.autocompl").attach()
-        end,
-      })
+
       vim.keymap.set("n", "<F5>", function()
         require("dap").continue()
       end)
@@ -654,13 +649,18 @@ return packer.startup(function(use)
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-emoji",
+      "rcarriga/cmp-dap",
       "nvim-lua/plenary.nvim", -- required by cmp-git
       "petertriho/cmp-git",
       "hrsh7th/cmp-nvim-lsp-signature-help",
     },
     config = function()
       local cmp = require "cmp"
+      local default_config = require "cmp.config.default"()
       cmp.setup({
+        enabled = function()
+          return default_config.enabled() or require("cmp_dap").is_dap_buffer()
+        end,
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
@@ -687,6 +687,7 @@ return packer.startup(function(use)
           { name = "luasnip" },
           { name = "git" },
           { name = "emoji" },
+          { name = "dap" },
         }),
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
