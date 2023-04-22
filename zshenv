@@ -90,6 +90,9 @@ export NODE_PATH=~/.local/lib64/node_modules
 
 export GITHUB_API_ENDPOINT="https://api.github.com"
 
+export ZELLIJ_AUTO_ATTACH=true
+export ZELLIJ_AUTO_EXIT=true
+
 [ -s ~/dotfiles/nnn.env.sh ] && source ~/dotfiles/nnn.env.sh
 
 [ -s ~/.zshenv.local ] && source ~/.zshenv.local

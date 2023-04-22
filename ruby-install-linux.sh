@@ -8,11 +8,12 @@ trap 'exit 1' 2
 
 eval "$(rbenv init -)"
 
-export CC=clang
-export CXX=clang-cpp
+export CC=cc
+export CXX=c++
 export CFLAGS="-O3 -march=native"
 export CXXLAGS="${CFLAGS}"
 
+#export RUBY_CONFIGURE_OPTS="--enable-rjit"
 export RUBY_CONFIGURE_OPTS=""
 
 export MAKE_OPTS="-j 16"
