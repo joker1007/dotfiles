@@ -552,8 +552,6 @@ lspconfig.util.on_setup = lspconfig.util.add_hook_before(lspconfig.util.on_setup
     check_executable "steep"
   elseif config.name == "ruby_ls" then
     check_executable "ruby-lsp"
-  elseif config.name == "typeprof" then
-    check_executable "typeprof"
   end
 end)
 
@@ -608,15 +606,6 @@ lspconfig.steep.setup({
   end,
   on_new_config = function(config, root_dir)
     add_bundle_exec(config, "steep", root_dir)
-    return config
-  end,
-})
-
-lspconfig.typeprof.setup({
-  capabilities = lsp_common.make_lsp_capabilities(),
-  on_attach = on_attach,
-  on_new_config = function(config, root_dir)
-    add_bundle_exec(config, "typeprof", root_dir)
     return config
   end,
 })

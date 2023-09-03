@@ -62,8 +62,9 @@ return packer.startup(function(use)
   })
 
   use({
-    "glepnir/lspsaga.nvim",
+    "nvimdev/lspsaga.nvim",
     branch = "main",
+    after = 'nvim-lspconfig',
     config = function()
       require("lspsaga").setup({})
     end,
@@ -71,6 +72,7 @@ return packer.startup(function(use)
 
   use({
     "j-hui/fidget.nvim",
+    branch = "legacy",
     config = function()
       require("fidget").setup()
     end,
