@@ -117,6 +117,9 @@ return packer.startup(function(use)
           name = "+Debug",
         },
       })
+      vim.keymap.set("n", "<Leader>ds", function()
+        require("dap").continue()
+      end, { desc = "start debugger or continue" })
       vim.keymap.set("n", "<Leader>du", function()
         require("dapui").toggle()
       end, { desc = "toggle UI" })

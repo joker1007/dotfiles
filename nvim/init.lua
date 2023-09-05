@@ -712,6 +712,17 @@ dap.configurations.ruby = {
     command = "rspec",
     script = "${file}",
   },
+  {
+    type = "ruby",
+    name = "run current spec line",
+    request = "attach",
+    localfs = true,
+    command = "rspec",
+    script = function()
+      local linenum = vim.api.nvim_win_get_cursor(0)[1]
+      return vim.fn.expand("%:p") .. ":" .. linenum
+    end,
+  },
 }
 
 -- }}}
