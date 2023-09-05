@@ -64,7 +64,7 @@ return packer.startup(function(use)
   use({
     "nvimdev/lspsaga.nvim",
     branch = "main",
-    after = 'nvim-lspconfig',
+    after = "nvim-lspconfig",
     config = function()
       require("lspsaga").setup({})
     end,
@@ -72,7 +72,7 @@ return packer.startup(function(use)
 
   use({
     "j-hui/fidget.nvim",
-    branch = "legacy",
+    tag = "legacy",
     config = function()
       require("fidget").setup()
     end,
@@ -733,6 +733,8 @@ return packer.startup(function(use)
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   })
+
+  use "github/copilot.vim"
   -- }}}
 
   -- terminal, execution {{{
