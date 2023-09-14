@@ -598,6 +598,7 @@ lspconfig.solargraph.setup({
 
 lspconfig.steep.setup({
   capabilities = lsp_common.make_lsp_capabilities(),
+  filetypes = { "ruby", "eruby", "rbs" },
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
@@ -720,7 +721,7 @@ dap.configurations.ruby = {
     command = "rspec",
     script = function()
       local linenum = vim.api.nvim_win_get_cursor(0)[1]
-      return vim.fn.expand("%:p") .. ":" .. linenum
+      return vim.fn.expand "%:p" .. ":" .. linenum
     end,
   },
 }
