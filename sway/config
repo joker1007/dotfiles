@@ -140,9 +140,12 @@ bar {
     }
 }
 
+gaps inner 20
+
 # ibus-config
-bindsym Ctrl+Space exec ibus-toggle
-exec_always ibus-daemon -drx
+#bindsym Ctrl+Space exec ibus-toggle
+#exec_always ibus-daemon -drx
+exec_always fcitx5 -dr
 
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
 
