@@ -5,7 +5,7 @@
     "output": "DP-1",
 
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "idle_inhibitor", "tray"],
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "tray", "idle_inhibitor"],
 
     "sway/workspaces": {
       "numeric-first": true
@@ -24,7 +24,7 @@
       "path": "/home"
     },
     "temperature#cpu": {
-      "hwmon-path": "/sys/class/hwmon/hwmon3/temp2_input",
+      "hwmon-path": "/sys/class/hwmon/hwmon3/temp3_input",
       "critical-threshold": 80,
       "format": "<span color='#e88939'>{icon}</span> {temperatureC}°C",
       "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
@@ -70,11 +70,12 @@
         "car": "",
         "default": ["🔈", "🔉", "🔊"]
       },
-      "on-click": "pactl set-sink-mute jack_out toggle"
+      "on-click": "pactl set-sink-mute jack_out toggle",
+      "on-click-middle": "pavucontrol"
     },
     "clock": {
       "interval": 2,
-      "format": "⏰ {:%Y-%m-%d %H:%M:%S}"
+      "format": "⏰ {:%Y-%m-%d (%a) %H:%M:%S}"
     },
     "idle_inhibitor": {
       "format": "<span color='#589df6'>{icon}</span>",
