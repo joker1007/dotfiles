@@ -16,10 +16,12 @@ folder = [
 ]
 
 unzip = [
+  { exec = 'mcomix "$@"' },
 	{ exec = 'unzip -d "${file%.*}" "$file"', display_name = "Extract here" },
 	{ exec = 'unzip -O sjis -d "${file%.*}" "$file"', display_name = "Extract here (SJIS)" },
 ]
 unrar = [
+  { exec = 'mcomix "$@"' },
 	{ exec = 'unrar x "$1" "${1%.*}/', display_name = "Extract here" },
 ]
 text = [

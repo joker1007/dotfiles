@@ -12,8 +12,10 @@ keymap = [
 
 	{ on = [ "K" ], exec = "arrow -10", desc = "Move cursor up 5 lines" },
 	{ on = [ "J" ], exec = "arrow 10",  desc = "Move cursor down 5 lines" },
-	{ on = [ "<C-u>" ], exec = "arrow -15",  desc = "Move cursor down 15 lines" },
-	{ on = [ "<C-d>" ], exec = "arrow 15", desc = "Move cursor up 15 lines" },
+	{ on = [ "<C-u>" ], exec = "arrow -20",  desc = "Move cursor down 15 lines" },
+	{ on = [ "<C-d>" ], exec = "arrow 20", desc = "Move cursor up 15 lines" },
+	{ on = [ "<C-b>" ], exec = "arrow -30",  desc = "Move cursor down 15 lines" },
+	{ on = [ "<C-f>" ], exec = "arrow 30", desc = "Move cursor up 15 lines" },
 
 	{ on = [ "h" ], exec = "leave", desc = "Go back to the parent directory" },
 	{ on = [ "l" ], exec = "enter", desc = "Enter the child directory" },
