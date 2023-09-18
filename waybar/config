@@ -4,7 +4,7 @@
     "position": "top",
     "output": "DP-1",
 
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
     "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "tray", "idle_inhibitor"],
 
     "sway/workspaces": {
@@ -160,7 +160,7 @@
     "position": "bottom",
     "output": "DP-2",
 
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["hyprland/workspaces", "sway/mode"],
     "modules-right": ["clock"],
 
     "sway/workspaces": {
@@ -172,7 +172,7 @@
     "clock": {
       "interval": 2,
       "format": "⏰ {:%Y-%m-%d %H:%M:%S}"
-    },
+    }
   }
 ]
 

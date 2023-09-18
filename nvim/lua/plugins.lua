@@ -287,6 +287,7 @@ return packer.startup(function(use)
       require "configs/treesitter"
     end,
   })
+  use "luckasRanarison/tree-sitter-hypr"
 
   use "nvim-treesitter/playground"
 

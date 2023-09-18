@@ -20,7 +20,7 @@ set $term foot
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 14" -l 10 --scrollbar=autohide -p "application >" -m all -n' --term='alacritty'
+set $menu j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 14" -l 10 --scrollbar=autohide -p "application >" -m all -n' --term='foot'
 set $runmenu bemenu-run -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:Cica 14" -l 10 --scrollbar=autohide -p "command >" -m all -n | xargs swaymsg exec --
 
 ### Output configuration
@@ -34,7 +34,7 @@ output * bg /home/joker/wallpapers/Forest_bamboo_path_trey_ratcliff_3840x2160.jp
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-output DP-1 mode 3840x2160@59.997Hz position 0,0 adaptive_sync on
+output DP-1 mode 3840x2160@60Hz position 0,0 adaptive_sync on
 output DP-2 mode 3840x2160@120Hz position 3840,0 adaptive_sync on
 output HDMI-A-1 mode 640x480@60Hz position 7680,0
 
