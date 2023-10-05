@@ -131,7 +131,7 @@ vim.opt.complete = ".,w,b,u,t,i,d"
 vim.keymap.set("i", "<C-X><C-O>", "<C-X><C-O><C-P>")
 
 -- クリップボード設定
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed,unnamedplus"
 
 -- バッファ切り替え
 vim.opt.hidden = true
