@@ -12,51 +12,51 @@ cache_dir = "/home/joker/.cache/yazi"
 
 [opener]
 folder = [
-	{ exec = '$EDITOR "$@"', block = true },
+  { exec = '$EDITOR "$@"', block = true },
 ]
 
 unzip = [
-  { exec = 'mcomix "$@"' },
-	{ exec = 'unzip -d "${file%.*}" "$file"', display_name = "Extract here" },
-	{ exec = 'unzip -O sjis -d "${file%.*}" "$file"', display_name = "Extract here (SJIS)" },
+{ exec = 'mcomix "$@"' },
+  { exec = 'unzip -d "${file%.*}" "$file"', display_name = "Extract here" },
+  { exec = 'unzip -O sjis -d "${file%.*}" "$file"', display_name = "Extract here (SJIS)" },
 ]
 unrar = [
-  { exec = 'mcomix "$@"' },
-	{ exec = 'unrar x "$1" "${1%.*}/', display_name = "Extract here" },
+{ exec = 'mcomix "$@"' },
+  { exec = 'unrar x "$1" "${1%.*}/', display_name = "Extract here" },
 ]
 text = [
-	{ exec = '$EDITOR "$@"', block = true },
+  { exec = '$EDITOR "$@"', block = true },
 ]
 image = [
-	{ exec = 'nsxiv "$@"', display_name = "Open" },
+  { exec = 'nsxiv "$@"', display_name = "Open" },
 ]
 media = [
-	{ exec = 'mpv "$@"', display_name = "mpv" },
-	{ exec = 'mpv --profile=headphone "$@"', display_name = "mpv (headphone)" },
-	{ exec = 'mpv --profile=surround-hdmi "$@"', display_name = "mpv (hdmi)" },
-	{ exec = 'mpv --profile=bt "$@"', display_name = "mpv (bt)" },
-	{ exec = 'mpv --profile=jack "$@"', display_name = "mpv (jack)" },
-  { exec = 'dmm-renamer "$@"' }
+  { exec = 'mpv "$@"', display_name = "mpv" },
+  { exec = 'mpv --profile=headphone "$@"', display_name = "mpv (headphone)" },
+  { exec = 'mpv --profile=surround-hdmi "$@"', display_name = "mpv (hdmi)" },
+  { exec = 'mpv --profile=bt "$@"', display_name = "mpv (bt)" },
+  { exec = 'mpv --profile=jack "$@"', display_name = "mpv (jack)" },
+  { exec = 'dmm-renamer "$@"', display_name = "dmm-renamer", block = true },
 ]
 fallback = [
-	{ exec = 'open "$@"', display_name = "Open" },
-	{ exec = 'open -R "$@"', display_name = "Reveal in Finder" },
+  { exec = 'open "$@"', display_name = "Open" },
+  { exec = 'open -R "$@"', display_name = "Reveal in Finder" },
 ]
 
 [open]
 rules = [
-  { name = "*/", use = "folder" },
-	{ mime = "text/*", use = "text" },
-	{ mime = "image/*", use = "image" },
-	{ mime = "video/*", use = "media" },
-	{ mime = "audio/*", use = "media" },
-	{ mime = "inode/x-empty", use = "text" },
+{ name = "*/", use = "folder" },
+  { mime = "text/*", use = "text" },
+  { mime = "image/*", use = "image" },
+  { mime = "video/*", use = "media" },
+  { mime = "audio/*", use = "media" },
+  { mime = "inode/x-empty", use = "text" },
 
-	{ mime = "application/json", use = "text" },
-	{ mime = "*/javascript", use = "text" },
+  { mime = "application/json", use = "text" },
+  { mime = "*/javascript", use = "text" },
 
-	{ mime = "application/zip", use = "unzip" },
-	{ mime = "application/x-rar", use = "unrar" },
+  { mime = "application/zip", use = "unzip" },
+  { mime = "application/x-rar", use = "unrar" },
 
-	{ mime = "*", use = "fallback" },
+  { mime = "*", use = "fallback" },
 ]
