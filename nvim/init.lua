@@ -239,6 +239,7 @@ vim.cmd [[au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8]]
 
 -- For avsc
 vim.cmd [[autocmd! vimrc BufNewFile,BufRead *.avsc set filetype=json]]
+vim.cmd [[autocmd! vimrc BufNewFile,BufRead *waybar/config set filetype=json]]
 
 -- smartchr {{{
 vim.cmd [[
@@ -510,9 +511,6 @@ vim.g.terraform_fmt_on_save = 1
 vim.g.rustfmt_autosave = 1
 
 vim.cmd [[autocmd vimrc FileType rust let termdebugger = "rust-gdb"]]
-
--- todo-comments.nvim
-require("todo-comments").setup()
 
 vim.g.cursorhold_updatetime = 100
 
