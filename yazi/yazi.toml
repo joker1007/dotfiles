@@ -17,30 +17,30 @@ folder = [
 
 unzip = [
 { exec = 'mcomix "$@"' },
-  { exec = 'unzip -d "${file%.*}" "$file"', display_name = "Extract here" },
-  { exec = 'unzip -O sjis -d "${file%.*}" "$file"', display_name = "Extract here (SJIS)" },
+  { exec = 'unzip -d "${file%.*}" "$file"', desc = "Extract here" },
+  { exec = 'unzip -O sjis -d "${file%.*}" "$file"', desc = "Extract here (SJIS)" },
 ]
 unrar = [
 { exec = 'mcomix "$@"' },
-  { exec = 'unrar x "$1" "${1%.*}/', display_name = "Extract here" },
+  { exec = 'unrar x "$1" "${1%.*}/', desc = "Extract here" },
 ]
 text = [
   { exec = '$EDITOR "$@"', block = true },
 ]
 image = [
-  { exec = 'nsxiv "$@"', display_name = "Open" },
+  { exec = 'nsxiv "$@"', desc = "Open" },
 ]
 media = [
-  { exec = 'mpv "$@"', display_name = "mpv" },
-  { exec = 'mpv --profile=headphone "$@"', display_name = "mpv (headphone)" },
-  { exec = 'mpv --profile=surround-hdmi "$@"', display_name = "mpv (hdmi)" },
-  { exec = 'mpv --profile=bt "$@"', display_name = "mpv (bt)" },
-  { exec = 'mpv --profile=jack "$@"', display_name = "mpv (jack)" },
-  { exec = 'dmm-renamer "$@"', display_name = "dmm-renamer", block = true },
+  { exec = 'mpv "$@"', desc = "mpv" },
+  { exec = 'mpv --profile=headphone "$@"', desc = "mpv (headphone)" },
+  { exec = 'mpv --profile=surround-hdmi "$@"', desc = "mpv (hdmi)" },
+  { exec = 'mpv --profile=bt "$@"', desc = "mpv (bt)" },
+  { exec = 'mpv --profile=jack "$@"', desc = "mpv (jack)" },
+  { exec = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
 ]
 fallback = [
-  { exec = 'open "$@"', display_name = "Open" },
-  { exec = 'open -R "$@"', display_name = "Reveal in Finder" },
+  { exec = 'open "$@"', desc = "Open" },
+  { exec = 'open -R "$@"', desc = "Reveal in Finder" },
 ]
 
 [open]
