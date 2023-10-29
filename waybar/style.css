@@ -58,6 +58,7 @@ tooltip {
 #clock,
 #battery,
 #pulseaudio,
+#wireplumber,
 #network,
 #bluetooth,
 #temperature,
@@ -121,6 +122,7 @@ tooltip {
   border-radius: 20px;
   margin-left: 5px;
   margin-right: 5px;
+  color: #0099ff;
 }
 
 #clock {
@@ -143,10 +145,14 @@ tooltip {
   margin-right: 10px
 } 
 
-#pulseaudio {
+#pulseaudio, #wireplumber {
   color: #89b4fa;
   border-left: 0px;
   border-right: 0px;
+}
+
+#wireplumber {
+  border-radius: 20;
 }
 
 #battery {

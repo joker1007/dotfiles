@@ -2,10 +2,11 @@
   {
     "layer": "top",
     "position": "top",
-    "output": "DP-1",
+    "output": ["DP-1", "DP-2"],
 
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
-    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "tray", "idle_inhibitor"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "wireplumber", "custom/weather", "clock", "tray", "idle_inhibitor"],
 
     "sway/workspaces": {
       "numeric-first": true
@@ -73,9 +74,35 @@
       "on-click": "pactl set-sink-mute jack_out toggle",
       "on-click-middle": "pavucontrol"
     },
+    "hyprland/window": {
+      "separate-outputs": true
+    },
+    "wireplumber": {
+      "format": "{icon} {volume}%",
+      "format-muted": "🔇",
+
+      "format-icons": ["🔈", "🔉", "🔊"],
+      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+      "on-click-middle": "qpwgraph"
+    },
     "clock": {
       "interval": 2,
-      "format": "⏰ {:%Y-%m-%d (%a) %H:%M:%S}"
+      "format": " {:%Y-%m-%d (%a) %H:%M:%S}",
+      "tooltip-format": "<tt><small>{calendar}</small></tt>",
+      "calendar": {
+        "mode"          : "year",
+        "mode-mon-col"  : 3,
+        "weeks-pos"     : "right",
+        "on-scroll"     : 1,
+        "on-click-right": "mode",
+        "format": {
+          "months":     "<span color='#ffead3'><b>{}</b></span>",
+          "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+          "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+          "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+          "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+        }
+      },
     },
     "idle_inhibitor": {
       "format": "<span color='#589df6'>{icon}</span>",
@@ -154,26 +181,5 @@
       "tooltip-format": "MPD (connected)",
       "tooltip-format-disconnected": "MPD (disconnected)"
     }
-  },
-  {
-    "layer": "top",
-    "position": "bottom",
-    "output": "DP-2",
-
-    "modules-left": ["hyprland/workspaces", "sway/mode"],
-    "modules-right": ["clock"],
-
-    "sway/workspaces": {
-      "numeric-first": true
-    },
-    "sway/mode": {
-      "format": "{}"
-    },
-    "clock": {
-      "interval": 2,
-      "format": "⏰ {:%Y-%m-%d %H:%M:%S}"
-    }
   }
 ]
-
-// vim:ft=json
