@@ -291,6 +291,7 @@ require("lazy").setup({
       "RRethy/nvim-treesitter-endwise",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
+    build = ":TSUpdate",
     config = function()
       require "configs/treesitter"
     end,
