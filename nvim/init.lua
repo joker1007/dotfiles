@@ -334,13 +334,6 @@ let g:test#transformation = 'docker'
 -- webapi-vim
 vim.g["webapi#system_function"] = "vimproc#system"
 
--- vista.vim {{{
-vim.g.vista_default_executive = "ctags"
-vim.g.vista_icon_indent = { "╰─▸ ", "├─▸ " }
-vim.g.vista_executive_for = { rust = "lcn" }
-vim.keymap.set("n", "<leader>v", ":<C-U>Vista!!<CR>", { silent = true })
--- }}}
-
 -- Fugitive {{{
 wk.register({
   [",g"] = {
@@ -366,33 +359,6 @@ vim.cmd [[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set f
 
 -- vim-choosewin {{{
 vim.keymap.set("n", "_", "<Plug>(choosewin)", { remap = true })
--- }}}
-
--- switch.vim {{{
-vim.cmd [[
-let g:variable_style_switch_definitions = [
-      \   {
-      \     '\<[a-z0-9]\+_\k\+\>': {
-      \       '_\(.\)': '\U\1'
-      \     },
-      \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
-      \       '\([A-Z]\)': '_\l\1'
-      \     },
-      \   }
-      \ ]
-nnoremap <silent><C-c> :Switch<CR>
-nnoremap <silent>- :Switch<CR>
-nnoremap + :call switch#Switch(g:variable_style_switch_definitions)<cr>
-
-let g:switch_custom_definitions = [
-      \ ['and', 'or'],
-      \ ['it', 'specify'],
-      \ ['describe', 'context'],
-      \ ['yes', 'no'],
-      \ ['on', 'off'],
-      \ ['public', 'protected', 'private'],
-\ ]
-]]
 -- }}}
 
 -- github-complete.vim' {{{

@@ -1,7 +1,6 @@
 ---@diagnostic disable: missing-parameter
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
-
+--
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -14,6 +13,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 
 require("lazy").setup({
   "kyazdani42/nvim-web-devicons",
@@ -564,7 +566,25 @@ require("lazy").setup({
   },
   "t9md/vim-choosewin",
 
-  "liuchengxu/vista.vim",
+  {
+    'stevearc/aerial.nvim',
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+    config = function ()
+      require("aerial").setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+          vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        end,
+      })
+      -- You probably also want to set a keymap to toggle aerial
+      vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
+    end
+  },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -897,7 +917,35 @@ require("lazy").setup({
   "rhysd/devdocs.vim",
   "mattn/httpstatus-vim",
 
-  "AndrewRadev/switch.vim",
+  {
+    "monaqa/dial.nvim",
+    config = function()
+      vim.keymap.set("n", "<C-a>", function()
+        require("dial.map").manipulate("increment", "normal")
+      end)
+      vim.keymap.set("n", "<C-x>", function()
+        require("dial.map").manipulate("decrement", "normal")
+      end)
+      vim.keymap.set("n", "g<C-a>", function()
+        require("dial.map").manipulate("increment", "gnormal")
+      end)
+      vim.keymap.set("n", "g<C-x>", function()
+        require("dial.map").manipulate("decrement", "gnormal")
+      end)
+      vim.keymap.set("v", "<C-a>", function()
+        require("dial.map").manipulate("increment", "visual")
+      end)
+      vim.keymap.set("v", "<C-x>", function()
+        require("dial.map").manipulate("decrement", "visual")
+      end)
+      vim.keymap.set("v", "g<C-a>", function()
+        require("dial.map").manipulate("increment", "gvisual")
+      end)
+      vim.keymap.set("v", "g<C-x>", function()
+        require("dial.map").manipulate("decrement", "gvisual")
+      end)
+    end
+  },
 
   {
     "rgroli/other.nvim",
@@ -1017,11 +1065,65 @@ require("lazy").setup({
       vim.fn["firenvim#install"](0)
     end,
   },
+  -- {
+  --   "kyazdani42/nvim-tree.lua",
+  --   config = function()
+  --     require "configs/nvim-tree"
+  --   end,
+  -- },
   {
-    "kyazdani42/nvim-tree.lua",
-    config = function()
-      require "configs/nvim-tree"
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    config = function ()
+      vim.keymap.set("n", "<leader>tt", "<cmd>Neotree filesystem reveal<cr>")
+      require("neo-tree").setup({
+        window = {
+          mappings = {
+            ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+          }
+        }
+      })
     end,
+  },
+  {
+    "3rd/image.nvim",
+    build = "luarocks --local install magick",
+    config = function ()
+      require("image").setup({
+        backend = "ueberzug",
+        integrations = {
+          markdown = {
+            enabled = true,
+            clear_in_insert_mode = false,
+            download_remote_images = true,
+            only_render_image_at_cursor = false,
+            filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+          },
+          neorg = {
+            enabled = true,
+            clear_in_insert_mode = false,
+            download_remote_images = true,
+            only_render_image_at_cursor = false,
+            filetypes = { "norg" },
+          },
+        },
+        max_width = nil,
+        max_height = nil,
+        max_width_window_percentage = nil,
+        max_height_window_percentage = 50,
+        window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+        window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+        editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+        tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+        hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- render image files as images when opened
+      })
+    end
   },
   {
     "axieax/urlview.nvim",
