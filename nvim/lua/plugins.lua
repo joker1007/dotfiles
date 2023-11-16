@@ -227,7 +227,6 @@ require("lazy").setup({
   -- filetype plugins {{{
   "moro/vim-review",
   "cespare/vim-toml",
-  "jlcrochet/vim-rbs",
 
   "vim-ruby/vim-ruby",
   "leafgarland/typescript-vim",
@@ -299,6 +298,7 @@ require("lazy").setup({
     end,
   },
   "luckasRanarison/tree-sitter-hypr",
+  "joker1007/tree-sitter-rbs",
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
