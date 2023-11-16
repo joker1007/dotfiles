@@ -2,6 +2,7 @@
 
 nvim/plugin
 nvim/dependencies
+nvim/lazy-lock.json
 
 mlterm/*.log
 mlterm/*.six
