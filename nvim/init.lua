@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true
+
 require "plugins"
 
 local wk = require "which-key"
@@ -182,7 +184,6 @@ vim.cmd [[colorscheme duskfox]]
 --If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
 --(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
-vim.opt.termguicolors = true
 
 -- neovim provider
 vim.g.loaded_node_provider = 0
@@ -551,18 +552,21 @@ require("mason-lspconfig").setup_handlers({
   end,
 })
 
-lspconfig.solargraph.setup({
-  capabilities = lsp_common.make_lsp_capabilities(),
-  on_attach = on_attach,
-  on_new_config = function(config, root_dir)
-    add_bundle_exec(config, "solargraph", root_dir)
-    return config
-  end,
-})
+if lsp_common.bundle_installed("solargraph", vim.loop.cwd()) then
+  lspconfig.solargraph.setup({
+    capabilities = lsp_common.make_lsp_capabilities(),
+    on_attach = on_attach,
+    on_new_config = function(config, root_dir)
+      add_bundle_exec(config, "solargraph", root_dir)
+      return config
+    end,
+  })
+end
 
 lspconfig.steep.setup({
   capabilities = lsp_common.make_lsp_capabilities(),
   filetypes = { "ruby", "eruby", "rbs" },
+  cmd = { "bundle", "exec", "steep", "--log-output=/tmp/steep.log", "langserver" },
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     vim.keymap.set("n", "<space>ct", function()
@@ -575,33 +579,35 @@ lspconfig.steep.setup({
   end,
 })
 
-lspconfig.ruby_ls.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-  init_options = {
-    enabledFeatures = {
-      "documentSymbol",
-      "documentLink",
-      "hover",
-      "foldingRanges",
-      "selectionRanges",
-      "semanticHighlighting",
-      "formatting",
-      "onTypeFormatting",
-      "diagnostics",
-      "codeActions",
-      "codeActionResolve",
-      "documentHighlight",
-      "inlayHints",
-      "completion",
-      "codeLens",
+if lsp_common.bundle_installed("ruby-lsp", vim.loop.cwd()) then
+  lspconfig.ruby_ls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    init_options = {
+      enabledFeatures = {
+        "documentSymbol",
+        "documentLink",
+        "hover",
+        "foldingRanges",
+        "selectionRanges",
+        "semanticHighlighting",
+        "formatting",
+        "onTypeFormatting",
+        "diagnostics",
+        "codeActions",
+        "codeActionResolve",
+        "documentHighlight",
+        "inlayHints",
+        "completion",
+        "codeLens",
+      },
     },
-  },
-  on_new_config = function(config, root_dir)
-    add_bundle_exec(config, "ruby-lsp", root_dir)
-    return config
-  end,
-})
+    on_new_config = function(config, root_dir)
+      add_bundle_exec(config, "ruby-lsp", root_dir)
+      return config
+    end,
+  })
+end
 
 local null_ls = require "null-ls"
 null_ls.setup({

@@ -1,7 +1,7 @@
 ---@diagnostic disable: missing-parameter
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 --
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -14,8 +14,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?/init.lua;"
+package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?.lua;"
 
 require("lazy").setup({
   "nvim-tree/nvim-web-devicons",
@@ -24,6 +24,24 @@ require("lazy").setup({
   {
     "rcarriga/nvim-notify",
     config = function()
+      require("notify").setup({
+        background_colour = "NotifyBackground",
+        fps = 30,
+        icons = {
+          DEBUG = "",
+          ERROR = "",
+          INFO = "",
+          TRACE = "✎",
+          WARN = "",
+        },
+        level = 3,
+        minimum_width = 50,
+        render = "default",
+        stages = "fade_in_slide_out",
+        timeout = 3000,
+        top_down = false,
+      })
+
       vim.notify = require "notify"
     end,
   },
@@ -33,7 +51,7 @@ require("lazy").setup({
     module = "ssr",
     -- Calling setup is optional.
     config = function()
-      require("ssr").setup {
+      require("ssr").setup({
         border = "rounded",
         min_width = 50,
         min_height = 5,
@@ -47,9 +65,11 @@ require("lazy").setup({
           replace_confirm = "<cr>",
           replace_all = "<leader><cr>",
         },
-      }
-      vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)
-    end
+      })
+      vim.keymap.set({ "n", "x" }, "<leader>sr", function()
+        require("ssr").open()
+      end)
+    end,
   },
 
   -- LSP {{{
@@ -78,6 +98,39 @@ require("lazy").setup({
     branch = "main",
     config = function()
       require("lspsaga").setup({})
+    end,
+  },
+
+  {
+    "onsails/lspkind.nvim",
+    config = function()
+      require("lspkind").init({
+        symbol_map = {
+          Text = "",
+          Method = "ƒ",
+          Function = "",
+          Constructor = "",
+          Variable = "",
+          Class = "",
+          Interface = "",
+          Module = "",
+          Property = "",
+          Unit = "",
+          Value = "",
+          Enum = "",
+          Keyword = "",
+          Snippet = "﬌",
+          Color = "",
+          File = "",
+          Folder = "",
+          EnumMember = "",
+          Constant = "",
+          Struct = "",
+          Event = "",
+          Operator = "",
+          TypeParameter = "",
+        },
+      })
     end,
   },
 
@@ -243,13 +296,14 @@ require("lazy").setup({
   { "mattn/vim-maketable", ft = "markdown" },
   { "kannokanno/previm", ft = "markdown" },
   { "euclio/vim-markdown-composer", build = "cargo build --release" },
-  {"dhruvasagar/vim-table-mode",
+  {
+    "dhruvasagar/vim-table-mode",
     lazy = true,
-    cmd = {"TableModeToggle", "TableModeEnable"},
+    cmd = { "TableModeToggle", "TableModeEnable" },
     init = function()
       vim.g.table_mode_disable_mappings = 1
       vim.g.table_mode_map_prefix = "<Leader>m"
-    end
+    end,
   },
   -- }}}
 
@@ -303,25 +357,25 @@ require("lazy").setup({
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
       -- This module contains a number of default definitions
-      local rainbow_delimiters = require 'rainbow-delimiters'
+      local rainbow_delimiters = require "rainbow-delimiters"
 
       vim.g.rainbow_delimiters = {
         strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-          vim = rainbow_delimiters.strategy['local'],
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
         },
         query = {
-          [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
         },
         highlight = {
-          'RainbowDelimiterRed',
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterBlue',
-          'RainbowDelimiterOrange',
-          'RainbowDelimiterGreen',
-          'RainbowDelimiterViolet',
-          'RainbowDelimiterCyan',
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
         },
       }
     end,
@@ -379,7 +433,7 @@ require("lazy").setup({
         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
       end)
 
-      require("ibl").setup { indent = { highlight = highlight } }
+      require("ibl").setup({ indent = { highlight = highlight } })
     end,
   },
 
@@ -484,14 +538,14 @@ require("lazy").setup({
     "NvChad/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({
-        RGB = true,          -- #RGB hex codes
-        RRGGBB = true,       -- #RRGGBB hex codes
-        names = true,        -- "Name" codes like Blue oe blue
-        RRGGBBAA = false,    -- #RRGGBBAA hex codes
-        rgb_fn = true,       -- CSS rgb() and rgba() functions
-        hsl_fn = false,      -- CSS hsl() and hsla() functions
-        css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        names = true, -- "Name" codes like Blue oe blue
+        RRGGBBAA = false, -- #RRGGBBAA hex codes
+        rgb_fn = true, -- CSS rgb() and rgba() functions
+        hsl_fn = false, -- CSS hsl() and hsla() functions
+        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes: foreground, background, virtualtext
         mode = "background", -- Set the display mode.
       })
@@ -505,7 +559,7 @@ require("lazy").setup({
 
   -- web browse, api {{{
   "tyru/open-browser.vim",
-  {"tyru/open-browser-github.vim", dependencies = "tyru/open-browser.vim"},
+  { "tyru/open-browser-github.vim", dependencies = "tyru/open-browser.vim" },
   "mattn/webapi-vim",
   -- }}}
 
@@ -594,13 +648,29 @@ require("lazy").setup({
   "t9md/vim-choosewin",
 
   {
-    'stevearc/aerial.nvim',
+    "stevearc/aerial.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
+      "nvim-tree/nvim-web-devicons",
     },
-    config = function ()
+    config = function()
       require("aerial").setup({
+        layout = {
+          max_width = { 60, 0.2 },
+        },
+        filter_kind = {
+          "Class",
+          "Constructor",
+          "Enum",
+          "Function",
+          "Interface",
+          "Module",
+          "Method",
+          "Struct",
+          "Property",
+          "Variable",
+          "Constant",
+        },
         -- optionally use on_attach to set keymaps when aerial has attached to a buffer
         on_attach = function(bufnr)
           -- Jump forwards/backwards with '{' and '}'
@@ -610,7 +680,7 @@ require("lazy").setup({
       })
       -- You probably also want to set a keymap to toggle aerial
       vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
-    end
+    end,
   },
 
   {
@@ -717,7 +787,7 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require "cmp"
-      local default_config = require "cmp.config.default" ()
+      local default_config = require "cmp.config.default"()
       cmp.setup({
         enabled = function()
           return default_config.enabled() or require("cmp_dap").is_dap_buffer()
@@ -832,7 +902,7 @@ require("lazy").setup({
     config = function()
       require("neotest").setup({
         adapters = {
-          require "neotest-rspec" ({
+          require "neotest-rspec"({
             rspec_cmd = function()
               return vim.tbl_flatten({
                 "bundle",
@@ -971,7 +1041,7 @@ require("lazy").setup({
       vim.keymap.set("v", "g<C-x>", function()
         require("dial.map").manipulate("decrement", "gvisual")
       end)
-    end
+    end,
   },
 
   {
@@ -979,20 +1049,20 @@ require("lazy").setup({
     config = function()
       local rails_controller_patterns = {
         { target = "/spec/controllers/%1_spec.rb", context = "spec" },
-        { target = "/spec/requests/%1_spec.rb",    context = "spec" },
-        { target = "/spec/factories/%1.rb",        context = "factories", transformer = "singularize" },
-        { target = "/app/models/%1.rb",            context = "models",    transformer = "singularize" },
-        { target = "/app/views/%1/**/*.html.*",    context = "view" },
+        { target = "/spec/requests/%1_spec.rb", context = "spec" },
+        { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
+        { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+        { target = "/app/views/%1/**/*.html.*", context = "view" },
       }
       require("other-nvim").setup({
         mappings = {
           {
             pattern = "/app/models/(.*).rb",
             target = {
-              { target = "/spec/models/%1_spec.rb",              context = "spec" },
-              { target = "/spec/factories/%1.rb",                context = "factories",  transformer = "pluralize" },
+              { target = "/spec/models/%1_spec.rb", context = "spec" },
+              { target = "/spec/factories/%1.rb", context = "factories", transformer = "pluralize" },
               { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
-              { target = "/app/views/%1/**/*.html.*",            context = "view",       transformer = "pluralize" },
+              { target = "/app/views/%1/**/*.html.*", context = "view", transformer = "pluralize" },
             },
           },
           {
@@ -1004,8 +1074,8 @@ require("lazy").setup({
           {
             pattern = "/spec/factories/(.*).rb",
             target = {
-              { target = "/app/models/%1.rb",       context = "models", transformer = "singularize" },
-              { target = "/spec/models/%1_spec.rb", context = "spec",   transformer = "singularize" },
+              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+              { target = "/spec/models/%1_spec.rb", context = "spec", transformer = "singularize" },
             },
           },
           {
@@ -1031,17 +1101,17 @@ require("lazy").setup({
           {
             pattern = "/app/views/(.*)/.*.html.*",
             target = {
-              { target = "/spec/factories/%1.rb",                context = "factories",  transformer = "singularize" },
-              { target = "/app/models/%1.rb",                    context = "models",     transformer = "singularize" },
+              { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
+              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
               { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
             },
           },
           {
             pattern = "/lib/(.*).rb",
             target = {
-              { target = "/spec/%1_spec.rb",     context = "spec" },
+              { target = "/spec/%1_spec.rb", context = "spec" },
               { target = "/spec/lib/%1_spec.rb", context = "spec" },
-              { target = "/sig/%1.rbs",          context = "sig" },
+              { target = "/sig/%1.rbs", context = "sig" },
             },
           },
           {
@@ -1054,14 +1124,14 @@ require("lazy").setup({
           {
             pattern = "/spec/lib/(.*)_spec.rb",
             target = {
-              { target = "/lib/%1.rb",  context = "lib" },
+              { target = "/lib/%1.rb", context = "lib" },
               { target = "/sig/%1.rbs", context = "sig" },
             },
           },
           {
             pattern = "/spec/(.*)_spec.rb",
             target = {
-              { target = "/lib/%1.rb",  context = "lib" },
+              { target = "/lib/%1.rb", context = "lib" },
               { target = "/sig/%1.rbs", context = "sig" },
             },
           },
@@ -1105,55 +1175,55 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-      "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
-    config = function ()
+    config = function()
       vim.keymap.set("n", "<leader>tt", "<cmd>Neotree filesystem reveal<cr>")
       require("neo-tree").setup({
         window = {
           mappings = {
             ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
-          }
-        }
+          },
+        },
       })
     end,
   },
-  {
-    "3rd/image.nvim",
-    build = "luarocks --local install magick",
-    config = function ()
-      if not vim.g.neovide  then
-        require("image").setup({
-          backend = "ueberzug",
-          integrations = {
-            markdown = {
-              enabled = true,
-              clear_in_insert_mode = false,
-              download_remote_images = true,
-              only_render_image_at_cursor = false,
-              filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
-            },
-            neorg = {
-              enabled = true,
-              clear_in_insert_mode = false,
-              download_remote_images = true,
-              only_render_image_at_cursor = false,
-              filetypes = { "norg" },
-            },
-          },
-          max_width = nil,
-          max_height = nil,
-          max_width_window_percentage = nil,
-          max_height_window_percentage = 50,
-          window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
-          window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-          editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
-          tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-          hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- render image files as images when opened
-        })
-      end
-    end
-  },
+  -- {
+  --   "3rd/image.nvim",
+  --   build = "luarocks --local install magick",
+  --   config = function()
+  --     if not vim.g.neovide then
+  --       require("image").setup({
+  --         backend = "ueberzug",
+  --         integrations = {
+  --           markdown = {
+  --             enabled = true,
+  --             clear_in_insert_mode = false,
+  --             download_remote_images = true,
+  --             only_render_image_at_cursor = false,
+  --             filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+  --           },
+  --           neorg = {
+  --             enabled = true,
+  --             clear_in_insert_mode = false,
+  --             download_remote_images = true,
+  --             only_render_image_at_cursor = false,
+  --             filetypes = { "norg" },
+  --           },
+  --         },
+  --         max_width = nil,
+  --         max_height = nil,
+  --         max_width_window_percentage = nil,
+  --         max_height_window_percentage = 50,
+  --         window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+  --         window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+  --         editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+  --         tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+  --         hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- render image files as images when opened
+  --       })
+  --     end
+  --   end,
+  -- },
   {
     "axieax/urlview.nvim",
     config = function()
@@ -1168,5 +1238,5 @@ require("lazy").setup({
       vim.keymap.set("n", ",up", "<cmd>UrlView lazy<CR>", { silent = true })
     end,
   },
-  "antoinemadec/FixCursorHold.nvim"
+  "antoinemadec/FixCursorHold.nvim",
 })

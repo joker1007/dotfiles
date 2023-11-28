@@ -61,7 +61,7 @@ require("nvim-treesitter.configs").setup({
   },
   indent = {
     enable = true,
-    disable = { "ruby", "yaml" },
+    disable = { "yaml" },
   },
   matchup = {
     enable = true,
