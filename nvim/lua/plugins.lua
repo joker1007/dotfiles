@@ -352,7 +352,6 @@ require("lazy").setup({
     end,
   },
   "luckasRanarison/tree-sitter-hypr",
-  "joker1007/tree-sitter-rbs",
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
@@ -945,6 +944,10 @@ require("lazy").setup({
   { "mattn/vim-sonots", cmd = "Sonots" },
 
   -- other utils {{{
+  "gentoo/gentoo-syntax",
+
+  "lambdalisue/suda.vim",
+
   {
     "danymat/neogen",
     config = function()
