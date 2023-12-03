@@ -1097,7 +1097,37 @@ require("lazy").setup({
 
   {
     "monaqa/dial.nvim",
+    keys = { "<C-a>", "<C-x>", "g<C-a>", "g<C-x>" },
     config = function()
+      local augend = require "dial.augend"
+      require("dial.config").augends:register_group({
+        -- default augends used when no group name is specified
+        default = {
+          augend.integer.alias.decimal,
+          augend.integer.alias.hex,
+          augend.date.new({
+            pattern = "%Y/%m/%d",
+            default_kind = "day",
+          }),
+          augend.date.new({
+            pattern = "%Y-%m-%d",
+            default_kind = "day",
+          }),
+          augend.date.new({
+            pattern = "%m/%d",
+            default_kind = "day",
+            only_valid = true,
+          }),
+          augend.date.new({
+            pattern = "%H:%M",
+            default_kind = "min",
+            only_valid = true,
+          }),
+          augend.date.alias["%Y年%-m月%-d日(%ja)"],
+          augend.constant.alias.bool,
+          augend.semver.alias.semver,
+        },
+      })
       vim.keymap.set("n", "<C-a>", function()
         require("dial.map").manipulate("increment", "normal")
       end)
