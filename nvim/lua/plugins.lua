@@ -232,22 +232,47 @@ require("lazy").setup({
   {
     "ray-x/go.nvim",
     dependencies = { "ray-x/guihua.lua" },
+    ft = "go",
     config = function()
       require("go").setup()
       vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.go" }, callback = require("go.format").gofmt })
     end,
   },
-  "mfussenegger/nvim-jdtls",
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+  },
   -- }}}
 
-  { "tyru/eskk.vim", event = { "InsertEnter" } },
-  "tyru/skkdict.vim",
+  {
+    "tyru/eskk.vim",
+    dep = { "tyru/skkdict.vim" },
+    event = { "InsertEnter" },
+  },
 
   {
     "folke/which-key.nvim",
+    priority = 60,
     config = function()
-      require("which-key").setup({
+      local wk = require "which-key"
+      wk.setup({
         window = { border = "double", winblend = 20 },
+      })
+      wk.register({
+        [",g"] = {
+          name = "+git",
+        },
+      })
+      wk.register({
+        [",o"] = {
+          name = "+Octo",
+          p = {
+            name = "+PullRequest",
+          },
+          i = {
+            name = "+Issue",
+          },
+        },
       })
     end,
   },
@@ -380,7 +405,22 @@ require("lazy").setup({
     end,
   },
 
-  "nvim-treesitter/playground",
+  {
+    "nvim-treesitter/playground",
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+    keys = { "<leader>tp", "<leader>th" },
+    config = function()
+      vim.keymap.set("n", "<leader>tp", "<cmd>TSPlaygroundToggle<cr>", { silent = true, noremap = true })
+      vim.keymap.set("n", "<leader>th", "<cmd>TSHighlightCapturesUnderCursor<cr>", { silent = true, noremap = true })
+      require("nvim-treesitter.configs").setup({
+        query_linter = {
+          enable = true,
+          use_virtual_text = true,
+          lint_events = { "BufWrite", "CursorHold" },
+        },
+      })
+    end,
+  },
 
   {
     "nvim-treesitter/nvim-treesitter-context",
@@ -438,6 +478,8 @@ require("lazy").setup({
 
   {
     "kevinhwang91/nvim-hlslens",
+    keys = { "n", "N", "*", "#", "g*", "g#" },
+    lazy = true,
     config = function()
       local kopts = { noremap = true, silent = true }
 
@@ -551,8 +593,6 @@ require("lazy").setup({
     end,
   },
 
-  "octol/vim-cpp-enhanced-highlight",
-
   "osyo-manga/vim-over",
   -- }}}
 
@@ -563,8 +603,40 @@ require("lazy").setup({
   -- }}}
 
   -- git {{{
-  "tpope/vim-fugitive",
-  "rbong/vim-flog",
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse", "GRemove", "GRename" },
+    keys = { ",gd", ",gs", ",gl", ",gh", ",ga", ",gc", ",gC", ",gb", ",gn", ",gN" },
+    init = function()
+      vim.keymap.set("n", ",gs", ":<C-u>Git<CR>")
+      vim.keymap.set("n", ",gl", ":<C-u>Gclog HEAD~20..HEAD<CR>")
+      vim.keymap.set("n", ",ga", ":<C-u>Gwrite<CR>")
+      vim.keymap.set("n", ",gc", ":<C-u>Git commit<CR>")
+      vim.keymap.set("n", ",gC", ":<C-u>Git commit --amend<CR>")
+      vim.keymap.set("n", ",gb", ":<C-u>Git blame<CR>")
+      vim.keymap.set("n", ",gn", ":<C-u>Git now<CR>")
+      vim.keymap.set("n", ",gN", ":<C-u>Git now --all<CR>")
+    end,
+    config = function()
+      vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif]]
+      vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif]]
+      vim.cmd [[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif]]
+    end,
+  },
+  {
+    "rhysd/ghpr-blame.vim",
+    config = function()
+      vim.keymap.set("n", ",gp", ":<C-u>GHPRBlame<CR>")
+    end,
+  },
+  {
+    "rbong/vim-flog",
+    lazy = true,
+    cmd = { "Flog", "Flogsplit", "Floggit" },
+    dependencies = {
+      "tpope/vim-fugitive",
+    },
+  },
   {
     "lewis6991/gitsigns.nvim",
     config = function()
@@ -579,35 +651,28 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim",
       "nvim-tree/nvim-web-devicons",
     },
+    cmd = { "Octo" },
+    keys = { ",opl", ",opr", ",opa", ",opc", ",oil", ",oia", ",os", ",ou", ",or", ",oc", ",od", ",oo" },
+    init = function()
+      vim.keymap.set("n", ",opl", "<cmd>Octo pr list<cr>", { desc = "List PullRequests" })
+      vim.keymap.set("n", ",opr", "<cmd>Octo search is:pr review-requested:@me is:open<cr>", {
+        desc = "Search PullRequests (review-requested)",
+      })
+      vim.keymap.set("n", ",opa", "<cmd>Octo search is:pr author:@me is:open<cr>", {
+        desc = "Search PullRequests (created)",
+      })
+      vim.keymap.set("n", ",opc", "<cmd>Octo pr create<cr>", { desc = "Create PullRequest" })
+      vim.keymap.set("n", ",oil", "<cmd>Octo issue list<cr>", { desc = "Issue (list)" })
+      vim.keymap.set("n", ",oia", "<cmd>Octo search is:issue author:@me is:open<cr>", { desc = "Issue (created)" })
+      vim.keymap.set("n", ",os", "<cmd>Octo review start<cr>", { desc = "Start Review" })
+      vim.keymap.set("n", ",ou", "<cmd>Octo review submit<cr>", { desc = "Submit Review" })
+      vim.keymap.set("n", ",or", "<cmd>Octo review resume<cr>", { desc = "Resume Review" })
+      vim.keymap.set("n", ",oc", "<cmd>Octo review comments<cr>", { desc = "View Pending comments" })
+      vim.keymap.set("n", ",od", "<cmd>Octo review discard<cr>", { desc = "Discard Pending review" })
+      vim.keymap.set("n", ",oo", "<cmd>Octo<cr>", { desc = "Octo" })
+    end,
     config = function()
       require("octo").setup()
-
-      local wk = require "which-key"
-      wk.register({
-        [",o"] = {
-          name = "+Octo",
-          p = {
-            name = "PullRequest",
-            l = { "<cmd>Octo pr list<cr>", "List PullRequests" },
-            r = { "<cmd>Octo search is:pr review-requested:@me is:open<cr>", "Search PullRequests (review-requested)" },
-            a = { "<cmd>Octo search is:pr author:@me is:open<cr>", "Search PullRequests (created)" },
-            c = { "<cmd>Octo pr create<cr>", "Create PullRequest" },
-          },
-          i = {
-            name = "Issue",
-            l = { "<cmd>Octo issue list<cr>", "Issue (list)" },
-            a = { "<cmd>Octo search is:issue author:@me is:open<cr>", "Issue (created)" },
-          },
-          r = {
-            name = "Review",
-            s = { "<cmd>Octo review start<cr>", "Start Review" },
-            u = { "<cmd>Octo review submit<cr>", "Submit Review" },
-            r = { "<cmd>Octo review resume<cr>", "Resume Review" },
-            c = { "<cmd>Octo review comments<cr>", "View Pending comments" },
-            d = { "<cmd>Octo review discard<cr>", "Discard Pending review" },
-          },
-        },
-      })
     end,
   },
 
@@ -615,6 +680,11 @@ require("lazy").setup({
   {
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    init = function()
+      vim.keymap.set("n", ",gd", ":<C-u>DiffviewOpen<CR>")
+      vim.keymap.set("n", ",gh", ":<C-u>DiffviewFileHistory %<CR>")
+    end,
     config = function()
       require("diffview").setup({
         default_args = {
@@ -652,6 +722,11 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
     },
+    cmd = { "AerialOpen", "AerialClose", "AerialToggle", "AerialNext", "AerialPrev" },
+    init = function()
+      vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
+      vim.keymap.set("n", "<space>o", "<cmd>AerialToggle!<CR>")
+    end,
     config = function()
       require("aerial").setup({
         layout = {
@@ -677,8 +752,6 @@ require("lazy").setup({
           vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
         end,
       })
-      -- You probably also want to set a keymap to toggle aerial
-      vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
     end,
   },
 
@@ -706,6 +779,7 @@ require("lazy").setup({
   },
   {
     "nvim-telescope/telescope-frecency.nvim",
+    keys = { ",sfr" },
     config = function()
       require("telescope").load_extension "frecency"
     end,
@@ -722,6 +796,7 @@ require("lazy").setup({
   {
     "windwp/nvim-spectre",
     dependencies = { "nvim-lua/plenary.nvim" },
+    keys = { "<leader>S", "<leader>sw", "<leader>s", "<leader>sp" },
     config = function()
       vim.keymap.set("n", "<leader>S", function()
         require("spectre").open()
@@ -874,6 +949,8 @@ require("lazy").setup({
   {
     "akinsho/toggleterm.nvim",
     version = "*",
+    keys = "<F12>",
+    cmd = { "ToggleTerm" },
     config = function()
       require("toggleterm").setup({
         size = function(term)
@@ -898,6 +975,8 @@ require("lazy").setup({
       "antoinemadec/FixCursorHold.nvim",
       "olimorris/neotest-rspec",
     },
+    keys = { ",tf", ",tn", ",tdf", ",tdn", ",tc", ",ts", ",to", ",ta" },
+    lazy = true,
     config = function()
       require("neotest").setup({
         adapters = {
@@ -982,7 +1061,7 @@ require("lazy").setup({
   {
     "famiu/bufdelete.nvim",
     cmd = { "Bdelete", "Bwipeout" },
-    config = function()
+    init = function()
       vim.keymap.set("n", ",bd", "<cmd>Bdelete<cr>")
       vim.keymap.set("n", "<A-w>", "<cmd>Bdelete<cr>")
       vim.keymap.set("n", ",bD", "<cmd>Bdelete!<cr>")
@@ -1009,7 +1088,6 @@ require("lazy").setup({
 
   "andymass/vim-matchup",
   "godlygeek/tabular",
-  "rhysd/ghpr-blame.vim",
   "Shougo/vinarise.vim",
 
   { "gabrielpoca/replacer.nvim", ft = { "qf" } },
@@ -1180,8 +1258,10 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
+    cmd = { "Neotree" },
+    keys = { "<leader>tt" },
     config = function()
-      vim.keymap.set("n", "<leader>tt", "<cmd>Neotree filesystem reveal<cr>")
+      vim.keymap.set("n", "<leader>tt", "<cmd>Neotree toggle filesystem reveal<cr>")
       require("neo-tree").setup({
         window = {
           mappings = {
@@ -1229,6 +1309,8 @@ require("lazy").setup({
   -- },
   {
     "axieax/urlview.nvim",
+    cmd = { "UrlView" },
+    keys = { ",uv", ",up" },
     config = function()
       require("urlview").setup()
       local wk = require "which-key"

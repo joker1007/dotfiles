@@ -1,8 +1,17 @@
 vim.opt.termguicolors = true
 
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_tutor_mode_plugin = 1
+vim.g.loaded_spellfile_plugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_zipPlugin = 1
+
 require "plugins"
 
 local wk = require "which-key"
+
+-- enable exrc to load local vimrc
+vim.opt.exrc = true
 
 vim.opt.fileencodings = "ucs_bom,utf8,ucs-2le,ucs-2,iso-2022-jp-3,euc-jp,cp932"
 
@@ -335,29 +344,6 @@ let g:test#transformation = 'docker'
 -- webapi-vim
 vim.g["webapi#system_function"] = "vimproc#system"
 
--- Fugitive {{{
-wk.register({
-  [",g"] = {
-    name = "+git",
-  },
-})
-vim.keymap.set("n", ",gd", ":<C-u>DiffviewOpen<CR>")
-vim.keymap.set("n", ",gs", ":<C-u>Git<CR>")
-vim.keymap.set("n", ",gl", ":<C-u>Gclog HEAD~20..HEAD<CR>")
-vim.keymap.set("n", ",gh", ":<C-u>DiffviewFileHistory %<CR>")
-vim.keymap.set("n", ",ga", ":<C-u>Gwrite<CR>")
-vim.keymap.set("n", ",gc", ":<C-u>Git commit<CR>")
-vim.keymap.set("n", ",gC", ":<C-u>Git commit --amend<CR>")
-vim.keymap.set("n", ",gb", ":<C-u>Git blame<CR>")
-vim.keymap.set("n", ",gn", ":<C-u>Git now<CR>")
-vim.keymap.set("n", ",gN", ":<C-u>Git now --all<CR>")
-vim.keymap.set("n", ",gp", ":<C-u>GHPRBlame<CR>")
-
-vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif]]
-vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif]]
-vim.cmd [[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif]]
--- }}}
-
 -- vim-choosewin {{{
 vim.keymap.set("n", "_", "<Plug>(choosewin)", { remap = true })
 -- }}}
@@ -460,6 +446,9 @@ vim.g.editcommand_prompt = "%"
 vim.cmd [[command! -nargs=+ Tg :T git <args>]]
 -- }}}
 
+-- octo.nvim {{{
+-- }}}
+
 -- markdown-composer
 vim.g.markdown_composer_autostart = 0
 vim.g.markdown_composer_refresh_rate = 10000
@@ -500,26 +489,6 @@ require("neodev").setup({
 
 local lspconfig = require "lspconfig"
 
-lspconfig.util.on_setup = lspconfig.util.add_hook_before(lspconfig.util.on_setup, function(config)
-  local check_executable = function(cmd)
-    local _root_dir = config.root_dir
-    config.root_dir = function(startpath)
-      if lsp_common.bundle_installed(cmd, vim.loop.cwd()) then
-        return _root_dir(startpath)
-      else
-        return nil
-      end
-    end
-  end
-  if config.name == "solargraph" then
-    check_executable "solargraph"
-  elseif config.name == "steep" then
-    check_executable "steep"
-  elseif config.name == "ruby_ls" then
-    check_executable "ruby-lsp"
-  end
-end)
-
 require("mason-lspconfig").setup_handlers({
   function(server_name)
     if server_name ~= "jdtls" then
@@ -552,63 +521,6 @@ require("mason-lspconfig").setup_handlers({
   end,
 })
 
-if lsp_common.bundle_installed("solargraph", vim.loop.cwd()) then
-  lspconfig.solargraph.setup({
-    capabilities = lsp_common.make_lsp_capabilities(),
-    on_attach = on_attach,
-    on_new_config = function(config, root_dir)
-      add_bundle_exec(config, "solargraph", root_dir)
-      return config
-    end,
-  })
-end
-
-lspconfig.steep.setup({
-  capabilities = lsp_common.make_lsp_capabilities(),
-  filetypes = { "ruby", "eruby", "rbs" },
-  cmd = { "bundle", "exec", "steep", "--log-output=/tmp/steep.log", "langserver" },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    vim.keymap.set("n", "<space>ct", function()
-      client.request("$/typecheck", { guid = "typecheck-" .. os.time() }, function() end, bufnr)
-    end, { silent = true, buffer = bufnr })
-  end,
-  on_new_config = function(config, root_dir)
-    add_bundle_exec(config, "steep", root_dir)
-    return config
-  end,
-})
-
-if lsp_common.bundle_installed("ruby-lsp", vim.loop.cwd()) then
-  lspconfig.ruby_ls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    init_options = {
-      enabledFeatures = {
-        "documentSymbol",
-        "documentLink",
-        "hover",
-        "foldingRanges",
-        "selectionRanges",
-        "semanticHighlighting",
-        "formatting",
-        "onTypeFormatting",
-        "diagnostics",
-        "codeActions",
-        "codeActionResolve",
-        "documentHighlight",
-        "inlayHints",
-        "completion",
-        "codeLens",
-      },
-    },
-    on_new_config = function(config, root_dir)
-      add_bundle_exec(config, "ruby-lsp", root_dir)
-      return config
-    end,
-  })
-end
-
 local null_ls = require "null-ls"
 null_ls.setup({
   capabilities = capabilities,
@@ -619,7 +531,7 @@ null_ls.setup({
       end,
     }),
     null_ls.builtins.diagnostics.rubocop.with({
-      prefer_local = "bundle_bin",
+      prefer_local = ".bundle/bin",
       condition = function(utils)
         return utils.root_has_file({ ".rubocop.yml" })
       end,
@@ -631,7 +543,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.commitlint,
     null_ls.builtins.formatting.rubyfmt,
     null_ls.builtins.formatting.rubocop.with({
-      prefer_local = "bundle_bin",
+      prefer_local = ".bundle/bin",
       condition = function(utils)
         return utils.root_has_file({ ".rubocop.yml" })
       end,

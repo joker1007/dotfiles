@@ -69,26 +69,19 @@ function M.on_attach(client, bufnr)
   end, bufopts "LSP format")
 end
 
-function M.bundle_installed(cmd, dir)
-  local ret_code = nil
-  local jid = vim.fn.jobstart("bundle exec which " .. cmd, {
-    cwd = dir,
-    on_exit = function(_, data)
-      ret_code = data
-    end,
-  })
-  vim.fn.jobwait({ jid }, 5000)
-  return ret_code == 0
+function M.gemfile_exists(dir)
+  if dir == "/" then
+    return false
+  end
+  return vim.fn.filereadable(dir .. "/Gemfile") or M.gemfile_exists(vim.fn.fnamemodify(dir, ":h"))
 end
 
-function M.add_bundle_exec(config, cmd, dir)
+function M.add_bundle_exec(config)
   if config.cmd[1] == "bundle" then
     return
   end
-  if M.bundle_installed(cmd, dir) then
-    table.insert(config.cmd, 1, "exec")
-    table.insert(config.cmd, 1, "bundle")
-  end
+  table.insert(config.cmd, 1, "exec")
+  table.insert(config.cmd, 1, "bundle")
 end
 
 return M
