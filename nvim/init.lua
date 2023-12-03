@@ -425,7 +425,10 @@ vim.g.markdown_composer_autostart = 0
 vim.g.markdown_composer_refresh_rate = 10000
 
 -- ghost_text
+--
 vim.cmd [[
+let g:nvim_ghost_use_script = 1
+let g:nvim_ghost_python_executable = '/usr/bin/python'
 augroup nvim_ghost_user_autocommands
   au User *github.com set filetype=markdown
 augroup END

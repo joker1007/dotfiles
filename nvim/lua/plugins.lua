@@ -1290,7 +1290,7 @@ require("lazy").setup({
   },
 
   "equalsraf/neovim-gui-shim",
-  "subnut/nvim-ghost.nvim",
+  -- "subnut/nvim-ghost.nvim",
   {
     "glacambre/firenvim",
     build = function()
