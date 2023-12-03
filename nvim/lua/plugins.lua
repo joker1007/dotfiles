@@ -246,7 +246,7 @@ require("lazy").setup({
 
   {
     "tyru/eskk.vim",
-    dep = { "tyru/skkdict.vim" },
+    dependencies = { "tyru/skkdict.vim" },
     event = { "InsertEnter" },
   },
 
@@ -317,7 +317,14 @@ require("lazy").setup({
   -- }}}
 
   -- markdown {{{
-  "preservim/vim-markdown",
+  {
+    "preservim/vim-markdown",
+    init = function()
+      vim.g.vim_markdown_folding_disabled = 1
+      vim.g.vim_markdown_conceal = 0
+      vim.g.vim_markdown_conceal_code_blocks = 0
+    end,
+  },
   { "mattn/vim-maketable", ft = "markdown" },
   { "kannokanno/previm", ft = "markdown" },
   { "euclio/vim-markdown-composer", build = "cargo build --release" },
@@ -425,14 +432,19 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter-context",
     config = function()
-      require("treesitter-context").setup({})
+      require("treesitter-context").setup({
+        min_window_height = 25,
+        separator = "-",
+      })
     end,
   },
 
   {
     "haringsrob/nvim_context_vt",
     config = function()
-      require("nvim_context_vt").setup()
+      require("nvim_context_vt").setup({
+        disable_virtual_lines_ft = { "yaml" },
+      })
     end,
   },
 
@@ -599,23 +611,32 @@ require("lazy").setup({
   -- web browse, api {{{
   "tyru/open-browser.vim",
   { "tyru/open-browser-github.vim", dependencies = "tyru/open-browser.vim" },
-  "mattn/webapi-vim",
   -- }}}
 
   -- git {{{
   {
     "tpope/vim-fugitive",
-    cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse", "GRemove", "GRename" },
-    keys = { ",gd", ",gs", ",gl", ",gh", ",ga", ",gc", ",gC", ",gb", ",gn", ",gN" },
+    cmd = {
+      "Git",
+      "Gdiffsplit",
+      "Gread",
+      "Gwrite",
+      "Ggrep",
+      "GMove",
+      "GDelete",
+      "GBrowse",
+      "GRemove",
+      "GRename",
+      "Gclog",
+    },
     init = function()
-      vim.keymap.set("n", ",gs", ":<C-u>Git<CR>")
-      vim.keymap.set("n", ",gl", ":<C-u>Gclog HEAD~20..HEAD<CR>")
-      vim.keymap.set("n", ",ga", ":<C-u>Gwrite<CR>")
-      vim.keymap.set("n", ",gc", ":<C-u>Git commit<CR>")
-      vim.keymap.set("n", ",gC", ":<C-u>Git commit --amend<CR>")
-      vim.keymap.set("n", ",gb", ":<C-u>Git blame<CR>")
-      vim.keymap.set("n", ",gn", ":<C-u>Git now<CR>")
-      vim.keymap.set("n", ",gN", ":<C-u>Git now --all<CR>")
+      vim.keymap.set("n", ",gs", "<cmd>Git<CR>")
+      vim.keymap.set("n", ",ga", "<cmd>Gwrite<CR>")
+      vim.keymap.set("n", ",gc", "<cmd>Git commit<CR>")
+      vim.keymap.set("n", ",gC", "<cmd>Git commit --amend<CR>")
+      vim.keymap.set("n", ",gb", "<cmd>Git blame<CR>")
+      vim.keymap.set("n", ",gn", "<cmd>Git now<CR>")
+      vim.keymap.set("n", ",gN", "<cmd>Git now --all<CR>")
     end,
     config = function()
       vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif]]
@@ -633,9 +654,13 @@ require("lazy").setup({
     "rbong/vim-flog",
     lazy = true,
     cmd = { "Flog", "Flogsplit", "Floggit" },
+    keys = { ",gl" },
     dependencies = {
       "tpope/vim-fugitive",
     },
+    config = function()
+      vim.keymap.set("n", ",gl", "<cmd>Flog<CR>")
+    end,
   },
   {
     "lewis6991/gitsigns.nvim",
@@ -652,7 +677,6 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "Octo" },
-    keys = { ",opl", ",opr", ",opa", ",opc", ",oil", ",oia", ",os", ",ou", ",or", ",oc", ",od", ",oo" },
     init = function()
       vim.keymap.set("n", ",opl", "<cmd>Octo pr list<cr>", { desc = "List PullRequests" })
       vim.keymap.set("n", ",opr", "<cmd>Octo search is:pr review-requested:@me is:open<cr>", {
@@ -669,7 +693,7 @@ require("lazy").setup({
       vim.keymap.set("n", ",or", "<cmd>Octo review resume<cr>", { desc = "Resume Review" })
       vim.keymap.set("n", ",oc", "<cmd>Octo review comments<cr>", { desc = "View Pending comments" })
       vim.keymap.set("n", ",od", "<cmd>Octo review discard<cr>", { desc = "Discard Pending review" })
-      vim.keymap.set("n", ",oo", "<cmd>Octo<cr>", { desc = "Octo" })
+      vim.keymap.set("n", ",oo", ":Octo", { desc = "Octo" })
     end,
     config = function()
       require("octo").setup()
@@ -682,8 +706,8 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
     init = function()
-      vim.keymap.set("n", ",gd", ":<C-u>DiffviewOpen<CR>")
-      vim.keymap.set("n", ",gh", ":<C-u>DiffviewFileHistory %<CR>")
+      vim.keymap.set("n", ",gd", "<cmd>DiffviewOpen<CR>")
+      vim.keymap.set("n", ",gh", "<cmd>DiffviewFileHistory %<CR>")
     end,
     config = function()
       require("diffview").setup({
@@ -799,8 +823,8 @@ require("lazy").setup({
     keys = { "<leader>S", "<leader>sw", "<leader>s", "<leader>sp" },
     config = function()
       vim.keymap.set("n", "<leader>S", function()
-        require("spectre").open()
-      end, { desc = "Spectre" })
+        require("spectre").toggle()
+      end, { desc = "Toggle Spectre" })
 
       -- search current word
       vim.keymap.set("n", "<leader>sw", function()
@@ -943,6 +967,7 @@ require("lazy").setup({
   -- terminal, execution {{{
   -- use {'Shougo/vimproc', run = 'make'}
   "thinca/vim-quickrun",
+  "lambdalisue/vim-quickrun-neovim-job",
 
   "janko-m/vim-test",
 
@@ -1265,7 +1290,6 @@ require("lazy").setup({
   },
 
   "equalsraf/neovim-gui-shim",
-  "brettanomyces/nvim-editcommand",
   "subnut/nvim-ghost.nvim",
   {
     "glacambre/firenvim",
@@ -1273,12 +1297,6 @@ require("lazy").setup({
       vim.fn["firenvim#install"](0)
     end,
   },
-  -- {
-  --   "kyazdani42/nvim-tree.lua",
-  --   config = function()
-  --     require "configs/nvim-tree"
-  --   end,
-  -- },
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",

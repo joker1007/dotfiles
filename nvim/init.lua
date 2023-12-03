@@ -301,20 +301,19 @@ vim.g.html_use_encoding = "utf-8"
 vim.cmd [[
 autocmd vimrc FileType quickrun setlocal concealcursor=""
 
+nnoremap <leader>q :QuickRun<CR>
 vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
-      \'runner' : 'vimproc',
+      \'runner' : 'neovim_job',
       \'outputter/buffer/split' : ':botright 10sp',
       \'outputter/error': 'buffer',
-      \'runner/vimproc/updatetime' : 40,
-      \'hook/now_running/enable' : 1,
       \'hook/time/enable' : 1,
       \}
 
 let g:quickrun_config.ruby = {
   \ 'cmdopt': '-W2',
-  \ 'exec': 'bundle exec %c %o %s %a',
+  \ 'exec': '%c %o %s %a',
   \ }
 ]]
 -- }}}
@@ -341,9 +340,6 @@ let g:test#custom_transformations = {'docker': function('DockerTransformer')}
 let g:test#transformation = 'docker'
 ]]
 
--- webapi-vim
-vim.g["webapi#system_function"] = "vimproc#system"
-
 -- vim-choosewin {{{
 vim.keymap.set("n", "_", "<Plug>(choosewin)", { remap = true })
 -- }}}
@@ -359,12 +355,6 @@ vim.cmd [[
   augroup END
 ]]
 -- }}}
-
--- vim-markdown
-vim.g.vim_markdown_folding_disabled = 1
-vim.g.vim_markdown_conceal = 0
-vim.g.vim_markdown_conceal_code_blocks = 0
-vim.g.vim_markdown_new_list_item_indent = 0
 
 -- Quickfix
 vim.keymap.set("n", ",q", ":<C-U>copen<CR>", { silent = true })
@@ -417,19 +407,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.g.ale_linters = { ruby = { "ruby" } }
 vim.g.ale_linters_explicit = 1
 vim.g.ale_cache_executable_check_failures = 1
-vim.g.ale_lua_luacheck_options = "--globals vim"
 -- }}}
 
 -- ag.vim
 vim.g.ag_prg = "rg --vimgrep --smart-case"
-
--- TweetVim {{{
-vim.keymap.set("n", "S", ":<C-u>TweetVimSay<CR>", { silent = true })
-vim.keymap.set("n", "<space>tt", ":<C-u>TweetVimHomeTimeline<CR>", { silent = true })
-vim.g.tweetvim_tweet_per_page = 50
-vim.g.tweetvim_include_rts = 1
-vim.g.tweetvim_display_icon = 1
--- }}}
 
 -- toggleterm {{{
 vim.keymap.set("t", "<A-n>", "<C-\\><C-n>")
@@ -438,16 +419,6 @@ vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j")
 vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k")
 vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l")
 --- }}}
-
--- nvim-editcommand
-vim.g.editcommand_prompt = "%"
-
--- Git commands
-vim.cmd [[command! -nargs=+ Tg :T git <args>]]
--- }}}
-
--- octo.nvim {{{
--- }}}
 
 -- markdown-composer
 vim.g.markdown_composer_autostart = 0
@@ -540,7 +511,11 @@ null_ls.setup({
       extra_args = { "--globals", "vim", "--globals", "awesome" },
     }),
     null_ls.builtins.diagnostics.yamllint,
-    null_ls.builtins.diagnostics.commitlint,
+    null_ls.builtins.diagnostics.commitlint.with({
+      condition = function(utils)
+        return utils.root_has_file({ "commitlint.config.js" })
+      end,
+    }),
     null_ls.builtins.formatting.rubyfmt,
     null_ls.builtins.formatting.rubocop.with({
       prefer_local = ".bundle/bin",
