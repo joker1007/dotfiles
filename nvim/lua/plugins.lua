@@ -965,9 +965,34 @@ require("lazy").setup({
   -- }}}
 
   -- terminal, execution {{{
-  -- use {'Shougo/vimproc', run = 'make'}
-  "thinca/vim-quickrun",
-  "lambdalisue/vim-quickrun-neovim-job",
+  {
+    "is0n/jaq-nvim",
+    cmd = { "Jaq" },
+    init = function()
+      vim.keymap.set("n", "<leader>q", "<cmd>Jaq<cr>")
+    end,
+    config = function()
+      require("jaq-nvim").setup({
+        cmds = {
+          -- Uses vim commands
+          internal = {
+            lua = "luafile %",
+            vim = "source %",
+          },
+
+          -- Uses shell commands
+          external = {
+            ruby = "ruby %",
+            bundle_ruby = "bundle exec ruby %",
+            rspec = "bundle exec rspec %",
+            python = "python3 %",
+            go = "go run %",
+            sh = "sh %",
+          },
+        },
+      })
+    end,
+  },
 
   "janko-m/vim-test",
 

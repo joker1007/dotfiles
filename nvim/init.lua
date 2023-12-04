@@ -297,27 +297,6 @@ vim.g.html_use_css = 1
 vim.g.use_xhtml = 1
 vim.g.html_use_encoding = "utf-8"
 
--- quickrun{{{
-vim.cmd [[
-autocmd vimrc FileType quickrun setlocal concealcursor=""
-
-nnoremap <leader>q :QuickRun<CR>
-vnoremap <leader>q :QuickRun >>buffer -mode v<CR>
-let g:quickrun_config = {}
-let g:quickrun_config._ = {
-      \'runner' : 'neovim_job',
-      \'outputter/buffer/split' : ':botright 10sp',
-      \'outputter/error': 'buffer',
-      \'hook/time/enable' : 1,
-      \}
-
-let g:quickrun_config.ruby = {
-  \ 'cmdopt': '-W2',
-  \ 'exec': '%c %o %s %a',
-  \ }
-]]
--- }}}
-
 -- vim-test
 vim.keymap.set("n", "<space>tn", ":TestNearest<cr>")
 vim.keymap.set("n", "<space>tf", ":TestFile<cr>")
