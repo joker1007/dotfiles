@@ -307,6 +307,7 @@ require("lazy").setup({
   "cespare/vim-toml",
 
   "vim-ruby/vim-ruby",
+  "pocke/rbs.vim",
   "leafgarland/typescript-vim",
   "rust-lang/rust.vim",
   "elixir-editors/vim-elixir",

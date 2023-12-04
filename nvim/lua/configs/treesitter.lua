@@ -7,14 +7,6 @@ parser_config.hypr = {
   },
   filetype = "hypr",
 }
-parser_config.rbs = {
-  install_info = {
-    url = "https://github.com/joker1007/tree-sitter-rbs",
-    files = { "src/parser.c" },
-    branch = "main",
-  },
-  filetype = "rbs",
-}
 
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
