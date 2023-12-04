@@ -1,0 +1,14 @@
+type=file,file=$FCITX_CONFIG_DIR/skk/user.dict,mode=readwrite
+type=file,file=/usr/share/skk/SKK-JISYO.L,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.emoji,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.assoc,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.fullname,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.geo,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.itaiji,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.itaiji.JIS3_4,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.jinmei,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.JIS2,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.law,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.okinawa,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.propernoun,mode=readonly
+type=file,file=/usr/share/skk/SKK-JISYO.station,mode=readonly
