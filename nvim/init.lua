@@ -50,8 +50,8 @@ vim.opt.timeoutlen = 500
 -- gui configs
 vim.cmd [[
 if exists("g:neovide")
-  set guifont=Monospace:h12
-  let g:neovide_transparency=0.9
+  set guifont=Monospace:h14
+  let g:neovide_transparency=1.0
   let g:neovide_cursor_vfx_mode = "railgun"
   function! FontSizePlus()
     let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
@@ -66,7 +66,7 @@ if exists("g:neovide")
     let &guifont = substitute(&guifont, 'h\d\+$', 'h' . l:new_font_size, '')
   endfunction
   function! FontSizeReset()
-    let &guifont = substitute(&guifont, 'h\d\+$', 'h12', '')
+    let &guifont = substitute(&guifont, 'h\d\+$', 'h14', '')
   endfunction
   nnoremap <C-=> :call FontSizePlus()<CR>
   nnoremap <C--> :call FontSizeMinus()<CR>
