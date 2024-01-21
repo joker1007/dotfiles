@@ -32,6 +32,7 @@ image = [
 ]
 media = [
   { exec = 'mpv "$@"', desc = "mpv" },
+  { exec = 'mpv -v "$@"', desc = "mpv (verbose)", block = true },
   { exec = 'mpv --profile=headphone "$@"', desc = "mpv (headphone)" },
   { exec = 'mpv --profile=surround-hdmi "$@"', desc = "mpv (hdmi)" },
   { exec = 'mpv --profile=bt "$@"', desc = "mpv (bt)" },
