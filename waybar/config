@@ -2,11 +2,11 @@
   {
     "layer": "top",
     "position": "top",
-    "output": ["DP-1", "DP-2"],
+    "output": ["DP-1", "DP-2", "HDMI-A-1"],
 
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "wireplumber", "custom/weather", "clock", "tray", "idle_inhibitor"],
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "pulseaudio", "custom/weather", "clock", "tray", "idle_inhibitor"],
 
     "sway/workspaces": {
       "numeric-first": true
@@ -76,14 +76,6 @@
     },
     "hyprland/window": {
       "separate-outputs": true
-    },
-    "wireplumber": {
-      "format": "{icon} {volume}%",
-      "format-muted": "🔇",
-
-      "format-icons": ["🔈", "🔉", "🔊"],
-      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-      "on-click-middle": "qpwgraph"
     },
     "clock": {
       "interval": 2,
