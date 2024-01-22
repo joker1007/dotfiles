@@ -24,7 +24,7 @@ vim.api.nvim_create_augroup("vimrc", {})
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true -- always set autoindenting on
+vim.opt.ai = true               -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -206,6 +206,13 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "Steepfile" },
   group = file_type_setter_group,
   command = "set ft=ruby",
+})
+
+vim.filetype.add({
+  pattern = {
+    [".*/hyprland%.conf"] = "hyprlang",
+    [".*/hypr/.*%.conf"] = "hyprlang",
+  },
 })
 -- }}}
 

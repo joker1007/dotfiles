@@ -384,7 +384,10 @@ require("lazy").setup({
       require "configs/treesitter"
     end,
   },
-  "luckasRanarison/tree-sitter-hypr",
+  {
+    "luckasRanarison/tree-sitter-hyprlang",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
