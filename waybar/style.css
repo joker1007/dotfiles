@@ -54,6 +54,7 @@ tooltip {
 #memory,
 #disk,
 #custom-weather,
+#custom-tailscale,
 #window,
 #clock,
 #battery,
@@ -67,7 +68,7 @@ tooltip {
 #idle_inhibitor,
 #backlight {
   background: #1e1e2e;
-  opacity: 0.8;
+  opacity: 0.9;
   padding: 0px 10px;
   margin: 3px 3px 0px 3px;
   border: 1px solid #181825;
@@ -162,7 +163,7 @@ tooltip {
   border-left: 0px;
 }
 
-#custom-weather {
+#custom-weather, #custom-tailscale {
   border-radius: 20px;
   border-right: 0px;
   margin-left: 0px;
