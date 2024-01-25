@@ -16,6 +16,11 @@ disabled = false
 [gcloud]
 disabled = true
 
+[direnv]
+disabled = false
+symbol = "direnv:"
+style = "bold blue"
+
 [hostname]
 ssh_only = false
 
@@ -31,5 +36,5 @@ symbol = " "
 [golang]
 symbol = "ﳑ "
 
-[aws]
-symbol = " "
+[os.symbols]
+gentoo="󰣨 "
