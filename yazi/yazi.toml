@@ -1,11 +1,12 @@
 [manager]
 ratio         = [ 1, 4, 2 ]
-sort_by        = "natural"
+sort_by        = "alphabetical"
 sort_sensitive = true
 sort_reverse   = false
 sort_dir_first = true
 show_hidden    = false
 show_symlink   = true
+linemode       = "size"
 
 [preview]
 tab_size        = 2
@@ -35,7 +36,8 @@ text = [
   { exec = '$EDITOR "$@"', block = true },
 ]
 image = [
-  { exec = 'nsxiv "$@"', desc = "Open" },
+  { exec = 'nsxiv "$@"', desc = "nsxiv" },
+  { exec = 'vimiv "$@"', desc = "vimiv" },
 ]
 media = [
   { exec = 'mpv "$@"', desc = "mpv" },
@@ -68,3 +70,11 @@ rules = [
 
   { mime = "*", use = "fallback" },
 ]
+
+[tasks]
+micro_workers    = 20
+macro_workers    = 25
+bizarre_retry    = 5
+image_alloc      = 536870912  # 512MB
+image_bound      = [ 2048, 2048 ]
+suppress_preload = false
