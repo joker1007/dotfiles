@@ -1366,7 +1366,7 @@ require("lazy").setup({
     "3rd/image.nvim",
     build = "luarocks --local install magick",
     config = function()
-      if not vim.g.neovide then
+      if not vim.g.neovide and not vim.g.GuiLoaded then
         require("image").setup({
           backend = "ueberzug",
           integrations = {
