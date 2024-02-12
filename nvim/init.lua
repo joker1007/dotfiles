@@ -201,15 +201,10 @@ vim.g.loaded_perl_provider = 0
 -----------------------------------------------------------}}}
 
 -- filetype setter {{{
-local file_type_setter_group = vim.api.nvim_create_augroup("FileTypeSetter", {})
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  pattern = { "Steepfile" },
-  group = file_type_setter_group,
-  command = "set ft=ruby",
-})
-
 vim.filetype.add({
   pattern = {
+    ["Steepfile"] = "ruby",
+    [".*%.vpy"] = "python",
     [".*/hyprland%.conf"] = "hyprlang",
     [".*/hypr/.*%.conf"] = "hyprlang",
   },
