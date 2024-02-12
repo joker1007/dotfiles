@@ -17,12 +17,15 @@ sixel_fraction  = 15
 ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]
 cache_dir = "/home/joker/.cache/yazi"
+image_filter    = "triangle"
 
 [opener]
-folder = [
+edit = [
   { exec = '$EDITOR "$@"', block = true },
 ]
-
+open = [
+  { exec = 'xdg-open "$@"', desc = "Open" },
+]
 unzip = [
   { exec = 'mcomix "$@"' },
   { exec = 'unzip -d "${file%.*}" "$file"', desc = "Extract here" },
@@ -32,43 +35,35 @@ unrar = [
   { exec = 'mcomix "$@"' },
   { exec = 'unrar x "$1" "${1%.*}/', desc = "Extract here" },
 ]
-text = [
-  { exec = '$EDITOR "$@"', block = true },
-]
 image = [
-  { exec = 'nsxiv "$@"', desc = "nsxiv" },
-  { exec = 'vimiv "$@"', desc = "vimiv" },
+  { exec = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
+  { exec = 'vimiv "$@"', orphan = true, desc = "vimiv" },
 ]
 media = [
-  { exec = 'mpv "$@"', desc = "mpv" },
+  { exec = 'mpv "$@"', orphan = true, desc = "mpv" },
   { exec = 'mpv -v "$@"', desc = "mpv (verbose)", block = true },
-  { exec = 'mpv --profile=headphone "$@"', desc = "mpv (headphone)" },
-  { exec = 'mpv --profile=surround-hdmi "$@"', desc = "mpv (hdmi)" },
-  { exec = 'mpv --profile=bt "$@"', desc = "mpv (bt)" },
-  { exec = 'mpv --profile=jack "$@"', desc = "mpv (jack)" },
+  { exec = 'mpv --profile=headphone "$@"', orphan = true, desc = "mpv (headphone)" },
+  { exec = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
+  { exec = 'mpv --profile=bt "$@"', orphan = true, desc = "mpv (bt)" },
   { exec = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
-]
-fallback = [
-  { exec = 'open "$@"', desc = "Open" },
-  { exec = 'open -R "$@"', desc = "Reveal in Finder" },
 ]
 
 [open]
 rules = [
-  { name = "*/", use = "folder" },
-  { mime = "text/*", use = "text" },
+  { name = "*/", use = ["edit", "open"] },
+  { mime = "text/*", use = "edit" },
   { mime = "image/*", use = "image" },
   { mime = "video/*", use = "media" },
   { mime = "audio/*", use = "media" },
-  { mime = "inode/x-empty", use = "text" },
+  { mime = "inode/x-empty", use = "edit" },
 
-  { mime = "application/json", use = "text" },
-  { mime = "*/javascript", use = "text" },
+  { mime = "application/json", use = "edit" },
+  { mime = "*/javascript", use = "edit" },
 
   { mime = "application/zip", use = "unzip" },
   { mime = "application/x-rar", use = "unrar" },
 
-  { mime = "*", use = "fallback" },
+  { mime = "*", use = "open" },
 ]
 
 [tasks]
@@ -78,3 +73,44 @@ bizarre_retry    = 5
 image_alloc      = 536870912  # 512MB
 image_bound      = [ 2048, 2048 ]
 suppress_preload = false
+
+[plugin]
+
+preloaders = [
+	{ name = "*", cond = "!mime", exec = "mime", multi = true, prio = "high" },
+	# Image
+	{ mime = "image/vnd.djvu", exec = "noop" },
+	{ mime = "image/*",        exec = "image" },
+	# Video
+	{ mime = "video/*", exec = "video" },
+	# PDF
+	{ mime = "application/pdf", exec = "pdf" },
+]
+previewers = [
+	{ name = "*/", exec = "folder", sync = true },
+	# Code
+	{ mime = "text/*",                 exec = "code" },
+	{ mime = "*/xml",                  exec = "code" },
+	{ mime = "*/javascript",           exec = "code" },
+	{ mime = "*/x-wine-extension-ini", exec = "code" },
+	# JSON
+	{ mime = "application/json", exec = "json" },
+	# Image
+	{ mime = "image/vnd.djvu", exec = "noop" },
+	{ mime = "image/*",        exec = "image" },
+	# Video
+	{ mime = "video/*", exec = "video" },
+	# PDF
+	{ mime = "application/pdf", exec = "pdf" },
+	# Archive
+	{ mime = "application/zip",             exec = "archive" },
+	{ mime = "application/gzip",            exec = "archive" },
+	{ mime = "application/x-tar",           exec = "archive" },
+	{ mime = "application/x-bzip",          exec = "archive" },
+	{ mime = "application/x-bzip2",         exec = "archive" },
+	{ mime = "application/x-7z-compressed", exec = "archive" },
+	{ mime = "application/x-rar",           exec = "archive" },
+	{ mime = "application/xz",              exec = "archive" },
+	# Fallback
+	{ name = "*", exec = "file" },
+]
