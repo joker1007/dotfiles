@@ -127,7 +127,7 @@
   },
   "custom/weather": {
     "exec": "curl 'https://wttr.in/asakusa?format=1'",
-    "interval": 3600
+    "interval": 600
   },
 
   "custom/tailscale": {
