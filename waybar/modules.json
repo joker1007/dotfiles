@@ -129,6 +129,14 @@
     "exec": "curl 'https://wttr.in/asakusa?format=1'",
     "interval": 600
   },
+  "bluetooth": {
+    "format": " {status}",
+    "format-disabled": "",
+    "format-connected": " {num_connections} connected",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+  },
 
   "custom/tailscale": {
     "exec": "~/.config/waybar/current_tailnet.sh",
