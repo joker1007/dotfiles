@@ -1172,12 +1172,6 @@ require("lazy").setup({
   "equalsraf/neovim-gui-shim",
   -- "subnut/nvim-ghost.nvim",
   {
-    "glacambre/firenvim",
-    build = function()
-      vim.fn["firenvim#install"](0)
-    end,
-  },
-  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {

@@ -456,21 +456,3 @@ dap.configurations.ruby = {
 }
 
 -- }}}
-
-vim.g.firenvim_config = {
-  localSettings = {
-    [".*"] = {
-      takeover = "never",
-    },
-  },
-}
-if vim.g.started_by_firenvim then
-  local firenvim_group = vim.api.nvim_create_augroup("Firenvim", {})
-  vim.api.nvim_create_autocmd({ "BufEnter" }, {
-    group = firenvim_group,
-    callback = function()
-      vim.opt_local.laststatus = 0
-      vim.opt_local.showtabline = 0
-    end,
-  })
-end
