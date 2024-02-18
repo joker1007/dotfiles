@@ -15,13 +15,13 @@ local telescope_mappings = {
     name = "+Telescope (file+pwd)",
     f = {
       function()
-        require("telescope.builtin").find_files()
+        require("telescope.builtin").find_files({ follow = true })
       end,
       "Find File",
     },
     i = {
       function()
-        require("telescope.builtin").find_files({ no_ignore = true, no_ignore_parent = true })
+        require("telescope.builtin").find_files({ follow = true, no_ignore = true, no_ignore_parent = true })
       end,
       "Find File",
     },
@@ -43,6 +43,7 @@ local telescope_mappings = {
           depth = 5,
           collapse_dirs = true,
           respect_gitignore = false,
+          follow_symlinks = true,
         })
       end,
       "File Browser",
@@ -53,7 +54,7 @@ local telescope_mappings = {
     name = "+Telescope (file+filepath)",
     F = {
       function()
-        require("telescope.builtin").find_files({ cwd = vim.fn.expand "%:p:h" })
+        require("telescope.builtin").find_files({ cwd = vim.fn.expand "%:p:h", follow = true })
       end,
       "Find File (filepath)",
     },
@@ -61,6 +62,7 @@ local telescope_mappings = {
       function()
         require("telescope.builtin").find_files({
           cwd = vim.fn.expand "%:p:h",
+          follow = true,
           no_ignore = true,
           no_ignore_parent = true,
         })
@@ -74,6 +76,7 @@ local telescope_mappings = {
           depth = 5,
           collapse_dirs = true,
           respect_gitignore = false,
+          follow_symlinks = true,
         })
       end,
       "File Browser (filepath)",

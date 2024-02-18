@@ -8,7 +8,9 @@ vim.g.loaded_zipPlugin = 1
 
 require "plugins"
 
-local wk = require "which-key"
+vim.api.nvim_create_augroup("vimrc", {})
+
+require "configs/keybinds"
 
 -- enable exrc to load local vimrc
 vim.opt.exrc = true
@@ -19,8 +21,6 @@ vim.cmd [[packadd termdebug]]
 
 vim.g.termdebug_useFloatingHover = 1
 vim.g.termdebug_wide = 160
-
-vim.api.nvim_create_augroup("vimrc", {})
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
@@ -74,14 +74,6 @@ if exists("g:neovide")
 endif
 ]]
 
--- swap ; and :
-vim.keymap.set("n", ";", ":", {})
-vim.keymap.set("n", ":", ";", {})
-vim.keymap.set("v", ";", ":", {})
-vim.keymap.set("v", ":", ";", {})
-
--- Space prefix
-
 -- Edit vimrc
 local sfile = debug.getinfo(1, "S").short_src
 vim.keymap.set("n", "<space>v", function()
@@ -113,9 +105,6 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wrapscan = true
 vim.cmd [[nohlsearch]] -- reset highlight
-vim.keymap.set("n", "<space>/", ":noh<CR>", { silent = true })
-vim.keymap.set("n", "*", "<Plug>(visualstar-*)N", { remap = true })
-vim.keymap.set("n", "#", "<Plug>(visualstar-#)N", { remap = true })
 
 -- ステータスライン表示
 
@@ -130,16 +119,9 @@ vim.opt.showcmd = true
 vim.opt.showtabline = 2
 vim.api.nvim_create_user_command("Te", "tabedit <args>", { nargs = "*", complete = "file" })
 vim.api.nvim_create_user_command("Tn", "tabnew <args>", { nargs = "*", complete = "file" })
-vim.keymap.set("n", "<S-Right>", ":<C-U>tabnext<CR>", { silent = true })
-vim.keymap.set("n", "<S-Left>", ":<C-U>tabprevious<CR>", { silent = true })
-vim.keymap.set("n", "L", ":<C-U>tabnext<CR>", { silent = true })
-vim.keymap.set("n", "H", ":<C-U>tabprevious<CR>", { silent = true })
-vim.keymap.set("n", "<C-L>", ":<C-U>tabmove +1<CR>", { silent = true })
-vim.keymap.set("n", "<C-H>", ":<C-U>tabmove -1<CR>", { silent = true })
 
 -- completion
 vim.opt.complete = ".,w,b,u,t,i,d"
-vim.keymap.set("i", "<C-X><C-O>", "<C-X><C-O><C-P>")
 
 -- クリップボード設定
 vim.opt.clipboard = "unnamed,unnamedplus"
@@ -157,28 +139,6 @@ vim.opt.title = true
 -- 対応括弧を表示
 vim.opt.showmatch = true
 
--- jkを直感的に
-vim.keymap.set("n", "j", "gj", { silent = true })
-vim.keymap.set("n", "gj", "j", { silent = true })
-vim.keymap.set("n", "k", "gk", { silent = true })
-vim.keymap.set("n", "gk", "k", { silent = true })
-vim.keymap.set("n", "$", "g$", { silent = true })
-vim.keymap.set("n", "g$", "$", { silent = true })
-vim.keymap.set("v", "j", "gj", { silent = true })
-vim.keymap.set("v", "gj", "j", { silent = true })
-vim.keymap.set("v", "k", "gk", { silent = true })
-vim.keymap.set("v", "gk", "k", { silent = true })
-vim.keymap.set("v", "$", "g$", { silent = true })
-vim.keymap.set("v", "g$", "$", { silent = true })
-
--- JとDで半ページ移動
-vim.keymap.set("n", "J", "<C-D>", { silent = true })
-vim.keymap.set("n", "K", "<C-U>", { silent = true })
-
--- 編集中のファイルのディレクトリに移動
-vim.cmd [[command! CdCurrent execute ":cd" . expand("%:p:h")]]
-vim.keymap.set("n", ",c", ":<C-U>CdCurrent<CR>:pwd<CR>", { silent = true })
-
 -- 最後に編集した場所にカーソルを移動する
 vim.cmd [[autocmd! vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]]
 
@@ -187,7 +147,7 @@ vim.cmd [[autocmd! vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line
 vim.cmd [[autocmd! vimrc ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060]]
 vim.cmd [[autocmd! vimrc VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')]]
 
-vim.cmd [[colorscheme duskfox]]
+vim.cmd.colorscheme("duskfox")
 
 --Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 --If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -202,6 +162,11 @@ vim.g.loaded_perl_provider = 0
 
 -- filetype setter {{{
 vim.filetype.add({
+  filename = {
+    [".git/COMMIT_EDITMSG"] = "gitcommit",
+    [".git/rebase-merge"] = "gitrebase",
+    ["PULLREQ_EDITMSG"] = "gitcommit",
+  },
   pattern = {
     ["Steepfile"] = "ruby",
     [".*%.vpy"] = "python",
@@ -209,28 +174,6 @@ vim.filetype.add({
     [".*/hypr/.*%.conf"] = "hyprlang",
   },
 })
--- }}}
-
--- surround.vim {{{
-vim.keymap.set("n", ",(", "csw(", { remap = true })
-vim.keymap.set("n", ",)", "csw)", { remap = true })
-vim.keymap.set("n", ",{", "csw{", { remap = true })
-vim.keymap.set("n", ",}", "csw}", { remap = true })
-vim.keymap.set("n", ",[", "csw[", { remap = true })
-vim.keymap.set("n", ",]", "csw]", { remap = true })
-vim.keymap.set("n", ",'", "csw'", { remap = true })
-vim.keymap.set("n", ',"', 'csw"', { remap = true })
---}}}
-
--- from http://vim-users.jp/2011/04/hack214/ {{{
-vim.keymap.set("v", "(", "t(", { remap = true })
-vim.keymap.set("v", ")", "t)", { remap = true })
-vim.keymap.set("v", "]", "t]", { remap = true })
-vim.keymap.set("v", "[", "t[", { remap = true })
-vim.keymap.set("o", "(", "t(", { remap = true })
-vim.keymap.set("o", ")", "t)", { remap = true })
-vim.keymap.set("o", "]", "t]", { remap = true })
-vim.keymap.set("o", "[", "t[", { remap = true })
 -- }}}
 
 -- set paste
@@ -300,9 +243,6 @@ vim.g.use_xhtml = 1
 vim.g.html_use_encoding = "utf-8"
 
 -- vim-test
-vim.keymap.set("n", "<space>tn", ":TestNearest<cr>")
-vim.keymap.set("n", "<space>tf", ":TestFile<cr>")
-
 vim.cmd [[let test#strategy = 'toggleterm']]
 
 vim.cmd [[let test#ruby#rspec#executable = 'rspec']]
@@ -321,10 +261,6 @@ let g:test#custom_transformations = {'docker': function('DockerTransformer')}
 let g:test#transformation = 'docker'
 ]]
 
--- vim-choosewin {{{
-vim.keymap.set("n", "_", "<Plug>(choosewin)", { remap = true })
--- }}}
-
 -- github-complete.vim' {{{
 vim.cmd [[
   " Disable overwriting 'omnifunc'
@@ -336,13 +272,6 @@ vim.cmd [[
   augroup END
 ]]
 -- }}}
-
--- Quickfix
-vim.keymap.set("n", ",q", ":<C-U>copen<CR>", { silent = true })
-vim.keymap.set("n", "]q", ":<C-U>cnext<CR>", { silent = true })
-vim.keymap.set("n", "[q", ":<C-U>cprev<CR>", { silent = true })
-vim.keymap.set("n", "]Q", ":<C-U>clast<CR>", { silent = true })
-vim.keymap.set("n", "[Q", ":<C-U>cfirst<CR>", { silent = true })
 
 -- errormarker.vim
 vim.cmd [[let errormarker_disablemappings = 1]]
@@ -356,34 +285,6 @@ if &diff
 endif
 ]]
 
--- Tabular {{{
-wk.register({
-  ["<leader>a"] = { name = "+Tabularize" },
-})
-vim.keymap.set("n", "<Leader>a,", ":Tabularize /,<CR>")
-vim.keymap.set("n", "<Leader>a=", ":Tabularize /=<CR>")
-vim.keymap.set("n", "<Leader>a>", ":Tabularize /=><CR>")
-vim.keymap.set("n", "<Leader>a:", ":Tabularize /:\zs<CR>")
-vim.keymap.set("n", "<Leader>a<Bar>", ":Tabularize /<Bar><CR>")
-
-vim.keymap.set("v", "<Leader>a,", ":Tabularize /,<CR>")
-vim.keymap.set("v", "<Leader>a=", ":Tabularize /=<CR>")
-vim.keymap.set("v", "<Leader>a>", ":Tabularize /=><CR>")
-vim.keymap.set("v", "<Leader>a:", ":Tabularize /:\zs<CR>")
-vim.keymap.set("v", "<Leader>a<Bar>", ":Tabularize /<Bar><CR>")
--- }}}
-
--- replacer.nvim
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "qf" },
-  group = "vimrc",
-  callback = function()
-    vim.keymap.set("n", "r", function()
-      require("replacer").run()
-    end, { buffer = 0 })
-  end,
-})
-
 -- ale {{{
 vim.g.ale_linters = { ruby = { "ruby" } }
 vim.g.ale_linters_explicit = 1
@@ -392,14 +293,6 @@ vim.g.ale_cache_executable_check_failures = 1
 
 -- ag.vim
 vim.g.ag_prg = "rg --vimgrep --smart-case"
-
--- toggleterm {{{
-vim.keymap.set("t", "<A-n>", "<C-\\><C-n>")
-vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h")
-vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j")
-vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k")
-vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l")
---- }}}
 
 -- markdown-composer
 vim.g.markdown_composer_autostart = 0
@@ -432,11 +325,6 @@ local on_attach = lsp_common.on_attach
 local capabilities = lsp_common.capabilities
 local add_bundle_exec = lsp_common.add_bundle_exec
 
-local noremap_silent = { noremap = true, silent = true }
-vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, noremap_silent)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, noremap_silent)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, noremap_silent)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, noremap_silent)
 
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },

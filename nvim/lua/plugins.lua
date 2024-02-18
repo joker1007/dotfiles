@@ -155,44 +155,6 @@ require("lazy").setup({
     "mfussenegger/nvim-dap",
     config = function()
       vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
-
-      vim.keymap.set("n", "<F5>", function()
-        require("dap").continue()
-      end)
-      vim.keymap.set("n", "<F9>", function()
-        require("dap").step_over()
-      end)
-      vim.keymap.set("n", "<F10>", function()
-        require("dap").step_into()
-      end)
-      vim.keymap.set("n", "<F11>", function()
-        require("dap").step_out()
-      end)
-      vim.keymap.set("n", "<Leader>b", function()
-        require("dap").toggle_breakpoint()
-      end)
-      vim.keymap.set("n", "<Leader>B", function()
-        require("dap").set_breakpoint(vim.fn.input "condition: ")
-      end)
-
-      local wk = require "which-key"
-      wk.register({
-        ["<leader>d"] = {
-          name = "+Debug",
-        },
-      })
-      vim.keymap.set("n", "<Leader>ds", function()
-        require("dap").continue()
-      end, { desc = "start debugger or continue" })
-      vim.keymap.set("n", "<Leader>du", function()
-        require("dapui").toggle()
-      end, { desc = "toggle UI" })
-      vim.keymap.set("n", "<Leader>dr", function()
-        require("dap").repl.open()
-      end, { desc = "open repl" })
-      vim.keymap.set("n", "<Leader>dl", function()
-        require("dap").run_last()
-      end, { desc = "re-run last debug adapter" })
     end,
   },
   {
@@ -257,22 +219,6 @@ require("lazy").setup({
       local wk = require "which-key"
       wk.setup({
         window = { border = "double", winblend = 20 },
-      })
-      wk.register({
-        [",g"] = {
-          name = "+git",
-        },
-      })
-      wk.register({
-        [",o"] = {
-          name = "+Octo",
-          p = {
-            name = "+PullRequest",
-          },
-          i = {
-            name = "+Issue",
-          },
-        },
       })
     end,
   },
@@ -499,21 +445,21 @@ require("lazy").setup({
     config = function()
       local kopts = { noremap = true, silent = true }
 
-      vim.api.nvim_set_keymap(
+      vim.keymap.set(
         "n",
         "n",
         [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
         kopts
       )
-      vim.api.nvim_set_keymap(
+      vim.keymap.set(
         "n",
         "N",
         [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
         kopts
       )
-      vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.keymap.set("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.keymap.set("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.keymap.set("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
       vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
       require("hlslens").setup({
@@ -549,29 +495,6 @@ require("lazy").setup({
       require("trouble").setup({
         auto_close = true,
       })
-
-      local wk = require "which-key"
-      wk.register({
-        ["<leader>x"] = {
-          name = "+Trouble",
-        },
-      })
-      vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>xw",
-        "<cmd>TroubleToggle workspace_diagnostics<cr>",
-        { silent = true, noremap = true }
-      )
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>xd",
-        "<cmd>TroubleToggle document_diagnostics<cr>",
-        { silent = true, noremap = true }
-      )
-      vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-      vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
-      vim.api.nvim_set_keymap("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
     end,
   },
 
@@ -633,38 +556,28 @@ require("lazy").setup({
       "GRename",
       "Gclog",
     },
-    init = function()
-      vim.keymap.set("n", ",gs", "<cmd>Git<CR>")
-      vim.keymap.set("n", ",ga", "<cmd>Gwrite<CR>")
-      vim.keymap.set("n", ",gc", "<cmd>Git commit<CR>")
-      vim.keymap.set("n", ",gC", "<cmd>Git commit --amend<CR>")
-      vim.keymap.set("n", ",gb", "<cmd>Git blame<CR>")
-      vim.keymap.set("n", ",gn", "<cmd>Git now<CR>")
-      vim.keymap.set("n", ",gN", "<cmd>Git now --all<CR>")
-    end,
-    config = function()
-      vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/COMMIT_EDITMSG" | set ft=gitcommit | endif]]
-      vim.cmd [[autocmd vimrc BufEnter * if expand("%") =~ ".git/rebase-merge" | set ft=gitrebase | endif]]
-      vim.cmd [[autocmd vimrc BufEnter * if expand("%:t") =~ "PULLREQ_EDITMSG" | set ft=gitcommit | endif]]
-    end,
   },
   {
     "rhysd/ghpr-blame.vim",
-    config = function()
-      vim.keymap.set("n", ",gp", ":<C-u>GHPRBlame<CR>")
-    end,
+    cmd = { "GHPRBlame" },
+  },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    config = true,
   },
   {
     "rbong/vim-flog",
     lazy = true,
     cmd = { "Flog", "Flogsplit", "Floggit" },
-    keys = { ",gl" },
     dependencies = {
       "tpope/vim-fugitive",
     },
-    config = function()
-      vim.keymap.set("n", ",gl", "<cmd>Flog<CR>")
-    end,
+    config = function() end,
   },
   {
     "lewis6991/gitsigns.nvim",
@@ -681,27 +594,7 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "Octo" },
-    init = function()
-      vim.keymap.set("n", ",opl", "<cmd>Octo pr list<cr>", { desc = "List PullRequests" })
-      vim.keymap.set("n", ",opr", "<cmd>Octo search is:pr review-requested:@me is:open<cr>", {
-        desc = "Search PullRequests (review-requested)",
-      })
-      vim.keymap.set("n", ",opa", "<cmd>Octo search is:pr author:@me is:open<cr>", {
-        desc = "Search PullRequests (created)",
-      })
-      vim.keymap.set("n", ",opc", "<cmd>Octo pr create<cr>", { desc = "Create PullRequest" })
-      vim.keymap.set("n", ",oil", "<cmd>Octo issue list<cr>", { desc = "Issue (list)" })
-      vim.keymap.set("n", ",oia", "<cmd>Octo search is:issue author:@me is:open<cr>", { desc = "Issue (created)" })
-      vim.keymap.set("n", ",os", "<cmd>Octo review start<cr>", { desc = "Start Review" })
-      vim.keymap.set("n", ",ou", "<cmd>Octo review submit<cr>", { desc = "Submit Review" })
-      vim.keymap.set("n", ",or", "<cmd>Octo review resume<cr>", { desc = "Resume Review" })
-      vim.keymap.set("n", ",oc", "<cmd>Octo review comments<cr>", { desc = "View Pending comments" })
-      vim.keymap.set("n", ",od", "<cmd>Octo review discard<cr>", { desc = "Discard Pending review" })
-      vim.keymap.set("n", ",oo", ":Octo", { desc = "Octo" })
-    end,
-    config = function()
-      require("octo").setup()
-    end,
+    config = true,
   },
 
   { "lambdalisue/vim-gista", cmd = { "Gista" } },
@@ -709,10 +602,6 @@ require("lazy").setup({
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-    init = function()
-      vim.keymap.set("n", ",gd", "<cmd>DiffviewOpen<CR>")
-      vim.keymap.set("n", ",gh", "<cmd>DiffviewFileHistory %<CR>")
-    end,
     config = function()
       require("diffview").setup({
         default_args = {
@@ -751,10 +640,6 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "AerialOpen", "AerialClose", "AerialToggle", "AerialNext", "AerialPrev" },
-    init = function()
-      vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
-      vim.keymap.set("n", "<space>o", "<cmd>AerialToggle!<CR>")
-    end,
     config = function()
       require("aerial").setup({
         layout = {
@@ -811,7 +696,7 @@ require("lazy").setup({
     config = function()
       require("telescope").load_extension "frecency"
     end,
-    dependencies = { "kkharji/sqlite.lua", "nvim-telescope/telescope.nvim" },
+    dependencies = { "nvim-telescope/telescope.nvim" },
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -972,9 +857,6 @@ require("lazy").setup({
   {
     "is0n/jaq-nvim",
     cmd = { "Jaq" },
-    init = function()
-      vim.keymap.set("n", "<leader>q", "<cmd>Jaq<cr>")
-    end,
     config = function()
       require("jaq-nvim").setup({
         cmds = {
@@ -1087,19 +969,6 @@ require("lazy").setup({
       require("neogen").setup({
         snippet_engine = "luasnip",
       })
-      local wk = require "which-key"
-      wk.register({
-        ["<leader>g"] = {
-          name = "+Neogen",
-          f = {
-            function()
-              require("neogen").generate()
-            end,
-            "Neogen",
-            silent = true,
-          },
-        },
-      })
     end,
     dependencies = "nvim-treesitter/nvim-treesitter",
     version = "*",
@@ -1115,11 +984,6 @@ require("lazy").setup({
   {
     "famiu/bufdelete.nvim",
     cmd = { "Bdelete", "Bwipeout" },
-    init = function()
-      vim.keymap.set("n", ",bd", "<cmd>Bdelete<cr>")
-      vim.keymap.set("n", "<A-w>", "<cmd>Bdelete<cr>")
-      vim.keymap.set("n", ",bD", "<cmd>Bdelete!<cr>")
-    end,
   },
 
   {
@@ -1302,19 +1166,6 @@ require("lazy").setup({
           },
         },
       })
-
-      local wk = require "which-key"
-      wk.register({
-        ["<leader>o"] = {
-          name = "+Other",
-        },
-      })
-      vim.keymap.set("n", "<F2>", "<cmd>OtherClear<CR><cmd>:Other<CR>")
-      vim.keymap.set("n", "<F3>", "<cmd>OtherClear<CR><cmd>:Other<CR>")
-      vim.keymap.set("n", "<leader>oo", "<cmd>OtherClear<CR><cmd>:Other<CR>")
-      vim.keymap.set("n", "<leader>os", "<cmd>OtherClear<CR><cmd>:OtherSplit<CR>")
-      vim.keymap.set("n", "<leader>ov", "<cmd>OtherClear<CR><cmd>:OtherVSplit<CR>")
-      vim.keymap.set("n", "<leader>oc", "<cmd>OtherClear<CR><cmd>:OtherClear<CR>")
     end,
   },
 
@@ -1336,7 +1187,6 @@ require("lazy").setup({
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function()
-      vim.keymap.set("n", "<leader>tt", "<cmd>Neotree toggle filesystem reveal<cr>")
       require("neo-tree").setup({
         filesystem = {
           filtered_items = {
@@ -1351,8 +1201,8 @@ require("lazy").setup({
           window = {
             mappings = {
               ["."] = "toggle_hidden",
-            }
-          }
+            },
+          },
         },
         window = {
           mappings = {
