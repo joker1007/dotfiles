@@ -38,6 +38,11 @@ autoload -Uz add-zsh-hook
 _autols () { ls }
 add-zsh-hook chpwd _autols
 
+zshaddhistory() {
+  local line="${1%%$'\n'}"
+  [[ ! "$line" =~ "^(cd|lazygit|la|ll|ls|rm|rmdir)($| )" ]]
+}
+
 function json_post() {
   url=$1
   method=$2
@@ -61,9 +66,6 @@ function bqj() {
 
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/home/joker/.gvm/bin/gvm-init.sh" ]] && source "/home/joker/.gvm/bin/gvm-init.sh"
-
 # direnv
 if type direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
@@ -85,17 +87,8 @@ if type aws_completer > /dev/null 2>&1; then
   complete -C $(which aws_completer) aws
 fi
 
-# OPAM configuration
-[[ -s /home/joker/.opam/opam-init/init.zsh ]] && source /home/joker/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/joker/.sdkman"
 [[ -s "/home/joker/.sdkman/bin/sdkman-init.sh" ]] && source "/home/joker/.sdkman/bin/sdkman-init.sh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/joker/google-cloud-sdk/path.zsh.inc' ]; then . '/home/joker/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/joker/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/joker/google-cloud-sdk/completion.zsh.inc'; fi
