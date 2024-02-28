@@ -9,3 +9,5 @@ mlterm/*.six
 mlterm/challenge
 
 __pycache__
+
+yazi/plugins/glow.yazi

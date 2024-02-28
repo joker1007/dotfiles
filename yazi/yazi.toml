@@ -114,3 +114,8 @@ previewers = [
 	# Fallback
 	{ name = "*", exec = "file" },
 ]
+
+prepend_previewers = [
+  { name = "*.zip", exec = "image_archive" },
+  { name = "*.md", exec = "glow" },
+]
