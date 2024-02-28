@@ -597,6 +597,12 @@ require("lazy").setup({
     config = true,
   },
 
+  {
+    "Rawnly/gist.nvim",
+    cmd = { "GistCreate", "GistCreateFromFile", "GistsList" },
+    config = true,
+  },
+
   { "lambdalisue/vim-gista", cmd = { "Gista" } },
   {
     "sindrets/diffview.nvim",
@@ -901,6 +907,15 @@ require("lazy").setup({
     end,
   },
 
+  {
+    "samjwill/nvim-unception",
+    init = function()
+      -- Optional settings go here!
+      vim.g.unception_open_buffer_in_new_tab = true
+      vim.g.unception_block_while_host_edits = true
+    end,
+  },
+
   { "nikvdp/neomux", cmd = "Neomux", keys = "\\sh" },
 
   {
@@ -1005,6 +1020,10 @@ require("lazy").setup({
   "simeji/winresizer",
 
   "andymass/vim-matchup",
+  {
+    "echasnovski/mini.align",
+    config = true,
+  },
   "godlygeek/tabular",
   "Shougo/vinarise.vim",
 
