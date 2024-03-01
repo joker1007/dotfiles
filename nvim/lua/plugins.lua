@@ -685,15 +685,18 @@ require("lazy").setup({
       "benfowler/telescope-luasnip.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
+      "jvgrootveld/telescope-zoxide",
     },
     config = function()
       require "configs/telescope"
-      require("telescope").load_extension "project"
-      require("telescope").load_extension "repo"
-      require("telescope").load_extension "emoji"
-      require("telescope").load_extension "luasnip"
-      require("telescope").load_extension "file_browser"
-      require("telescope").load_extension "ui-select"
+      local telescope = require "telescope"
+      telescope.load_extension "project"
+      telescope.load_extension "repo"
+      telescope.load_extension "emoji"
+      telescope.load_extension "luasnip"
+      telescope.load_extension "file_browser"
+      telescope.load_extension "ui-select"
+      telescope.load_extension "zoxide"
     end,
   },
   {

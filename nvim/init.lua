@@ -48,11 +48,15 @@ vim.opt.undofile = true
 vim.opt.timeoutlen = 500
 
 -- gui configs
+if vim.g.neovide then
+  vim.opt.guifont = "Monospace:h14"
+  vim.g.neovide_transparency = 1.0
+  vim.g.neovide_cursor_vfx_mode = "railgun"
+  vim.g.neovide_scroll_animation_length = 0.1
+end
+
 vim.cmd [[
 if exists("g:neovide")
-  set guifont=Monospace:h14
-  let g:neovide_transparency=1.0
-  let g:neovide_cursor_vfx_mode = "railgun"
   function! FontSizePlus()
     let l:gf_size_whole = matchstr(&guifont, 'h\@<=\d\+$')
     let l:gf_size_whole = l:gf_size_whole + 1

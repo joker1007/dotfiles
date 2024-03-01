@@ -178,6 +178,12 @@ local telescope_mappings = {
     end,
     "GH Org Members",
   },
+  z = {
+    function()
+      require("telescope").extensions.zoxide.list()
+    end,
+    "Zoxide",
+  }
 }
 
 wk.register({
