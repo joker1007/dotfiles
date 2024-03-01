@@ -48,15 +48,7 @@ github = "asdf-vm/asdf"
 local = "~/dotfiles/zsh/conf.d"
 use = ["main.zsh"]
 
-[plugins.dotfiles-peco]
-local = "~/dotfiles/zsh/conf.d"
-use = ["peco.zsh"]
-
-[plugins.dotfiles-github]
-local = "~/dotfiles/zsh/conf.d"
-use = ["github.zsh"]
-
 [plugins.dotfiles-defers]
 local = "~/dotfiles/zsh/conf.d"
-use = ["{!sync,!main,!peco,!github,*}.zsh"]
+use = ["{aliases,asdf,peco,github,google-cloud-sdk}.zsh"]
 apply = ["defer"]
