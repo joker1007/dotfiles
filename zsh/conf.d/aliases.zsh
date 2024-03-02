@@ -1,6 +1,7 @@
 alias fullreset='echo "\ec\ec"'
 alias h='history'
-alias ls='ls -F' la='ls -a' ll='ls -la'
+alias ls=lsd
+alias ll='ls -la'
 mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
@@ -10,7 +11,6 @@ alias nq='nvim-qt'
 # enable color support of ls and also add handy aliases
 case "${OSTYPE}" in
 darwin*)
-  alias ls='gls -F --color=auto'
   alias mv='gmv'
   alias rm='grm'
   alias cp='gcp'
@@ -24,7 +24,6 @@ darwin*)
   ;;
 linux*)
   alias open='xdg-open'
-  alias ls='ls -F --color=auto'
   ;;
 esac
 

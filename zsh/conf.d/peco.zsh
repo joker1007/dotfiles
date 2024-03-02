@@ -25,8 +25,6 @@ function peco-git-checkout () {
 }
 zle -N peco-git-checkout
 bindkey '\eb' peco-git-checkout
-bindkey '^Gb' peco-git-checkout
-bindkey '^G^B' peco-git-checkout
 
 function peco-git-log() {
   local res
@@ -38,8 +36,6 @@ function peco-git-log() {
 }
 zle -N peco-git-log
 bindkey '\el' peco-git-log
-bindkey '^Gl' peco-git-log
-bindkey '^G^L' peco-git-log
 
 function cdgem() {
   query=$1
