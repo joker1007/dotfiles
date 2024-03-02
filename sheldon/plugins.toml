@@ -50,5 +50,5 @@ use = ["main.zsh"]
 
 [plugins.dotfiles-defers]
 local = "~/dotfiles/zsh/conf.d"
-use = ["{aliases,asdf,peco,github,google-cloud-sdk}.zsh"]
+use = ["{aliases,asdf,peco,google-cloud-sdk}.zsh"]
 apply = ["defer"]
