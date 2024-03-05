@@ -1,0 +1,5 @@
+base: lua51
+name: neovim_lua
+globals:
+  vim:
+    any: true
