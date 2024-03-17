@@ -248,11 +248,11 @@ vim.g.use_xhtml = 1
 vim.g.html_use_encoding = "utf-8"
 
 -- vim-test
-vim.cmd [[let test#strategy = 'toggleterm']]
-
-vim.cmd [[let test#ruby#rspec#executable = 'rspec']]
-
 vim.cmd [[
+let test#strategy = 'toggleterm'
+
+let test#ruby#rspec#executable = 'rspec'
+
 function! DockerTransformer(cmd) abort
   if $APP_CONTAINER_NAME != ''
     let container_id = trim(system('docker ps --filter name=$APP_CONTAINER_NAME -q'))
