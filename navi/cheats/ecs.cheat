@@ -1,0 +1,13 @@
+% aws, ecs
+
+# Update Service count
+aws ecs update-service --cluster <cluster> --service <service> --desired-count <count>
+
+# Current Service count
+echo <cluster>/<service> $(aws ecs describe-services --cluster <cluster> --services <service> | jq ".services[0].desiredCount")
+
+# Force new deployment
+aws ecs update-service --cluster <cluster> --service <service> --force-new-deployment
+
+$ cluster: aws ecs list-clusters | jq ".clusterArns[]" -r | sed "s/arn.*cluster\///"
+$ service: aws ecs list-services --cluster <cluster> | jq ".serviceArns[]" -r | sed "s/arn.*service\/${cluster}\///"
