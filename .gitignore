@@ -11,3 +11,4 @@ mlterm/challenge
 __pycache__
 
 yazi/plugins/glow.yazi
+yazi/plugins/mime.yazi
