@@ -71,11 +71,6 @@ if type direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
 
-if type zoxide > /dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-  export _ZO_ECHO=1
-fi
-
 if type starship > /dev/null 2>&1; then
   eval "$(starship init zsh)"
 elif type cargo > /dev/null 2>&1; then
