@@ -933,20 +933,38 @@ require("lazy").setup({
       "antoinemadec/FixCursorHold.nvim",
       "olimorris/neotest-rspec",
     },
-    keys = { ",tf", ",tn", ",tdf", ",tdn", ",tc", ",ts", ",to", ",ta" },
-    lazy = true,
     config = function()
       local neotest = require "neotest"
       neotest.setup({
         adapters = {
           require "neotest-rspec" ({
             rspec_cmd = function()
-              return vim.tbl_flatten({
+              local base_cmd = {
                 "bundle",
                 "exec",
                 "rspec",
-              })
+              }
+              if vim.env.APP_CONTAINER_NAME == nil then
+                return vim.tbl_flatten(base_cmd)
+              else
+                return vim.tbl_flatten({
+                  "docker",
+                  "compose",
+                  "exec",
+                  "-i",
+                  vim.env.APP_CONTAINER_NAME,
+                  "bundle",
+                  "exec",
+                  "rspec",
+                })
+              end
             end,
+            transform_spec_path = function(path)
+              local prefix = require('neotest-rspec').root(path)
+              return string.sub(path, string.len(prefix) + 2, -1)
+            end,
+
+            results_path = "rspec.output"
           }),
         },
       })
@@ -959,9 +977,11 @@ require("lazy").setup({
       end, { desc = "neotest run current line" })
       vim.keymap.set("n", ",tdf", function()
         neotest.run.run({ vim.fn.expand "%", strategy = "dap" })
+        neotest.summary.open()
       end, { desc = "neotest run file with dap" })
       vim.keymap.set("n", ",tdn", function()
         neotest.run.run({ nil, strategy = "dap" })
+        neotest.summary.open()
       end, { desc = "neotest run current line with dap" })
       vim.keymap.set("n", ",tc", function()
         neotest.run.stop()
