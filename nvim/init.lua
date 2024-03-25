@@ -24,7 +24,7 @@ vim.g.termdebug_wide = 160
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true               -- always set autoindenting on
+vim.opt.ai = true -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -154,7 +154,7 @@ vim.cmd [[autocmd! vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line
 vim.cmd [[autocmd! vimrc ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060]]
 vim.cmd [[autocmd! vimrc VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')]]
 
-vim.cmd.colorscheme("duskfox")
+vim.cmd.colorscheme "duskfox"
 
 --Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 --If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -331,7 +331,6 @@ local lsp_common = require "lsp_common"
 local on_attach = lsp_common.on_attach
 local capabilities = lsp_common.capabilities
 local add_bundle_exec = lsp_common.add_bundle_exec
-
 
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
