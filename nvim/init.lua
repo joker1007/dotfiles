@@ -54,6 +54,8 @@ if vim.g.neovide then
   vim.g.neovide_cursor_vfx_mode = "railgun"
   vim.g.neovide_scroll_animation_length = 0.1
   vim.g.neovide_remember_window_size = false
+  vim.g.neovide_refresh_rate = 120
+  vim.g.neovide_no_idle = true
 end
 
 vim.cmd [[
