@@ -75,3 +75,5 @@
 [delta]
 	navigate = true
 	side-by-side = true
+[rerere]
+	enabled = true
