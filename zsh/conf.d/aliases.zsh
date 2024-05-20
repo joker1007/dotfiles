@@ -5,7 +5,8 @@ alias ll='ls -la'
 mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
 alias nq='nvim-qt'
 
 # enable color support of ls and also add handy aliases
