@@ -1,0 +1,6 @@
+% aws, cloudwatch
+
+# Tail log
+aws logs tail --follow --log-stream-name-prefix <prefix> <log_group>
+
+$ log_group: aws logs describe-log-groups | jq -r ".logGroups[].logGroupName"
