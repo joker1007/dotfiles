@@ -650,8 +650,7 @@ require("lazy").setup({
   "thinca/vim-visualstar",
 
   {
-    "phaazon/hop.nvim",
-    branch = "v2",
+    "smoka7/hop.nvim",
     config = function()
       require "configs/hop"
     end,
@@ -695,7 +694,6 @@ require("lazy").setup({
 
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-project.nvim",
@@ -1054,13 +1052,6 @@ require("lazy").setup({
     dependencies = "nvim-lua/plenary.nvim",
     config = function()
       require("todo-comments").setup()
-    end,
-  },
-
-  {
-    "anuvyklack/pretty-fold.nvim",
-    config = function()
-      require("pretty-fold").setup()
     end,
   },
 
