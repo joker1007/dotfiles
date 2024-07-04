@@ -203,6 +203,12 @@ vim.cmd [[au FileType yaml setlocal expandtab ts=2 sw=2 fenc=utf-8]]
 vim.cmd [[autocmd! vimrc BufNewFile,BufRead *.avsc set filetype=json]]
 vim.cmd [[autocmd! vimrc BufNewFile,BufRead *waybar/config set filetype=json]]
 
+-- fix tree-sitter-ruby indent
+vim.api.nvim_create_autocmd({"FileType"}, {
+  pattern = "ruby",
+  command = "setlocal indentkeys-=."
+})
+
 -- smartchr {{{
 vim.cmd [[
 function! s:EnableSmartchrBasic()
@@ -326,6 +332,13 @@ vim.cmd [[autocmd vimrc FileType rust let termdebugger = "rust-gdb"]]
 vim.g.cursorhold_updatetime = 100
 
 -- LSP configs {{{
+
+vim.cmd [[
+let g:copilot_filetypes = {
+\ 'text': v:false,
+\ 'markdown': v:false,
+\ }
+]]
 
 local lsp_common = require "lsp_common"
 local on_attach = lsp_common.on_attach
