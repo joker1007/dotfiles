@@ -126,7 +126,7 @@
     "tooltip-format-disconnected": "MPD (disconnected)"
   },
   "custom/weather": {
-    "exec": "curl 'https://wttr.in/asakusa?format=1'",
+    "exec": "curl -s 'http://wttr.in/Asakusa?format=%c+%t+%P'",
     "interval": 600
   },
   "bluetooth": {
