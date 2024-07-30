@@ -10,160 +10,179 @@ require("telescope").load_extension "gh_notifications"
 require("telescope").load_extension "gh_collaborators"
 
 local telescope_mappings = {
-  name = "+Telescope",
-  f = {
-    name = "+Telescope (file+pwd)",
-    f = {
-      function()
-        require("telescope.builtin").find_files({ follow = true })
-      end,
-      "Find File",
-    },
-    i = {
-      function()
-        require("telescope.builtin").find_files({ follow = true, no_ignore = true, no_ignore_parent = true })
-      end,
-      "Find File",
-    },
-    o = {
-      function()
-        require("telescope.builtin").oldfiles()
-      end,
-      "Find File",
-    },
-    r = {
-      function()
-        require("telescope").extensions.frecency.frecency()
-      end,
-      "Frecency",
-    },
-    b = {
-      function()
-        require("telescope").extensions.file_browser.file_browser({
-          depth = 5,
-          collapse_dirs = true,
-          respect_gitignore = false,
-          follow_symlinks = true,
-        })
-      end,
-      "File Browser",
-    },
-    d = { ":TelescopeWithBufferDir ", "File Browser (change dir)" },
+  { ",s", group = "Telescope" },
+  {",sf", group = "Telescope (file+pwd)"},
+  {
+    ",sff",
+    function()
+      require("telescope.builtin").find_files({ follow = true })
+    end,
+    desc = "Find File",
   },
-  F = {
-    name = "+Telescope (file+filepath)",
-    F = {
-      function()
-        require("telescope.builtin").find_files({ cwd = vim.fn.expand "%:p:h", follow = true })
-      end,
-      "Find File (filepath)",
-    },
-    I = {
-      function()
-        require("telescope.builtin").find_files({
-          cwd = vim.fn.expand "%:p:h",
-          follow = true,
-          no_ignore = true,
-          no_ignore_parent = true,
-        })
-      end,
-      "Find File (filepath)",
-    },
-    B = {
-      function()
-        require("telescope").extensions.file_browser.file_browser({
-          path = vim.fn.expand "%:p:h",
-          depth = 5,
-          collapse_dirs = true,
-          respect_gitignore = false,
-          follow_symlinks = true,
-        })
-      end,
-      "File Browser (filepath)",
-    },
+  {
+    ",sfi",
+    function()
+      require("telescope.builtin").find_files({ follow = true, no_ignore = true, no_ignore_parent = true })
+    end,
+    desc = "Find File",
   },
-  g = {
+
+  {
+    ",sfo",
+    function()
+      require("telescope.builtin").oldfiles()
+    end,
+    desc = "Find File",
+  },
+  {
+    ",sfr",
+    function()
+      require("telescope").extensions.frecency.frecency()
+    end,
+    desc = "Frecency",
+  },
+  {
+    ",sfb",
+    function()
+      require("telescope").extensions.file_browser.file_browser({
+        depth = 5,
+        collapse_dirs = true,
+        respect_gitignore = false,
+        follow_symlinks = true,
+      })
+    end,
+    desc = "File Browser",
+  },
+  { ",sfd", proxy = ":TelescopeWithBufferDir ", desc = "File Browser (change dir)" },
+
+  {",sF", group = "Telescope (file+filepath)"},
+  {
+    ",sFF",
+    function()
+      require("telescope.builtin").find_files({ cwd = vim.fn.expand "%:p:h", follow = true })
+    end,
+    desc = "Find File (filepath)",
+  },
+  {
+    ",sFI",
+    function()
+      require("telescope.builtin").find_files({
+        cwd = vim.fn.expand "%:p:h",
+        follow = true,
+        no_ignore = true,
+        no_ignore_parent = true,
+      })
+    end,
+    desc = "Find File (filepath)",
+  },
+  {
+    ",sFB",
+    function()
+      require("telescope").extensions.file_browser.file_browser({
+        path = vim.fn.expand "%:p:h",
+        depth = 5,
+        collapse_dirs = true,
+        respect_gitignore = false,
+        follow_symlinks = true,
+      })
+    end,
+    desc = "File Browser (filepath)",
+  },
+
+  {
+    ",sg",
     function()
       require("telescope.builtin").live_grep()
     end,
-    "Grep",
+    desc = "Grep",
   },
-  G = {
+  {
+    ",sG",
     function()
       require("telescope.builtin").live_grep()
     end,
-    "Grep (filepath)",
+    desc = "Grep (filepath)",
   },
-  b = {
+  {
+    ",sb",
     function()
       require("telescope.builtin").buffers()
     end,
-    "Buffers",
+    desc = "Buffers",
   },
-  h = {
+  {
+    ",sh",
     function()
       require("telescope.builtin").help_tags()
     end,
-    "Help",
+    desc = "Help",
   },
-  l = {
+  {
+    ",sl",
     function()
       require("telescope.builtin").current_buffer_fuzzy_find()
     end,
-    "Line Finder",
+    desc = "Line Finder",
   },
-  c = {
-    name = "+gitcommit",
-    c = {
-      function()
-        require("telescope.builtin").git_commits()
-      end,
-      "Commits",
-    },
-    b = {
-      function()
-        require("telescope.builtin").git_bcommits()
-      end,
-      "Buffer Commits",
-    },
+  { ",c", group = "gitcommit"},
+  {
+    ",scc",
+    function()
+      require("telescope.builtin").git_commits()
+    end,
+    desc = "Commits",
   },
-  t = {
+  {
+    ",scb",
+    function()
+      require("telescope.builtin").git_bcommits()
+    end,
+    desc = "Buffer Commits",
+  },
+  {
+    ",st",
     function()
       require("telescope.builtin").treesitter()
     end,
-    "Treesitter",
+    desc = "Treesitter",
   },
-  r = {
+  {
+    ",sr",
     function()
       require("telescope").extensions.repo.list()
     end,
-    "Repos",
+    desc = "Repos",
   },
-  e = {
+  {
+    ",se",
     function()
       require("telescope").extensions.emoji.emoji()
     end,
-    "Emoji",
+    desc = "Emoji",
   },
-  p = {
+  {
+    ",sp",
     function()
       require("telescope").extensions.luasnip.luasnip()
     end,
-    "Luasnip",
+    desc = "Luasnip",
   },
-  s = {
+  {
+    ",ss",
     function()
       require("telescope.builtin").resume()
     end,
-    "Resume",
+    desc = "Resume",
   },
-  n = {
+  {
+    ",sn",
     function()
       require("telescope").extensions.gh_notifications.gh_notifications()
     end,
-    "GH Notifications",
+    desc = "GH Notifications",
   },
-  m = {
+  {
+    ",sm",
     function()
       local buf = vim.api.nvim_get_current_buf()
       local bufname = vim.api.nvim_buf_get_name(buf)
@@ -176,20 +195,18 @@ local telescope_mappings = {
         require("telescope").extensions.gh_collaborators.gh_collaborators()
       end
     end,
-    "GH Org Members",
+    desc = "GH Org Members",
   },
-  z = {
+  {
+    ",sz",
     function()
       require("telescope").extensions.zoxide.list()
     end,
-    "Zoxide",
-  }
+    desc = "Zoxide",
+  },
 }
 
-wk.register({
-  ["<leader>f"] = telescope_mappings,
-  [",s"] = telescope_mappings,
-})
+wk.add(telescope_mappings)
 
 -- vim.keymap.set('n', ',sff', function() require('telescope.builtin').find_files() end)
 -- vim.keymap.set('n', ',sfb', function() require('telescope').extensions.file_browser.file_browser() end)

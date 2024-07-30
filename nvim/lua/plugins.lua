@@ -218,7 +218,7 @@ require("lazy").setup({
     config = function()
       local wk = require "which-key"
       wk.setup({
-        window = { border = "double", winblend = 20 },
+        win = { border = "double", wo = { winblend = 20 } },
       })
     end,
   },

@@ -82,8 +82,8 @@ vim.keymap.set("n", ',"', 'csw"', { remap = true })
 --}}}
 
 -- Tabular {{{
-wk.register({
-  ["<leader>a"] = { name = "+Tabularize" },
+wk.add({
+  { "<leader>a", group = "Tabularize" },
 })
 vim.keymap.set("n", "<Leader>a,", ":Tabularize /,<CR>")
 vim.keymap.set("n", "<Leader>a=", ":Tabularize /=<CR>")
@@ -130,10 +130,8 @@ vim.keymap.set("n", "<leader>v", "<cmd>AerialToggle!<CR>")
 vim.keymap.set("n", "<space>o", "<cmd>AerialToggle!<CR>")
 
 -- trouble.nvim
-wk.register({
-  ["<leader>x"] = {
-    name = "+Trouble",
-  },
+wk.add({
+  { "<leader>x", group = "Trouble" },
 })
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
@@ -142,10 +140,8 @@ vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = t
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
 
-wk.register({
-  [",g"] = {
-    name = "+git",
-  },
+wk.add({
+  { ",g", group = "git" },
 })
 
 -- fugitive
@@ -161,16 +157,14 @@ vim.keymap.set("n", ",gN", "<cmd>Git now --all<CR>")
 vim.keymap.set("n", ",gp", ":<C-u>GHPRBlame<CR>")
 
 -- neogit
-wk.register({
-  ["<leader>g"] = {
-    name = "+Neogit",
-    g = {
-      function()
-        require("neogit").open({ kind = "split_above" })
-      end,
-      "Neogit",
-      silent = true,
-    },
+wk.add({
+  { "<leader>g", group = "Neogit" },
+  {
+    "<leader>gg",
+    function()
+      require("neogit").open({ kind = "split_above" })
+    end,
+    desc = "Neogit",
   },
 })
 
@@ -182,16 +176,10 @@ vim.keymap.set("n", ",gd", "<cmd>DiffviewOpen<CR>")
 vim.keymap.set("n", ",gh", "<cmd>DiffviewFileHistory %<CR>")
 
 -- octo
-wk.register({
-  [",o"] = {
-    name = "+Octo",
-    p = {
-      name = "+PullRequest",
-    },
-    i = {
-      name = "+Issue",
-    },
-  },
+wk.add({
+  { ",o", group = "Octo" },
+  { ",op", group = "PullRequest" },
+  { ",oi", group = "Issue" },
 })
 vim.keymap.set("n", ",opl", "<cmd>Octo pr list<cr>", { desc = "List PullRequests" })
 vim.keymap.set("n", ",opr", "<cmd>Octo search is:pr review-requested:@me is:open<cr>", {
@@ -230,10 +218,8 @@ vim.keymap.set("n", "<Leader>B", function()
   require("dap").set_breakpoint(vim.fn.input "condition: ")
 end)
 
-wk.register({
-  ["<leader>d"] = {
-    name = "+Debug",
-  },
+wk.add({
+  { "<leader>d", group = "Debug" },
 })
 vim.keymap.set("n", "<Leader>ds", function()
   require("dap").continue()
@@ -252,24 +238,20 @@ end, { desc = "re-run last debug adapter" })
 vim.keymap.set("n", "<leader>q", "<cmd>Jaq<cr>")
 
 -- neogen
-wk.register({
-  ["<leader>ng"] = {
-    name = "+Neogen",
-    f = {
-      function()
-        require("neogen").generate()
-      end,
-      "Neogen",
-      silent = true,
-    },
+wk.add({
+  { "<leader>ng", group = "Neogen" },
+  {
+    "<leader>ngf",
+    function()
+      require("neogen").generate()
+    end,
+    desc = "Neogen",
   },
 })
 
 -- other.nvim
-wk.register({
-  ["<leader>o"] = {
-    name = "+Other",
-  },
+wk.add({
+  { "<leader>o", group = "Other" },
 })
 vim.keymap.set("n", "<F2>", "<cmd>OtherClear<CR><cmd>:Other<CR>")
 vim.keymap.set("n", "<F3>", "<cmd>OtherClear<CR><cmd>:Other<CR>")
