@@ -204,9 +204,9 @@ vim.cmd [[autocmd! vimrc BufNewFile,BufRead *.avsc set filetype=json]]
 vim.cmd [[autocmd! vimrc BufNewFile,BufRead *waybar/config set filetype=json]]
 
 -- fix tree-sitter-ruby indent
-vim.api.nvim_create_autocmd({"FileType"}, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "ruby",
-  command = "setlocal indentkeys-=."
+  command = "setlocal indentkeys-=.",
 })
 
 -- smartchr {{{
@@ -343,13 +343,48 @@ let g:copilot_filetypes = {
 local lsp_common = require "lsp_common"
 local on_attach = lsp_common.on_attach
 local capabilities = lsp_common.capabilities
-local add_bundle_exec = lsp_common.add_bundle_exec
 
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
 local lspconfig = require "lspconfig"
+
+local lsp_bufopts = function(desc)
+  return { noremap = true, silent = true, desc = desc }
+end
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_bufopts "LSP declaration")
+vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", lsp_bufopts "LSP saga peek_definition")
+vim.keymap.set("n", "gh", "<cmd>Lspsaga hover_doc<CR>", lsp_bufopts "LSP saga hover_doc")
+vim.keymap.set("n", "gs", "<cmd>Lspsaga finder<CR>", lsp_bufopts "LSP saga lsp_finder")
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_bufopts "LSP implementation")
+vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_bufopts "LSP references")
+vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, lsp_bufopts "LSP type_definition")
+vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, lsp_bufopts "LSP signature_help")
+vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, lsp_bufopts "LSP add_workspace_folder")
+vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, lsp_bufopts "LSP remove_workspace_folder")
+vim.keymap.set("n", "<space>wl", function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end, lsp_bufopts "LSP list_workspace_folders")
+vim.keymap.set("n", "<space>rn", "<cmd>Lspsaga rename<CR>", lsp_bufopts "LSP saga rename")
+vim.keymap.set("n", "<F6>", "<cmd>Lspsaga rename<CR>", lsp_bufopts "LSP saga rename")
+vim.keymap.set("n", "<space>ca", "<cmd>Lspsaga code_action<CR>", lsp_bufopts "LSP saga code_action")
+vim.keymap.set("v", "<space>ca", "<cmd><C-U>Lspsaga code_action<CR>", lsp_bufopts "LSP saga range_code_action")
+vim.keymap.set("n", "<space>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", lsp_bufopts "LSP saga show_line_diagnostics")
+vim.keymap.set("n", "<space>cl", vim.lsp.codelens.refresh, lsp_bufopts "LSP codelens refresh")
+vim.keymap.set("n", "<space>cL", vim.lsp.codelens.clear, lsp_bufopts "LSP codelens clear")
+vim.keymap.set("n", "<space>cr", vim.lsp.codelens.run, lsp_bufopts "LSP codelens run")
+vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", lsp_bufopts "LSP saga diagnostic_jump_next")
+vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", lsp_bufopts "LSP saga diagnostic_jump_prev")
+vim.keymap.set("n", "[E", function()
+  require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, lsp_bufopts "LSP saga diagnostic_jump_prev(ERROR)")
+vim.keymap.set("n", "]E", function()
+  require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, lsp_bufopts "LSP saga diagnostic_jump_next(ERROR)")
+vim.keymap.set("n", "<space>cf", function()
+  vim.lsp.buf.format({ async = true })
+end, lsp_bufopts "LSP format")
 
 require("mason-lspconfig").setup_handlers({
   function(server_name)
@@ -406,6 +441,7 @@ null_ls.setup({
       end,
     }),
     null_ls.builtins.formatting.rubyfmt,
+    null_ls.builtins.formatting.sqlfmt,
     null_ls.builtins.formatting.rubocop.with({
       prefer_local = ".bundle/bin",
       condition = function(utils)
