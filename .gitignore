@@ -12,3 +12,5 @@ __pycache__
 
 yazi/plugins/glow.yazi
 yazi/plugins/mime.yazi
+yazi/plugins/
+yazi/flavors/

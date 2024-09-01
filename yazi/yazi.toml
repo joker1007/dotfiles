@@ -71,13 +71,13 @@ micro_workers    = 20
 macro_workers    = 25
 bizarre_retry    = 5
 image_alloc      = 536870912  # 512MB
-image_bound      = [ 4096, 4096 ]
+image_bound      = [ 8000, 8000 ]
 suppress_preload = false
 
 [plugin]
 
 prepend_preloaders = [
-	{ name = "*", cond = "!mime", run = "mime", multi = true, prio = "high" },
+	# { name = "*", cond = "!mime", run = "mime", multi = true, prio = "high" },
 	# Image
 	{ mime = "image/vnd.djvu", run = "noop" },
 	{ mime = "image/*",        run = "image" },
@@ -117,5 +117,17 @@ previewers = [
 
 prepend_previewers = [
   { name = "*.zip", run = "image_archive" },
+	{ mime = "application/x-tar",           run = "ouch" },
+	{ mime = "application/x-bzip2",         run = "ouch" },
+	{ mime = "application/x-7z-compressed", run = "ouch" },
+	{ mime = "application/x-rar",           run = "ouch" },
+	{ mime = "application/x-xz",            run = "ouch" },
   { name = "*.md", run = "glow" },
 ]
+
+[[plugin.prepend_fetchers]]
+id   = "mime"
+if   = "!mime"
+name = "*"
+run  = "mime-ext"
+prio = "high"
