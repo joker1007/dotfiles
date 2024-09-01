@@ -69,7 +69,6 @@ manpath=(
 # rbenv
 if type rbenv > /dev/null 2>&1; then
   eval "$(rbenv init -)"
-  source ~/.rbenv/completions/_rbenv
 fi
 
 # pyenv

@@ -84,6 +84,9 @@ fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+fpath=($HOME/.rbenv/completions $fpath)
+autoload -Uz compinit && compinit
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/joker/.sdkman"
 [[ -s "/home/joker/.sdkman/bin/sdkman-init.sh" ]] && source "/home/joker/.sdkman/bin/sdkman-init.sh"
