@@ -32,9 +32,9 @@ path=(
   /usr/local/bin(N-/)
   /usr/local/*/bin(N-/)
   /usr/local/share/npm/bin(N-/)
+  $path
   /sbin
   /usr/sbin
-  $path
   /opt/*/bin(N-/)
   /opt/*/sbin(N-/)
   /usr/*/bin(N-/)
@@ -69,7 +69,7 @@ manpath=(
 # rbenv
 if type rbenv > /dev/null 2>&1; then
   eval "$(rbenv init -)"
-  source ~/.rbenv/completions/rbenv.zsh
+  source ~/.rbenv/completions/_rbenv
 fi
 
 # pyenv

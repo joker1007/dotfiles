@@ -2,7 +2,7 @@
     "Keymap": {
         "C-p": "peco.SelectUp",
         "C-n": "peco.SelectDown",
-        "C-r": "peco.RotateMatcher",
+        "C-r": "peco.RotateFilter",
         "C-a": "peco.BeginningOfLine",
         "C-e": "peco.EndOfLine",
         "C-x": "peco.ToggleSelection",
