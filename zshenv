@@ -17,14 +17,10 @@ path=(
   # $HOME/.pyenv/shims(N-/)
   $HOME/.nodebrew/current/bin(N-/)
   $HOME/.cargo/bin(N-/)
-  # $HOME/.nodenv/bin(N-/)
-  # $HOME/.nodenv/shims(N-/)
-  $HOME/.sdkman/bin(N-/)
   $HOME/.local/bin(N-/)
   $HOME/.embulk/bin(N-/)
   $HOME/bin
   $HOME/gocode/bin
-  $HOME/Library/Haskell/bin(N-/)
   $HOME/.cabal/bin(N-/)
   /Applications/MacVim.app/Contents/MacOS(N-/)
   /usr/local/share/git-core/contrib/diff-highlight(N-/)

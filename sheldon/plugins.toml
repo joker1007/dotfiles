@@ -16,7 +16,7 @@ shell = "zsh"
 github = "romkatv/zsh-defer"
 
 [templates]
-defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
 
 [plugins.local-zfunc]
 local = "~/.zfunc"
@@ -24,6 +24,10 @@ apply = ["fpath"]
 
 [plugins.local-completion]
 local = "~/.zsh/completion"
+apply = ["fpath"]
+
+[plugins.rbenv-completion]
+local = "~/.rbenv/completions"
 apply = ["fpath"]
 
 [plugins.zsh-autosuggestions]
@@ -43,6 +47,18 @@ github = "ohmyzsh/ohmyzsh"
 
 [plugins.asdf]
 github = "asdf-vm/asdf"
+
+[plugins.sdkman.hooks]
+pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""
+
+[plugins.sdkman]
+local = "~/.sdkman"
+use = ["sdkman-init.sh"]
+apply = ["defer"]
+
+[plugins.sdkman-bin]
+local = "~/.sdkman/bin"
+apply = ["path"]
 
 [plugins.dotfiles-main]
 local = "~/dotfiles/zsh/conf.d"
