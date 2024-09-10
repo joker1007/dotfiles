@@ -75,46 +75,6 @@ image_bound      = [ 8000, 8000 ]
 suppress_preload = false
 
 [plugin]
-
-prepend_preloaders = [
-	# { name = "*", cond = "!mime", run = "mime", multi = true, prio = "high" },
-	# Image
-	{ mime = "image/vnd.djvu", run = "noop" },
-	{ mime = "image/*",        run = "image" },
-	# Video
-	{ mime = "video/*", run = "video" },
-	# PDF
-	{ mime = "application/pdf", run = "pdf" },
-]
-previewers = [
-	{ name = "*/", run = "folder", sync = true },
-	# Code
-	{ mime = "text/*",                 run = "code" },
-	{ mime = "*/xml",                  run = "code" },
-	{ mime = "*/javascript",           run = "code" },
-	{ mime = "*/x-wine-extension-ini", run = "code" },
-	# JSON
-	{ mime = "application/json", run = "json" },
-	# Image
-	{ mime = "image/vnd.djvu", run = "noop" },
-	{ mime = "image/*",        run = "image" },
-	# Video
-	{ mime = "video/*", run = "video" },
-	# PDF
-	{ mime = "application/pdf", run = "pdf" },
-	# Archive
-	{ mime = "application/zip",             run = "archive" },
-	{ mime = "application/gzip",            run = "archive" },
-	{ mime = "application/x-tar",           run = "archive" },
-	{ mime = "application/x-bzip",          run = "archive" },
-	{ mime = "application/x-bzip2",         run = "archive" },
-	{ mime = "application/x-7z-compressed", run = "archive" },
-	{ mime = "application/x-rar",           run = "archive" },
-	{ mime = "application/xz",              run = "archive" },
-	# Fallback
-	{ name = "*", run = "file" },
-]
-
 prepend_previewers = [
   { name = "*.zip", run = "image_archive" },
 	{ mime = "application/x-tar",           run = "ouch" },
