@@ -26,10 +26,6 @@ apply = ["fpath"]
 local = "~/.zsh/completion"
 apply = ["fpath"]
 
-[plugins.rbenv-completion]
-local = "~/.rbenv/completions"
-apply = ["fpath"]
-
 [plugins.zsh-autosuggestions]
 github = 'zsh-users/zsh-autosuggestions'
 apply = ["defer"]
@@ -51,6 +47,15 @@ github = "asdf-vm/asdf"
 [plugins.sdkman.hooks]
 pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""
 
+[plugins.dotfiles-main]
+local = "~/dotfiles/zsh/conf.d"
+use = ["main.zsh"]
+
+[plugins.dotfiles-defers]
+local = "~/dotfiles/zsh/conf.d"
+use = ["{aliases,asdf,peco,google-cloud-sdk,navi,zoxide}.zsh"]
+apply = ["defer"]
+
 [plugins.sdkman]
 local = "~/.sdkman"
 use = ["sdkman-init.sh"]
@@ -60,11 +65,6 @@ apply = ["defer"]
 local = "~/.sdkman/bin"
 apply = ["path"]
 
-[plugins.dotfiles-main]
-local = "~/dotfiles/zsh/conf.d"
-use = ["main.zsh"]
-
-[plugins.dotfiles-defers]
-local = "~/dotfiles/zsh/conf.d"
-use = ["{aliases,asdf,peco,google-cloud-sdk,navi,zoxide}.zsh"]
-apply = ["defer"]
+[plugins.rbenv-completion]
+local = "~/.rbenv/completions"
+apply = ["fpath"]
