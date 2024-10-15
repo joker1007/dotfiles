@@ -72,6 +72,9 @@ require("lazy").setup({
     end,
   },
 
+  "vim-denops/denops.vim",
+  -- { "delphinus/skkeleton_indicator.nvim", config = true },
+
   -- LSP {{{
   "neovim/nvim-lspconfig",
   {
@@ -206,10 +209,41 @@ require("lazy").setup({
   },
   -- }}}
 
+  -- {
+  --   "tyru/eskk.vim",
+  --   dependencies = { "tyru/skkdict.vim" },
+  --   event = { "InsertEnter" },
+  -- },
   {
-    "tyru/eskk.vim",
-    dependencies = { "tyru/skkdict.vim" },
-    event = { "InsertEnter" },
+    "vim-skk/skkeleton",
+    dependencies = { "vim-denops/denops.vim" },
+    config = function()
+      vim.fn["skkeleton#config"]({
+        globalDictionaries = { "/usr/share/skk/SKK-JISYO.L" },
+        userDictionary = "~/.skk-jisyo",
+        eggLikeNewline = true,
+        immediatelyCancel = false,
+        registerConvertResult = true,
+      })
+      vim.cmd [[
+        imap <C-j> <Plug>(skkeleton-toggle)
+        cmap <C-j> <Plug>(skkeleton-toggle)
+        tmap <C-j> <Plug>(skkeleton-toggle)
+      ]]
+      vim.api.nvim_create_autocmd({ "User" }, {
+        pattern = { "skkeleton-enable-pre" },
+        callback = function()
+          require("cmp").setup.buffer({ enabled = false })
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "User" }, {
+        pattern = { "skkeleton-disable-pre" },
+        callback = function()
+          require("cmp").setup.buffer({ enabled = true })
+        end,
+      })
+    end,
   },
 
   {
