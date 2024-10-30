@@ -20,7 +20,7 @@ package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share
 require("lazy").setup({
   "nvim-tree/nvim-web-devicons",
 
-  { "ray-x/guihua.lua", build = "cd lua/fzy && make" },
+  { "ray-x/guihua.lua",             build = "cd lua/fzy && make" },
   {
     "rcarriga/nvim-notify",
     config = function()
@@ -306,8 +306,8 @@ require("lazy").setup({
       vim.g.vim_markdown_conceal_code_blocks = 0
     end,
   },
-  { "mattn/vim-maketable", ft = "markdown" },
-  { "kannokanno/previm", ft = "markdown" },
+  { "mattn/vim-maketable",          ft = "markdown" },
+  { "kannokanno/previm",            ft = "markdown" },
   { "euclio/vim-markdown-composer", build = "cargo build --release" },
   {
     "dhruvasagar/vim-table-mode",
@@ -347,7 +347,7 @@ require("lazy").setup({
   "glepnir/zephyr-nvim",
   "projekt0n/github-nvim-theme",
   "shaunsingh/nord.nvim",
-  { "EdenEast/nightfox.nvim", build = ":NightfoxCompile" },
+  { "EdenEast/nightfox.nvim",       build = ":NightfoxCompile" },
   "folke/tokyonight.nvim",
   "olimorris/onedarkpro.nvim",
   -- }}}
@@ -575,14 +575,14 @@ require("lazy").setup({
     "NvChad/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        names = true, -- "Name" codes like Blue oe blue
-        RRGGBBAA = false, -- #RRGGBBAA hex codes
-        rgb_fn = true, -- CSS rgb() and rgba() functions
-        hsl_fn = false, -- CSS hsl() and hsla() functions
-        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        RGB = true,          -- #RGB hex codes
+        RRGGBB = true,       -- #RRGGBB hex codes
+        names = true,        -- "Name" codes like Blue oe blue
+        RRGGBBAA = false,    -- #RRGGBBAA hex codes
+        rgb_fn = true,       -- CSS rgb() and rgba() functions
+        hsl_fn = false,      -- CSS hsl() and hsla() functions
+        css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes: foreground, background, virtualtext
         mode = "background", -- Set the display mode.
       })
@@ -857,7 +857,7 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require "cmp"
-      local default_config = require "cmp.config.default"()
+      local default_config = require "cmp.config.default" ()
       cmp.setup({
         enabled = function()
           return default_config.enabled() or require("cmp_dap").is_dap_buffer()
@@ -1012,7 +1012,7 @@ require("lazy").setup({
       local neotest = require "neotest"
       neotest.setup({
         adapters = {
-          require "neotest-rspec"({
+          require "neotest-rspec" ({
             rspec_cmd = function()
               local base_cmd = {
                 "bundle",
@@ -1074,7 +1074,7 @@ require("lazy").setup({
   },
   -- }}}
 
-  { "mattn/vim-sonots", cmd = "Sonots" },
+  { "mattn/vim-sonots",      cmd = "Sonots" },
 
   -- other utils {{{
   "gentoo/gentoo-syntax",
@@ -1124,7 +1124,7 @@ require("lazy").setup({
   "Shougo/vinarise.vim",
 
   { "gabrielpoca/replacer.nvim", ft = { "qf" } },
-  { "kevinhwang91/nvim-bqf", ft = { "qf" } },
+  { "kevinhwang91/nvim-bqf",     ft = { "qf" } },
   "rhysd/devdocs.vim",
   "mattn/httpstatus-vim",
 
@@ -1193,20 +1193,20 @@ require("lazy").setup({
     config = function()
       local rails_controller_patterns = {
         { target = "/spec/controllers/%1_spec.rb", context = "spec" },
-        { target = "/spec/requests/%1_spec.rb", context = "spec" },
-        { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
-        { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
-        { target = "/app/views/%1/**/*.html.*", context = "view" },
+        { target = "/spec/requests/%1_spec.rb",    context = "spec" },
+        { target = "/spec/factories/%1.rb",        context = "factories", transformer = "singularize" },
+        { target = "/app/models/%1.rb",            context = "models",    transformer = "singularize" },
+        { target = "/app/views/%1/**/*.html.*",    context = "view" },
       }
       require("other-nvim").setup({
         mappings = {
           {
             pattern = "/app/models/(.*).rb",
             target = {
-              { target = "/spec/models/%1_spec.rb", context = "spec" },
-              { target = "/spec/factories/%1.rb", context = "factories", transformer = "pluralize" },
+              { target = "/spec/models/%1_spec.rb",              context = "spec" },
+              { target = "/spec/factories/%1.rb",                context = "factories",  transformer = "pluralize" },
               { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
-              { target = "/app/views/%1/**/*.html.*", context = "view", transformer = "pluralize" },
+              { target = "/app/views/%1/**/*.html.*",            context = "view",       transformer = "pluralize" },
             },
           },
           {
@@ -1218,8 +1218,8 @@ require("lazy").setup({
           {
             pattern = "/spec/factories/(.*).rb",
             target = {
-              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
-              { target = "/spec/models/%1_spec.rb", context = "spec", transformer = "singularize" },
+              { target = "/app/models/%1.rb",       context = "models", transformer = "singularize" },
+              { target = "/spec/models/%1_spec.rb", context = "spec",   transformer = "singularize" },
             },
           },
           {
@@ -1245,17 +1245,17 @@ require("lazy").setup({
           {
             pattern = "/app/views/(.*)/.*.html.*",
             target = {
-              { target = "/spec/factories/%1.rb", context = "factories", transformer = "singularize" },
-              { target = "/app/models/%1.rb", context = "models", transformer = "singularize" },
+              { target = "/spec/factories/%1.rb",                context = "factories",  transformer = "singularize" },
+              { target = "/app/models/%1.rb",                    context = "models",     transformer = "singularize" },
               { target = "/app/controllers/**/%1_controller.rb", context = "controller", transformer = "pluralize" },
             },
           },
           {
             pattern = "/lib/(.*).rb",
             target = {
-              { target = "/spec/%1_spec.rb", context = "spec" },
+              { target = "/spec/%1_spec.rb",     context = "spec" },
               { target = "/spec/lib/%1_spec.rb", context = "spec" },
-              { target = "/sig/%1.rbs", context = "sig" },
+              { target = "/sig/%1.rbs",          context = "sig" },
             },
           },
           {
@@ -1268,14 +1268,14 @@ require("lazy").setup({
           {
             pattern = "/spec/lib/(.*)_spec.rb",
             target = {
-              { target = "/lib/%1.rb", context = "lib" },
+              { target = "/lib/%1.rb",  context = "lib" },
               { target = "/sig/%1.rbs", context = "sig" },
             },
           },
           {
             pattern = "/spec/(.*)_spec.rb",
             target = {
-              { target = "/lib/%1.rb", context = "lib" },
+              { target = "/lib/%1.rb",  context = "lib" },
               { target = "/sig/%1.rbs", context = "sig" },
             },
           },
@@ -1348,14 +1348,44 @@ require("lazy").setup({
           max_height = 160,
           max_width_window_percentage = nil,
           max_height_window_percentage = nil,
-          window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+          window_overlap_clear_enabled = false,                                     -- toggles images when windows are overlapped
           window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-          editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
-          tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+          editor_only_render_when_focused = false,                                  -- auto show/hide images when the editor gains/looses focus
+          tmux_show_only_in_active_window = false,                                  -- auto show/hide images in the correct Tmux window (needs visual-activity off)
           hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- render image files as images when opened
         })
       end
     end,
+  },
+  {
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    keys = {
+      -- 👇 in this section, choose your own keymappings!
+      {
+        "<leader>-",
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>cw",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory",
+      },
+      {
+        '<c-up>',
+        "<cmd>Yazi toggle<cr>",
+        desc = "Resume the last yazi session",
+      },
+    },
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = '<f1>',
+      },
+    },
   },
   {
     "axieax/urlview.nvim",
