@@ -386,6 +386,24 @@ vim.keymap.set("n", "<space>cf", function()
   vim.lsp.buf.format({ async = true })
 end, lsp_bufopts "LSP format")
 
+local lsp_config = require "lspconfig.configs"
+if not lsp_config.termux_language_server then
+  lsp_config.termux_language_server = {
+    default_config = {
+      cmd = { "termux-language-server" },
+      filetypes = { "ebuild", "eclass" },
+      root_dir = function(fname)
+         return lspconfig.util.find_git_ancestor(fname)
+      end,
+    },
+  }
+end
+
+lspconfig.termux_language_server.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
 require("mason-lspconfig").setup_handlers({
   function(server_name)
     if server_name ~= "jdtls" then

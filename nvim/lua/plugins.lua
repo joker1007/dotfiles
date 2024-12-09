@@ -937,6 +937,12 @@ require("lazy").setup({
           { name = "cmdline" },
         }),
       })
+
+      cmp.setup.filetype({'ssr'}, {
+        completion = {
+          autocomplete = false
+        }
+      })
       require("cmp_git").setup()
     end,
   },
