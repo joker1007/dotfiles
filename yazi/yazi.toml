@@ -36,6 +36,8 @@ unrar = [
   { run = 'unrar x "$1" "${1%.*}/', desc = "Extract here" },
 ]
 image = [
+  { run = 'swayimg "$@"', orphan = true, desc = "swayimg" },
+  { run = 'swayimg --gallery "$@"', orphan = true, desc = "swayimg (gallery)" },
   { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
   { run = 'vimiv "$@"', orphan = true, desc = "vimiv" },
 ]
@@ -46,6 +48,7 @@ media = [
   { run = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
   { run = 'mpv --profile=bt "$@"', orphan = true, desc = "mpv (bt)" },
   { run = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
+  { run = 'convert_to_mp4 "$@"', desc = "convert_to_mp4", block = true },
 ]
 
 [open]
