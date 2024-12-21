@@ -72,6 +72,11 @@ require("lazy").setup({
     end,
   },
 
+  {
+    'MagicDuck/grug-far.nvim',
+    opts = {},
+  },
+
   "vim-denops/denops.vim",
   -- { "delphinus/skkeleton_indicator.nvim", config = true },
 
