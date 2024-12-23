@@ -43,6 +43,7 @@ github = "ohmyzsh/ohmyzsh"
 
 [plugins.asdf]
 github = "asdf-vm/asdf"
+use = ["asdf.sh", "internal/completions/asdf.zsh"]
 
 [plugins.sdkman.hooks]
 pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""
@@ -53,7 +54,7 @@ use = ["main.zsh"]
 
 [plugins.dotfiles-defers]
 local = "~/dotfiles/zsh/conf.d"
-use = ["{aliases,asdf,peco,google-cloud-sdk,navi,zoxide}.zsh"]
+use = ["{aliases,peco,google-cloud-sdk,navi,zoxide}.zsh"]
 apply = ["defer"]
 
 [plugins.sdkman]
