@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "yazi-rs/plugins:mime-ext", rev = "ec97f88" }, { use = "ndtoan96/ouch", rev = "b869886" }, { use = "Reledia/glow", rev = "c2ed51e" }]
+deps = [{ use = "yazi-rs/plugins:mime-ext", rev = "71c4fc2" }, { use = "ndtoan96/ouch", rev = "b869886" }, { use = "Reledia/glow", rev = "5ce76dc" }]
 
 [flavor]
-deps = [{ use = "yazi-rs/flavors:catppuccin-mocha", rev = "8458d25" }]
+deps = [{ use = "yazi-rs/flavors:catppuccin-mocha", rev = "fc8eeaa" }]
