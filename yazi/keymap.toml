@@ -12,5 +12,7 @@ prepend_keymap = [
 	{ on = [ "T", "2" ], run = "tab_close 1", desc = "close tab 2" },
 	{ on = [ "T", "3" ], run = "tab_close 2", desc = "close tab 3" },
 	{ on = [ "T", "4" ], run = "tab_close 3", desc = "close tab 4" },
-	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
+	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
+	{ on = [ "<C-n>" ], run = '''shell 'ripdrag -x -i -n -s 128 -H 384 -r "$@"'''' },
+	{ on = [ "m", "a" ], run = 'linemode size_and_mtime' }
 ]

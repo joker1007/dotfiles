@@ -6,7 +6,7 @@ sort_reverse   = false
 sort_dir_first = true
 show_hidden    = false
 show_symlink   = true
-linemode       = "size"
+linemode       = "size_and_mtime"
 
 [preview]
 tab_size        = 2
