@@ -41,9 +41,9 @@ apply = ["defer"]
 [plugins.oh-my-zsh]
 github = "ohmyzsh/ohmyzsh"
 
-[plugins.asdf]
-github = "asdf-vm/asdf"
-use = ["asdf.sh", "internal/completions/asdf.zsh"]
+# [plugins.asdf]
+# github = "asdf-vm/asdf"
+# use = ["internal/completions/asdf.zsh"]
 
 [plugins.sdkman.hooks]
 pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""

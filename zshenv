@@ -13,6 +13,7 @@ typeset -U path PATH
 path=(
   $HOME/.rbenv/bin(N-/)
   $HOME/.rbenv/shims(N-/)
+  $HOME/.asdf/shims(N-/)
   # $HOME/.pyenv/bin(N-/)
   # $HOME/.pyenv/shims(N-/)
   $HOME/.nodebrew/current/bin(N-/)
