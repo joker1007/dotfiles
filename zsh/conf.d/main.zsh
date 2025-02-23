@@ -6,8 +6,6 @@ SAVEHIST=20000
 
 # User configuration
 
-export PATH=$HOME/bin:$PATH
-
 bindkey '^p'	history-beginning-search-backward
 bindkey '^n'	history-beginning-search-forward
 
@@ -73,13 +71,8 @@ fi
 
 if type starship > /dev/null 2>&1; then
   eval "$(starship init zsh)"
-elif type cargo > /dev/null 2>&1; then
-  echo "install starship"
-  cargo install starship
 fi
 
 if type aws_completer > /dev/null 2>&1; then
   complete -C $(which aws_completer) aws
 fi
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

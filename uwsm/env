@@ -1,0 +1,18 @@
+export XCURSOR_SIZE=32
+export GTK_THEME=Adwaita:dark
+export QT_QPA_PLATFORM="wayland;xcb"
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_QPA_PLATFORMTHEME=qt5ct
+export MOZ_ENABLE_WAYLAND=1
+export _JAVA_AWT_WM_NONREPARENTING=1
+export SDL_VIDEODRIVER=wayland
+
+export XMODIFIERS=@im=fcitx
+export QT_IM_MODULE=fcitx
+
+export TERM=foot
+export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
+
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+
+# vim: ft=sh

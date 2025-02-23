@@ -1,0 +1,4 @@
+export HYPRCURSOR_THEME=Nordzy-catppuccin-frappe-dark
+export HYPRCURSOR_SIZE=32
+
+# vim: ft=sh

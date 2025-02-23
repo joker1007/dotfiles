@@ -6,7 +6,6 @@
 #
 #####################################################################
 
-limit coredumpsize 0
 # Setup command search path
 typeset -U path PATH
 # (N-/) を付けることで存在しなければ無視してくれる
@@ -23,7 +22,8 @@ path=(
   $HOME/bin
   $HOME/gocode/bin
   $HOME/.cabal/bin(N-/)
-  /Applications/MacVim.app/Contents/MacOS(N-/)
+  $HOME/.yarn/bin(N-/)
+  $HOME/.config/yarn/global/node_modules/.bin(N-/)
   /usr/local/share/git-core/contrib/diff-highlight(N-/)
   /usr/local/sbin(N-/)
   /usr/local/bin(N-/)
