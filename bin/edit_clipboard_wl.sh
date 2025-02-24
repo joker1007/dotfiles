@@ -35,10 +35,14 @@ if [[ -z "$empty" ]]; then
   wl-paste -n >$tmpfile
 fi
 
+if [ -n "${UWSM_FINALIZE_VARNAMES}" ]; then
+  UWSM_PREFIX="uwsm-app -- "
+fi
+
 if [[ -z "${TERMCMD}" ]]; then
-  eval "$EDITOR $tmpfile"
+  zsh -c "${UWSM_PREFIX}${EDITOR} $tmpfile"
 else
-  eval "$TERMCMD $EDITOR $tmpfile"
+  zsh -c "${UWSM_PREFIX}${TERMCMD} ${EDITOR} $tmpfile"
 fi
 
 result=$(< $tmpfile)
