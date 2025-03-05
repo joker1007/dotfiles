@@ -1,4 +1,9 @@
 export HYPRCURSOR_THEME=Nordzy-catppuccin-frappe-dark
 export HYPRCURSOR_SIZE=32
 
+# export HYPRLAND_TRACE=1
+# export AQ_TRACE=1
+# export AQ_NO_MODIFIERS=1
+# export AQ_MGPU_NO_EXPLICIT=1
+
 # vim: ft=sh
