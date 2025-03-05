@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Obsidian Wayland
+Exec=/opt/Obsidian/obsidian --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations --enable-wayland-ime %U
+Terminal=false
+Type=Application
+Icon=obsidian
+StartupWMClass=obsidian
+Comment=Obsidian with Wayland support enabled
+MimeType=x-scheme-handler/obsidian;
+Categories=Office;
