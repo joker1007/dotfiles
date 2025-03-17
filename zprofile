@@ -1,5 +1,3 @@
-[ -s ~/.profile ] && source ~/.profile
-
 [ -s ~/.zshenv ] && source ~/.zshenv
 
 if uwsm check may-start; then
