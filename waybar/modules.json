@@ -16,7 +16,7 @@
     "path": "/home"
   },
   "temperature#cpu": {
-    "hwmon-path": "/sys/class/hwmon/hwmon3/temp3_input",
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp3_input",
     "critical-threshold": 80,
     "format": "<span color='#e88939'>{icon}</span> {temperatureC}°C",
     "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
