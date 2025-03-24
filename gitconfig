@@ -57,8 +57,11 @@
 [diff]
 	compactionHeuristic = true
 	colorMoved = default
+	algorithm = histogram
+	mnemonicPrefix = true
+	renames = true
 [merge]
-	conflictStyle = diff3
+	conflictstyle = zdiff3
 [commit]
 	gpgsign = true
 	verbose = true
@@ -77,9 +80,15 @@
 	side-by-side = true
 [rerere]
 	enabled = true
+	autoupdate = true
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[tag]
+	sort = version:refname
+[fetch]
+	prune = true
+	pruneTags = true
