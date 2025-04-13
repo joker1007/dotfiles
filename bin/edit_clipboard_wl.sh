@@ -36,7 +36,7 @@ if [[ -z "$empty" ]]; then
 fi
 
 if [ -n "${UWSM_FINALIZE_VARNAMES}" ]; then
-  UWSM_PREFIX="uwsm-app -- "
+  UWSM_PREFIX="uwsm app -- "
 fi
 
 if [[ -z "${TERMCMD}" ]]; then
