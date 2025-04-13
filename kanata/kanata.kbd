@@ -1,0 +1,77 @@
+(defcfg
+  process-unmapped-keys yes
+  allow-hardware-repeat false
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lalt lmet           spc            rmet ralt
+)
+
+;; The first layer defined is the layer that will be active by default when
+;; kanata starts up. This layer is the standard QWERTY layout except for the
+;; backtick/grave key (@grl) which is an alias for a tap-hold key.
+(deflayer qwerty
+  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lalt lmet           spc            rmet @rat
+)
+
+;; defalias is used to declare a shortcut for a more complicated action to keep
+;; the deflayer declarations clean and aligned. The alignment in deflayers is not
+;; necessary, but is strongly recommended for ease of understanding visually.
+;;
+;; Aliases are referred to by `@<alias_name>`.
+(defalias
+  ;; tap: backtick (grave), hold: toggle layer-switching layer while held
+  grl (tap-hold 200 200 grv (layer-toggle mouse))
+
+  rat (tap-hold 200 200 ralt (layer-toggle alt-layer))
+
+  ;; layer-switch changes the base layer.
+  qwr (layer-switch qwerty)
+  mou (layer-switch mouse)
+
+  fst (movemouse-speed 200)
+  slw (movemouse-speed 50)
+
+  msu (movemouse-up 2 1)
+  msl (movemouse-left 2 1)
+  msd (movemouse-down 2 1)
+  msr (movemouse-right 2 1)
+
+  mau (movemouse-accel-up 1 1000 1 3)
+  mal (movemouse-accel-left 1 1000 1 3)
+  mad (movemouse-accel-down 1 1000 1 3)
+  mar (movemouse-accel-right 1 1000 1 3)
+)
+
+;; The `lrld` action stands for "live reload". This will re-parse everything
+;; except for linux-dev, meaning you cannot live reload and switch keyboard
+;; devices.
+;;
+;; The keys 1 and 2 switch the base layer to qwerty and dvorak respectively.
+;;
+;; Apart from the layer switching and live reload, all other keys are the
+;; underscore _ which means "transparent". Transparent means the base layer
+;; behaviour is used when pressing that key.
+(deflayer mouse
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    lrld _    _    @mal @mad @mau @mar _    _    _
+  _    _    @slw _    @fst _    @msl @msd @msu @msr _    _    _
+  _    _    _    _    _    _    mlft mrgt _    _    _    _
+       _    _              _              _    @rat
+)
+
+(deflayer alt-layer
+  _    @qwr @mou _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    lrld _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+       _    _              _              _    _
+)
