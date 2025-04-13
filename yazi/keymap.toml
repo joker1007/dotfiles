@@ -1,18 +1,17 @@
 [manager]
 
 prepend_keymap = [
-	{ on = [ "K" ], run = "arrow -50%", desc = "Move cursor up 5 lines" },
-	{ on = [ "J" ], run = "arrow 50%",  desc = "Move cursor down 5 lines" },
-	{ on = [ "<C-u>" ], run = "arrow -50%",  desc = "Move cursor down 15 lines" },
-	{ on = [ "<C-d>" ], run = "arrow 50%", desc = "Move cursor up 15 lines" },
-	{ on = [ "<C-b>" ], run = "arrow -100%",  desc = "Move cursor down 15 lines" },
-	{ on = [ "<C-f>" ], run = "arrow 100%", desc = "Move cursor up 15 lines" },
-	{ on = [ "<C-a>" ], run = "select_all --state=none",            desc = "Toggle select all files" },
-	{ on = [ "T", "1" ], run = "tab_close 0", desc = "close tab 1" },
-	{ on = [ "T", "2" ], run = "tab_close 1", desc = "close tab 2" },
-	{ on = [ "T", "3" ], run = "tab_close 2", desc = "close tab 3" },
-	{ on = [ "T", "4" ], run = "tab_close 3", desc = "close tab 4" },
-	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
-	{ on = [ "<C-n>" ], run = '''shell 'ripdrag -x -i -n -s 128 -H 384 -r "$@"'''' },
-	{ on = [ "m", "a" ], run = 'linemode size_and_mtime' }
+  { on = [ "K" ], run = "arrow -50%", desc = "Move cursor up 5 lines" },
+  { on = [ "J" ], run = "arrow 50%",  desc = "Move cursor down 5 lines" },
+  { on = [ "<C-u>" ], run = "arrow -50%",  desc = "Move cursor down 15 lines" },
+  { on = [ "<C-d>" ], run = "arrow 50%", desc = "Move cursor up 15 lines" },
+  { on = [ "<C-b>" ], run = "arrow -100%",  desc = "Move cursor down 15 lines" },
+  { on = [ "<C-f>" ], run = "arrow 100%", desc = "Move cursor up 15 lines" },
+  { on = [ "<C-a>" ], run = "select_all --state=none",            desc = "Toggle select all files" },
+  { on = [ "T" ], run = "close", desc = "close tab" },
+  { on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
+  { on = [ "<C-n>" ], run = '''shell 'ripdrag -x -i -n -s 128 -H 384 -r "$@"'''' },
+  { on = [ "m", "a" ], run = 'linemode size_and_mtime' },
+  { on = "z", run = "plugin zoxide" },
+  { on = "Z", run = "plugin fzf" },
 ]

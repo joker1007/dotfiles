@@ -45,7 +45,7 @@ image = [
   { run = 'vimiv "$@"', orphan = true, desc = "vimiv" },
 ]
 media = [
-  { run = 'mpv "$@"', orphan = true, desc = "mpv" },
+  { run = 'mpv --profile=gui "$@"', orphan = true, desc = "mpv" },
   { run = 'mpv -v "$@"', desc = "mpv (verbose)", block = true },
   { run = 'mpv --profile=headphone "$@"', orphan = true, desc = "mpv (headphone)" },
   { run = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
