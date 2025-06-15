@@ -341,7 +341,7 @@ require("lazy").setup({
       workspaces = {
         {
           name = "work",
-          path = "~/Obsidian_Vaults/work",
+          path = "~/Dropbox/Obsidian_Vaults/work",
         },
       },
     },

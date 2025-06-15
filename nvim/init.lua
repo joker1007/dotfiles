@@ -368,36 +368,41 @@ lspconfig.termux_language_server.setup({
   on_attach = on_attach,
 })
 
-require("mason-lspconfig").setup_handlers({
-  function(server_name)
-    if server_name ~= "jdtls" then
-      lspconfig[server_name].setup({
-        capabilities = lsp_common.make_lsp_capabilities(),
-        on_attach = on_attach,
-      })
-    end
-  end,
-  ["lua_ls"] = function()
-    lspconfig.lua_ls.setup({
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          workspace = {
-            checkThirdParty = false,
-          },
-        },
+require("mason-lspconfig").setup()
+
+vim.lsp.config('*', {
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+vim.lsp.config("lua_ls", {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
       },
-    })
-  end,
-  ["clangd"] = function()
-    local c = lsp_common.make_lsp_capabilities()
-    c.textDocument.completion.editsNearCursor = true
-    c.offsetEncoding = "utf-8"
-    lspconfig.clangd.setup({
-      capabilities = c,
-      on_attach = on_attach,
-    })
-  end,
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("lua", true),
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
+
+local clangd_capabilities = lsp_common.make_lsp_capabilities()
+clangd_capabilities.textDocument.completion.editsNearCursor = true
+clangd_capabilities.offsetEncoding = "utf-8"
+vim.lsp.config("clangd", {
+  capabilities = clangd_capabilities,
+  on_attach = on_attach,
 })
 
 local null_ls = require "null-ls"
