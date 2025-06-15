@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 ratio         = [ 1, 4, 2 ]
 sort_by        = "alphabetical"
 sort_sensitive = true
@@ -31,12 +31,12 @@ dua = [
 ]
 unzip = [
   { run = 'mcomix "$@"' },
-  { run = 'unzip -d "${file%.*}" "$file"', desc = "Extract here" },
+  { run = 'unar "$file"', desc = "Extract here" },
   { run = 'unzip -O sjis -d "${file%.*}" "$file"', desc = "Extract here (SJIS)" },
 ]
 unrar = [
   { run = 'mcomix "$@"' },
-  { run = 'unrar x "$1" "${1%.*}/', desc = "Extract here" },
+  { run = 'unar "$1"', desc = "Extract here" },
 ]
 image = [
   { run = 'swayimg "$@"', orphan = true, desc = "swayimg" },
@@ -51,6 +51,7 @@ media = [
   { run = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
   { run = 'mpv --profile=bt "$@"', orphan = true, desc = "mpv (bt)" },
   { run = 'ENABLE_HDR_WSI=1 mpv --profile=hdr "$@"', orphan = true, desc = "mpv (HDR)" },
+  { run = 'ENABLE_HDR_WSI=1 mpv --profile=surround-hdmi --profile=hdr "$@"', orphan = true, desc = "mpv (hdmi + HDR)" },
   { run = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
   { run = 'convert_to_mp4 "$@"', desc = "convert_to_mp4", block = true },
 ]
@@ -71,7 +72,7 @@ rules = [
   { mime = "*/javascript", use = "edit" },
 
   { mime = "application/zip", use = "unzip" },
-  { mime = "application/x-rar", use = "unrar" },
+  { name = "*.rar", use = "unrar" },
 
   { name = "*.iso", use = "iso" },
 

@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 
 prepend_keymap = [
   { on = [ "K" ], run = "arrow -50%", desc = "Move cursor up 5 lines" },
