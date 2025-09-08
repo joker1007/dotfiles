@@ -55,6 +55,7 @@ tooltip {
 #disk,
 #custom-weather,
 #custom-tailscale,
+#custom-dunst_paused,
 #window,
 #clock,
 #battery,
@@ -163,7 +164,7 @@ tooltip {
   border-left: 0px;
 }
 
-#custom-weather, #custom-tailscale {
+#custom-weather, #custom-tailscale, #custom-dunst_paused {
   border-radius: 20px;
   border-right: 0px;
   margin-left: 0px;

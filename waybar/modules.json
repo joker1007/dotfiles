@@ -65,6 +65,21 @@
     "on-click": "pactl set-sink-mute jack_out toggle",
     "on-click-middle": "pavucontrol"
   },
+  "wireplumber": {
+    "format": "{icon} {volume}% {format_source}",
+    "format-muted": "🔇 {format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": "",
+
+    "format-icons": {
+      "default": ["🔈", "🔉", "🔊"]
+    },
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "on-click-middle": "pavucontrol"
+  },
+
   "hyprland/window": {
     "separate-outputs": true
   },
@@ -137,10 +152,20 @@
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
   },
-
   "custom/tailscale": {
     "exec": "~/.config/waybar/current_tailnet.sh",
     "return-type": "json",
     "interval": 60
+  },
+  "custom/dunst_paused": {
+    "exec": "~/.config/waybar/dunst_is_paused.sh",
+    "on-click": "dunstctl set-paused toggle",
+    "interval": 60
+  },
+  "custom/lyric": {
+    "exec": "cat /tmp/current_lyrics.txt",
+    "exec-if": "[ \"$(rmpc status | jq -r \".state\")\" = \"Play\" ]",
+    "interval": 5,
+    "format": "{}"
   }
 }

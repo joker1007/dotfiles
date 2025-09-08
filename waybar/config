@@ -2,12 +2,12 @@
   {
     "layer": "top",
     "position": "top",
-    "output": ["DP-1", "HDMI-A-1"],
+    "output": ["DP-1"],
     "include": [
       "~/.config/waybar/modules.json"
     ],
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
-    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "custom/tailscale", "pulseaudio", "custom/weather", "bluetooth", "clock", "tray", "idle_inhibitor"]
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "custom/tailscale", "wireplumber", "custom/weather", "bluetooth", "custom/dunst_paused", "clock", "tray", "idle_inhibitor"]
   },
   {
     "layer": "top",
@@ -17,7 +17,7 @@
       "~/.config/waybar/modules.json"
     ],
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
-    "modules-right": ["cpu", "temperature#cpu", "memory", "temperature#gpu", "pulseaudio", "custom/weather", "clock", "tray", "idle_inhibitor"]
+    "modules-right": ["cpu", "temperature#cpu", "memory", "temperature#gpu", "wireplumber", "custom/weather", "custom/dunst_paused", "clock", "tray", "idle_inhibitor"]
   },
   {
     "layer": "top",
@@ -29,6 +29,6 @@
       "~/.config/waybar/modules.json"
     ],
 
-    "modules-center": ["hyprland/window", "mpd"],
+    "modules-center": ["hyprland/window", "mpd"]
   }
 ]
