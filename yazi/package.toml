@@ -1,19 +1,19 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "a1738e8"
-hash = "5e24c167e9ae9a203a48f2a438b8c705"
+rev = "d7588f6"
+hash = "4c49c446328c4553a4ccab7facc10b21"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "73b7842"
-hash = "1b2f25c9a34b98e596c65bd3e84c51ef"
+rev = "0742fff"
+hash = "2bd799b42b8e42b8ef100310be71f8d1"
 
 [[plugin.deps]]
 use = "Reledia/glow"
-rev = "c76bf4f"
-hash = "a6b78bf9af5390e3a85a6951fbb7b93"
+rev = "bd3eaa5"
+hash = "92b5c58159a51c567f82b618cee2b78"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "68326b4"
-hash = "2ac87e1b3a61f5887472899e86535d29"
+rev = "26fac8f"
+hash = "a16c1a65b50efbe1ad17c4abe9b992e1"
