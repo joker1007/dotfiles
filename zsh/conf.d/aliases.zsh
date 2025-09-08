@@ -62,6 +62,7 @@ alias dbuild='docker build -t $(basename $(pwd)) .'
 alias yd="youtube-dl"
 alias n="neovide"
 alias o="xdg-open"
+alias si="swayimg"
 
 # Global aliases
 alias -g L="| lv"
