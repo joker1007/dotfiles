@@ -11,7 +11,7 @@ export XMODIFIERS=@im=fcitx
 export QT_IM_MODULE=fcitx
 
 export TERMINAL=footclient
-export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
+export SSH_AUTH_SOCK=${HOME}/.1password/agent.sock
 export EDITOR=nvim
 
 export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"

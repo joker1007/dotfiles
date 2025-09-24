@@ -37,8 +37,6 @@ path=(
   /usr/*/bin(N-/)
 )
 
-export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
-
 # リモートから起動するコマンド用の環境変数を設定(必要なら)
 export RSYNC_RSH=ssh
 export CVS_RSH=ssh
