@@ -398,6 +398,7 @@ require("lazy").setup({
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
+    submodules = false,
     config = function()
       -- This module contains a number of default definitions
       local rainbow_delimiters = require "rainbow-delimiters"

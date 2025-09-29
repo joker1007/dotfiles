@@ -348,60 +348,10 @@ require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
-local lspconfig = require "lspconfig"
-
-local lsp_config = require "lspconfig.configs"
-if not lsp_config.termux_language_server then
-  lsp_config.termux_language_server = {
-    default_config = {
-      cmd = { "termux-language-server" },
-      filetypes = { "ebuild", "eclass" },
-      root_dir = function(fname)
-         return lspconfig.util.find_git_ancestor(fname)
-      end,
-    },
-  }
-end
-
-lspconfig.termux_language_server.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-})
-
 require("mason-lspconfig").setup()
 
 vim.lsp.config('*', {
   capabilities = capabilities,
-  on_attach = on_attach,
-})
-
-vim.lsp.config("lua_ls", {
-  capabilities = capabilities,
-  on_attach = on_attach,
-  settings = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("lua", true),
-        checkThirdParty = false,
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
-
-local clangd_capabilities = lsp_common.make_lsp_capabilities()
-clangd_capabilities.textDocument.completion.editsNearCursor = true
-clangd_capabilities.offsetEncoding = "utf-8"
-vim.lsp.config("clangd", {
-  capabilities = clangd_capabilities,
   on_attach = on_attach,
 })
 
