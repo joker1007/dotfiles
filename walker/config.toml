@@ -1,0 +1,45 @@
+[providers]
+default = [
+  "desktopapplications",
+] # providers to be queried by default
+empty = ["desktopapplications"] # providers to be queried when query is empty
+max_results = 50 # global max results
+
+[[providers.prefixes]]
+prefix = ";"
+provider = "providerlist"
+
+[[providers.prefixes]]
+prefix = ">"
+provider = "runner"
+
+[[providers.prefixes]]
+prefix = "/"
+provider = "files"
+
+[[providers.prefixes]]
+prefix = "."
+provider = "symbols"
+
+[[providers.prefixes]]
+prefix = "!"
+provider = "todo"
+
+[[providers.prefixes]]
+prefix = "="
+provider = "calc"
+
+[[providers.prefixes]]
+prefix = "@"
+provider = "websearch"
+
+[[providers.prefixes]]
+prefix = ":"
+provider = "clipboard"
+
+[[providers.prefixes]]
+prefix = "$"
+provider = "windows"
+
+[providers.clipboard]
+time_format = "%d.%m. - %H:%M" # format for the clipboard item date
