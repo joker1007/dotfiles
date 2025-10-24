@@ -54,7 +54,7 @@ use = ["main.zsh"]
 
 [plugins.dotfiles-defers]
 local = "~/dotfiles/zsh/conf.d"
-use = ["{aliases,peco,google-cloud-sdk,navi,zoxide}.zsh"]
+use = ["{aliases,peco,google-cloud-sdk,navi,zoxide,1password}.zsh"]
 apply = ["defer"]
 
 [plugins.sdkman]
