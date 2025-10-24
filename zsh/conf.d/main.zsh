@@ -38,7 +38,7 @@ add-zsh-hook chpwd _autols
 
 zshaddhistory() {
   local line="${1%%$'\n'}"
-  [[ ! "$line" =~ "^(lazygit|la|ll|ls|rmdir)($| )" ]]
+  [[ ! "$line" =~ "^(rm|rmdir)($| )" ]]
 }
 
 function json_post() {
