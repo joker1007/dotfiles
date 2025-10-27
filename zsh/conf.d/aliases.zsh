@@ -63,6 +63,7 @@ alias yd="youtube-dl"
 alias n="neovide"
 alias o="xdg-open"
 alias si="swayimg"
+alias ze="zellij"
 
 # Global aliases
 alias -g L="| lv"
