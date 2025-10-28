@@ -1,0 +1,13 @@
+[Unit]
+Description=Elephant
+PartOf=graphical-session.target
+After=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Restart=on-failure
+ExecStart=/home/joker/gocode/bin/elephant
+Slice=background-graphical.slice
+
+[Install]
+WantedBy=default.target

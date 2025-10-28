@@ -1,0 +1,15 @@
+[Unit]
+Description=Walker launcher service
+PartOf=graphical-session.target
+After=graphical-session.target
+Requires=elephant.service
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+ExecStart=/home/joker/bin/walker --gapplication-service
+Restart=on-failure
+Slice=background-graphical.slice
+
+[Install]
+WantedBy=graphical-session.target
