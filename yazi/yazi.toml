@@ -31,7 +31,7 @@ dua = [
 ]
 unzip = [
   { run = 'mcomix "$@"' },
-  { run = 'unar "$file"', desc = "Extract here" },
+  { run = 'unar "$@"', desc = "Extract here" },
   { run = 'unzip -O sjis -d "${file%.*}" "$file"', desc = "Extract here (SJIS)" },
 ]
 unrar = [
@@ -90,6 +90,7 @@ suppress_preload = false
 [plugin]
 prepend_previewers = [
   { name = "*.zip", run = "image_archive" },
+  { name = "*.cbz", run = "image_archive" },
 	{ mime = "application/x-tar",           run = "ouch" },
 	{ mime = "application/x-bzip2",         run = "ouch" },
 	{ mime = "application/x-7z-compressed", run = "ouch" },
