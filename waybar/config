@@ -11,6 +11,15 @@
   },
   {
     "layer": "top",
+    "position": "right",
+    "output": ["DP-1"],
+    "include": [
+      "~/.config/waybar/modules.json"
+    ],
+    "modules-center": ["custom/lyric"]
+  },
+  {
+    "layer": "top",
     "position": "top",
     "output": ["DP-2"],
     "include": [

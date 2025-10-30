@@ -170,6 +170,14 @@ tooltip {
   margin-left: 0px;
 }
 
+#custom-lyric {
+  background: #1e1e2e;
+  font-family: sans-serif;
+  padding: 20px;
+  opacity: 0.8;
+  font-size: 16px;
+}
+
 #mpd {
   background: #1e1e2e;
   opacity: 0.8;

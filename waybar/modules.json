@@ -163,9 +163,9 @@
     "interval": 60
   },
   "custom/lyric": {
-    "exec": "cat /tmp/current_lyrics.txt",
+    "exec": "~/.config/waybar/display_lyric.sh",
     "exec-if": "[ \"$(rmpc status | jq -r \".state\")\" = \"Play\" ]",
-    "interval": 5,
-    "format": "{}"
+    "interval": 3,
+    "return-type": "json"
   }
 }
