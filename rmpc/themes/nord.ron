@@ -209,6 +209,7 @@
         ),
     ],
     cava: (
+      orientation: Horizontal,
       bar_color: Gradient({
         0: "#94e2d5",
         12: "#89dceb",
