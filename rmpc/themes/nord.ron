@@ -159,6 +159,8 @@
                     (kind: Text(" | "),style: (fg: "#81a1c1")),
                     (kind: Property(Status(Bitrate)),style: (fg: "#d8dee9")),
                     (kind: Text(" kbps"),style: (fg: "#81a1c1")),
+                    (kind: Text(" | "),style: (fg: "#81a1c1")),
+                    (kind: Property(Song(FileExtension)),style: (fg: "#d8dee9")),
                     (kind: Text("]"),style: (fg: "#81a1c1", modifiers: "Bold"))
                 ],
                 center: [
