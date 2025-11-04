@@ -167,5 +167,9 @@
     "exec-if": "[ \"$(rmpc status | jq -r \".state\")\" = \"Play\" ]",
     "interval": 3,
     "return-type": "json"
+  },
+  "custom/wvkbd": {
+    "format": "  toggle",
+    "on-click": "killall -s TMIN wvkbd"
   }
 }
