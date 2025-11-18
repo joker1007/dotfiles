@@ -381,16 +381,37 @@ require("lazy").setup({
   -- syntax, visibility {{{
   {
     "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "HiPhish/rainbow-delimiters.nvim",
-      "andymass/vim-matchup",
-      "RRethy/nvim-treesitter-endwise",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
+    branch = "main",
     build = ":TSUpdate",
     config = function()
+      require("nvim-treesitter").setup({})
       require "configs/treesitter"
     end,
+  },
+  {
+    "RRethy/nvim-treesitter-endwise",
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    opts = {
+      select = {
+        -- Automatically jump forward to textobj, similar to targets.vim
+        lookahead = true,
+
+        -- You can choose the select mode (default is charwise 'v')
+        selection_modes = {
+          ["@parameter.outer"] = "v", -- charwise
+          ["@function.outer"] = "V", -- linewise
+          ["@class.outer"] = "<c-v>", -- blockwise
+        },
+        -- If you set this to `true` (default is `false`) then any textobject is
+        -- extended to include preceding xor succeeding whitespace. Succeeding
+        -- whitespace has priority in order to act similarly to eg the built-in
+        -- `ap`.
+        include_surrounding_whitespace = false,
+      },
+    }
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -418,23 +439,6 @@ require("lazy").setup({
           "RainbowDelimiterCyan",
         },
       }
-    end,
-  },
-
-  {
-    "nvim-treesitter/playground",
-    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-    keys = { "<leader>tp", "<leader>th" },
-    config = function()
-      vim.keymap.set("n", "<leader>tp", "<cmd>TSPlaygroundToggle<cr>", { silent = true, noremap = true })
-      vim.keymap.set("n", "<leader>th", "<cmd>TSHighlightCapturesUnderCursor<cr>", { silent = true, noremap = true })
-      require("nvim-treesitter.configs").setup({
-        query_linter = {
-          enable = true,
-          use_virtual_text = true,
-          lint_events = { "BufWrite", "CursorHold" },
-        },
-      })
     end,
   },
 
@@ -1142,7 +1146,14 @@ require("lazy").setup({
   "kana/vim-submode",
   "simeji/winresizer",
 
-  "andymass/vim-matchup",
+  {
+    "andymass/vim-matchup",
+    opts = {
+      treesitter = {
+        stopline = 500,
+      }
+    },
+  },
   {
     "echasnovski/mini.align",
     config = true,
