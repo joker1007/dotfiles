@@ -59,6 +59,7 @@
             "O":       ShowOutputs,
             "P":       ShowDecoders,
             "R":       AddRandom,
+            "T":       ExternalCommand(command: ["~/.config/rmpc/tagger_open.sh"], description: "Open Tagger"),
         },
         navigation: {
             "k":         Up,
