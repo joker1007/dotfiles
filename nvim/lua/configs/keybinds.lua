@@ -99,11 +99,7 @@ vim.keymap.set("v", "<Leader>a<Bar>", ":Tabularize /<Bar><CR>")
 -- }}}
 
 -- toggleterm {{{
-vim.keymap.set("t", "<A-n>", "<C-\\><C-n>")
-vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h")
-vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j")
-vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k")
-vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l")
+vim.keymap.set("t", "<A-q>", "<C-\\><C-n>")
 --- }}}
 
 -- vim-choosewin
