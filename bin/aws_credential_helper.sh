@@ -54,8 +54,11 @@ if [ -n "$CACHE_KEY" ]; then
   if [ -f "$CACHE_FILE" ]; then
     # Check if the cache is less than 1 hour old
     if [ $(find "$CACHE_FILE" -mmin -60) ]; then
-      cat "$CACHE_FILE"
-      exit 0
+      value=$(cat "$CACHE_FILE")
+      if [ -n "$value" ]; then
+        cat "$CACHE_FILE"
+        exit 0
+      fi
     fi
   fi
 fi
