@@ -63,6 +63,7 @@ tooltip {
 #wireplumber,
 #network,
 #bluetooth,
+#upower,
 #temperature,
 #workspaces,
 #tray,
@@ -143,6 +144,13 @@ tooltip {
 
 #bluetooth {
   color: #89b4fa;
+  border-radius: 20px;
+  margin-right: 10px
+} 
+
+#upower {
+  color: #89b4fa;
+  min-width: 60px;
   border-radius: 20px;
   margin-right: 10px
 } 
