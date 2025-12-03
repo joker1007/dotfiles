@@ -16,3 +16,5 @@ yazi/plugins/
 yazi/flavors/
 
 zellij/config.kdl.bak*
+
+hypr/hyprpaper.conf
