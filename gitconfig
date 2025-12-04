@@ -1,7 +1,6 @@
 [user]
 	name = joker1007
 	email = kakyoin.hierophant@gmail.com
-	signingkey = 374C1E1748001E39!
 [include]
 	path = .gitconfig.local
 [core]
@@ -60,8 +59,12 @@
 	algorithm = histogram
 	mnemonicPrefix = true
 	renames = true
+	external = difft
 [merge]
 	conflictstyle = zdiff3
+[merge "mergiraf"]
+	name = mergiraf
+	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
 [commit]
 	gpgsign = true
 	verbose = true
@@ -89,6 +92,7 @@
 	helper = !/usr/bin/gh auth git-credential
 [tag]
 	sort = version:refname
+	gpgSign = true
 [fetch]
 	prune = true
 	pruneTags = true
