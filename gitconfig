@@ -1,7 +1,7 @@
 [user]
 	name = joker1007
 	email = kakyoin.hierophant@gmail.com
-	signingkey = 69BAF8CC17ECB7B3
+	signingkey = 374C1E1748001E39!
 [include]
 	path = .gitconfig.local
 [core]
