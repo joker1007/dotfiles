@@ -14,4 +14,6 @@ prepend_keymap = [
   { on = [ "m", "a" ], run = 'linemode size_and_mtime' },
   { on = "z", run = "plugin zoxide" },
   { on = "Z", run = "plugin fzf" },
+  { on = "*", run = "toggle_all" },
+  { on = ["d", "S"], run = '''shell --block -- echo -n "Confirm: shred $@ (y/n): " && read 'x' && [ $x == 'y' ] && shred -u "$@"''' }
 ]
