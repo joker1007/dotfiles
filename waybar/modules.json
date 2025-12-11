@@ -169,9 +169,9 @@
     "return-type": "json"
   },
   "upower#mouse": {
-    "native-path": "hidpp_battery_1",
+    "model": "MX Vertical",
     "icon-size": 20,
-    "hide-if-empty": false,
+    "hide-if-empty": true,
     "tooltip": true,
     "tooltip-spacing": 20
   },
