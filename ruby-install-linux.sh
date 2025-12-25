@@ -2,18 +2,20 @@
 
 PATH=~/.rbenv/bin:~/.rbenv/plugins/ruby-build/bin:$PATH
 
-version=${1:-3.3.0}
+version=${1:-4.0.0}
 
 trap 'exit 1' 2
 
 eval "$(rbenv init -)"
 
-export CC=cc
-export CXX=c++
-export CFLAGS="-O2 -march=native"
+export CC=clang
+export CXX=clang++
+export LDFLAGS="${LDFLAGS} -fuse-ld=mold"
+export CFLAGS="-O2 -march=native -pipe"
+#export CFLAGS="-O0 -ggdb3 -march=native -pipe"
 export CXXLAGS="${CFLAGS}"
 
-export RUBY_CONFIGURE_OPTS="--enable-rjit"
+export RUBY_CONFIGURE_OPTS="--enable-yjit --enable-zjit"
 
 export MAKE_OPTS="-j 16"
 
