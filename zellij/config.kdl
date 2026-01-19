@@ -167,7 +167,11 @@ keybinds clear-defaults=true {
         bind "Alt n" { NewPane; }
         bind "Alt o" { MoveTab "right"; }
         bind "Alt p" { TogglePaneInGroup; }
-        bind "Alt t" { NewTab; }
+        bind "Alt t" {
+          NewTab {
+            cwd "~"
+          }
+        }
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
         bind "Alt 3" { GoToTab 3; }
@@ -292,7 +296,7 @@ default_mode "locked"
  
 // Choose the path to override cwd that zellij will use for opening new panes
 // 
-// default_cwd "/tmp"
+default_cwd "/home/joker"
  
 // The name of the default layout to load on startup
 // Default: "default"
