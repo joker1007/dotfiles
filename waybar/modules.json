@@ -23,7 +23,7 @@
     "format-icons": [""]
   },
   "temperature#gpu": {
-    "hwmon-path": "/sys/class/hwmon/hwmon0/temp1_input",
+    "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
     "critical-threshold": 80,
     "format": "GPU: <span color='#e88939'>{icon}</span> {temperatureC}°C",
     "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
@@ -160,6 +160,11 @@
   "custom/dunst_paused": {
     "exec": "~/.config/waybar/dunst_is_paused.sh",
     "on-click": "dunstctl set-paused toggle",
+    "interval": 60
+  },
+  "custom/hyprsunset" : {
+    "exec": "systemctl --user is-active hyprsunset.service >/dev/null && echo ' On' || echo ' Off'",
+    "on-click": "systemctl --user is-active hyprsunset.service && systemctl --user stop hyprsunset.service || systemctl --user start hyprsunset.service",
     "interval": 60
   },
   "custom/lyric": {

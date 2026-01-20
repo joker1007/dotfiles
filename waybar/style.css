@@ -56,6 +56,7 @@ tooltip {
 #custom-weather,
 #custom-tailscale,
 #custom-dunst_paused,
+#custom-hyprsunset,
 #window,
 #clock,
 #battery,
@@ -150,7 +151,7 @@ tooltip {
 
 #upower {
   color: #89b4fa;
-  min-width: 60px;
+  min-width: 70px;
   border-radius: 20px;
   margin-right: 10px
 } 
