@@ -23,7 +23,8 @@
     "format-icons": [""]
   },
   "temperature#gpu": {
-    "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+    "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:03.1/0000:09:00.0/0000:0a:00.0/0000:0b:00.0/hwmon",
+    "input-filename": "temp1_input",
     "critical-threshold": 80,
     "format": "GPU: <span color='#e88939'>{icon}</span> {temperatureC}°C",
     "format-critical": "<span color='#e85939'>{icon}</span> {temperatureC}°C",
