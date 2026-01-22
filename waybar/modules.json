@@ -142,8 +142,11 @@
     "tooltip-format-disconnected": "MPD (disconnected)"
   },
   "custom/weather": {
-    "exec": "curl -s 'http://wttr.in/Asakusa?format=%c+%t+%P'",
-    "interval": 600
+    "exec": "/usr/bin/waybar-weather",
+    "restart-interval": 60,
+    "return-type": "json",
+    "hide-empty-text": true,
+    "on-click": "pkill -USR1 waybar-weather"
   },
   "bluetooth": {
     "format": " {status}",
@@ -173,6 +176,12 @@
     "exec-if": "[ \"$(rmpc status | jq -r \".state\")\" = \"Play\" ]",
     "interval": 3,
     "return-type": "json"
+  },
+  "custom/vrr": {
+    "exec": "hyprctl monitors -j | jq -c -r '.[] | select(.name == \"DP-1\") | {text: \"VRR: \" + (.vrr | tostring)}'",
+    "return-type": "json",
+    "hide-empty-text": true,
+    "interval": 30
   },
   "upower#mouse": {
     "model": "MX Vertical",

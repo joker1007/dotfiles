@@ -7,7 +7,7 @@
       "~/.config/waybar/modules.json"
     ],
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
-    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "custom/tailscale", "wireplumber", "custom/weather", "upower#mouse", "custom/dunst_paused", "custom/hyprsunset", "clock", "tray", "idle_inhibitor"]
+    "modules-right": ["disk#root", "disk#home", "cpu", "temperature#cpu", "memory", "temperature#gpu", "network", "custom/tailscale", "wireplumber", "custom/weather", "upower#mouse", "custom/dunst_paused", "custom/hyprsunset", "custom/vrr", "clock", "tray", "idle_inhibitor"]
   },
   {
     "layer": "top",
@@ -26,7 +26,7 @@
       "~/.config/waybar/modules.json"
     ],
     "modules-left": ["hyprland/workspaces", "hyprland/submap"],
-    "modules-right": ["cpu", "temperature#cpu", "memory", "temperature#gpu", "wireplumber", "custom/weather", "custom/dunst_paused", "custom/hyprsunset", "clock", "tray", "idle_inhibitor"]
+    "modules-right": ["cpu", "temperature#cpu", "memory", "temperature#gpu", "wireplumber", "custom/weather", "custom/dunst_paused", "custom/hyprsunset", "custom/vrr", "clock", "tray", "idle_inhibitor"]
   },
   {
     "layer": "top",
