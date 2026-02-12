@@ -8,7 +8,7 @@ function peco-src () {
     zle clear-screen
 }
 zle -N peco-src
-bindkey '^s' peco-src
+bindkey '\eg' peco-src
 
 function peco-git-checkout () {
   local branch=$(git branch -a | peco | tr -d ' ' | sed -e 's/\*//')
