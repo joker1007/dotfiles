@@ -49,12 +49,12 @@ github = "ohmyzsh/ohmyzsh"
 pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""
 
 [plugins.dotfiles-main]
-local = "~/dotfiles/zsh/conf.d"
-use = ["main.zsh"]
+local = "~/dotfiles/zsh/conf.d/sync"
+use = ["*.zsh"]
 
 [plugins.dotfiles-defers]
-local = "~/dotfiles/zsh/conf.d"
-use = ["{aliases,peco,google-cloud-sdk,navi,zoxide,1password}.zsh"]
+local = "~/dotfiles/zsh/conf.d/defer"
+use = ["*.zsh"]
 apply = ["defer"]
 
 [plugins.sdkman]
