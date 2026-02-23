@@ -25,6 +25,13 @@ function set_tab_to_working_dir() {
   change_tab_title $title
 }
 
+function set_tab_to_command_line() {
+  local cmdline=$1
+  local dir=$(current_dir)
+  change_tab_title "${dir} - ${cmdline}"
+}
+
 if [[ -n $ZELLIJ ]]; then
   add-zsh-hook precmd set_tab_to_working_dir
+  add-zsh-hook preexec set_tab_to_command_line
 fi
