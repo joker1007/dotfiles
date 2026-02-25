@@ -1,7 +1,11 @@
 alias fullreset='echo "\ec\ec"'
 alias h='history'
 alias ls=lsd
-alias ll='ls -la'
+alias ll='ls -la --size bytes'
+alias llh='ls -la'
+alias lt='ls --tree'
+alias tree='ls --tree'
+alias treel='ls -al --tree'
 mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'

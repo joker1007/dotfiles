@@ -38,8 +38,8 @@ apply = ["defer"]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
 
-[plugins.oh-my-zsh]
-github = "ohmyzsh/ohmyzsh"
+# [plugins.oh-my-zsh]
+# github = "ohmyzsh/ohmyzsh"
 
 # [plugins.asdf]
 # github = "asdf-vm/asdf"

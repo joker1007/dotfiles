@@ -35,6 +35,7 @@
 	pl = pull
 	ps = push
 	psh = push origin HEAD
+	r = restore
 	rb = rebase
 	rbi = rebase -i
 	rbh = rebase HEAD
