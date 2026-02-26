@@ -8,6 +8,21 @@ use = "ndtoan96/ouch"
 rev = "594b8a2"
 hash = "c9e628fc0312d198db22ae2fa74883b"
 
+[[plugin.deps]]
+use = "alberti42/faster-piper"
+rev = "8b794bf"
+hash = "fac71f8ce9447ad509b5aad9e0d8c694"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "b224ddf"
+hash = "815dd20e682dec52bb92864037fa5f53"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "b224ddf"
+hash = "270915fa8282a19908449530ff66f7e2"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
 rev = "3001521"

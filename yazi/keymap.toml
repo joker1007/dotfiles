@@ -15,5 +15,10 @@ prepend_keymap = [
   { on = "z", run = "plugin zoxide" },
   { on = "Z", run = "plugin fzf" },
   { on = "*", run = "toggle_all" },
-  { on = ["d", "S"], run = '''shell --block -- echo -n "Confirm: shred $@ (y/n): " && read 'x' && [ $x == 'y' ] && shred -u "$@"''' }
+  { on = ["d", "S"], run = '''shell --block -- echo -n "Confirm: shred $@ (y/n): " && read 'x' && [ $x == 'y' ] && shred -u "$@"''' },
+  { on = ["c", "m"], run = "plugin chmod", desc = "Chmod on selected files" },
+  { on = [",", "m"], run = "sort mtime --reverse=no", desc = "Sort by modified time" },
+  { on = [",", "M"], run = "sort mtime --reverse", desc = "Sort by modified time (reverse)" },
+  { on = [",", "s"], run = "sort size --reverse=no", desc = "Sort by file size" },
+  { on = [",", "S"], run = "sort size --reverse", desc = "Sort by file size (reverse)" },
 ]

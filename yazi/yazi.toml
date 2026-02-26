@@ -6,7 +6,7 @@ sort_reverse   = false
 sort_dir_first = true
 show_hidden    = false
 show_symlink   = true
-linemode       = "size"
+linemode       = "size_and_mtime"
 
 [preview]
 tab_size        = 2
@@ -92,12 +92,11 @@ suppress_preload = false
 prepend_previewers = [
   { url = "*.zip", run = "comic-thumbnail" },
   { url = "*.cbz", run = "comic-thumbnail" },
-	{ mime = "application/x-tar",           run = "ouch" },
-	{ mime = "application/x-bzip2",         run = "ouch" },
-	{ mime = "application/x-7z-compressed", run = "ouch" },
-	# { mime = "application/x-rar",           run = "ouch" },
-	{ mime = "application/x-xz",            run = "ouch" },
-  { name = "*.md", run = "glow" },
+  { url = "*.md", run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dracula -- "$1"' },
+  { mime = "application/x-tar",           run = "ouch" },
+  { mime = "application/x-bzip2",         run = "ouch" },
+  { mime = "application/x-7z-compressed", run = "ouch" },
+  { mime = "application/x-xz",            run = "ouch" },
 ]
 
 [[plugin.prepend_fetchers]]
@@ -111,3 +110,13 @@ id   = "mime"
 url  = "remote://*"
 run  = "mime-ext.remote"
 prio = "high"
+
+[[plugin.prepend_fetchers]]
+id  = "git"
+url = "*"
+run = "git"
+
+[[plugin.prepend_fetchers]]
+id  = "git"
+url = "*/"
+run = "git"
