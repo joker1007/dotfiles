@@ -1,5 +1,15 @@
-WORDCHARS=''
+# Save the location of the current completion dump file.
+if [[ -z "$ZSH_COMPDUMP" ]]; then
+  ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump-${ZSH_VERSION}"
+fi
 
+autoload -U compinit zrecompile
+compinit -i -d "$ZSH_COMPDUMP"
+
+export CARAPACE_BRIDGES='fish,inshellisense' # optional
+source <(carapace _carapace)
+
+setopt auto_param_slash
 setopt no_auto_remove_slash
 unsetopt menu_complete   # do not autoselect the first completion entry
 unsetopt flowcontrol
@@ -9,14 +19,6 @@ setopt always_to_end
 
 bindkey -M menuselect '^o' accept-and-infer-next-history
 zstyle ':completion:*:*:*:*:*' menu select
-
-# Save the location of the current completion dump file.
-if [[ -z "$ZSH_COMPDUMP" ]]; then
-  ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump-${ZSH_VERSION}"
-fi
-
-autoload -U compinit zrecompile
-compinit -i -d "$ZSH_COMPDUMP"
 
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
@@ -36,20 +38,6 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 # Use caching so that commands like apt and dpkg complete are usable
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
-
-# Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
-        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
-        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
-        ldap lp mail mailman mailnull man messagebus mldonkey mysql nagios \
-        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
-        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
-        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
-        usbmux uucp vcsa wwwrun xfs '_*'
-
-export CARAPACE_BRIDGES='zsh,bash,fish' # optional
-source <(carapace _carapace)
 
 function d () {
   if [[ -n $1 ]]; then
