@@ -90,8 +90,8 @@ suppress_preload = false
 
 [plugin]
 prepend_previewers = [
-  { name = "*.zip", run = "image_archive" },
-  { name = "*.cbz", run = "image_archive" },
+  { url = "*.zip", run = "comic-thumbnail" },
+  { url = "*.cbz", run = "comic-thumbnail" },
 	{ mime = "application/x-tar",           run = "ouch" },
 	{ mime = "application/x-bzip2",         run = "ouch" },
 	{ mime = "application/x-7z-compressed", run = "ouch" },
@@ -102,7 +102,12 @@ prepend_previewers = [
 
 [[plugin.prepend_fetchers]]
 id   = "mime"
-if   = "!mime"
-name = "*"
-run  = "mime-ext"
+url  = "local://*"
+run  = "mime-ext.local"
+prio = "high"
+
+[[plugin.prepend_fetchers]]
+id   = "mime"
+url  = "remote://*"
+run  = "mime-ext.remote"
 prio = "high"

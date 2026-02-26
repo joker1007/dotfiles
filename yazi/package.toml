@@ -1,14 +1,14 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "8f1d971"
-hash = "4c49c446328c4553a4ccab7facc10b21"
+rev = "b224ddf"
+hash = "8b177921e50732b2c8e9d71aa5956270"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "0742fff"
-hash = "2bd799b42b8e42b8ef100310be71f8d1"
+rev = "594b8a2"
+hash = "c9e628fc0312d198db22ae2fa74883b"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "f6b425a"
-hash = "14b111562c00eb1917fe3ca3ae9bb771"
+rev = "3001521"
+hash = "5012313d6cf071c5f30a9d5c4be3655e"
