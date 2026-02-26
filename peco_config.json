@@ -11,5 +11,15 @@
         "Pgup": "peco.ScrollPageDown",
         "ArrowLeft": "peco.BackwardChar",
         "ArrowRight": "peco.ForwardChar"
+    },
+    "Style": {
+        "Basic": ["on_default", "default"],
+        "SavedSelection": ["bold", "on_#6A3989", "white"],
+        "Selected": ["underline", "on_#3551A6", "white"],
+        "Query": ["yellow", "bold"],
+        "QueryCursor": ["white", "on_red"],
+        "Matched": ["bold", "on_#A14356"],
+        "Prompt": ["green", "bold"],
+        "Context": ["bold"]
     }
 }
