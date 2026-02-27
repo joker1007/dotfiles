@@ -6,7 +6,7 @@ fi
 autoload -U compinit zrecompile
 compinit -i -d "$ZSH_COMPDUMP"
 
-export CARAPACE_BRIDGES='fish,inshellisense' # optional
+export CARAPACE_BRIDGES='zsh,fish,inshellisense' # optional
 source <(carapace _carapace)
 
 setopt auto_param_slash
@@ -16,6 +16,8 @@ unsetopt flowcontrol
 setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt always_to_end
+setopt mark_dirs         # append / to completed directories
+setopt magic_equal_subst # allow = to substitute the current word in completion
 
 bindkey -M menuselect '^o' accept-and-infer-next-history
 zstyle ':completion:*:*:*:*:*' menu select
@@ -28,7 +30,6 @@ zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'exter
 # Complete . and .. special directories
 zstyle ':completion:*' special-dirs true
 
-zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 [[ -z "$LS_COLORS" ]] || zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
@@ -48,7 +49,7 @@ function d () {
 }
 compdef _dirs d
 
-zstyle ':completion:*' completer _oldlist _complete _history _match _ignored _prefix
+zstyle ':completion:*' completer _oldlist _complete _match _ignored _prefix
 
 autoload -U +X bashcompinit && bashcompinit
 

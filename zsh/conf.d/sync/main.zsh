@@ -1,8 +1,10 @@
 export ZSH_CACHE_DIR="$HOME/.cache/zsh"
 
 if type vivid > /dev/null 2>&1; then
-  export LS_COLORS="$(vivid generate tokyonight-night)"
+  export LS_COLORS="$(vivid generate catppuccin-mocha)"
 fi
+
+export WORDCHARS='*?_.[]~&;!#$%^(){}<>'
 
 HISTFILE=~/.zhistory
 HISTSIZE=50000
@@ -11,9 +13,11 @@ SAVEHIST=20000
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_all_dups   # delete old recorded command if new command is same
 setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
+setopt extended_glob          # use extended globbing syntax
 
 function zsh_history {
   if [[ $# -eq 0 ]]; then
@@ -46,7 +50,7 @@ bindkey '\ee' edit-command-line
 
 # cdしたら自動的にlsを行う
 autoload -Uz add-zsh-hook
-_autols () { lsd --color=always --icon=always | head -n 10 }
+_autols () { eza --group-directories-first --icons }
 add-zsh-hook chpwd _autols
 
 zshaddhistory() {

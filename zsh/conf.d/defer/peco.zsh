@@ -14,12 +14,10 @@ function peco-git-checkout () {
   local branch=$(git branch -a | peco | tr -d ' ' | sed -e 's/\*//')
   if [ -n "$branch" ]; then
     if [[ "$branch" =~ "remotes/" ]]; then
-      local b=$(echo $branch | awk -F'/' '{print $3}')
-      BUFFER="git checkout -b ${b} ${branch}"
-      zle accept-line
+      local b=$(echo $branch | awk -v OFS='/' -F'/' '{print $2,$3}')
+      BUFFER="${BUFFER}${b}"
     else
-      BUFFER="git checkout ${branch}"
-      zle accept-line
+      BUFFER="${BUFFER}${branch}"
     fi
   fi
 }

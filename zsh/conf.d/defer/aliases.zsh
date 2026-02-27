@@ -1,11 +1,12 @@
 alias fullreset='echo "\ec\ec"'
 alias h='history'
-alias ls=lsd
-alias ll='ls -la --size bytes'
-alias llh='ls -la'
+alias ls='eza --group-directories-first --icons --smart-group --git'
+alias ll='ls -lagB'
+alias llh='ls -lah'
 alias lt='ls --tree'
+alias llt='ll --tree'
 alias tree='ls --tree'
-alias treel='ls -al --tree'
+alias treel='ll --tree'
 mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
 mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
 alias pu=pushd pd=popd dirs='dirs -v'
