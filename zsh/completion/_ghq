@@ -24,8 +24,10 @@ function _ghq () {
                         '--vcs[Specify vcs backend for cloning]' \
                         '(-s --silent)'{-s,--silent}'[Clone or update silently]' \
                         '--no-recursive[Prevent recursive fetching]' \
+                        '--bare[Do a bare clone]' \
                         '(-b --branch)'{-b,--branch}'[Specify branch name]' \
-                        '(-P --parallel)'{-P,--parallel}'[Import parallely]' \
+                        '(-P --parallel)'{-P,--parallel}'[Import parallelly]' \
+                        '--partial[Do a partial clone]: :(blobless treeless)' \
                         '(-)*:: :->null_state' \
                         && ret=0
                     ;;
@@ -47,6 +49,12 @@ function _ghq () {
                 (create)
                     _arguments -C \
                         '--vcs[Specify vcs backend explicitly]' \
+                        '(-)*:: :->null_state' \
+                        && ret=0
+                    ;;
+                (rm)
+                    _arguments -C \
+                        '--dry-run[Do not remove actually]' \
                         '(-)*:: :->null_state' \
                         && ret=0
                     ;;

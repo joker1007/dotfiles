@@ -1,4 +1,6 @@
 export ZSH_CACHE_DIR="$HOME/.cache/zsh"
+mkdir -p "$ZSH_CACHE_DIR/completions"
+(( ${fpath[(Ie)$ZSH_CACHE_DIR/completions]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
 if type vivid > /dev/null 2>&1; then
   export LS_COLORS="$(vivid generate catppuccin-mocha)"
