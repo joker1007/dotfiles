@@ -6,7 +6,7 @@ fi
 autoload -U compinit zrecompile
 compinit -i -d "$ZSH_COMPDUMP"
 
-export CARAPACE_BRIDGES='zsh,fish,inshellisense' # optional
+# export CARAPACE_BRIDGES='fish'
 source <(carapace _carapace)
 
 setopt auto_param_slash
