@@ -7,6 +7,7 @@ autoload -U compinit zrecompile
 compinit -i -d "$ZSH_COMPDUMP"
 
 # export CARAPACE_BRIDGES='fish'
+export CARAPACE_EXCLUDES='sudo'
 source <(carapace _carapace)
 
 setopt auto_param_slash
