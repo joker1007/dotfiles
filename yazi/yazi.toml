@@ -39,8 +39,8 @@ unrar = [
   { run = 'unar "$1"', desc = "Extract here" },
 ]
 image = [
-  { run = 'swayimg "$@"', orphan = true, desc = "swayimg" },
-  { run = 'swayimg --gallery "$@"', orphan = true, desc = "swayimg (gallery)" },
+  { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg" },
+  { run = 'swayimg -r "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (recursive)" },
   { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
   { run = 'vimiv "$@"', orphan = true, desc = "vimiv" },
 ]
@@ -59,11 +59,14 @@ media = [
 iso = [
   { run = 'mpv dvd:// --dvd-device="$1"', orphan = true, desc = "mpv (DVD)" },
 ]
+markdown = [
+  { run = 'inlyne "$@"', orphan = true, desc = "inlyne markdown viewer" },
+]
 
 [open]
 rules = [
   { name = "*/", use = ["edit", "open", "dua"] },
-  { mime = "text/*", use = "edit" },
+  { mime = "text/*", use = ["edit", "markdown"] },
   { mime = "image/*", use = "image" },
   { mime = "video/*", use = "media" },
   { mime = "audio/*", use = "media" },
