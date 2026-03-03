@@ -2,11 +2,22 @@ export ZSH_CACHE_DIR="$HOME/.cache/zsh"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 (( ${fpath[(Ie)$ZSH_CACHE_DIR/completions]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
+function ensure_zcompiled {
+  local compiled="$1.zwc"
+  if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
+    zcompile $1
+  fi
+}
+# function source {
+#   ensure_zcompiled $1
+#   builtin source $1
+# }
+
 if type vivid > /dev/null 2>&1; then
   export LS_COLORS="$(vivid generate catppuccin-mocha)"
 fi
 
-export WORDCHARS='*?_.[]~&;!#$%^(){}<>'
+export WORDCHARS='*?_[]~&;!#$%^(){}<>'
 
 HISTFILE=~/.zhistory
 HISTSIZE=50000
@@ -110,8 +121,6 @@ function bqj() {
   shift
   bq --format=json show -j $job_id | jq $@
 }
-
-[ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 # direnv
 if type direnv > /dev/null 2>&1; then

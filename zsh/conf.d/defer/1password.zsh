@@ -9,7 +9,10 @@ if [[ ! -f "$ZSH_CACHE_DIR/completions/_op" ]]; then
   _comps[op]=_op
 fi
 
-op completion zsh >| "$ZSH_CACHE_DIR/completions/_op" &|
+if [[ ! -e "$ZSH_CACHE_DIR/completions/_op" ]]; then
+  op completion zsh >| "$ZSH_CACHE_DIR/completions/_op" &|
+fi
+
 
 if [ -f ~/.config/op/plugins.sh ]; then
   source ~/.config/op/plugins.sh

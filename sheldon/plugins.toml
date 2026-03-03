@@ -12,11 +12,17 @@
 
 shell = "zsh"
 
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}ensure_zcompiled \"{{ file }}\"\nzsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+zcompile = "{{ hooks?.pre | nl }}{% for file in files %}ensure_zcompiled \"{{ file }}\"\nsource \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+[plugins.dotfiles-main]
+local = "~/dotfiles/zsh/conf.d/sync"
+use = ["*.zsh"]
+
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
-
-[templates]
-defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+apply = ["zcompile"]
 
 [plugins.local-zfunc]
 local = "~/.zfunc"
@@ -38,24 +44,8 @@ apply = ["defer"]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
 
-# [plugins.oh-my-zsh]
-# github = "ohmyzsh/ohmyzsh"
-
-# [plugins.asdf]
-# github = "asdf-vm/asdf"
-# use = ["internal/completions/asdf.zsh"]
-
 [plugins.sdkman.hooks]
 pre = "export SDKMAN_DIR=\"$HOME/.sdkman\""
-
-[plugins.dotfiles-main]
-local = "~/dotfiles/zsh/conf.d/sync"
-use = ["*.zsh"]
-
-[plugins.dotfiles-defers]
-local = "~/dotfiles/zsh/conf.d/defer"
-use = ["*.zsh"]
-apply = ["defer"]
 
 [plugins.sdkman]
 local = "~/.sdkman"
@@ -69,3 +59,13 @@ apply = ["path"]
 [plugins.rbenv-completion]
 local = "~/.rbenv/completions"
 apply = ["fpath"]
+
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
+use = ["zsh-abbr.plugin.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-defers]
+local = "~/dotfiles/zsh/conf.d/defer"
+use = ["*.zsh"]
+apply = ["defer"]
