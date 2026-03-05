@@ -41,15 +41,6 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 
-function d () {
-  if [[ -n $1 ]]; then
-    dirs "$@"
-  else
-    dirs -v | head -n 10
-  fi
-}
-compdef _dirs d
-
 zstyle ':completion:*' completer _oldlist _complete _match _ignored _prefix
 
 autoload -U +X bashcompinit && bashcompinit

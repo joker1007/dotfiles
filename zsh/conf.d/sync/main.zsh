@@ -17,7 +17,7 @@ if type vivid > /dev/null 2>&1; then
   export LS_COLORS="$(vivid generate catppuccin-mocha)"
 fi
 
-export WORDCHARS='*?_[]~&;!#$%^(){}<>'
+WORDCHARS='*?_[]~&;!#$%^(){}<>'
 
 HISTFILE=~/.zhistory
 HISTSIZE=50000
@@ -53,8 +53,8 @@ export PAGER="less"
 # % zmv -n '(**/)foo(*).jpeg' '$1bar$2.jpg' # 実行せずパターン表示のみ
 # % zmv '(*)' '${(L)1}; # 大文字→小文字
 # % zmv -W '*.c.org' 'org/*.c' #「(*)」「$1」を「*」で済ませられる
-autoload zmv
-autoload zargs
+autoload -Uz zmv
+autoload -Uz zargs
 
 # コマンドラインを$EDITORで編集
 autoload -U edit-command-line
@@ -68,7 +68,7 @@ add-zsh-hook chpwd _autols
 
 zshaddhistory() {
   local line="${1%%$'\n'}"
-  [[ ! "$line" =~ "^(rm|rmdir)($| )" ]]
+  [[ ! "$line" =~ "^(rm|rmdir|ls)($| )" ]]
 }
 
 # Other Options
