@@ -26,9 +26,9 @@ function set_tab_to_working_dir() {
 }
 
 function set_tab_to_command_line() {
-  local cmdline=$1
+  local cmd=${${(z)2}[1]}
   local dir=$(current_dir)
-  change_tab_title "${dir} - ${cmdline}"
+  change_tab_title "${dir} - ${cmd}"
 }
 
 if [[ -n $ZELLIJ ]]; then

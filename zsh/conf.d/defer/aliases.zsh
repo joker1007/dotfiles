@@ -36,6 +36,7 @@ abbr ci='git commit'
 abbr lz='lazygit'
 abbr b='bundle'
 abbr bu='bundle update'
+alias be='bundle exec'
 abbr be='bundle exec'
 abbr bz='bundle exec zeus'
 abbr bl="bundle list"
@@ -69,3 +70,5 @@ alias all-ruby="docker run --rm -t rubylang/all-ruby /all-ruby/all-ruby"
 if type rbenv > /dev/null 2>&1; then
   alias rtags="ctags -R --langmap=RUBY:.rb --sort=yes -f ~/rtags ~/.rbenv/versions/`cat ~/.rbenv/version`"
 fi
+
+eval $(abbr export-alias)
