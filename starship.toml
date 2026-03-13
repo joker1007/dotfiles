@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$username\
+[┌>](bold green) \
 $hostname\
 $localip\
 $shlvl\
@@ -17,6 +17,7 @@ $git_state\
 $git_metrics\
 $git_status\
 $hg_branch\
+$hg_state\
 $pijul_channel\
 $docker_context\
 $package\
@@ -31,6 +32,7 @@ $elixir\
 $elm\
 $erlang\
 $fennel\
+$fortran\
 $gleam\
 $golang\
 $guix_shell\
@@ -78,22 +80,29 @@ $azure\
 $nats\
 $direnv\
 $env_var\
+$mise\
 $crystal\
 $custom\
 $sudo\
 $cmd_duration\
-$fill\
 $line_break\
+[└>](bold green) \
+$username\
 $jobs\
 $battery\
 $time\
 $status\
 $os\
 $container\
+$netns\
 $shell\
 $character"""
 
 continuation_prompt = ">> "
+
+[username]
+show_always = true
+format = '[$user]($style) '
 
 [directory]
 truncation_length = 5
@@ -129,9 +138,16 @@ symbol = " "
 [golang]
 symbol = "ﳑ "
 
+[os]
+disabled = false
+
 [os.symbols]
 Gentoo="󰣨 "
 
 [fill]
 symbol = "-"
+style = "bold green"
+
+[env_var.STARSHIP_SHELL]
+variable = 'STARSHIP_SHELL'
 style = "bold green"
