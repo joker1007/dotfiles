@@ -1,0 +1,8 @@
+alias fullreset 'echo "\ec\ec"'
+alias ls 'eza --group-directories-first --icons --smart-group --git'
+alias ll 'ls -lagB'
+alias llh 'ls -lah'
+alias grep 'grep --color=auto'
+alias fgrep 'fgrep --color=auto'
+alias egrep 'egrep --color=auto'
+alias all-ruby 'docker run --rm -t rubylang/all-ruby /all-ruby/all-ruby'
