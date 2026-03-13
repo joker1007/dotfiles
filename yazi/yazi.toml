@@ -62,12 +62,17 @@ iso = [
 markdown = [
   { run = 'inlyne "$@"', orphan = true, desc = "inlyne markdown viewer" },
 ]
+set_wallpaper = [
+  { run = 'awww img -o DP-1 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (DP-1)" },
+  { run = 'awww img -o DP-2 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (DP-2)" },
+  { run = 'awww img --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (All)" },
+]
 
 [open]
 rules = [
   { name = "*/", use = ["edit", "open", "dua"] },
   { mime = "text/*", use = ["edit", "markdown"] },
-  { mime = "image/*", use = "image" },
+  { mime = "image/*", use = ["image", "set_wallpaper"] },
   { mime = "video/*", use = "media" },
   { mime = "audio/*", use = "media" },
   { mime = "inode/x-empty", use = "edit" },
