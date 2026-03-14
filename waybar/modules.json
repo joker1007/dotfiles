@@ -183,6 +183,13 @@
     "hide-empty-text": true,
     "interval": 30
   },
+  "custom/vram": {
+    "exec": "~/.config/waybar/fetch_vram.sh",
+    "restart-interval": 60,
+    "return-type": "json",
+    "format": "{icon} {text} MiB",
+    "format-icons": "󰍛"
+  },
   "upower#mouse": {
     "model": "MX Vertical",
     "icon-size": 20,
