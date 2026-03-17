@@ -22,6 +22,7 @@ path=(
   $HOME/bin
   $HOME/gocode/bin
   $HOME/.cabal/bin(N-/)
+  $HOME/.cache/.bun/bin
   $HOME/.yarn/bin(N-/)
   $HOME/.config/yarn/global/node_modules/.bin(N-/)
   /usr/local/share/git-core/contrib/diff-highlight(N-/)
