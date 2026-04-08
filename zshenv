@@ -77,6 +77,8 @@ export ZELLIJ_AUTO_EXIT=true
 
 export TF_PLUGIN_CACHE_DIR=$HOME/.terraform.d/plugin-cache
 
+export AWS_EC2_METADATA_DISABLED=true
+
 [ -s ~/dotfiles/nnn.env.sh ] && source ~/dotfiles/nnn.env.sh
 
 [ -s ~/.zshenv.local ] && source ~/.zshenv.local
