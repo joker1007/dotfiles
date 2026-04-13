@@ -7,8 +7,11 @@ autoload -U compinit zrecompile
 compinit -i -d "$ZSH_COMPDUMP"
 
 # export CARAPACE_BRIDGES='fish'
-export CARAPACE_EXCLUDES='sudo'
-source <(carapace _carapace)
+# export CARAPACE_EXCLUDES='sudo,eza,mv'
+# source <(carapace _carapace)
+source <(carapace git zsh)
+source <(carapace aws zsh)
+source <(carapace bun zsh)
 
 setopt auto_param_slash
 setopt no_auto_remove_slash
@@ -42,6 +45,9 @@ zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 
 zstyle ':completion:*' completer _oldlist _complete _match _ignored _prefix
+
+# fzf-tab
+zstyle ':fzf-tab:*' query-string ''
 
 autoload -U +X bashcompinit && bashcompinit
 

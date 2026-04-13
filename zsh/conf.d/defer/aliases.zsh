@@ -63,3 +63,5 @@ alias -g RP="RAILS_ENV=production"
 alias -g RT="RAILS_ENV=test"
 
 alias all-ruby="docker run --rm -t rubylang/all-ruby /all-ruby/all-ruby"
+
+alias ebundle="BUNDLE_GEMFILE=Gemfile.ext bundle"

@@ -21,3 +21,8 @@ if type -p asdf &>/dev/null; then
     asdf completion zsh "$plugin" >| "$ZSH_CACHE_DIR/completions/_asdf" &|
   fi
 fi
+if type -p uv &>/dev/null; then
+  if [[ ! -e "$ZSH_CACHE_DIR/completions/_uv" ]]; then
+    uv generate-shell-completion zsh >| "$ZSH_CACHE_DIR/completions/_uv" &|
+  fi
+fi
