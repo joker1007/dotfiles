@@ -73,7 +73,7 @@ require("lazy").setup({
   },
 
   {
-    'MagicDuck/grug-far.nvim',
+    "MagicDuck/grug-far.nvim",
     opts = {},
   },
 
@@ -82,18 +82,11 @@ require("lazy").setup({
 
   -- LSP {{{
   "neovim/nvim-lspconfig",
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end,
-  },
+  { "williamboman/mason.nvim", opts = {} },
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    config = function()
-      require("mason-lspconfig").setup()
-    end,
+    opts = {},
   },
 
   {
@@ -104,9 +97,12 @@ require("lazy").setup({
   {
     "nvimdev/lspsaga.nvim",
     branch = "main",
-    config = function()
-      require("lspsaga").setup({})
-    end,
+    opts = {
+      finder = {
+        left_width = 0.4,
+        right_width = 0.4,
+      }
+    },
   },
 
   {
@@ -288,11 +284,11 @@ require("lazy").setup({
   },
 
   -- filetype plugins {{{
-  "moro/vim-review",
+  -- "moro/vim-review",
   "cespare/vim-toml",
 
   "vim-ruby/vim-ruby",
-  "pocke/rbs.vim",
+  -- "pocke/rbs.vim",
   "leafgarland/typescript-vim",
   "rust-lang/rust.vim",
   "elixir-editors/vim-elixir",
@@ -411,7 +407,7 @@ require("lazy").setup({
         -- `ap`.
         include_surrounding_whitespace = false,
       },
-    }
+    },
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -583,10 +579,10 @@ require("lazy").setup({
       require("colorizer").setup({
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
-        names = true, -- "Name" codes like Blue oe blue
+        names = false, -- "Name" codes like Blue oe blue
         RRGGBBAA = false, -- #RRGGBBAA hex codes
         rgb_fn = true, -- CSS rgb() and rgba() functions
-        hsl_fn = false, -- CSS hsl() and hsla() functions
+        hsl_fn = true, -- CSS hsl() and hsla() functions
         css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
         css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes: foreground, background, virtualtext
@@ -945,10 +941,10 @@ require("lazy").setup({
         }),
       })
 
-      cmp.setup.filetype({'ssr'}, {
+      cmp.setup.filetype({ "ssr" }, {
         completion = {
-          autocomplete = false
-        }
+          autocomplete = false,
+        },
       })
       require("cmp_git").setup()
     end,
@@ -964,7 +960,6 @@ require("lazy").setup({
     end,
   },
 
-  "github/copilot.vim",
   -- }}}
 
   -- terminal, execution {{{
@@ -1151,7 +1146,7 @@ require("lazy").setup({
     opts = {
       treesitter = {
         stopline = 500,
-      }
+      },
     },
   },
   {

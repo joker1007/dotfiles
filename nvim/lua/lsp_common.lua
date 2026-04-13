@@ -2,9 +2,7 @@ local M = {}
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-M.capabilities = capabilities
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 function tableMerge(t1, t2)
   for k, v in pairs(t2) do
@@ -48,5 +46,11 @@ function M.add_bundle_exec(config)
   table.insert(config.cmd, 1, "exec")
   table.insert(config.cmd, 1, "bundle")
 end
+
+M.capabilities = M.make_lsp_capabilities()
+
+vim.lsp.config('*', {
+  capabilities = cmp_capabilities,
+})
 
 return M

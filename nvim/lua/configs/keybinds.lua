@@ -126,7 +126,9 @@ local lsp_bufopts = function(desc)
   return { noremap = true, silent = true, desc = desc }
 end
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_bufopts "LSP declaration")
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_bufopts "LSP saga peek_definition")
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_bufopts "Go to Definition (LSP)")
+vim.keymap.set("n", "gci", "<cmd>Lspsaga incoming_calls<CR>", lsp_bufopts "LSP saga incoming_calls")
+vim.keymap.set("n", "gco", "<cmd>Lspsaga outgoing_calls<CR>", lsp_bufopts "LSP saga outgoing_calls")
 vim.keymap.set("n", "gpd", "<cmd>Lspsaga peek_definition<CR>", lsp_bufopts "LSP saga peek_definition")
 vim.keymap.set("n", "gpt", "<cmd>Lspsaga peek_type_definition<CR>", lsp_bufopts "LSP saga peek_definition")
 vim.keymap.set("n", "gh", "<cmd>Lspsaga hover_doc<CR>", lsp_bufopts "LSP saga hover_doc")
@@ -148,19 +150,12 @@ wk.add({
 })
 vim.keymap.set("n", "<space>ca", "<cmd>Lspsaga code_action<CR>", lsp_bufopts "LSP saga code_action")
 vim.keymap.set("v", "<space>ca", "<cmd><C-U>Lspsaga code_action<CR>", lsp_bufopts "LSP saga range_code_action")
-vim.keymap.set("n", "<space>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", lsp_bufopts "LSP saga show_line_diagnostics")
+vim.keymap.set("n", "<space>bd", "<cmd>Lspsaga show_buf_diagnostics<CR>", lsp_bufopts "LSP saga show_buf_diagnostics")
+vim.keymap.set("n", "<space>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", lsp_bufopts "LSP saga show_line_diagnostics")
 vim.keymap.set("n", "<space>cs", vim.lsp.buf.document_symbol, lsp_bufopts "LSP document symbol")
-vim.keymap.set("n", "<space>cl", vim.lsp.codelens.refresh, lsp_bufopts "LSP codelens refresh")
-vim.keymap.set("n", "<space>cL", vim.lsp.codelens.clear, lsp_bufopts "LSP codelens clear")
 vim.keymap.set("n", "<space>cr", vim.lsp.codelens.run, lsp_bufopts "LSP codelens run")
 vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", lsp_bufopts "LSP saga diagnostic_jump_next")
 vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", lsp_bufopts "LSP saga diagnostic_jump_prev")
-vim.keymap.set("n", "[E", function()
-  require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, lsp_bufopts "LSP saga diagnostic_jump_prev(ERROR)")
-vim.keymap.set("n", "]E", function()
-  require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, lsp_bufopts "LSP saga diagnostic_jump_next(ERROR)")
 vim.keymap.set("n", "<space>cf", function()
   vim.lsp.buf.format({ async = true })
 end, lsp_bufopts "LSP format")
@@ -301,3 +296,10 @@ vim.keymap.set("n", "<leader>oc", "<cmd>OtherClear<CR><cmd>:OtherClear<CR>")
 
 -- neotree
 vim.keymap.set("n", "<leader>tt", "<cmd>Neotree toggle filesystem reveal<cr>")
+
+-- inline completion
+vim.keymap.set('i', '<Tab>', function()
+  if not vim.lsp.inline_completion.get() then
+    return '<Tab>'
+  end
+end, { expr = true, desc = 'Accept the current inline completion' })

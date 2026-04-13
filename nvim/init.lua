@@ -22,6 +22,10 @@ vim.cmd [[packadd termdebug]]
 vim.g.termdebug_useFloatingHover = 1
 vim.g.termdebug_wide = 160
 
+if vim.fn.isdirectory("/usr/share/nvim/site") == 1 then
+  vim.opt.runtimepath:append("/usr/share/nvim/site")
+end
+
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
 vim.opt.ai = true -- always set autoindenting on
@@ -50,7 +54,7 @@ vim.opt.timeoutlen = 500
 -- gui configs
 if vim.g.neovide then
   vim.opt.guifont = "Monospace:h14"
-  vim.g.neovide_transparency = 1.0
+  vim.g.neovide_opacity = 1.0
   vim.g.neovide_cursor_vfx_mode = "railgun"
   vim.g.neovide_scroll_animation_length = 0.1
   vim.g.neovide_remember_window_size = false
@@ -341,7 +345,6 @@ let g:copilot_filetypes = {
 ]]
 
 local lsp_common = require "lsp_common"
-local on_attach = lsp_common.on_attach
 local capabilities = lsp_common.capabilities
 
 require("neodev").setup({
@@ -350,10 +353,7 @@ require("neodev").setup({
 
 require("mason-lspconfig").setup()
 
-vim.lsp.config('*', {
-  capabilities = capabilities,
-  on_attach = on_attach,
-})
+vim.lsp.inline_completion.enable()
 
 local null_ls = require "null-ls"
 null_ls.setup({
