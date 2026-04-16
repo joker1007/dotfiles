@@ -8,6 +8,8 @@ vim.g.loaded_zipPlugin = 1
 
 require "plugins"
 
+vim.cmd [[packadd nvim.undotree]]
+
 vim.api.nvim_create_augroup("vimrc", {})
 
 require "configs/keybinds"
@@ -22,8 +24,8 @@ vim.cmd [[packadd termdebug]]
 vim.g.termdebug_useFloatingHover = 1
 vim.g.termdebug_wide = 160
 
-if vim.fn.isdirectory("/usr/share/nvim/site") == 1 then
-  vim.opt.runtimepath:append("/usr/share/nvim/site")
+if vim.fn.isdirectory "/usr/share/nvim/site" == 1 then
+  vim.opt.runtimepath:append "/usr/share/nvim/site"
 end
 
 -- Basic Setting {{{
@@ -353,8 +355,6 @@ require("neodev").setup({
 
 require("mason-lspconfig").setup()
 
-vim.lsp.inline_completion.enable()
-
 local null_ls = require "null-ls"
 null_ls.setup({
   capabilities = capabilities,
@@ -377,7 +377,8 @@ null_ls.setup({
         return utils.root_has_file({ "commitlint.config.js" })
       end,
     }),
-    null_ls.builtins.formatting.rubyfmt,
+    null_ls.builtins.formatting.sqruff,
+    null_ls.builtins.diagnostics.sqruff,
     null_ls.builtins.formatting.sqlfmt,
     null_ls.builtins.formatting.rubocop.with({
       prefer_local = ".bundle/bin",
@@ -387,6 +388,42 @@ null_ls.setup({
     }),
     null_ls.builtins.completion.spell,
   },
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("my.lsp", {}),
+  callback = function(ev)
+    local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+
+    -- Auto-format ("lint") on save.
+    -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+    if
+      not client:supports_method "textDocument/willSaveWaitUntil"
+      and client:supports_method "textDocument/formatting"
+    then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
+        buffer = ev.buf,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
+        end,
+      })
+    end
+
+    if client:supports_method "textDocument/inlineCompletion" then
+      vim.lsp.inline_completion.enable()
+      -- inline completion
+      vim.keymap.set("i", "<Tab>", function()
+        if not vim.lsp.inline_completion.get() then
+          return "<Tab>"
+        end
+      end, { expr = true, desc = "Accept the current inline completion" })
+    end
+
+    if client:supports_method "textDocument/inlayHint" then
+      vim.lsp.inlay_hint.enable()
+    end
+  end,
 })
 
 local dap = require "dap"
@@ -446,3 +483,6 @@ dap.configurations.ruby = {
 }
 
 -- }}}
+
+-- ui2
+require("vim._core.ui2").enable()
