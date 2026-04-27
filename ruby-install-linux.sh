@@ -12,7 +12,7 @@ export CC=clang
 export CXX=clang++
 export LDFLAGS="${LDFLAGS} -fuse-ld=mold"
 export CFLAGS="-O2 -march=native -pipe"
-#export CFLAGS="-O0 -ggdb3 -march=native -pipe"
+#export CFLAGS="-O0 -ggdb3 -march=native -pipe -fsanitize=address -fno-omit-frame-pointer"
 export CXXLAGS="${CFLAGS}"
 
 export RUBY_CONFIGURE_OPTS="--enable-yjit --enable-zjit"
