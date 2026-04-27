@@ -39,7 +39,8 @@ unrar = [
   { run = 'unar "$1"', desc = "Extract here" },
 ]
 image = [
-  { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg" },
+  { run = 'swayimg "$@"', orphan = true, desc = "swayimg (single)" },
+  { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (dir)" },
   { run = 'swayimg -r "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (recursive)" },
   { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
   { run = 'vimiv "$@"', orphan = true, desc = "vimiv" },
@@ -55,6 +56,10 @@ media = [
   { run = 'mpv --profile=surround-hdmi --profile=hdr "$@"', orphan = true, desc = "mpv (hdmi + HDR)" },
   { run = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
   { run = 'convert_to_mp4 "$@"', desc = "convert_to_mp4", block = true },
+]
+audio = [
+  { run = 'rsgain easy -p truepeak "$@"', desc = "rsgain", block = true },
+  { run = 'kid3-qt "$@"', desc = "kid3", orphan = true },
 ]
 iso = [
   { run = 'mpv dvd:// --dvd-device="$1"', orphan = true, desc = "mpv (DVD)" },
@@ -74,7 +79,7 @@ rules = [
   { mime = "text/*", use = ["edit", "markdown"] },
   { mime = "image/*", use = ["image", "set_wallpaper"] },
   { mime = "video/*", use = "media" },
-  { mime = "audio/*", use = "media" },
+  { mime = "audio/*", use = ["media", "audio"] },
   { mime = "inode/x-empty", use = "edit" },
 
   { mime = "application/json", use = "edit" },
