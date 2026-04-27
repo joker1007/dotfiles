@@ -1,17 +1,16 @@
 general {
   lock_cmd = hyprlock
-  before_sleep_cmd = hyprlock
+  before_sleep_cmd = swaylock --color 000000 --show-keyboard-layout --indicator-idle-visible
   ignore_dbus_inhibit = false
   ignore_systemd_inhibit = false
 }
 
 listener {
   timeout = 3600
-  on-timeout = hyprlock
+  on-timeout = pidof swaylock || swaylock --color 000000 --show-keyboard-layout --indicator-idle-visible
 }
 
 listener {
   timeout = 4000
-  # on-timeout = systemctl suspend
   on-timeout = hyprctl dispatch dpms off
 }
