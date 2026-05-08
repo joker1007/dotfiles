@@ -39,7 +39,6 @@ unrar = [
   { run = 'unar "$1"', desc = "Extract here" },
 ]
 image = [
-  { run = 'swayimg "$@"', orphan = true, desc = "swayimg (single)" },
   { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (dir)" },
   { run = 'swayimg -r "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (recursive)" },
   { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
