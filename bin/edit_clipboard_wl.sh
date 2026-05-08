@@ -42,7 +42,7 @@ fi
 if [[ -z "${TERMCMD}" ]]; then
   zsh -c "${UWSM_PREFIX}${EDITOR} $tmpfile"
 else
-  zsh -c "${UWSM_PREFIX}${TERMCMD} ${EDITOR} $tmpfile"
+  zsh -c "${UWSM_PREFIX}${TERMCMD} -e ${EDITOR} $tmpfile"
 fi
 
 result=$(< $tmpfile)
