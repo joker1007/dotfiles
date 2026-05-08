@@ -30,7 +30,7 @@ end
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true -- always set autoindenting on
+vim.opt.ai = true               -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -386,7 +386,6 @@ null_ls.setup({
         return utils.root_has_file({ ".rubocop.yml" })
       end,
     }),
-    null_ls.builtins.completion.spell,
   },
 })
 
@@ -398,8 +397,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Auto-format ("lint") on save.
     -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
     if
-      not client:supports_method "textDocument/willSaveWaitUntil"
-      and client:supports_method "textDocument/formatting"
+        not client:supports_method "textDocument/willSaveWaitUntil"
+        and client:supports_method "textDocument/formatting"
     then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),

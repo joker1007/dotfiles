@@ -17,6 +17,8 @@ vim.opt.rtp:prepend(lazypath)
 package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?.lua;"
 
+vim.g.neovime_manual_setup = true
+
 require("lazy").setup({
   "nvim-tree/nvim-web-devicons",
 
@@ -101,7 +103,7 @@ require("lazy").setup({
       finder = {
         left_width = 0.4,
         right_width = 0.4,
-      }
+      },
     },
   },
 
@@ -244,6 +246,15 @@ require("lazy").setup({
           require("cmp").setup.buffer({ enabled = true })
         end,
       })
+    end,
+  },
+
+  {
+    "sevenc-nanashi/neov-ime.nvim",
+    config = function()
+      if vim.g.neovide then
+        require("neov-ime").setup()
+      end
     end,
   },
 
