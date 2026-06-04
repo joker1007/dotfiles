@@ -27,29 +27,26 @@ open = [
   { run = 'xdg-open "$@"', desc = "Open" },
 ]
 dua = [
-  { run = 'dua i "$@"', block = true, interactive = true, desc = "dua" },
+  { run = 'dua -x i "$@"', block = true, interactive = true, desc = "dua" },
 ]
-unzip = [
+archive = [
   { run = 'mcomix "$@"' },
   { run = 'unar "$@"', desc = "Extract here" },
-  { run = 'unzip -O sjis -d "${file%.*}" "$file"', desc = "Extract here (SJIS)" },
+  { run = 'unar -encoding windows-31j "$@"', desc = "Extract here (SJIS)" },
 ]
-unrar = [
-  { run = 'mcomix "$@"' },
-  { run = 'unar "$1"', desc = "Extract here" },
+create_archive = [
+  { run = 'for d in "$@"; do if [ -d "$d" ]; then zip -0 -r "${d%/}.zip" "$d"; fi; done', desc = "create zip each (no compress)", block = true },
 ]
 image = [
   { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (dir)" },
   { run = 'swayimg -r "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (recursive)" },
   { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
-  { run = 'vimiv "$@"', orphan = true, desc = "vimiv" },
 ]
 media = [
   { run = 'mpv --profile=gui "$@"', orphan = true, desc = "mpv" },
   { run = 'mpv -v "$@"', desc = "mpv (verbose)", block = true },
   { run = 'mpv --profile=headphone "$@"', orphan = true, desc = "mpv (headphone)" },
   { run = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
-  { run = 'mpv --profile=bt "$@"', orphan = true, desc = "mpv (bt)" },
   { run = 'mpv --profile=hdr "$@"', orphan = true, desc = "mpv (HDR)" },
   { run = 'mpv --profile=inverse-tone-mapping "$@"', orphan = true, desc = "mpv (itm)" },
   { run = 'mpv --profile=surround-hdmi --profile=hdr "$@"', orphan = true, desc = "mpv (hdmi + HDR)" },
@@ -59,6 +56,7 @@ media = [
 audio = [
   { run = 'rsgain easy -p truepeak "$@"', desc = "rsgain", block = true },
   { run = 'kid3-qt "$@"', desc = "kid3", orphan = true },
+  { run = 'picard "$@"', desc = "picard", orphan = true },
 ]
 iso = [
   { run = 'mpv dvd:// --dvd-device="$1"', orphan = true, desc = "mpv (DVD)" },
@@ -74,7 +72,6 @@ set_wallpaper = [
 
 [open]
 rules = [
-  { name = "*/", use = ["edit", "open", "dua"] },
   { mime = "text/*", use = ["edit", "markdown"] },
   { mime = "image/*", use = ["image", "set_wallpaper"] },
   { mime = "video/*", use = "media" },
@@ -84,12 +81,12 @@ rules = [
   { mime = "application/json", use = "edit" },
   { mime = "*/javascript", use = "edit" },
 
-  { mime = "application/zip", use = "unzip" },
-  { name = "*.rar", use = "unrar" },
+  { mime = "application/zip", use = "archive" },
+  { url = "*.rar", use = "archive" },
 
-  { name = "*.iso", use = "iso" },
+  { url = "*.iso", use = "iso" },
 
-  { mime = "*", use = "open" },
+  { mime = "*", use = ["open", "dua", "create_archive"] },
 ]
 
 [tasks]
@@ -112,23 +109,23 @@ prepend_previewers = [
 ]
 
 [[plugin.prepend_fetchers]]
-id   = "mime"
-url  = "local://*"
-run  = "mime-ext.local"
-prio = "high"
+group = "mime"
+url   = "local://*"
+run   = "mime-ext.local"
+prio  = "high"
 
 [[plugin.prepend_fetchers]]
-id   = "mime"
-url  = "remote://*"
-run  = "mime-ext.remote"
-prio = "high"
+group = "mime"
+url   = "remote://*"
+run   = "mime-ext.remote"
+prio  = "high"
 
 [[plugin.prepend_fetchers]]
-id  = "git"
-url = "*"
-run = "git"
+group = "git"
+url   = "*"
+run   = "git"
 
 [[plugin.prepend_fetchers]]
-id  = "git"
-url = "*/"
-run = "git"
+group = "git"
+url   = "*/"
+run   = "git"
