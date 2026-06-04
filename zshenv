@@ -12,12 +12,12 @@ typeset -U path PATH
 path=(
   $HOME/.rbenv/bin(N-/)
   $HOME/.rbenv/shims(N-/)
-  $HOME/.asdf/shims(N-/)
   # $HOME/.pyenv/bin(N-/)
   # $HOME/.pyenv/shims(N-/)
   $HOME/.nodebrew/current/bin(N-/)
   $HOME/.cargo/bin(N-/)
   $HOME/.local/bin(N-/)
+  $HOME/.asdf/shims(N-/)
   $HOME/.embulk/bin(N-/)
   $HOME/bin
   $HOME/gocode/bin
@@ -30,9 +30,11 @@ path=(
   /usr/local/bin(N-/)
   /usr/local/*/bin(N-/)
   /usr/local/share/npm/bin(N-/)
+  /usr/lib/llvm/22/bin(N-/)
   $path
   /sbin
   /usr/sbin
+  /opt/bin(N-/)
   /opt/*/bin(N-/)
   /opt/*/sbin(N-/)
   /usr/*/bin(N-/)
