@@ -2,6 +2,7 @@
 
 format = """
 [┌>](bold green) \
+$os\
 $hostname\
 $localip\
 $shlvl\
@@ -92,7 +93,6 @@ $jobs\
 $battery\
 $time\
 $status\
-$os\
 $container\
 $netns\
 $shell\

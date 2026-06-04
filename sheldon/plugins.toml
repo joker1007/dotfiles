@@ -65,3 +65,7 @@ apply = ["defer"]
 [plugins.sdkman-bin]
 local = "~/.sdkman/bin"
 apply = ["path"]
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+apply = ["defer"]
