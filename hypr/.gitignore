@@ -1,1 +1,4 @@
-monitors.conf
+monitors.lua
+
+# Hyprland 0.55+ が再生成する自動生成スタブ (Lua 設定を使うため不要)
+hyprland.conf
