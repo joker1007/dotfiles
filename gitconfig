@@ -60,7 +60,6 @@
 	algorithm = histogram
 	mnemonicPrefix = true
 	renames = true
-	external = difft
 [merge]
 	conflictstyle = zdiff3
 [merge "mergiraf"]
