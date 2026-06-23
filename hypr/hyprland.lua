@@ -126,7 +126,7 @@ hl.config({
   },
 
   render = {
-    direct_scanout = 1,
+    direct_scanout = 0,
   },
 
   cursor = {

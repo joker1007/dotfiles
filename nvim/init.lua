@@ -353,7 +353,11 @@ require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+  automatic_enable = {
+    exclude = { "sqls" },
+  },
+})
 
 local null_ls = require "null-ls"
 null_ls.setup({

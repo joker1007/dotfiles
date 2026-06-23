@@ -21,7 +21,7 @@ hl.bind("ALT + Space", hl.dsp.exec_cmd "walker")
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.pseudo()) -- dwindle
 hl.bind(mainMod .. " + P", hl.dsp.window.pin())
 -- hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.layout("togglesplit")) -- dwindle
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" })) -- 旧: fullscreen, 0
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))        -- 旧: fullscreen, 0
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" })) -- 旧: fullscreen, 1
 
 -- 旧: submap changelayout
@@ -45,12 +45,12 @@ hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "d" }))
 -- 旧: cyclenext, prev visible / cyclenext, visible
 -- NOTE: 新 cycle_next には旧 "visible" フラグに相当するオプションがないため、prev/next のみ移植。
 hl.bind(mainMod .. " + code:34", hl.dsp.window.cycle_next({ next = false })) -- key:[
-hl.bind(mainMod .. " + code:35", hl.dsp.window.cycle_next()) -- key:]
+hl.bind(mainMod .. " + code:35", hl.dsp.window.cycle_next())                 -- key:]
 
-hl.bind(mainMod .. " + SHIFT + code:34", hl.dsp.layout "orientationprev") -- key:[
-hl.bind(mainMod .. " + SHIFT + code:35", hl.dsp.layout "orientationnext") -- key:]
-hl.bind(mainMod .. " + CTRL + code:34", hl.dsp.layout "rollprev") -- key:[
-hl.bind(mainMod .. " + CTRL + code:35", hl.dsp.layout "rollnext") -- key:]
+hl.bind(mainMod .. " + SHIFT + code:34", hl.dsp.layout "orientationprev")    -- key:[
+hl.bind(mainMod .. " + SHIFT + code:35", hl.dsp.layout "orientationnext")    -- key:]
+hl.bind(mainMod .. " + CTRL + code:34", hl.dsp.layout "rollprev")            -- key:[
+hl.bind(mainMod .. " + CTRL + code:35", hl.dsp.layout "rollnext")            -- key:]
 
 hl.bind(mainMod .. " + SHIFT + h", hl.dsp.window.swap({ direction = "l" }))
 hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.swap({ direction = "r" }))
@@ -72,6 +72,33 @@ end
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + SHIFT + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + SHIFT + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+
+-- zoom
+local MAX_ZOOM = 4
+local MIN_ZOOM = 1
+local ZOOM_TOGGLE_FACTOR = 1.5
+
+---@param offset number
+---@return nil
+local function zoom(offset)
+  local current = hl.get_config "cursor.zoom_factor"
+  if offset ~= nil then
+    current = current + offset
+  elseif current ~= MIN_ZOOM then
+    current = MIN_ZOOM
+  else
+    current = ZOOM_TOGGLE_FACTOR
+  end
+  current = math.max(MIN_ZOOM, math.min(MAX_ZOOM, current))
+  hl.config({ cursor = { zoom_factor = current } })
+end
+
+hl.bind(mainMod .. " + mouse_up", function()
+  zoom(0.5)
+end)
+hl.bind(mainMod .. " + mouse_down", function()
+  zoom(-0.5)
+end)
 
 -- 旧: submap changeratio (splitratio 系は元々コメントアウト)
 hl.bind(mainMod .. " + Equal", hl.dsp.submap "changeratio")
@@ -117,4 +144,4 @@ hl.bind("CTRL + SHIFT + 1", hl.dsp.exec_cmd "uwsm app -- /opt/1Password/1passwor
 hl.bind("CTRL + " .. mainMod .. " + 1", hl.dsp.exec_cmd "uwsm app -- /opt/1Password/1password --quick-access")
 hl.bind("CTRL + SHIFT + L", hl.dsp.exec_cmd "uwsm app -- /opt/1Password/1password --lock")
 
--- hl.bind(mainMod .. " + Down", hl.dsp.global("overview:overview")) -- hyprexpo
+-- hl.bind(mainMod .. " + Down", hl.plugin.hymission.toggle)
