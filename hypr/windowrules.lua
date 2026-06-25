@@ -137,3 +137,5 @@ hl.window_rule({
 })
 
 hl.window_rule({ match = { class = "pdfpc" }, no_dim = true })
+
+hl.window_rule({ match = { fullscreen = true }, no_dim = true })
