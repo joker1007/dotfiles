@@ -47,7 +47,15 @@ alias yd="youtube-dl"
 alias n="neovide"
 alias o="xdg-open"
 alias si="swayimg"
-alias ze="zellij"
+alias zj="zellij"
+
+ze() {
+    zellij edit --floating -- "$@"
+}
+
+zr() {
+    zellij run --floating --close-on-exit -- "$@"
+}
 
 # Global aliases
 alias -g L="| lv"
