@@ -1,3 +1,7 @@
+local lsp_common = require "lsp_common"
+local on_attach = lsp_common.on_attach
+local capabilities = lsp_common.make_lsp_capabilities()
+
 local libraries = {
   "/usr/share/hypr/stubs",
 }

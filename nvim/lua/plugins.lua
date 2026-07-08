@@ -319,8 +319,22 @@ require("lazy").setup({
     end,
   },
   { "mattn/vim-maketable", ft = "markdown" },
-  { "kannokanno/previm", ft = "markdown" },
-  { "euclio/vim-markdown-composer", build = "cargo build --release" },
+  {
+    "selimacerbas/markdown-preview.nvim",
+    dependencies = { "selimacerbas/live-server.nvim" },
+    ft = { "markdown", "mermaid" },
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewRefresh" },
+    keys = {
+      { "<leader>mps", "<cmd>MarkdownPreview<cr>", desc = "Markdown: Start preview" },
+      { "<leader>mpS", "<cmd>MarkdownPreviewStop<cr>", desc = "Markdown: Stop preview" },
+      { "<leader>mpr", "<cmd>MarkdownPreviewRefresh<cr>", desc = "Markdown: Refresh preview" },
+    },
+    config = function()
+      require("markdown_preview").setup {
+        default_theme = "dark",
+      }
+    end,
+  },
   {
     "dhruvasagar/vim-table-mode",
     lazy = true,

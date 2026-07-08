@@ -313,10 +313,6 @@ vim.g.ale_cache_executable_check_failures = 1
 -- ag.vim
 vim.g.ag_prg = "rg --vimgrep --smart-case"
 
--- markdown-composer
-vim.g.markdown_composer_autostart = 0
-vim.g.markdown_composer_refresh_rate = 10000
-
 -- ghost_text
 --
 vim.cmd [[
