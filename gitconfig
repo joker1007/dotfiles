@@ -92,7 +92,6 @@
 	helper = !/usr/bin/gh auth git-credential
 [tag]
 	sort = version:refname
-	gpgSign = true
 [fetch]
 	prune = true
 	pruneTags = true
