@@ -54,7 +54,7 @@ ze() {
 }
 
 zr() {
-    zellij run --floating --close-on-exit -- "$@"
+    zellij run --floating --width 90% --height 90% --close-on-exit -- "$@"
 }
 
 # Global aliases
