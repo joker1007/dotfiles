@@ -1,0 +1,110 @@
+onboarding = false
+
+[theme]
+# Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
+#                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
+#                  vesper
+name = "catppuccin"
+
+[ui.toast]
+delivery = "herdr"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "hidden"
+pane_gaps = false
+prompt_new_tab_name = false
+
+[experimental]
+kitty_graphics = true
+
+[keys]
+# Prefix key to enter prefix mode (default: "ctrl+b")
+# Examples: "ctrl+b", "f12", "esc", "-"
+# Action bindings use explicit syntax: "prefix+n" requires the prefix;
+# "ctrl+alt+n" is a direct terminal-mode shortcut.
+# Accepted key syntax: plain keys, ctrl/shift/alt/cmd/super modifiers, and special keys like enter/tab/esc/left/right/up/down.
+# Named punctuation such as minus, comma, ampersand, plus, and backtick is also accepted.
+# Most reliable direct bindings are ctrl+letter, function keys, and explicit modified chords.
+# alt+..., cmd/super, and punctuation-with-modifiers may depend on your terminal/tmux setup.
+prefix = "ctrl+s"
+
+# Prefix-mode actions
+# help = "prefix+?"
+# settings = "prefix+s"
+detach = "prefix+d"
+# reload_config = "prefix+shift+r"
+# open_notification_target = "prefix+o"
+# workspace_picker = "prefix+w"
+# goto = "prefix+g"
+# new_workspace = "prefix+shift+n"
+# new_worktree = "prefix+shift+g"
+# open_worktree = ""    # optional, unset by default
+# remove_worktree = ""  # optional, unset by default; opens confirmation
+# rename_workspace = "prefix+shift+w"
+# close_workspace = "prefix+shift+d"
+# previous_workspace = "" # optional, unset by default
+# next_workspace = ""     # optional, unset by default
+# previous_agent = ""     # optional, unset by default
+# next_agent = ""         # optional, unset by default
+focus_agent = "prefix+ctrl+1..9"        # optional indexed binding, e.g. "prefix+alt+1..9"
+# remote_image_paste = "ctrl+v" # only active in herdr --remote; empty disables raw-key image paste
+# new_tab = "prefix+c"
+# rename_tab = "prefix+shift+t"
+# previous_tab = "prefix+p"
+# next_tab = "prefix+n"
+switch_tab = "alt+1..9"
+switch_workspace = "ctrl+shift+1..9"   # optional indexed binding, e.g. "prefix+shift+1..9"
+# close_tab = "prefix+shift+x"
+# rename_pane = "prefix+shift+p"
+# edit_scrollback = "prefix+e"
+focus_pane_left = "alt+h"
+focus_pane_down = "alt+j"
+focus_pane_up = "alt+k"
+focus_pane_right = "alt+l"
+# cycle_pane_next = "prefix+tab"
+# cycle_pane_previous = "prefix+shift+tab"
+# last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
+# split_vertical = "prefix+v"
+# split_horizontal = "prefix+minus"
+# close_pane = "prefix+x"
+# zoom = "prefix+z"       # legacy alias: fullscreen
+# resize_mode = "prefix+r"
+# toggle_sidebar = "prefix+b"
+
+# Navigate-mode movement. These local shortcuts win while navigate mode is open.
+# They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
+# navigate_workspace_up = "up"
+# navigate_workspace_down = "down"
+navigate_pane_left = "h"      # left arrow always focuses the pane to the left
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"     # right arrow always focuses the pane to the right
+
+# Custom commands use the same binding syntax.
+# type = "shell" runs detached in the background.
+# type = "pane" opens a temporary pane and closes it when the command exits.
+# type = "popup" opens a session-modal terminal without changing the tab layout.
+# Popup width and height accept terminal cells or percentages such as "80%".
+# On Windows, command strings run through cmd.exe /d /c.
+[[keys.command]]
+key = "prefix+alt+g"
+type = "popup"
+command = "lazygit"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+shift+s"
+type = "popup"
+command = "$SHELL"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+shift+y"
+type = "popup"
+command = "yazi"
+width = "90%"
+height = "90%"

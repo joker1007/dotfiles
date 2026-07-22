@@ -18,3 +18,9 @@ yazi/flavors/
 zellij/config.kdl.bak*
 
 hypr/hyprpaper.conf
+
+herdr/*.log
+herdr/session.json
+herdr/plugins
+herdr/plugins.json
+herdr/.*
