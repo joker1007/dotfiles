@@ -63,7 +63,6 @@ vim.keymap.set("n", "[Q", ":<C-U>cfirst<CR>", { silent = true })
 
 -- bufdelete
 vim.keymap.set("n", ",bd", "<cmd>Bdelete<cr>")
-vim.keymap.set("n", "<A-w>", "<cmd>Bdelete<cr>")
 vim.keymap.set("n", ",bD", "<cmd>Bdelete!<cr>")
 
 -- vim-test
@@ -211,7 +210,7 @@ vim.keymap.set("n", ",gh", "<cmd>DiffviewFileHistory %<CR>")
 
 -- octo
 wk.add({
-  { ",o", group = "Octo" },
+  { ",o",  group = "Octo" },
   { ",op", group = "PullRequest" },
   { ",oi", group = "Issue" },
 })
