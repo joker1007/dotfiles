@@ -10,7 +10,6 @@ export SDL_VIDEODRIVER=wayland
 export XMODIFIERS=@im=fcitx
 export QT_IM_MODULE=fcitx
 
-export TERMINAL=footclient
 export SSH_AUTH_SOCK=${HOME}/.1password/agent.sock
 export EDITOR=nvim
 
