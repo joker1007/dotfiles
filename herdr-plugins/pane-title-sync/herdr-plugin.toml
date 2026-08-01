@@ -1,0 +1,15 @@
+id = "joker.pane-title-sync"
+name = "Pane Title Sync"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Reflect each pane's OSC terminal title onto its border label (zellij-style)."
+platforms = ["linux"]
+
+[[startup]]
+command = ["zsh", "launch.zsh"]
+
+[[actions]]
+id = "start"
+title = "Start pane title sync daemon"
+contexts = ["workspace", "tab", "pane"]
+command = ["zsh", "launch.zsh"]

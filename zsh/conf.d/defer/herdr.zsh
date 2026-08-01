@@ -1,58 +1,46 @@
 (( ${+commands[herdr]} )) || return
 [[ -n $HERDR_ENV && -n $HERDR_TAB_ID ]] || return
 
-function _herdr_current_dir() {
-  local current_dir=$PWD
-  if [[ $current_dir == $HOME ]]; then
-    current_dir="~"
-  else
-    current_dir=${current_dir##*/}
+# title.zsh の window title 機構に sink として乗り、タブ名を window title に追従させる
+function _window_title_set_herdr_tab() {
+  command nohup herdr tab rename "$HERDR_TAB_ID" "$1" >/dev/null 2>&1
+}
+
+typeset -ga _window_title_sinks
+(( ${_window_title_sinks[(Ie)_window_title_set_herdr_tab]} )) || _window_title_sinks+=(_window_title_set_herdr_tab)
+
+# 実行中のコマンドが OSC で更新し続ける title (emerge の進捗表示や nvim など) は
+# preexec/precmd では拾えないので、コマンド実行中だけ自 pane の terminal_title を
+# ポーリングしてタブ名に追従させる。herdr は pane への OSC 出力を terminal_title
+# として追跡しているため、それを読むだけでよい。
+typeset -g _HERDR_TITLE_WATCHER_PID=""
+typeset -g _HERDR_TITLE_WATCH_INTERVAL=2
+
+function _herdr_title_watcher_loop() {
+  local last="" title
+  while :; do
+    sleep $_HERDR_TITLE_WATCH_INTERVAL
+    title=$(command herdr pane get "$HERDR_PANE_ID" 2>/dev/null | command jq -r '.result.pane.terminal_title_stripped // empty') || return
+    [[ -z $title || $title == $last ]] && continue
+    last=$title
+    command herdr tab rename "$HERDR_TAB_ID" "$title" >/dev/null 2>&1
+  done
+}
+
+function _herdr_title_watcher_start() {
+  _herdr_title_watcher_stop
+  _herdr_title_watcher_loop &!
+  _HERDR_TITLE_WATCHER_PID=$!
+}
+
+function _herdr_title_watcher_stop() {
+  if [[ -n $_HERDR_TITLE_WATCHER_PID ]]; then
+    kill $_HERDR_TITLE_WATCHER_PID 2>/dev/null
+    _HERDR_TITLE_WATCHER_PID=""
   fi
-
-  echo $current_dir
 }
 
-typeset -g _HERDR_LAST_TAB_TITLE=""
-
-function _herdr_change_tab_title() {
-  local title=$1
-  [[ $title == $_HERDR_LAST_TAB_TITLE ]] && return
-  _HERDR_LAST_TAB_TITLE=$title
-  command nohup herdr tab rename "$HERDR_TAB_ID" "$title" >/dev/null 2>&1
-}
-
-function _herdr_set_tab_to_working_dir() {
-  _herdr_change_tab_title "$(_herdr_current_dir)"
-}
-
-function _herdr_extract_command_name() {
-  local -a words=(${(z)1})
-  local cmd=${words[1]}
-
-  if [[ $cmd == sudo ]]; then
-    local i=2
-    while (( i <= $#words )); do
-      case ${words[i]} in
-        # 引数を取る sudo のオプションは値ごと読み飛ばす
-        -u|-g|-p|-U|-C|-h|-r|-t|-T|--user|--group|--prompt|--other-user|--close-from|--host|--role|--type)
-          (( i += 2 )) ;;
-        -*|*=*) (( i += 1 )) ;;
-        *) break ;;
-      esac
-    done
-    if (( i <= $#words )); then
-      cmd="sudo ${words[i]}"
-    fi
-  fi
-
-  print -r -- $cmd
-}
-
-function _herdr_set_tab_to_command_line() {
-  local cmd=$(_herdr_extract_command_name "$2")
-  local dir=$(_herdr_current_dir)
-  _herdr_change_tab_title "${dir} - ${cmd}"
-}
-
-add-zsh-hook precmd _herdr_set_tab_to_working_dir
-add-zsh-hook preexec _herdr_set_tab_to_command_line
+if (( ${+commands[jq]} )); then
+  add-zsh-hook preexec _herdr_title_watcher_start
+  add-zsh-hook precmd _herdr_title_watcher_stop
+fi
