@@ -5,6 +5,7 @@
 	path = .gitconfig.local
 [core]
 	excludesfile = ~/.gitignore
+	hooksPath = ~/dotfiles/git-hooks
 	mergeoptions = --no-ff --no-commit
 	quotepath = false
 	pager = delta

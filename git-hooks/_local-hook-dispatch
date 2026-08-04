@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# core.hooksPath をグローバルに設定すると各リポジトリの .git/hooks が
+# 無視されるため、リポジトリ固有の hook (lefthook/husky など) があれば
+# そちらへ委譲する。
+#
+# hook 名は起動名 (symlink 名) から決める。
+# 別 hook から exec される場合は HOOK_NAME で明示する。
+
+set -u
+
+hook_name=${HOOK_NAME:-$(basename "$0")}
+[ "$hook_name" = "_local-hook-dispatch" ] && exit 0
+
+common_dir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || exit 0
+local_hook="$common_dir/hooks/$hook_name"
+
+[ -x "$local_hook" ] || exit 0
+exec "$local_hook" "$@"
