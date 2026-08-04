@@ -23,4 +23,5 @@ herdr/*.log
 herdr/session.json
 herdr/plugins
 herdr/plugins.json
+herdr/release-notes.json
 herdr/.*
