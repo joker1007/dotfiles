@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # git worktree add で作成された作業ツリーに、
-# メインリポジトリ root の .envrc* の symlink を張る。
+# メインリポジトリ root のローカル設定ファイルの symlink を張る。
 #
 # post-checkout は worktree add 以外の checkout でも呼ばれるが、
 # 対象を linked worktree に限定し、既存ファイルは上書きしない。
@@ -9,8 +9,14 @@
 set -u
 shopt -s nullglob
 
-link_envrc() {
-	local worktree_root main_root src name dest
+# symlink 対象 (メインリポジトリ root からの glob パターン)
+LINK_PATTERNS=(
+	'.envrc*'
+	'CLAUDE.local.md'
+)
+
+link_local_files() {
+	local worktree_root main_root pattern src name dest
 	worktree_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 0
 	[ -n "$worktree_root" ] || return 0
 
@@ -21,20 +27,22 @@ link_envrc() {
 	# メイン作業ツリー自身での checkout なら何もしない
 	[ "$main_root" != "$worktree_root" ] || return 0
 
-	for src in "$main_root"/.envrc*; do
-		[ -f "$src" ] || continue
-		name=${src##*/}
-		dest="$worktree_root/$name"
-		if [ -e "$dest" ] || [ -L "$dest" ]; then
-			continue
-		fi
-		if ln -s "$src" "$dest"; then
-			echo "post-checkout: linked $name -> $src" >&2
-		fi
+	for pattern in "${LINK_PATTERNS[@]}"; do
+		for src in "$main_root"/$pattern; do
+			[ -f "$src" ] || continue
+			name=${src##*/}
+			dest="$worktree_root/$name"
+			if [ -e "$dest" ] || [ -L "$dest" ]; then
+				continue
+			fi
+			if ln -s "$src" "$dest"; then
+				echo "post-checkout: linked $name -> $src" >&2
+			fi
+		done
 	done
 }
 
-link_envrc
+link_local_files
 
 # リポジトリ固有の hook (lefthook/husky など) があれば委譲する
 HOOK_NAME=post-checkout exec "$(dirname "$0")/_local-hook-dispatch" "$@"
