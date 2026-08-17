@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "598cdb6"
-hash = "2678c84a0b3a0b22504e918ccaf99011"
+rev = "3d25b67"
+hash = "a7bf2e1ae72ff22eb21700e12416508e"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
@@ -10,20 +10,20 @@ hash = "f5afc904d5106ee368c8aa2ded43bd74"
 
 [[plugin.deps]]
 use = "alberti42/faster-piper"
-rev = "8b794bf"
-hash = "fac71f8ce9447ad509b5aad9e0d8c694"
+rev = "bb90261"
+hash = "12b5e342d54db42b5b023faa1a11f28e"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "598cdb6"
-hash = "f0c8c378184d5f8abd1b095a443d336d"
+rev = "3d25b67"
+hash = "5b1c276b75cae91cbbdbe7863f39a540"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "598cdb6"
-hash = "88e56a64b7ce7c4314427452343fef17"
+rev = "3d25b67"
+hash = "336548d9f67926e12d5584f60b790f1"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "3001521"
-hash = "5012313d6cf071c5f30a9d5c4be3655e"
+rev = "be0b21d"
+hash = "ce320f877fe709b189433941aba747c4"
