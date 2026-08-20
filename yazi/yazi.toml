@@ -21,53 +21,53 @@ image_filter    = "triangle"
 
 [opener]
 edit = [
-  { run = '$EDITOR "$@"', block = true },
+  { run = '$EDITOR %s', block = true },
 ]
 open = [
-  { run = 'xdg-open "$@"', desc = "Open" },
+  { run = 'xdg-open %s', desc = "Open" },
 ]
 dua = [
-  { run = 'dua -x i "$@"', block = true, interactive = true, desc = "dua" },
+  { run = 'dua -x i %s', block = true, interactive = true, desc = "dua" },
 ]
 archive = [
-  { run = 'mcomix "$@"' },
-  { run = 'unar "$@"', desc = "Extract here" },
-  { run = 'unar -encoding windows-31j "$@"', desc = "Extract here (SJIS)" },
+  { run = 'mcomix %s' },
+  { run = 'unar %s', desc = "Extract here" },
+  { run = 'unar -encoding windows-31j %s', desc = "Extract here (SJIS)" },
 ]
 create_archive = [
-  { run = 'for d in "$@"; do if [ -d "$d" ]; then zip -0 -r "${d%/}.zip" "$d"; fi; done', desc = "create zip each (no compress)", block = true },
+  { run = 'for d in %s; do if [ -d "$d" ]; then zip -0 -r "${d%/}.zip" "$d"; fi; done', desc = "create zip each (no compress)", block = true },
 ]
 image = [
-  { run = 'swayimg "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (dir)" },
-  { run = 'swayimg -r "$@" "$(dirname "$@")"', orphan = true, desc = "swayimg (recursive)" },
-  { run = 'nsxiv "$@"', orphan = true, desc = "nsxiv" },
+  { run = 'swayimg %s %d1', orphan = true, desc = "swayimg (dir)" },
+  { run = 'swayimg -r %s %d1', orphan = true, desc = "swayimg (recursive)" },
+  { run = 'nsxiv %s', orphan = true, desc = "nsxiv" },
 ]
 media = [
-  { run = 'mpv --profile=gui "$@"', orphan = true, desc = "mpv" },
-  { run = 'mpv -v "$@"', desc = "mpv (verbose)", block = true },
-  { run = 'mpv --profile=headphone "$@"', orphan = true, desc = "mpv (headphone)" },
-  { run = 'mpv --profile=surround-hdmi "$@"', orphan = true, desc = "mpv (hdmi)" },
-  { run = 'mpv --profile=hdr "$@"', orphan = true, desc = "mpv (HDR)" },
-  { run = 'mpv --profile=inverse-tone-mapping "$@"', orphan = true, desc = "mpv (itm)" },
-  { run = 'mpv --profile=surround-hdmi --profile=hdr "$@"', orphan = true, desc = "mpv (hdmi + HDR)" },
-  { run = 'dmm-renamer "$@"', desc = "dmm-renamer", block = true },
-  { run = 'convert_to_mp4 "$@"', desc = "convert_to_mp4", block = true },
+  { run = 'mpv --profile=gui %s', orphan = true, desc = "mpv" },
+  { run = 'mpv -v %s', desc = "mpv (verbose)", block = true },
+  { run = 'mpv --profile=headphone %s', orphan = true, desc = "mpv (headphone)" },
+  { run = 'mpv --profile=surround-hdmi %s', orphan = true, desc = "mpv (hdmi)" },
+  { run = 'mpv --profile=hdr %s', orphan = true, desc = "mpv (HDR)" },
+  { run = 'mpv --profile=inverse-tone-mapping %s', orphan = true, desc = "mpv (itm)" },
+  { run = 'mpv --profile=surround-hdmi --profile=hdr %s', orphan = true, desc = "mpv (hdmi + HDR)" },
+  { run = 'dmm-renamer %s', desc = "dmm-renamer", block = true },
+  { run = 'convert_to_mp4 %s', desc = "convert_to_mp4", block = true },
 ]
 audio = [
-  { run = 'rsgain easy -p truepeak "$@"', desc = "rsgain", block = true },
-  { run = 'kid3-qt "$@"', desc = "kid3", orphan = true },
-  { run = 'picard "$@"', desc = "picard", orphan = true },
+  { run = 'rsgain easy -p truepeak %s', desc = "rsgain", block = true },
+  { run = 'kid3-qt %s', desc = "kid3", orphan = true },
+  { run = 'picard %s', desc = "picard", orphan = true },
 ]
 iso = [
-  { run = 'mpv dvd:// --dvd-device="$1"', orphan = true, desc = "mpv (DVD)" },
+  { run = 'mpv dvd:// --dvd-device=%s1', orphan = true, desc = "mpv (DVD)" },
 ]
 markdown = [
-  { run = 'inlyne "$@"', orphan = true, desc = "inlyne markdown viewer" },
+  { run = 'inlyne %s', orphan = true, desc = "inlyne markdown viewer" },
 ]
 set_wallpaper = [
-  { run = 'awww img -o DP-1 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (DP-1)" },
-  { run = 'awww img -o DP-2 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (DP-2)" },
-  { run = 'awww img --resize fit --transition-duration 2 --transition-type any --transition-fps 60 "$@"', desc = "Set as wallpaper (All)" },
+  { run = 'awww img -o DP-1 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 %s', desc = "Set as wallpaper (DP-1)" },
+  { run = 'awww img -o DP-2 --resize fit --transition-duration 2 --transition-type any --transition-fps 60 %s', desc = "Set as wallpaper (DP-2)" },
+  { run = 'awww img --resize fit --transition-duration 2 --transition-type any --transition-fps 60 %s', desc = "Set as wallpaper (All)" },
 ]
 
 [open]
@@ -90,8 +90,11 @@ rules = [
 ]
 
 [tasks]
-micro_workers    = 20
-macro_workers    = 25
+file_workers     = 15
+plugin_workers   = 10
+fetch_workers    = 10
+preload_workers  = 15
+process_workers  = 15
 bizarre_retry    = 5
 image_alloc      = 536870912  # 512MB
 image_bound      = [ 8000, 8000 ]
