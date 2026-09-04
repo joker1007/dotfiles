@@ -2,7 +2,9 @@
 -- 旧: windowrule = match:..., <rule> on/off/value  →  hl.window_rule({ match = {...}, ... })
 
 hl.window_rule({
-  match = { class = "^(firefox)$", title = "^(Picture-in-Picture|ピクチャーインピクチャー)$" },
+  match = {
+    title = "^(Picture-in-Picture|ピクチャーインピクチャー|Picture in picture)$",
+  },
   float = true,
   pin = true,
   no_dim = true,
