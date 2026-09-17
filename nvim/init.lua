@@ -30,7 +30,7 @@ end
 
 -- Basic Setting {{{
 vim.opt.bs = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.ai = true               -- always set autoindenting on
+vim.opt.ai = true -- always set autoindenting on
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.shada = "'100,<1000,:10000,h"
@@ -397,8 +397,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Auto-format ("lint") on save.
     -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
     if
-        not client:supports_method "textDocument/willSaveWaitUntil"
-        and client:supports_method "textDocument/formatting"
+      not client:supports_method "textDocument/willSaveWaitUntil"
+      and client:supports_method "textDocument/formatting"
     then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
@@ -484,4 +484,26 @@ dap.configurations.ruby = {
 -- }}}
 
 -- ui2
-require("vim._core.ui2").enable()
+require("vim._core.ui2").enable({
+  enable = true, -- Whether to enable or disable the UI.
+  msg = { -- Options related to the message module.
+    ---@type 'cmd'|'msg' Default message target, either in the
+    ---cmdline or in a separate ephemeral message window.
+    ---@type string|table<string, 'cmd'|'msg'|'pager'> Default message target
+    ---or table mapping |ui-messages| kinds and triggers to a target.
+    targets = "cmd",
+    cmd = { -- Options related to messages in the cmdline window.
+      height = 0.5, -- Maximum height while expanded for messages beyond 'cmdheight'.
+    },
+    dialog = { -- Options related to dialog window.
+      height = 0.5, -- Maximum height.
+    },
+    msg = { -- Options related to msg window.
+      height = 0.5, -- Maximum height.
+      timeout = 4000, -- Time a message is visible in the message window.
+    },
+    pager = { -- Options related to message window.
+      height = 1, -- Maximum height.
+    },
+  },
+})
