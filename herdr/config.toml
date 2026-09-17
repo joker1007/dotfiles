@@ -11,7 +11,7 @@ delivery = "herdr"
 
 [ui]
 show_agent_labels_on_pane_borders = true
-sidebar_start_collapsed = true
+sidebar_start_collapsed = false
 sidebar_collapsed_mode = "hidden"
 pane_gaps = false
 prompt_new_tab_name = false
