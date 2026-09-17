@@ -40,6 +40,31 @@ link_local_files() {
 			fi
 		done
 	done
+
+	allow_direnv "$main_root" "$worktree_root"
+}
+
+# direnv の allowed 状態 (0: allowed, 1: not allowed, 2: denied)。
+# 親ディレクトリの .envrc にマッチした場合は対象外として空を返す。
+direnv_allowed_status() {
+	local dir=$1
+	(cd "$dir" && direnv status --json 2>/dev/null) |
+		jq -r --arg rc "$dir/.envrc" 'select(.state.foundRC.path == $rc) | .state.foundRC.allowed' 2>/dev/null
+}
+
+# メイン作業ツリーで direnv allow 済みなら worktree でも allow する
+allow_direnv() {
+	local main_root=$1 worktree_root=$2
+	command -v direnv >/dev/null 2>&1 || return 0
+	command -v jq >/dev/null 2>&1 || return 0
+	[ -f "$main_root/.envrc" ] && [ -f "$worktree_root/.envrc" ] || return 0
+
+	[ "$(direnv_allowed_status "$main_root")" = 0 ] || return 0
+	[ "$(direnv_allowed_status "$worktree_root")" != 0 ] || return 0
+
+	if direnv allow "$worktree_root" >/dev/null 2>&1; then
+		echo "post-checkout: direnv allow $worktree_root" >&2
+	fi
 }
 
 link_local_files
