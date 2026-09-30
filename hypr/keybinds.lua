@@ -109,6 +109,12 @@ hl.define_submap("changeratio", function()
   hl.bind("Return", hl.dsp.submap "reset")
 end)
 
+-- VNC などへキーを素通しするモード。抜けるキー以外は全てフォーカス中のウィンドウへ渡る
+hl.bind(mainMod .. " + ALT + P", hl.dsp.submap "passthru")
+hl.define_submap("passthru", function()
+  hl.bind(mainMod .. " + ALT + P", hl.dsp.submap "reset")
+end)
+
 hl.bind(mainMod .. " + SHIFT + Minus", hl.dsp.window.move({ workspace = "special:scratchpad" }))
 hl.bind(mainMod .. " + Minus", hl.dsp.workspace.toggle_special "scratchpad")
 
