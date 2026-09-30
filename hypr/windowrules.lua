@@ -11,6 +11,16 @@ hl.window_rule({
   opacity = "1.0 override",
   content = "video",
 })
+-- Google Chrome の PiP は Chrome 側が max size と縦横比を固定してくるので、
+-- float + pin は維持したままサイズ制限・縦横比のロックだけ外す
+-- （後勝ちなのでこのルールが優先される）。
+hl.window_rule({
+  match = {
+    title = "^(Picture in [Pp]icture|ピクチャー イン ピクチャー)$",
+  },
+  no_max_size = true,
+  keep_aspect_ratio = false,
+})
 hl.window_rule({
   match = { class = "^(firefox)$", title = "^(.*YouTube.*|.*Netflix.*|.*Prime Video.*|.*Twitch.*|Meet.*)$" },
   no_dim = true,

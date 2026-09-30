@@ -24,4 +24,7 @@ herdr/session.json
 herdr/plugins
 herdr/plugins.json
 herdr/release-notes.json
+herdr/herdr.sock.agent
+herdr/session-backups/
+herdr/session-snapshots/
 herdr/.*
