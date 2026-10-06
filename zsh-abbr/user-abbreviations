@@ -1,4 +1,7 @@
 abbr -g "A"="| ag"
+abbr -g "APD"="AWS_PROFILE=repro-dev"
+abbr -g "APP"="AWS_PROFILE=repro"
+abbr -g "APS"="AWS_PROFILE=repro-stg"
 abbr -g "BA"="| bat"
 abbr -g "C"="| cut"
 abbr -g "G"="| grep"
