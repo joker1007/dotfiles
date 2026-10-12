@@ -1,0 +1,10 @@
+# greetd 設定 (/etc/greetd/config.toml にコピーして使う)
+# tuigreet でログインし、uwsm 経由で Hyprland を起動する
+# See https://wiki.hypr.land/Useful-Utilities/Systemd-start/
+
+[terminal]
+vt = 7
+
+[default_session]
+command = "tuigreet --time --remember --remember-user-session --asterisks --sessions /usr/share/wayland-sessions --cmd 'uwsm start hyprland.desktop'"
+user = "greeter"
