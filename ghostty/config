@@ -1,0 +1,36 @@
+font-family = "monospace"
+font-style = Regular
+font-size = 14
+
+font-feature = -dlig
+font-feature = -calt
+font-feature = -liga
+
+cursor-style = block
+cursor-style-blink = false
+
+shell-integration-features = no-cursor, ssh-terminfo, ssh-env
+
+gtk-titlebar = false
+gtk-single-instance = true
+
+theme = ayu
+
+keybind = ctrl+z=close_surface
+
+keybind = ctrl+alt+w>v=new_split:right
+keybind = ctrl+alt+w>s=new_split:down
+keybind = ctrl+alt+w>equal=equalize_splits
+
+scrollback-limit = 536870912
+
+confirm-close-surface = false
+
+copy-on-select = clipboard
+keybind = shift+enter=text:\x1b\r
+keybind = ctrl+enter=unbind
+
+quit-after-last-window-closed = true
+quit-after-last-window-closed-delay = 5m
+
+# vim: set ft=ghostty:
