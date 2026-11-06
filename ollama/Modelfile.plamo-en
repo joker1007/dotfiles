@@ -1,0 +1,8 @@
+# PLaMo 3 Translate 2B: 任意言語 -> 英語
+FROM hf.co/pfnet/plamo-3-translate-2b-GGUF:Q4_K_M
+SYSTEM """[plamo-translate]
+target_lang=en"""
+PARAMETER temperature 0
+PARAMETER num_ctx 16384
+PARAMETER stop <|plamo:tag|>
+PARAMETER stop <|plamo:bos|>
