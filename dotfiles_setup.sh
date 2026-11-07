@@ -26,3 +26,5 @@ ln -sf ${PWD}/herdr/config.toml ~/.config/herdr/config.toml
 for plugin in ${PWD}/herdr-plugins/*/; do
   herdr plugin link "${plugin%/}"
 done
+mkdir -p ~/.config/ghostty
+ln -sf ${PWD}/ghostty/config ~/.config/ghostty/config
