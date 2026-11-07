@@ -21,3 +21,8 @@ ln -sf ${PWD}/tpm ~/.tmux/plugins/tpm
 ln -sf ${PWD}/i3 ~/.config/i3
 ln -sf ${PWD}/i3_sway ~/.config/i3_sway
 ln -sf ${PWD}/zellij ~/.config/zellij
+mkdir -p ~/.config/herdr
+ln -sf ${PWD}/herdr/config.toml ~/.config/herdr/config.toml
+for plugin in ${PWD}/herdr-plugins/*/; do
+  herdr plugin link "${plugin%/}"
+done
